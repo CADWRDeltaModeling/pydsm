@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>pydsm package &#8212; pydsm 0.1.2 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pydsm.hydro package" href="pydsm.hydro.html" />
+    <link rel="prev" title="pydsm" href="modules.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="pydsm-package">
+<h1>pydsm package<a class="headerlink" href="#pydsm-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pydsm.hydro.html">pydsm.hydro package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.hydro.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.hydro.html#module-pydsm.hydro.read_h5">pydsm.hydro.read_h5 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.hydro.html#module-pydsm.hydro">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pydsm.cli">
+<span id="pydsm-cli-module"></span><h2>pydsm.cli module<a class="headerlink" href="#module-pydsm.cli" title="Permalink to this headline">¶</a></h2>
+<p>Console script for pydsm.</p>
+</div>
+<div class="section" id="module-pydsm.filter">
+<span id="pydsm-filter-module"></span><h2>pydsm.filter module<a class="headerlink" href="#module-pydsm.filter" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pydsm.filter.generate_godin_fir">
+<code class="sig-prename descclassname">pydsm.filter.</code><code class="sig-name descname">generate_godin_fir</code><span class="sig-paren">(</span><em class="sig-param">timeinterval</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/filter.html#generate_godin_fir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.filter.generate_godin_fir" title="Permalink to this definition">¶</a></dt>
+<dd><p>generate godin filter impulse response for given timeinterval
+timeinterval could be anything that pd.Timedelta can accept</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydsm.filter.godin_filter">
+<code class="sig-prename descclassname">pydsm.filter.</code><code class="sig-name descname">godin_filter</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">timeinterval='15min'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/filter.html#godin_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.filter.godin_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses FIR filter and convolves with the data frame values
+return godin filtered values for data frame values</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pydsm.godin_filter_ec">
+<span id="pydsm-godin-filter-ec-module"></span><h2>pydsm.godin_filter_ec module<a class="headerlink" href="#module-pydsm.godin_filter_ec" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pydsm.godin_filter_ec.godin_filter">
+<code class="sig-prename descclassname">pydsm.godin_filter_ec.</code><code class="sig-name descname">godin_filter</code><span class="sig-paren">(</span><em class="sig-param">dssfile</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/godin_filter_ec.html#godin_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.godin_filter_ec.godin_filter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pydsm.io">
+<span id="pydsm-io-module"></span><h2>pydsm.io module<a class="headerlink" href="#module-pydsm.io" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pydsm.io.df_column_values_to_index">
+<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">df_column_values_to_index</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">column_label</em>, <em class="sig-param">matching_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#df_column_values_to_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.df_column_values_to_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns in the index values for the column_label for the matching_values
+in the DataFrame of that column</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydsm.io.df_to_dict">
+<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">df_to_dict</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">key_column='Name'</em>, <em class="sig-param">value_column='Value'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#df_to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.df_to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>creates a dictionary based on a key_column (default Name) mapped to a value_column (default Value)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydsm.io.list_groups_as_df">
+<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">list_groups_as_df</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">group_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#list_groups_as_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.list_groups_as_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>reads listing of group path as pd.DataFrame</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydsm.io.read_dsm2_table">
+<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">read_dsm2_table</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">table_path</em>, <em class="sig-param">column_values</em>, <em class="sig-param">column_names</em>, <em class="sig-param">start_time_key='start_time'</em>, <em class="sig-param">interval_key='interval'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#read_dsm2_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.read_dsm2_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>filename: Name of h5 file (full path or relative path)
+table_path: Path within the h5 file to the values table e.g. /output/channel_concentrations
+column_values: Values used for the 2nd and 3rd dimension of table.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>For DSM2 the 2nd dimension is the variable dimension (flow, stage, constituent)</dt><dd><p>the 3rd dimension is the location dimension (channel, reservoir)
+Time is always assumed to be the first dimension in the table</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>column_names: Names for the 2nd and 3rd dimensions
+returns DataFrame with time as index and variable and location (channel number)
+is the MultiIndex for columns</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydsm.io.read_table_as_array">
+<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">read_table_as_array</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">table_path</em>, <em class="sig-param">dtype=&lt;class 'str'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#read_table_as_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.read_table_as_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>reads table from h5 filename from the table_path and returns array of dtype</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydsm.io.read_table_as_df">
+<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">read_table_as_df</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">table_path</em>, <em class="sig-param">sliver=slice(None</em>, <em class="sig-param">None</em>, <em class="sig-param">None)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#read_table_as_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.read_table_as_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>reads table as a pandas.DateFrame
+if slice is specified, only that slice of the table is read, default is slice(None)
+returns a data frame</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydsm.io.read_table_attr">
+<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">read_table_attr</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">table_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#read_table_attr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.read_table_attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>reads a tables attribute as a pandas.DataFrame
+returns a data frame of attributes as Name and Value columns</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pydsm.pydsm">
+<span id="pydsm-pydsm-module"></span><h2>pydsm.pydsm module<a class="headerlink" href="#module-pydsm.pydsm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pydsm">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pydsm" title="Permalink to this headline">¶</a></h2>
+<p>Top-level package for pydsm.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">pydsm</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">pydsm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">pydsm</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">pydsm package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">pydsm</a><ul>
+      <li>Previous: <a href="modules.html" title="previous chapter">pydsm</a></li>
+      <li>Next: <a href="pydsm.hydro.html" title="next chapter">pydsm.hydro package</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nicky Sandhu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/pydsm.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
