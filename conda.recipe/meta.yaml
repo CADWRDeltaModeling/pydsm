@@ -1,0 +1,37 @@
+{% set name = "pydsm" %}
+{% set data = load_setup_py_data() %}
+
+package:
+  name:           "{{ name|lower }}"
+  version:        "{{ data['version'] }}"
+
+source:
+  #git_url: http://dwrrhapp0179.ad.water.ca.gov/gitea/nsandhu/pydsm.git
+  path: ..
+
+build:
+  number: 0
+  #skip:           true
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - pandas >=0.23
+    - Click >=6.0
+  run:
+    - python
+    - numpy  >=1.11
+    - pandas >=0.23
+    - Click >= 6.0
+test:
+  imports:
+    - pydsm
+  #commands:
+  #  run_test.bat
+
+about:
+  home:           "http://dwrrhapp0179.ad.water.ca.gov/gitea/nsandhu/pydsm"
+  license:        "MIT"
+  license_family: "MIT"
+  summary:        "python interface to DSM2 related functionality"
