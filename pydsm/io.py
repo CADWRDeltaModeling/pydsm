@@ -1,6 +1,43 @@
 import pandas as pd
 import numpy as np
 import h5py
+"""
+This module loads h5 files created by a DSM2 hydro or qual run.
+All the input, geometry and data tables are available as pandas DataFrame objects
+
+In addition there are convenience methods for retrieving the data tables as
+DataFrame that represent time series. The date range is based on attributes in
+the tables, namely start time and time interval.
+
+
+"""
+_path_structure_map = {"hydro": ['/hydro/input','/hydro/data','/hydro/geometry'],
+    "qual":["input","output"]}
+def get_model(filename):
+    """
+    returns one of "hydro" or "qual"
+    """
+    with h5py.File(filename,'r') as f:
+        if f.get('/hydro'):
+            return "hydro"
+        else:
+            return "qual"
+def list_table_paths(filename):
+    """
+    returns a list of paths to tables (h5py.DataSets)
+    """
+    table_paths=[]
+    with h5py.File(filename,'r') as f:
+        # incase both hydro and qual output to the same file (some ovewriting possible?)
+        group_paths=['/hydro/input','/hydro/data','/hydro/geometry','input','output']
+        for path in group_paths:
+            g=f.get(path)
+            if not g: continue
+            for key in g.keys():
+                table_paths.append(path+'/'+key)
+    return table_paths
+def list_timeseries_available(filename):
+    pass
 def list_groups_as_df(filename, group_path):
     ''' reads listing of group path as pd.DataFrame '''
     with h5py.File(filename,'r') as f:
@@ -12,7 +49,7 @@ def read_table_attr(filename, table_path):
     '''
     with h5py.File(filename,'r') as f:
         bf=f[table_path]
-        a=pd.DataFrame(bf.attrs.items(),columns=['Name','Value'],dtype=str)
+        a=pd.DataFrame(bf.attrs.items(),columns=['Name','Value'],dtype=np.str)
         a=a.append(pd.DataFrame([('shape',str(bf.shape))],columns=['Name','Value']),ignore_index=True)
     return a
 def df_to_dict(df, key_column='Name', value_column='Value'):
@@ -48,11 +85,11 @@ def read_table_as_df(filename, table_path, sliver=slice(None)):
     '''
     reads table as a pandas.DateFrame
     if slice is specified, only that slice of the table is read, default is slice(None)
-    returns a data frame
+    returns a data frame with forcing datatype to string
     '''
     with h5py.File(filename,'r') as f:
         bf=f[table_path][sliver]
-        x=pd.DataFrame(np.array(bf))
+        x=pd.DataFrame(bf,dtype=np.str)
     return x
 def read_table_as_array(filename, table_path, dtype=str):
     '''
