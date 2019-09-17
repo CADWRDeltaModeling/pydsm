@@ -6,11 +6,12 @@ package:
   version:        "{{ data['version'] }}"
 
 source:
-  #git_url: http://dwrrhapp0179.ad.water.ca.gov/gitea/nsandhu/pydsm.git
+  #git_url: https://github.com/CADWRDeltaModeling/pydsm.git
   path: ..
 
 build:
   number: 0
+  noarch: python
   #skip:           true
 
 requirements:
@@ -18,20 +19,18 @@ requirements:
     - python
     - setuptools
     - pandas >=0.23
-    - Click >=6.0
+    - click >=6.0
   run:
     - python
     - numpy  >=1.11
     - pandas >=0.23
-    - Click >= 6.0
-test:
-  imports:
-    - pydsm
-  #commands:
-  #  run_test.bat
+    - click >=6.0
+  test:
+    imports:
+      - pydsm
 
 about:
-  home:           "http://dwrrhapp0179.ad.water.ca.gov/gitea/nsandhu/pydsm"
+  home:           "https://github.com/CADWRDeltaModeling/pydsm"
   license:        "MIT"
   license_family: "MIT"
   summary:        "python interface to DSM2 related functionality"

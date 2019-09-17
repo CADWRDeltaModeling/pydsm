@@ -1,5 +1,6 @@
 # Data files
 data/**
+docsrc/_build/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -102,3 +103,4 @@ ENV/
 
 # mypy
 .mypy_cache/
+.vscode/settings.json

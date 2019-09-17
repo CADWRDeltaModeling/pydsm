@@ -5,13 +5,34 @@
 
 from setuptools import setup, find_packages
 
+##------------------ VERSIONING BEST PRACTICES --------------------------##
+import os
+import re
+import codecs
+here = os.path.abspath(os.path.dirname(__file__))
+
+
+def read(*parts):
+    with codecs.open(os.path.join(here, *parts), 'r') as fp:
+        return fp.read()
+
+
+def find_version(*file_paths):
+    version_file = read(*file_paths)
+    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",
+                              version_file, re.M)
+    if version_match:
+        return version_match.group(1)
+    raise RuntimeError("Unable to find version string.")
+
+
 with open('README.rst') as readme_file:
     readme = readme_file.read()
 
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = [ 'Click>=6.0' ]
+requirements = ['Click>=6.0']
 
 setup_requirements = ['pytest-runner', ]
 
@@ -30,7 +51,7 @@ setup(
     description="For loading data from DSM2 hdf5 files into pandas DataFrame",
     entry_points={
         'console_scripts': [
-            'pydsm=pydsm.cli:main',
+            'pydsm=pydsm.cli:main'
         ],
     },
     install_requires=requirements,
@@ -43,7 +64,7 @@ setup(
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
-    url='https://github.com/dwr-psandhu/pydsm',
-    version='0.1.0',
+    url='https://github.com/CADWRDeltaModeling/pydsm',
+    version=find_version("pydsm", "__init__.py"),
     zip_safe=False,
 )
