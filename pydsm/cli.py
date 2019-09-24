@@ -28,19 +28,20 @@ def _restart_console_line():
 
 def _extract_processing(df, godin_filter, daily_average, daily_max, daily_min, monthly_average):
     results = df
+    results_monthly=None
     if godin_filter:
         results = filter.godin_filter(results)
     if daily_average: # if godin filtered then replace that with daily averaged values
         tdf = results.resample('1D',closed='right',label='right').mean()
-        tdf.columns = _build_column(df.columns,'-DAILY-AVG','1DAY')
+        tdf.columns = _build_column(df.columns,'-MEAN','1DAY')
         results=tdf
     if daily_max:
         tdf = df.resample('1D',closed='right',label='right').max()
-        tdf.columns = _build_column(df.columns,'-DAILY-MAX','1DAY')
+        tdf.columns = _build_column(df.columns,'-MAX','1DAY')
         results=results.join(tdf, how='outer')
     if daily_min:
         tdf = df.resample('1D',closed='right',label='right').min()
-        tdf.columns = _build_column(df.columns,'-DAILY-MIN','1DAY')
+        tdf.columns = _build_column(df.columns,'-MIN','1DAY')
         results=results.join(tdf, how='outer')
     if monthly_average:
             results_monthly = df.resample('M',closed='right',label='right').mean()
@@ -51,8 +52,9 @@ def _write_to_dss(od, rtg_daily, rtg_monthly, units, ptype='PER-VAL'):
     for i in range(len(rtg_daily.columns)):
         r=rtg_daily.iloc[:,i].to_frame()
         od.write_rts(r.columns[0],r,units,ptype)
-    r=rtg_monthly.iloc[:,0].to_frame()
-    od.write_rts(r.columns[0],r,units,ptype)
+    if rtg_monthly:
+        r=rtg_monthly.iloc[:,0].to_frame()
+        od.write_rts(r.columns[0],r,units,ptype)
 
 def _build_column(columns, cpart_append, epart_replace=None):
     '''
@@ -66,27 +68,6 @@ def _build_column(columns, cpart_append, epart_replace=None):
             parts[5]=epart_replace
         return '/'.join(parts)
     return [ append_cpart(name) for name in columns ]
-
-def _extract_processing(df, godin_filter, daily_average, daily_max, daily_min, monthly_average):
-    results = df
-    if godin_filter:
-        results = filter.godin_filter(results)
-    if daily_average: # if godin filtered then replace that with daily averaged values
-        tdf = results.resample('1D').mean()
-        tdf.columns = _build_column(df.columns,'-MEAN','1DAY')
-        results=tdf
-    if daily_max:
-        tdf = df.resample('1D').max()
-        tdf.columns = _build_column(df.columns,'-MAX','1DAY')
-        results=results.join(tdf, how='outer')
-    if daily_min:
-        tdf = df.resample('1D').min()
-        tdf.columns = _build_column(df.columns,'-MIN','1DAY')
-        results=results.join(tdf, how='outer')
-    if monthly_average:
-            results_monthly = df.resample('M').mean()
-            results_monthly.columns = _build_column(df.columns,'-MEAN','1MON')
-    return results, results_monthly
 
 @click.command()
 @click.option("-o", "--outfile", default="out.gz", help="path to output file (ends in .zip, .gz, .bz2 for compression), (.h5 for hdf5), (.dss for dss)")

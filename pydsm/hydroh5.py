@@ -195,6 +195,9 @@ class HydroH5:
     def get_channel_area(self, channel_id, location_id='upstream', timewindow=None):
         return self._get_channel_ts('/hydro/data/channel area', channel_id, location_id, timewindow)
 
+    def get_channel_stage(self, channel_id, location_id='upstream', timewindow=None):
+        return self._get_channel_ts('/hydro/data/channel stage', channel_id, location_id, timewindow)
+
     def get_channel_avg_area(self, channel_id):
         pass
 

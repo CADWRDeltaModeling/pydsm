@@ -78,6 +78,14 @@ class TestHydroH5:
                                0], parse_dates=[0], dtype=np.float32)
         pd.testing.assert_frame_equal(carea4up, area4up)
 
+    def test_get_channel_stage(self, hydro):
+        stage4up = hydro.get_channel_stage('4', 'upstream')
+        # --- regression saves for compare
+        #stage4up.to_csv('stage4up.csv')
+        cstage4up = pd.read_csv('stage4up.csv', index_col=[
+                               0], parse_dates=[0], dtype=np.float32)
+        pd.testing.assert_frame_equal(cstage4up,stage4up)
+
     def get_channel_avg_area(self):
         pass
 

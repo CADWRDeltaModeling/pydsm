@@ -1,6 +1,11 @@
 =======
 History
 =======
+0.1.6 (2019-09-24)
+------------------
+regression tested godin filter against vtools for 15 min time series
+fix for installing command line pydsm script
+
 0.1.5 (2019-09-19)
 ------------------
 updated extract-dss command to used end of time period when resampling (min,max,avg commands)
