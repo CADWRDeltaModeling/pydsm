@@ -52,9 +52,11 @@ def _write_to_dss(od, rtg_daily, rtg_monthly, units, ptype='PER-VAL'):
     for i in range(len(rtg_daily.columns)):
         r=rtg_daily.iloc[:,i].to_frame()
         od.write_rts(r.columns[0],r,units,ptype)
-    if rtg_monthly:
+    try:
         r=rtg_monthly.iloc[:,0].to_frame()
         od.write_rts(r.columns[0],r,units,ptype)
+    except Exception:
+        pass
 
 def _build_column(columns, cpart_append, epart_replace=None):
     '''

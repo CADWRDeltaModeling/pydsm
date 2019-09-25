@@ -1,6 +1,10 @@
 =======
 History
 =======
+0.1.7 (2019-09-25)
+------------------
+fixed command line extract-dss error when monthly average is being calculated
+
 0.1.6 (2019-09-24)
 ------------------
 regression tested godin filter against vtools for 15 min time series
