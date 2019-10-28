@@ -16,6 +16,11 @@ Features
 * Reads DSM2 hdf5 files into pandas DataFrame
 * Reads DSM2 echo files into pandas DataFrame
 
+Known Issues
+------------
+conda install h5py lacks szip/zlib support (https://github.com/ContinuumIO/anaconda-issues/issues/11382)
+Instead conda uninstall h5py and pip install h5py instead
+
 Credits
 -------
 

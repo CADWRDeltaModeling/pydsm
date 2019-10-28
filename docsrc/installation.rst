@@ -16,6 +16,12 @@ To install pydsm, run this command in your terminal:
 
 This is the preferred method to install pydsm, as it will always install the most recent stable release.
 
+Known Issues
+------------
+conda install h5py lacks szip/zlib support (https://github.com/ContinuumIO/anaconda-issues/issues/11382)
+Instead conda uninstall h5py and pip install h5py instead
+
+
 If you don't have `conda`_ installed, this `Python installation guide`_ can guide
 you through the process.
 
