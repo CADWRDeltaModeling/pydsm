@@ -1,5 +1,5 @@
 rem only needed if you add submodules etc..
-#sphinx-apidoc -o . ..\pydsm
+rem sphinx-apidoc -o . ..\pydsm
 make clean && make html
 rem
-xcopy /s /e _build\* ..\docs
+xcopy /y /s /e _build\* ..\docs

@@ -1,6 +1,10 @@
 =======
 History
 =======
+0.1.8 (2019-10-28)
+------------------
+added command line for comparing dss files with tolerance
+
 0.1.7 (2019-09-25)
 ------------------
 fixed command line extract-dss error when monthly average is being calculated
