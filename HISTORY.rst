@@ -1,6 +1,10 @@
 =======
 History
 =======
+0.1.9 (2019-11-11)
+------------------
+moved godin filter to vtools3. Dependency on vtools3>=3.0.1
+
 0.1.8 (2019-10-28)
 ------------------
 added command line for comparing dss files with tolerance

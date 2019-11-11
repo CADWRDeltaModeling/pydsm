@@ -1,7 +1,7 @@
 import sys
 import click
 import pyhecdss
-from pydsm import filter
+from vtools.functions import filter
 import pandas as pd
 import numpy as np
 
