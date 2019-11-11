@@ -1,6 +1,5 @@
 # Data files
 data/**
-docsrc/_build/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -8,6 +7,11 @@ __pycache__/
 
 # C extensions
 *.so
+
+# vscode
+.vscode
+# Mac stuff
+.DS_Store
 
 # Distribution / packaging
 .Python
@@ -103,4 +107,3 @@ ENV/
 
 # mypy
 .mypy_cache/
-.vscode/settings.json
