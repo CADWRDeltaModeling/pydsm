@@ -1,3 +1,6 @@
+#DSS Files and catalogs
+**/*.ds[cdk]
+
 # Data files
 data/**
 # Byte-compiled / optimized / DLL files

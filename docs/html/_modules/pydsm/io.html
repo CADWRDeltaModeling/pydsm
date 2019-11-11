@@ -189,9 +189,11 @@
 <span class="sd">    filename: Name of h5 file (full path or relative path)</span>
 <span class="sd">    table_path: Path within the h5 file to the values table e.g. /output/channel_concentrations</span>
 <span class="sd">    column_values: Values used for the 2nd and 3rd dimension of table.</span>
+
 <span class="sd">        For DSM2 the 2nd dimension is the variable dimension (flow, stage, constituent)</span>
 <span class="sd">                 the 3rd dimension is the location dimension (channel, reservoir)</span>
 <span class="sd">                 Time is always assumed to be the first dimension in the table</span>
+<span class="sd">    </span>
 <span class="sd">    column_names: Names for the 2nd and 3rd dimensions</span>
 <span class="sd">    returns DataFrame with time as index and variable and location (channel number)</span>
 <span class="sd">    is the MultiIndex for columns</span>

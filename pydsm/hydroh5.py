@@ -4,7 +4,8 @@ Hydro H5 reader.
 check to make sure it has hydro data
 get list of channels 
 get list of reservoirs
-get time series data as pandas DataFrame -
+get time series data as pandas DataFrame 
+
     for given list of channels 
     for given list of reservoirs  
 

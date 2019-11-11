@@ -1,13 +1,6 @@
 pydsm package
 =============
 
-Subpackages
------------
-
-.. toctree::
-
-   pydsm.hydro
-
 Submodules
 ----------
 
@@ -19,18 +12,18 @@ pydsm.cli module
    :undoc-members:
    :show-inheritance:
 
-pydsm.filter module
--------------------
+pydsm.h5common module
+---------------------
 
-.. automodule:: pydsm.filter
+.. automodule:: pydsm.h5common
    :members:
    :undoc-members:
    :show-inheritance:
 
-pydsm.godin\_filter\_ec module
-------------------------------
+pydsm.hydroh5 module
+--------------------
 
-.. automodule:: pydsm.godin_filter_ec
+.. automodule:: pydsm.hydroh5
    :members:
    :undoc-members:
    :show-inheritance:
@@ -39,14 +32,6 @@ pydsm.io module
 ---------------
 
 .. automodule:: pydsm.io
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-pydsm.pydsm module
-------------------
-
-.. automodule:: pydsm.pydsm
    :members:
    :undoc-members:
    :show-inheritance:

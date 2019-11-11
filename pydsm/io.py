@@ -156,9 +156,11 @@ def read_dsm2_table(filename, table_path, column_values, column_names, start_tim
     filename: Name of h5 file (full path or relative path)
     table_path: Path within the h5 file to the values table e.g. /output/channel_concentrations
     column_values: Values used for the 2nd and 3rd dimension of table.
+
         For DSM2 the 2nd dimension is the variable dimension (flow, stage, constituent)
                  the 3rd dimension is the location dimension (channel, reservoir)
                  Time is always assumed to be the first dimension in the table
+    
     column_names: Names for the 2nd and 3rd dimensions
     returns DataFrame with time as index and variable and location (channel number)
     is the MultiIndex for columns

@@ -14,7 +14,7 @@
     <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pydsm.hydro package" href="pydsm.hydro.html" />
+    <link rel="next" title="Contributing" href="contributing.html" />
     <link rel="prev" title="pydsm" href="modules.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -34,44 +34,120 @@
             
   <div class="section" id="pydsm-package">
 <h1>pydsm package<a class="headerlink" href="#pydsm-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="pydsm.hydro.html">pydsm.hydro package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pydsm.hydro.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pydsm.hydro.html#pydsm-hydro-read-h5-module">pydsm.hydro.read_h5 module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pydsm.hydro.html#module-contents">Module contents</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-pydsm.cli">
 <span id="pydsm-cli-module"></span><h2>pydsm.cli module<a class="headerlink" href="#module-pydsm.cli" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-pydsm.filter">
-<span id="pydsm-filter-module"></span><h2>pydsm.filter module<a class="headerlink" href="#module-pydsm.filter" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-pydsm.h5common">
+<span id="pydsm-h5common-module"></span><h2>pydsm.h5common module<a class="headerlink" href="#module-pydsm.h5common" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="pydsm.filter.generate_godin_fir">
-<code class="sig-prename descclassname">pydsm.filter.</code><code class="sig-name descname">generate_godin_fir</code><span class="sig-paren">(</span><em class="sig-param">timeinterval</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/filter.html#generate_godin_fir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.filter.generate_godin_fir" title="Permalink to this definition">¶</a></dt>
-<dd><p>generate godin filter impulse response for given timeinterval
-timeinterval could be anything that pd.Timedelta can accept</p>
+<dt id="pydsm.h5common.list_table_paths">
+<code class="sig-prename descclassname">pydsm.h5common.</code><code class="sig-name descname">list_table_paths</code><span class="sig-paren">(</span><em class="sig-param">h5</em>, <em class="sig-param">group_paths</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/h5common.html#list_table_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.h5common.list_table_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a list of paths to tables (h5py.DataSets)</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="pydsm.filter.godin_filter">
-<code class="sig-prename descclassname">pydsm.filter.</code><code class="sig-name descname">godin_filter</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">timeinterval='15min'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/filter.html#godin_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.filter.godin_filter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Uses FIR filter and convolves with the data frame values
-return godin filtered values for data frame values</p>
+<dt id="pydsm.h5common.read_compound_table">
+<code class="sig-prename descclassname">pydsm.h5common.</code><code class="sig-name descname">read_compound_table</code><span class="sig-paren">(</span><em class="sig-param">h5</em>, <em class="sig-param">tpath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/h5common.html#read_compound_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.h5common.read_compound_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>reads a compound table from the open h5 handle and table path tpath
+returns a DataFrame after converting them to strings (stripped)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydsm.h5common.strip">
+<code class="sig-prename descclassname">pydsm.h5common.</code><code class="sig-name descname">strip</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/h5common.html#strip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.h5common.strip" title="Permalink to this definition">¶</a></dt>
+<dd><p>strips the object types of a DataFrame df</p>
 </dd></dl>
 
 </div>
-<div class="section" id="pydsm-godin-filter-ec-module">
-<h2>pydsm.godin_filter_ec module<a class="headerlink" href="#pydsm-godin-filter-ec-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-pydsm.hydroh5">
+<span id="pydsm-hydroh5-module"></span><h2>pydsm.hydroh5 module<a class="headerlink" href="#module-pydsm.hydroh5" title="Permalink to this headline">¶</a></h2>
+<p>Hydro H5 reader.</p>
+<p>check to make sure it has hydro data
+get list of channels 
+get list of reservoirs
+get time series data as pandas DataFrame</p>
+<blockquote>
+<div><p>for given list of channels 
+for given list of reservoirs</p>
+</div></blockquote>
+<dl class="class">
+<dt id="pydsm.hydroh5.HydroH5">
+<em class="property">class </em><code class="sig-prename descclassname">pydsm.hydroh5.</code><code class="sig-name descname">HydroH5</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="pydsm.hydroh5.HydroH5.get_channel_area">
+<code class="sig-name descname">get_channel_area</code><span class="sig-paren">(</span><em class="sig-param">channel_id</em>, <em class="sig-param">location_id='upstream'</em>, <em class="sig-param">timewindow=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_channel_area"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_channel_area" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pydsm.hydroh5.HydroH5.get_channel_avg_area">
+<code class="sig-name descname">get_channel_avg_area</code><span class="sig-paren">(</span><em class="sig-param">channel_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_channel_avg_area"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_channel_avg_area" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pydsm.hydroh5.HydroH5.get_channel_flow">
+<code class="sig-name descname">get_channel_flow</code><span class="sig-paren">(</span><em class="sig-param">channel_id</em>, <em class="sig-param">location_id='upstream'</em>, <em class="sig-param">timewindow=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_channel_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_channel_flow" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pydsm.hydroh5.HydroH5.get_channel_locations">
+<code class="sig-name descname">get_channel_locations</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_channel_locations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_channel_locations" title="Permalink to this definition">¶</a></dt>
+<dd><p>return pandas DataFrame of channel locations ( upstream or downstream)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pydsm.hydroh5.HydroH5.get_channel_stage">
+<code class="sig-name descname">get_channel_stage</code><span class="sig-paren">(</span><em class="sig-param">channel_id</em>, <em class="sig-param">location_id='upstream'</em>, <em class="sig-param">timewindow=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_channel_stage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_channel_stage" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pydsm.hydroh5.HydroH5.get_channels">
+<code class="sig-name descname">get_channels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_channels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_channels" title="Permalink to this definition">¶</a></dt>
+<dd><p>return pandas DataFrame of channel ids as indexed</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pydsm.hydroh5.HydroH5.get_data_tables">
+<code class="sig-name descname">get_data_tables</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_data_tables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_data_tables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pydsm.hydroh5.HydroH5.get_qext">
+<code class="sig-name descname">get_qext</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_qext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_qext" title="Permalink to this definition">¶</a></dt>
+<dd><p>return external flows as defined in DSM2 Hydro</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pydsm.hydroh5.HydroH5.get_qext_flow">
+<code class="sig-name descname">get_qext_flow</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_qext_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_qext_flow" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pydsm.hydroh5.HydroH5.get_reservoir_flow">
+<code class="sig-name descname">get_reservoir_flow</code><span class="sig-paren">(</span><em class="sig-param">reservoir_id</em>, <em class="sig-param">connection_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_reservoir_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_reservoir_flow" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pydsm.hydroh5.HydroH5.get_reservoir_height">
+<code class="sig-name descname">get_reservoir_height</code><span class="sig-paren">(</span><em class="sig-param">reservoir_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_reservoir_height"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_reservoir_height" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pydsm.hydroh5.HydroH5.get_reservoirs">
+<code class="sig-name descname">get_reservoirs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_reservoirs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_reservoirs" title="Permalink to this definition">¶</a></dt>
+<dd><p>return pandas DataFrame of reservoirs</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pydsm.hydroh5.HydroH5.get_transfer_flow">
+<code class="sig-name descname">get_transfer_flow</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_transfer_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_transfer_flow" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-pydsm.io">
 <span id="pydsm-io-module"></span><h2>pydsm.io module<a class="headerlink" href="#module-pydsm.io" title="Permalink to this headline">¶</a></h2>
@@ -150,9 +226,6 @@ returns a data frame with forcing datatype to string</p>
 </dd></dl>
 
 </div>
-<div class="section" id="pydsm-pydsm-module">
-<h2>pydsm.pydsm module<a class="headerlink" href="#pydsm-pydsm-module" title="Permalink to this headline">¶</a></h2>
-</div>
 <div class="section" id="module-pydsm">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pydsm" title="Permalink to this headline">¶</a></h2>
 <p>Top-level package for pydsm.</p>
@@ -196,7 +269,7 @@ returns a data frame with forcing datatype to string</p>
   <li><a href="index.html">Documentation overview</a><ul>
   <li><a href="modules.html">pydsm</a><ul>
       <li>Previous: <a href="modules.html" title="previous chapter">pydsm</a></li>
-      <li>Next: <a href="pydsm.hydro.html" title="next chapter">pydsm.hydro package</a></li>
+      <li>Next: <a href="contributing.html" title="next chapter">Contributing</a></li>
   </ul></li>
   </ul></li>
 </ul>
