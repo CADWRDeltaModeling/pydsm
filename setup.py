@@ -34,9 +34,9 @@ with open('HISTORY.rst') as history_file:
 
 requirements = ['Click>=6.0']
 
-setup_requirements = ['pytest-runner', ]
+setup_requirements = ['pytest-runner>=5.0', ]
 
-test_requirements = ['pytest', ]
+test_requirements = ['pytest>=5.0', ]
 
 setup(
     author="Nicky Sandhu",
