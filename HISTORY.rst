@@ -1,6 +1,11 @@
 =======
 History
 =======
+0.2.0 (2020-03-17)
+------------------
+added input parsing of echo files into pandas DataFrame
+added creation of graph network from channel and reservoir tables
+
 0.1.9 (2019-11-11)
 ------------------
 moved godin filter to vtools3. Dependency on vtools3>=3.0.1
