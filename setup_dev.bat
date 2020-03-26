@@ -5,3 +5,5 @@ conda install -y -n dev_pydsm -c defaults -c cadwr-dms pytest-runner pandas nump
 pip install h5py
 conda install -y -n dev_pydsm networkx matplotlib auto-pep8 hvplot
 conda install -y -n dev_pydsm -c defaults -c conda-forge ipywidgets ipyleaflet
+jupyter nbextension enable --py --sys-prefix ipyleaflet
+conda install -y -n dev_pydsm -c defaults -c conda-forge nbsphinx

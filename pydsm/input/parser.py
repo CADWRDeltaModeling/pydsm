@@ -14,6 +14,21 @@ def parse(data):
     """
     parse the data of the string to read in DSM2 input echo file
     returns a dictionary of tables with name as keys and dataframes as value
+
+    Parameters
+    ----------
+    data : string 
+        contents to be parsed
+
+    Examples
+    ----------
+    >>> fname='../tests/hydro_echo_historical_v82.inp'
+    >>> with open(fname, 'r') as file:
+      tables = parser.parse(file.read())
+
+    Returns
+    ---------
+    dict of pandas DataFrame: with table name as the key
     """
     data=re.sub(re.compile("#.*?\n"),"",data)
     datatables=list(map(str.strip,re.split(r"END\s*\n",data)))

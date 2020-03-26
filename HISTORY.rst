@@ -4,6 +4,7 @@ History
 0.2.0 (2020-03-17)
 ------------------
 added input parsing of echo files into pandas DataFrame
+
 added creation of graph network from channel and reservoir tables
 
 0.1.9 (2019-11-11)
@@ -21,6 +22,7 @@ fixed command line extract-dss error when monthly average is being calculated
 0.1.6 (2019-09-24)
 ------------------
 regression tested godin filter against vtools for 15 min time series
+
 fix for installing command line pydsm script
 
 0.1.5 (2019-09-19)
@@ -30,7 +32,9 @@ updated extract-dss command to used end of time period when resampling (min,max,
 0.1.4 (2019-09-16)
 ------------------
 Reads hydro h5 flows and area
+
 Godin filter time series
+
 command line tool :
 
  extract_dss to postprocess to daily, max, min and monthly from DSM2 dss files
@@ -38,7 +42,9 @@ command line tool :
 0.1.4 (2019-09-16)
 ------------------
 Reads hydro h5 flows and area
+
 Godin filter time series
+
 command line tool :
 
  extract_dss to postprocess to daily, max, min and monthly from DSM2 dss files

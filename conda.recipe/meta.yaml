@@ -23,6 +23,7 @@ requirements:
     - setuptools
     - pandas >=0.23
     - click >=6.0
+    - pytest-runner >=5.0
   run:
     - python
     - numpy  >=1.11
@@ -31,6 +32,14 @@ requirements:
   test:
     imports:
       - pydsm
+    source_files:
+      - tests
+    requires:
+      - pytest
+      - pytest-cov
+    commands:
+      - (setlocal && cd tests && pytest && endlocal) # [win]
+      - (cd tests; pytest) # [unix]
 
 about:
   home:           "https://github.com/CADWRDeltaModeling/pydsm"
