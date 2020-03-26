@@ -5,3 +5,4 @@ pydsm
    :maxdepth: 4
 
    pydsm
+   pydsm.input

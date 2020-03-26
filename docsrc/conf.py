@@ -32,8 +32,11 @@ import pydsm
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode']
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode',
+    'nbsphinx',
+    'sphinx.ext.mathjax',]
 
+exclude_patterns = ['_build', '**.ipynb_checkpoints']
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
@@ -155,7 +158,7 @@ texinfo_documents = [
      u'pydsm Documentation',
      author,
      'pydsm',
-     'One line description of project.',
+     'Python utlities for DSM2',
      'Miscellaneous'),
 ]
 

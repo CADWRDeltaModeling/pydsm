@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>pydsm.input package &#8212; pydsm 0.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Examples" href="notebooks/notebooks.html" />
+    <link rel="prev" title="pydsm package" href="pydsm.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="pydsm-input-package">
+<h1>pydsm.input package<a class="headerlink" href="#pydsm-input-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pydsm.input.network">
+<span id="pydsm-input-network-module"></span><h2>pydsm.input.network module<a class="headerlink" href="#module-pydsm.input.network" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pydsm.input.network.build_network">
+<code class="sig-prename descclassname">pydsm.input.network.</code><code class="sig-name descname">build_network</code><span class="sig-paren">(</span><em class="sig-param">tables</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/input/network.html#build_network"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.input.network.build_network" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a graph network of DSM2 nodes using the information from input files loaded as pandas DataFrames
+Use the parser to load input file (echo files) as pandas DataFrame to call this function
+returns a nx.MultiDiGraph of nodes/reservoirs linked to channels/gates</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydsm.input.network.build_network_channels">
+<code class="sig-prename descclassname">pydsm.input.network.</code><code class="sig-name descname">build_network_channels</code><span class="sig-paren">(</span><em class="sig-param">tables</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/input/network.html#build_network_channels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.input.network.build_network_channels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds network with channel upnodes -&gt; downnodes. Stores the columns as attributes of each node</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydsm.input.network.build_network_reservoirs">
+<code class="sig-prename descclassname">pydsm.input.network.</code><code class="sig-name descname">build_network_reservoirs</code><span class="sig-paren">(</span><em class="sig-param">tables</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/input/network.html#build_network_reservoirs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.input.network.build_network_reservoirs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds network of each reservoir and connected nodes. Uses a directed graph and creates two edges for
+each resevoir connection, one from reservoir to node and from node to the reservoir.
+In this way, each reservoir is treated as a node in the graph</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pydsm.input.parser">
+<span id="pydsm-input-parser-module"></span><h2>pydsm.input.parser module<a class="headerlink" href="#module-pydsm.input.parser" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pydsm.input.parser.parse">
+<code class="sig-prename descclassname">pydsm.input.parser.</code><code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/input/parser.html#parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.input.parser.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>parse the data of the string to read in DSM2 input echo file
+returns a dictionary of tables with name as keys and dataframes as value</p>
+<dl class="simple">
+<dt>data<span class="classifier">string </span></dt><dd><p>contents to be parsed</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fname</span><span class="o">=</span><span class="s1">&#39;../tests/hydro_echo_historical_v82.inp&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="go">  tables = parser.parse(file.read())</span>
+</pre></div>
+</div>
+<p>dict of pandas DataFrame: with table name as the key</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pydsm.input.parser.write">
+<code class="sig-prename descclassname">pydsm.input.parser.</code><code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param">output</em>, <em class="sig-param">tables</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/input/parser.html#write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.input.parser.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>write to output handle (file or io.StringIO) the tables dictionary containing the names as keys and dataframes as values</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pydsm.input">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pydsm.input" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">pydsm</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">pydsm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">pydsm</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pydsm.html">pydsm package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">pydsm.input package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/notebooks.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">pydsm</a><ul>
+      <li>Previous: <a href="pydsm.html" title="previous chapter">pydsm package</a></li>
+      <li>Next: <a href="notebooks/notebooks.html" title="next chapter">Examples</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nicky Sandhu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/pydsm.input.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
