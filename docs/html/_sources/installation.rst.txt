@@ -12,9 +12,12 @@ To install pydsm, run this command in your terminal:
 
 .. code-block:: console
 
+    $ pip install h5py 
     $ conda install -c cadwr-dms pydsm
 
 This is the preferred method to install pydsm, as it will always install the most recent stable release.
+The pip line is needed currently because of the issue below. Once it is resolved the conda channel h5py can 
+be used.
 
 Known Issues
 ------------

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Installation &#8212; pydsm 0.2.0 documentation</title>
+    <title>Installation &#8212; pydsm 0.2.1 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -38,10 +38,13 @@
 <div class="section" id="stable-release">
 <h2>Stable release<a class="headerlink" href="#stable-release" title="Permalink to this headline">¶</a></h2>
 <p>To install pydsm, run this command in your terminal:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> conda install -c cadwr-dms pydsm
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install h5py
+<span class="gp">$</span> conda install -c cadwr-dms pydsm
 </pre></div>
 </div>
-<p>This is the preferred method to install pydsm, as it will always install the most recent stable release.</p>
+<p>This is the preferred method to install pydsm, as it will always install the most recent stable release.
+The pip line is needed currently because of the issue below. Once it is resolved the conda channel h5py can
+be used.</p>
 </div>
 <div class="section" id="known-issues">
 <h2>Known Issues<a class="headerlink" href="#known-issues" title="Permalink to this headline">¶</a></h2>
