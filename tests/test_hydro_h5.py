@@ -1,3 +1,4 @@
+import os
 import pytest
 from pydsm.hydroh5 import HydroH5
 import numpy as np
@@ -7,7 +8,7 @@ import pandas as pd
 class TestHydroH5:
     @pytest.fixture(scope="module")
     def hydro(self):
-        filename = 'historical_v82.h5'
+        filename = os.path.join(os.path.dirname(__file__), 'historical_v82.h5')
         return HydroH5(filename)
 
     def test_is_hydro_file(self, hydro):
@@ -60,7 +61,8 @@ class TestHydroH5:
         assert flow4_5up.mean()[1] == pytest.approx(1248.0035)
         # --- regression saves for compare
         # flow4up.to_csv('flow4up.csv')
-        cflow4up = pd.read_csv('flow4up.csv', index_col=[
+        fname = os.path.join(os.path.dirname(__file__), 'flow4up.csv')
+        cflow4up = pd.read_csv(fname, index_col=[
                                0], parse_dates=[0], dtype=np.float32)
         pd.testing.assert_frame_equal(cflow4up, flow4up)
         # --- get with time window
@@ -74,7 +76,8 @@ class TestHydroH5:
         area4up = hydro.get_channel_area('4', 'upstream')
         # --- regression saves for compare
         # area4up.to_csv('area4up.csv')
-        carea4up = pd.read_csv('area4up.csv', index_col=[
+        fname = os.path.join(os.path.dirname(__file__), 'area4up.csv')
+        carea4up = pd.read_csv(fname, index_col=[
                                0], parse_dates=[0], dtype=np.float32)
         pd.testing.assert_frame_equal(carea4up, area4up)
 
@@ -82,7 +85,8 @@ class TestHydroH5:
         stage4up = hydro.get_channel_stage('4', 'upstream')
         # --- regression saves for compare
         #stage4up.to_csv('stage4up.csv')
-        cstage4up = pd.read_csv('stage4up.csv', index_col=[
+        fname = os.path.join(os.path.dirname(__file__), 'stage4up.csv')
+        cstage4up = pd.read_csv(fname, index_col=[
                                0], parse_dates=[0], dtype=np.float32)
         pd.testing.assert_frame_equal(cstage4up,stage4up)
 

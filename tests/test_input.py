@@ -1,10 +1,12 @@
 # Test reading of hydro and qual echo files into pandas data frames
+import os
 import pydsm
 from pydsm.input import parser
 
 
 def test_hydro_read():
-    fecho = 'hydro_echo_historical_v82.inp'
+    fecho = os.path.join(os.path.dirname(__file__),
+                         'hydro_echo_historical_v82.inp')
     with open(fecho, 'r') as f:
         tables = parser.parse(f.read())
     assert len(tables.keys()) == 27
