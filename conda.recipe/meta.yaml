@@ -29,6 +29,10 @@ requirements:
     - numpy  >=1.11
     - pandas >=0.23
     - click >=6.0
+    - h5py >=2.10
+    - networkx >=2.4
+    - pyhecdss >=0.4
+    - vtools3 >=0.3
   test:
     imports:
       - pydsm
