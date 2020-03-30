@@ -50,6 +50,10 @@ class TestHydroH5:
         assert hydro._is_sequence_like([])
         assert hydro._is_sequence_like(np.array(5))
 
+    def test_get_channel_flow_441(self, hydro):
+        f441 = hydro.get_channel_flow('441','upstream')
+        assert f441.count()[0] == 1393
+
     def test_get_channel_flow(self, hydro):
         flow4up = hydro.get_channel_flow('4', 'upstream')
         flow4down = hydro.get_channel_flow('4', 'downstream')

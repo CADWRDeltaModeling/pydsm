@@ -107,6 +107,15 @@ class HydroH5:
         tobj = type(obj)
         return hasattr(tobj, '__len__') and hasattr(tobj, '__getitem__')
 
+    def _channel_ids_to_sequence(self, channel_id_slice):
+        '''
+        convert a slice of channel ids to a slice of channel indices into data table
+        '''
+        if isinstance(channel_id_slice, str):
+            return [channel_id_slice]
+        else:
+            return channel_id_slice
+
     def _channel_ids_to_indicies(self, channel_id_slice):
         '''
         convert a slice of channel ids to a slice of channel indices into data table
@@ -183,7 +192,7 @@ class HydroH5:
             stime = stime + pd.Timedelta(attrs['interval'])*timeSlice.start
         darr = data[timeSlice, channel_indices, location_indices]
         df = pd.DataFrame(darr,
-                          columns=[str(id)+'-'+location for id in channels],
+                          columns=[str(id)+'-'+location for id in self._channel_ids_to_sequence(channels)],
                           index=pd.date_range(stime,
                                               freq=attrs['interval'],
                                               periods=darr.shape[0]),
