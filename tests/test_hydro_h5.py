@@ -27,7 +27,7 @@ class TestHydroH5:
     def test_get_reservoirs(self, hydro):
         reservoirs = hydro.get_reservoirs()
         assert not reservoirs.empty
-        assert reservoirs[0][0] == 'bethel'
+        assert reservoirs.iloc[0][0] == 'bethel'
         assert hydro.reservoir_node_connections['res_name'][0].strip(
         ) == 'bethel'
 
@@ -94,17 +94,30 @@ class TestHydroH5:
                                0], parse_dates=[0], dtype=np.float32)
         pd.testing.assert_frame_equal(cstage4up,stage4up)
 
-    def get_channel_avg_area(self):
-        pass
+    def test_get_channel_avg_area(self, hydro):
+        area441=hydro.get_channel_avg_area('441')
+        # --- regression saves for compare
+        #area441.to_csv('area441.csv')
+        fname = os.path.join(os.path.dirname(__file__), 'area441.csv')
+        carea441 = pd.read_csv(fname, index_col=[
+                               0], parse_dates=[0], dtype=np.float32)
+        pd.testing.assert_frame_equal(carea441,area441)                       
 
-    def get_reservoir_flow(self):
-        pass
+    def test_get_reservoir_flow(self, hydro):
+        rflow=hydro.get_reservoir_flow('franks_tract')
+        assert not rflow.empty
+        assert rflow.values.shape == (1393,6)
 
-    def get_reservoir_height(self):
-        pass
+    def test_get_reservoir_height(self,hydro):
+        rht=hydro.get_reservoir_height('mildred')
+        assert not rht.empty
 
-    def get_qext_flow(self):
-        pass
+    def test_get_qext_flow(self,hydro):
+        qn=hydro.get_qext()
+        assert not qn[qn.name=='calaveras'].empty
+        qf=hydro.get_qext_flow('calaveras')
+        print(qf)
+        assert not qf.empty
 
     def get_transfer_flow(self):
         pass

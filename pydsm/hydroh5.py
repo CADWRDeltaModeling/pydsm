@@ -73,7 +73,7 @@ class HydroH5:
         return pandas DataFrame of reservoirs
         '''
         self.reservoirs = pd.DataFrame(self.h5.get(
-            HydroH5._GEOM_PATH+'/reservoir_names'), dtype=np.str)
+            HydroH5._GEOM_PATH+'/reservoir_names'), columns=['name'],dtype=np.str)
         self.reservoir_node_connections = h5common.read_compound_table(
             self.h5, HydroH5._GEOM_PATH+'/reservoir_node_connect')
         return self.reservoirs
@@ -166,20 +166,22 @@ class HydroH5:
         end_index = int((et-table_start_time)/interval)
         return slice(start_index, end_index, 1)
 
-    def _get_channel_ts(self, table_path, channels, location='upstream', timewindow=None):
+    def _read_time_indexed_table(self, table_path, timewindow=None, id_indicies=None, third_indices=None):
         '''
-        return a pandas DataFrame of time series from the table for the given 
-            list of channels
-            channel_location ('upstream' or 'downstream')
-            timewindow in the format of <<start time str>> - <<end time str>>, e.g. 01JAN1990 - 05JUL1992
+        returns a pandas DataFrame of time series from the table where 
+         - the first index is time (if None retrieves the entire time window)
+            - specified as timewindow in the format of <<start time str>> - <<end time str>>, e.g. 01JAN1990 - 05JUL1992
+         - second index are the ids
+         - third index (if any) is the location identifier within the id aka 3rd dimension
+
+        The attributes of the HDF5 data sets contains "start_time" and "interval" for evenly spaced data. This is
+        used to infer the time window if none is given
         '''
         data = self.h5.get(table_path)
         #
         attrs = self._read_attributes_from_table(data)
         #
-        channel_indices = self._channel_ids_to_indicies(channels)
-        location_indices = self._channel_locations_to_indicies(
-            location)  # FIXME: add location slicing
+        id_indicies
         stime = pd.to_datetime(attrs['start_time'])
         # if start time and end time given use the slice
         if timewindow:
@@ -190,13 +192,69 @@ class HydroH5:
             timeSlice = slice(None)
         if timeSlice.start:
             stime = stime + pd.Timedelta(attrs['interval'])*timeSlice.start
-        darr = data[timeSlice, channel_indices, location_indices]
+        darr = data[timeSlice, id_indicies] if third_indices is None else data[timeSlice, id_indicies, third_indices]
         df = pd.DataFrame(darr,
-                          columns=[str(id)+'-'+location for id in self._channel_ids_to_sequence(channels)],
                           index=pd.date_range(stime,
                                               freq=attrs['interval'],
                                               periods=darr.shape[0]),
                           dtype=np.float32)
+        return df
+    
+        pass
+
+    def _get_channel_ts(self, table_path, channels, location='upstream', timewindow=None):
+        '''
+        return a pandas DataFrame of time series from the table for the given 
+            list of channels
+            channel_location ('upstream' or 'downstream')
+            timewindow in the format of <<start time str>> - <<end time str>>, e.g. 01JAN1990 - 05JUL1992
+        '''
+        channel_indices = self._channel_ids_to_indicies(channels)
+        location_indices = None if location is None else self._channel_locations_to_indicies(location)
+        location_str = "" if location is None else str(location)
+        df=self._read_time_indexed_table(table_path, timewindow, channel_indices, location_indices)
+        df.columns = [str(id)+'-'+location_str for id in self._channel_ids_to_sequence(channels)]
+        return df
+
+    def _normalize_to_slice(self, str_or_seq):
+        if isinstance(str_or_seq, str):
+            return [str_or_seq]
+        elif self._is_sequence_like(str_or_seq):
+            return str_or_seq
+        elif isinstance(str_or_seq, slice):
+            return str_or_seq
+        else:
+            raise RuntimeError('%s should be string, sequence of strings or slice: called with type: %s'
+                                %(str_or_seq,type(str_or_seq)))
+
+    def _get_reservoir_ts(self, table_path, reservoirs_names, connection_ids=None, timewindow=None):
+        '''
+        '''
+        res=self.get_reservoirs()
+        rnc=self.reservoir_node_connections
+        res_names = self._normalize_to_slice(reservoirs_names)
+        if connection_ids is None:
+            indices = res[res.name.isin(res_names)].index.values
+        else:
+            if len(connection_ids) != len(res_names):
+                raise "Connection ID array length should match reservoir names"
+            mask=rnc[['res_name','connect_index']].isin({'res_name':res_names,'connect_index':connection_ids})
+            indices = rnc[mask.all(axis=1)].index.values
+        df = self._read_time_indexed_table(table_path, timewindow, indices)
+        if connection_ids is None:
+            df.columns = list(res_names)
+        else:
+            df.columns = list(map(lambda x: x[0]+'/'+x[1],zip(reservoirs_names,connection_ids)))
+        return df
+
+    def _get_qext_ts(self, table_path, qext_names, timewindow=None):
+        '''
+        '''
+        qext=self.get_qext()
+        qext_norm=self._normalize_to_slice(qext_names)
+        qext_indicies = qext[qext.name.isin(qext_norm)].index.values
+        df = self._read_time_indexed_table(table_path, timewindow, qext_indicies)
+        df.columns = list(qext_norm)
         return df
 
     def get_channel_flow(self, channel_id, location_id='upstream', timewindow=None):
@@ -208,17 +266,19 @@ class HydroH5:
     def get_channel_stage(self, channel_id, location_id='upstream', timewindow=None):
         return self._get_channel_ts('/hydro/data/channel stage', channel_id, location_id, timewindow)
 
-    def get_channel_avg_area(self, channel_id):
-        pass
+    def get_channel_avg_area(self, channel_id, timewindow=None):
+        return self._get_channel_ts('/hydro/data/channel avg area', channel_id, timewindow)
 
-    def get_reservoir_flow(self, reservoir_id, connection_id):
-        pass
+    def get_reservoir_flow(self, reservoir_name, timewindow=None):
+        res=self.get_reservoirs()
+        rt=self.reservoir_node_connections[self.reservoir_node_connections.res_name==reservoir_name]
+        return self._get_reservoir_ts('/hydro/data/reservoir flow', rt.res_name.values, rt.connect_index.values, timewindow)
 
-    def get_reservoir_height(self, reservoir_id):
-        pass
+    def get_reservoir_height(self, reservoir_name, timewindow=None):
+        return self._get_reservoir_ts('/hydro/data/reservoir height', reservoir_name, timewindow)
 
-    def get_qext_flow(self):
-        pass
+    def get_qext_flow(self, qext_id, timewindow=None):
+        return self._get_qext_ts('/hydro/data/qext flow', qext_id, timewindow)
 
-    def get_transfer_flow(self):
-        pass
+    def get_transfer_flow(self, transfer_id, timewindow=None):
+        return self._get_channel_ts('/hydro/data/transfer flow', transfer_id, timewindow)
