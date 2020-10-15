@@ -1,14 +1,13 @@
 # Test reading of hydro and qual echo files into pandas data frames
 import os
 import pydsm
-from pydsm.input import parser
+from pydsm.input import read_input,write_input
+from pandas.testing import assert_frame_equal
 
-
-def test_hydro_read():
+def test_hydro_input():
     fecho = os.path.join(os.path.dirname(__file__),
                          'hydro_echo_historical_v82.inp')
-    with open(fecho, 'r') as f:
-        tables = parser.parse(f.read())
+    tables=read_input(fecho)
     assert len(tables.keys()) == 27
     assert list(tables.keys()) == ['ENVVAR', 'SCALAR', 'IO_FILE',
                              'CHANNEL', 'XSECT', 'XSECT_LAYER',
@@ -23,6 +22,18 @@ def test_hydro_read():
     assert len(df) == 521
     assert len(df[df.LENGTH > 10000]) == 127
 #
-
-def test_hydro_network():
-    pass
+def test_hydro_write():
+    fecho = os.path.join(os.path.dirname(__file__),
+                        'hydro_echo_historical_v82.inp')
+    tables=read_input(fecho)
+    fecho2 = os.path.join(os.path.dirname(__file__),
+                        'hydro_echo_historical_v82_copy.inp')
+    if os.path.exists(fecho2):
+        os.remove(fecho2)
+    write_input(fecho2,tables)
+    assert os.path.exists(fecho2)
+    tables2=read_input(fecho2)
+    assert len(tables2) == len(tables)
+    for name in tables.keys():
+        assert_frame_equal(tables[name],tables2[name])
+    os.remove(fecho2)

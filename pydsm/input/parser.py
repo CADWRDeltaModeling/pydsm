@@ -9,7 +9,41 @@ import pandas as pd
 import pydsm
 import io
 import re
+import csv
 
+def read_input(filepath):
+    '''
+    reads input from a filepath and returns a dictionary of pandas DataFrames.
+    
+    Each table in DSM2 input is mapped to a data frame. The name of the table is key in the dictionary
+
+    e.g.
+
+    ::
+        CHANNEL
+        CHAN_NO  LENGTH  MANNING  DISPERSION  UPNODE  DOWNNODE  
+        1        19500   0.0350    360.0000    1       2    
+        ...
+        END
+
+
+    The above table will be parsed as pandas DataFrame with key 'CHANNEL' in the returned dictionary
+
+    '''
+    with open(filepath,'r') as f:
+        tables=parse(f.read())
+    return tables
+
+def write_input(filepath, tables, append=True):
+    '''
+    Writes the input to the filepath all the tables (pandas DataFrame) in the dictionary
+
+    Refer to read_input for the table format
+
+    '''
+    with open(filepath,'a' if append else 'w') as f:
+        write(f,tables)
+    
 def parse(data):
     """
     parse the data of the string to read in DSM2 input echo file
@@ -39,7 +73,10 @@ def parse(data):
             try:
                 df=pd.read_csv(file,sep=r'\s+',comment='#',skip_blank_lines=True)
                 tables[name]=df
-            except Exception:
+            except Exception as ex:
+                print('Exception reading: ',name)
+                print(ex)
+                print(table)
                 pass
     return tables
 
@@ -49,8 +86,7 @@ def write(output, tables):
     '''
     for name in tables.keys():
         df=tables[name]
-        if not df.empty:
-            output.write(name+'\n')
-            tables[name].to_string(output,index=False,justify='left')
-            output.write('\nEND\n')
+        output.write(name+'\n')
+        tables[name].to_csv(output,index=None,sep=' ',line_terminator='\n')
+        output.write('\nEND\n')
 #
