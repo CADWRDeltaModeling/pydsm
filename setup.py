@@ -14,7 +14,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['Click>=6.0','networkx','cadwr-dms::vtools3']
+requirements = ['Click>=6.0','networkx']
 
 setup_requirements = ['pytest-runner>=5.0', ]
 
