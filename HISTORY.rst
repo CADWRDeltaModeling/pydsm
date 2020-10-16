@@ -1,6 +1,25 @@
 =======
 History
 =======
+0.2.6 (2020-10-16)
+------------------
+added ptm reading sample notebooks
+added tidal high and low calculation function
+added tsmath for period average/min/max using HEC style end of timestamp for consistency with HEC-DSSVue ops
+added reservoir flow and qext flow retrieval from hdf5
+
+0.2.5 (2020-04-09)
+------------------
+pinning conda recipe to use hdf5 1.10.4 and h5py to 2.10.x 
+
+0.2.4 (2020-04-07)
+------------------
+updated mass balance with source flow reservoir
+
+0.2.3 (2020-04-05)
+------------------
+switching to versioneer for versioning
+
 0.2.0 (2020-03-17)
 ------------------
 added input parsing of echo files into pandas DataFrame
