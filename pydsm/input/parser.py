@@ -70,14 +70,15 @@ def parse(data):
     for table in datatables:
         with io.StringIO(table) as file:
             name=file.readline().strip()
+            if name == '': continue
             try:
                 df=pd.read_csv(file,sep=r'\s+',comment='#',skip_blank_lines=True)
                 tables[name]=df
             except Exception as ex:
-                print('Exception reading: ',name)
+                print('Exception reading: ',name,)
                 print(ex)
                 print(table)
-                pass
+                raise
     return tables
 
 def write(output, tables):
