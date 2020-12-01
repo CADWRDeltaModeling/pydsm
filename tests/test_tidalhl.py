@@ -16,6 +16,17 @@ def tidal_signal_with_gaps():
     return df,dfh,dfl
 
 @pytest.fixture
+def tidal_signal_with_gaps_doubled_shifted(tidal_signal_with_gaps):
+    '''
+    A values doubled and shifted signal (25 minutes) based on tidal_signal_with_gaps
+    '''
+    df,dfh,dfl=tidal_signal_with_gaps
+    df2=2*df # increase amplitude to twice
+    df2s=df2.resample('T').interpolate().shift(25,freq='T') # resample @ min resolution and shift by 25 mins
+    df2s=df2s.resample(tidal_signal_with_gaps.index.freq).interpolate() # resample back at original resolution 
+    return df2s
+
+@pytest.fixture
 def tidal_signal_with_disturbances():
     '''
     tidal signal with disturbances
@@ -49,3 +60,12 @@ def test_signal_with_disturbances(tidal_signal_with_disturbances):
     assert_array_equal(dfh.index.values,dfh_expected.index.values)
     assert_array_almost_equal(dfl.values,dfl_expected.values)
     assert_array_equal(dfl.index.values,dfl_expected.index.values)
+
+def test_amplitude_with_gaps(tidal_signal_with_gaps):
+    df,dfh,dfl=tidal_signal_with_gaps
+    dfamp=tidalhl.get_tidal_amplitude(dfh,dfl)
+    dfh2,dfl2=2*dfh,2*dfl
+    dfamp2=tidalhl.get_tidal_amplitude(dfh2, dfl2)
+    dfdiff=tidalhl.get_tidal_amplitude_diff(dfamp,dfamp2)
+    assert_array_almost_equal(2*dfamp.values,dfamp2.values)
+

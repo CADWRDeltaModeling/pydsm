@@ -89,6 +89,14 @@ def limit_to_indices(df, si, ei):
     return df[(df.index > si) & (df.index < ei)]
 
 
+def filter_where_na(df, dfb):
+    '''
+    remove values in df where dfb has na values
+    '''
+    dfx = dfb.loc[df.index]
+    return df.loc[dfx.dropna().index, :]
+
+
 def get_tidal_hl_rolling(df, cutoff_period='2H', resample_period='1T', interpolate_method='pchip', moving_window_size='7H'):
     '''
     df is a pandas DataFrame with time as index and a single column of values
@@ -96,7 +104,9 @@ def get_tidal_hl_rolling(df, cutoff_period='2H', resample_period='1T', interpola
     and then moving window (max/min) of size window_size='7H'
     returns a tuple of tidal high and tidal low time series 
     '''
+    dfb = df.resample(resample_period).fillna(method='backfill')
     df = df.resample(resample_period).interpolate(method=interpolate_method)
+    df[dfb.iloc[:, 0].isna()] = np.nan
     df = cosine_lanczos(df, cutoff_period)
     dfmax = df.rolling(moving_window_size).max()
     dfmax.columns = ['max']
@@ -109,9 +119,12 @@ def get_tidal_hl_rolling(df, cutoff_period='2H', resample_period='1T', interpola
     dfh, dfl = limit_to_indices(where_same(dfmax, df), si, ei), limit_to_indices(
         where_same(dfmin, df), si, ei)
     dfh, dfl = dfh.to_frame(), dfl.to_frame()
+    #
     dfhl = pd.concat([dfh, dfl], axis=0)
     dfhl = dfhl.sort_index()
     dfh, dfl = build_unique_highs(dfhl), build_unique_lows(dfhl)
+    # remove highs and lows where original series has missing values
+    dfh, dfl = filter_where_na(dfh, dfb), filter_where_na(dfl, dfb)
     return dfh, dfl
 
 
@@ -211,11 +224,10 @@ def zerocross1d(x, y, getIndices=False):
         return zz, zzindi
 
 
-def get_tidal_amplitude(df):
+def get_tidal_amplitude(dfh, dfl):
     '''
     Returns a dataframe with amplitude at the times of the low following the high being used for amplitude calculation
     '''
-    dfh, dfl = get_tidal_hl_rolling(df)
     dfamp = pd.concat([dfh, dfl], axis=1)
     dfamp = dfamp[['min']].dropna().join(dfamp[['max']].ffill())
     return pd.DataFrame(dfamp['max']-dfamp['min'], columns=['amplitude'])
@@ -265,14 +277,12 @@ def get_value_diff(df, percent_diff=False):
         return np.nan
 
 
-def get_tidal_phase_diff(df2, df1):
+def get_tidal_phase_diff(dfh2, dfl2, dfh1, dfl1):
     '''
     return the phase difference between df2 and df1 tidal highs and lows
     scans +/- 4 hours in df1 to get the highs and lows in that windows for df2 to 
     get the tidal highs and lows at the times of df1
     '''
-    dfh1, dfl1 = get_tidal_hl_rolling(df1)
-    dfh2, dfl2 = get_tidal_hl_rolling(df2)
     tdelta = '4H'
     sliceh1 = [slice(t-pd.to_timedelta(tdelta), t+pd.to_timedelta(tdelta)) for t in dfh1.index]
     slicel1 = [slice(t-pd.to_timedelta(tdelta), t+pd.to_timedelta(tdelta)) for t in dfl1.index]
@@ -297,9 +307,7 @@ def match_next(dfh1, dfh2):
     return dfh
 
 
-def match_high_lows(df1, df2):
-    dfh1, dfl1 = get_tidal_hl_rolling(df1)
-    dfh2, dfl2 = get_tidal_hl_rolling(df2)
+def match_high_lows(dfh1, dfl1, dfh2, dfl2):
     dfh = match_next(dfh1, dfh2)
     dfh.columns = ['1', '2']
     dfl = match_next(dfl1, dfl2)
