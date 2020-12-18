@@ -242,7 +242,7 @@ def get_tidal_amplitude_diff(dfamp1, dfamp2, percent_diff=False):
     tdelta = '4H'
     sliceamp = [slice(t-pd.to_timedelta(tdelta), t+pd.to_timedelta(tdelta)) for t in dfamp.index]
     ampdiff = [get_value_diff(dfamp[sl], percent_diff) for sl in sliceamp]
-    return ampdiff
+    return pd.DataFrame(ampdiff, index=dfamp.index)
 
 
 def get_index_diff(df):
@@ -290,7 +290,11 @@ def get_tidal_phase_diff(dfh2, dfl2, dfh1, dfl1):
     dfh21.columns = ['2', '1']
     dfl21 = pd.concat([dfl2, dfl1], axis=1)
     dfl21.columns = ['2', '1']
-    return [get_index_diff(dfh21[sl]) for sl in sliceh1], [get_index_diff(dfl21[sl]) for sl in slicel1]
+    high_phase_diff, low_phase_diff = [get_index_diff(dfh21[sl]) for sl in sliceh1], [
+        get_index_diff(dfl21[sl]) for sl in slicel1]
+    merged_diff = pd.merge(pd.DataFrame(high_phase_diff, index=dfh1.index), pd.DataFrame(
+        low_phase_diff, index=dfl1.index), how='outer', left_index=True, right_index=True)
+    return merged_diff.iloc[:, 0].fillna(merged_diff.iloc[:, 1])
 
 
 def get_mean(arr):
