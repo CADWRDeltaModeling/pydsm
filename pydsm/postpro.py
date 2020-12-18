@@ -4,10 +4,9 @@ This module is to postprocess data for use in visualization and in calculating m
 """
 import click
 import collections
+import contextlib
 import logging
 import sys
-from collections import namedtuple
-from logging import warning
 
 import numpy as np
 import pandas as pd
@@ -164,7 +163,7 @@ class PostProcessor:
         dfgen = self._read_ts()
         if self.do_resampling_with_merging:
             dflist = [resample_with_interpolation(
-                df.data, time_interval=PostProcessor.TIME_INTERVAL) for df in dfgen]
+                df.data, time_interval=PostProcessor.TIME_INTERVAL) for df in contextlib.closing(dfgen)]
             df = merge(dflist)
         else:
             df = next(dfgen).data
