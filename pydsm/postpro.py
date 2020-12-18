@@ -180,6 +180,9 @@ class PostProcessor:
         self.gdf = godin(self.df)
         self.high, self.low = tidalhl.get_tidal_hl_rolling(self.df)
         self.amp = tidalhl.get_tidal_amplitude(self.high, self.low)
+    
+    def clear_refs(self):
+        self.df=self.gdf=self.high=self.low=self.amp=None
 
     def _store(self, df, cpart_suffix='', epart=TIME_INTERVAL):
         self.cache.store(df, self.vartype.units, self.location.name, self.vartype.name + cpart_suffix,
@@ -266,8 +269,13 @@ def build_processors(dssfile, locationfile, vartype, units, study_name, observed
 
 
 def run_processor(processor):
+    logging.info('Running %s/%s'%(processor.location.name,processor.vartype.name))
+    print('Running %s/%s'%(processor.location.name,processor.vartype.name))
     processor.process()
+    logging.info('Storing %s/%s'%(processor.location.name,processor.vartype.name))
     processor.store_processed()
+    processor.clear_refs()
+    logging.info('Done %s/%s'%(processor.location.name,processor.vartype.name))
 
 #
 @click.command()
