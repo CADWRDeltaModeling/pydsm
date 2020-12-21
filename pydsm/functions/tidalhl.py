@@ -1,6 +1,73 @@
 import numpy as np
 import pandas as pd
+import numba
 from vtools.functions.filter import cosine_lanczos, godin
+
+
+def get_smoothed_resampled(df, cutoff_period='2H', resample_period='1T', interpolate_method='pchip'):
+    '''
+    '''
+    dfb = df.resample(resample_period).fillna(method='backfill')
+    df = df.resample(resample_period).interpolate(method=interpolate_method)
+    df[dfb.iloc[:, 0].isna()] = np.nan
+    return cosine_lanczos(df, cutoff_period)
+
+
+@numba.jit(nopython=True)
+def lmax(arr):
+    '''Local maximum: Returns value only when centered on maximum
+    '''
+    idx = np.argmax(arr)
+    if idx == len(arr)/2:
+        return arr[idx]
+    else:
+        return np.NaN
+
+
+@numba.jit(nopython=True)
+def lmin(arr):
+    '''Local minimum: Returns value only when centered on minimum
+    '''
+    idx = np.argmin(arr)
+    if idx == len(arr)/2:
+        return arr[idx]
+    else:
+        return np.NaN
+
+
+def periods_per_window(moving_window_size, resample_period):
+    return int(pd.Timedelta(moving_window_size)/pd.Timedelta(resample_period))
+
+
+def tidal_highs(df, moving_window_size='7H', resample_period='1T'):
+    periods = periods_per_window(moving_window_size, resample_period)
+    dfmax = df.rolling(moving_window_size, min_periods=periods).apply(lmax, raw=True)
+    dfmax = dfmax.shift(periods=-(periods//2-1))
+    dfmax=dfmax.dropna()
+    dfmax.columns=['max']
+    return dfmax
+
+
+def tidal_lows(df, moving_window_size='7H', resample_period='1T'):
+    periods = periods_per_window(moving_window_size, resample_period)
+    dfmin = df.rolling(moving_window_size, min_periods=periods).apply(lmin, raw=True)
+    dfmin = dfmin.shift(periods=-(periods//2-1))
+    dfmin=dfmin.dropna()
+    dfmin.columns=['min']
+    return dfmin
+
+
+def get_tidal_hl_rolling(df, cutoff_period='2H', resample_period='1T', interpolate_method='pchip', moving_window_size='7H'):
+    '''
+    df is a pandas DataFrame with time as index and a single column of values
+    Filter with cutoff_period (default='2H'), resampled with resample_period='1T' with interpolation method='pchip'
+    and then moving window (max/min) of size window_size='7H'
+    returns a tuple of tidal high and tidal low time series 
+    '''
+    dfs = get_smoothed_resampled(df, cutoff_period, resample_period, interpolate_method)
+    return tidal_highs(dfs), tidal_lows(dfs)
+
+##---- FUNCTIONS CACHED BELOW THIS LINE PERHAPS TO USE LATER? ---#
 
 
 def get_unique_max(dfhl):
@@ -95,37 +162,6 @@ def filter_where_na(df, dfb):
     '''
     dfx = dfb.loc[df.index]
     return df.loc[dfx.dropna().index, :]
-
-
-def get_tidal_hl_rolling(df, cutoff_period='2H', resample_period='1T', interpolate_method='pchip', moving_window_size='7H'):
-    '''
-    df is a pandas DataFrame with time as index and a single column of values
-    Filter with cutoff_period (default='2H'), resampled with resample_period='1T' with interpolation method='pchip'
-    and then moving window (max/min) of size window_size='7H'
-    returns a tuple of tidal high and tidal low time series 
-    '''
-    dfb = df.resample(resample_period).fillna(method='backfill')
-    df = df.resample(resample_period).interpolate(method=interpolate_method)
-    df[dfb.iloc[:, 0].isna()] = np.nan
-    df = cosine_lanczos(df, cutoff_period)
-    dfmax = df.rolling(moving_window_size).max()
-    dfmax.columns = ['max']
-    dfmin = df.rolling(moving_window_size).min()
-    dfmin.columns = ['min']
-    dfmax = ffill_zero_gradient(dfmax)
-    dfmin = ffill_zero_gradient(dfmin)
-    si = df.first_valid_index()
-    ei = df.last_valid_index()
-    dfh, dfl = limit_to_indices(where_same(dfmax, df), si, ei), limit_to_indices(
-        where_same(dfmin, df), si, ei)
-    dfh, dfl = dfh.to_frame(), dfl.to_frame()
-    #
-    dfhl = pd.concat([dfh, dfl], axis=0)
-    dfhl = dfhl.sort_index()
-    dfh, dfl = build_unique_highs(dfhl), build_unique_lows(dfhl)
-    # remove highs and lows where original series has missing values
-    dfh, dfl = filter_where_na(dfh, dfb), filter_where_na(dfl, dfb)
-    return dfh, dfl
 
 
 def get_tidal_hl_zerocrossing(df, round_to='1T'):
