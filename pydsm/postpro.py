@@ -160,14 +160,14 @@ class PostProcessor:
         return pyhecdss.get_ts(self.fname, pathname.upper())
 
     def process(self):
-        dfgen = self._read_ts()
-        if self.do_resampling_with_merging:
-            dflist = [resample_with_interpolation(
-                df.data, time_interval=PostProcessor.TIME_INTERVAL) for df in contextlib.closing(dfgen)]
-            df = merge(dflist)
-        else:
-            df = next(dfgen).data
-            convert_index_to_timestamps(df)  # inplace change of index
+        with contextlib.closing(self._read_ts()) as dfgen:
+            if self.do_resampling_with_merging:
+                    dflist = [resample_with_interpolation(
+                        df.data, time_interval=PostProcessor.TIME_INTERVAL) for df in dfgen]
+                    df = merge(dflist)
+            else:
+                df = next(dfgen).data
+                convert_index_to_timestamps(df)  # inplace change of index
 
         if self.do_filling_in:
             df = fill_in(df, self.max_fillin_gap, self.fillin_method)
