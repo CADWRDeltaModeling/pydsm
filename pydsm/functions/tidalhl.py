@@ -1,12 +1,28 @@
 import numpy as np
 import pandas as pd
 import numba
-from vtools.functions.filter import cosine_lanczos, godin
+from vtools.functions.filter import cosine_lanczos
 
 
 def get_smoothed_resampled(df, cutoff_period='2H', resample_period='1T', interpolate_method='pchip'):
-    '''
-    '''
+    """Resample the dataframe (indexed by time) to the regular period of resample_period using the interpolate method
+
+    Furthermore the cosine lanczos filter is used with a cutoff_period to smooth the signal to remove high frequency noise
+
+    Args:
+
+        df (DataFrame): A single column dataframe indexed by datetime
+
+        cutoff_period (str, optional): cutoff period for cosine lanczos filter. Defaults to '2H'.
+
+        resample_period (str, optional): Resample to regular period. Defaults to '1T'.
+
+        interpolate_method (str, optional): interpolation for resampling. Defaults to 'pchip'.
+
+    Returns:
+
+        DataFrame: smoothed and resampled dataframe indexed by datetime
+    """
     dfb = df.resample(resample_period).fillna(method='backfill')
     df = df.resample(resample_period).interpolate(method=interpolate_method)
     df[dfb.iloc[:, 0].isna()] = np.nan
@@ -35,103 +51,233 @@ def lmin(arr):
         return np.NaN
 
 
-def periods_per_window(moving_window_size, resample_period):
-    return int(pd.Timedelta(moving_window_size)/pd.Timedelta(resample_period))
+def periods_per_window(moving_window_size: str, period_str: str) -> int:
+    """Number of period size in moving window
+
+    Args:
+
+        moving_window_size (str): moving window size as a string e.g 7H for 7 hour
+
+        period_str (str): period as str e.g. 1T for 1 min
+
+    Returns:
+
+        int: number of periods in the moving window rounded to an integer
+    """
+
+    return int(pd.Timedelta(moving_window_size)/pd.to_timedelta(pd.tseries.frequencies.to_offset(period_str)))
 
 
-def tidal_highs(df, moving_window_size='7H', resample_period='1T'):
-    periods = periods_per_window(moving_window_size, resample_period)
+def tidal_highs(df, moving_window_size='7H'):
+    """Tidal highs (could be upto two highs in a 25 hr period)
+
+    Args:
+
+        df (DataFrame): a time series with a regular frequency
+
+        moving_window_size (str, optional): moving window size to look for highs within. Defaults to '7H'.
+
+    Returns:
+
+        DataFrame: an irregular time series with highs at resolution of df.index
+    """
+    period_str = df.index.freqstr
+    periods = periods_per_window(moving_window_size, period_str)
     dfmax = df.rolling(moving_window_size, min_periods=periods).apply(lmax, raw=True)
     dfmax = dfmax.shift(periods=-(periods//2-1))
-    dfmax=dfmax.dropna()
-    dfmax.columns=['max']
+    dfmax = dfmax.dropna()
+    dfmax.columns = ['max']
     return dfmax
 
 
-def tidal_lows(df, moving_window_size='7H', resample_period='1T'):
-    periods = periods_per_window(moving_window_size, resample_period)
+def tidal_lows(df, moving_window_size='7H'):
+    """Tidal lows (could be upto two lows in a 25 hr period)
+
+    Args:
+
+        df (DataFrame): a time series with a regular frequency
+
+        moving_window_size (str, optional): moving window size to look for lows within. Defaults to '7H'.
+
+    Returns:
+
+        DataFrame: an irregular time series with lows at resolution of df.index
+    """
+    period_str = df.index.freqstr
+    periods = periods_per_window(moving_window_size, period_str)
     dfmin = df.rolling(moving_window_size, min_periods=periods).apply(lmin, raw=True)
     dfmin = dfmin.shift(periods=-(periods//2-1))
-    dfmin=dfmin.dropna()
-    dfmin.columns=['min']
+    dfmin = dfmin.dropna()
+    dfmin.columns = ['min']
     return dfmin
 
 
-def get_tidal_hl_rolling(df, cutoff_period='2H', resample_period='1T', interpolate_method='pchip', moving_window_size='7H'):
-    '''
-    df is a pandas DataFrame with time as index and a single column of values
-    Filter with cutoff_period (default='2H'), resampled with resample_period='1T' with interpolation method='pchip'
-    and then moving window (max/min) of size window_size='7H'
-    returns a tuple of tidal high and tidal low time series 
-    '''
+def get_tidal_hl(df, cutoff_period='2H', resample_period='1T', interpolate_method='pchip', moving_window_size='7H'):
+    """Get Tidal highs and lows
+
+    Args:
+
+        df (DataFrame): A single column dataframe indexed by datetime
+
+        cutoff_period (str, optional): cutoff period for cosine lanczos filter. Defaults to '2H'.
+
+        resample_period (str, optional): Resample to regular period. Defaults to '1T'.
+
+        interpolate_method (str, optional): interpolation for resampling. Defaults to 'pchip'.
+
+        moving_window_size (str, optional): moving window size to look for lows within. Defaults to '7H'.
+
+    Returns:
+
+        tuple of DataFrame: Tidal high and tidal low time series 
+    """
     dfs = get_smoothed_resampled(df, cutoff_period, resample_period, interpolate_method)
     return tidal_highs(dfs), tidal_lows(dfs)
 
-##---- FUNCTIONS CACHED BELOW THIS LINE PERHAPS TO USE LATER? ---#
+
+get_tidal_hl_rolling = get_tidal_hl  # for older refs. #FIXME
 
 
-def get_unique_max(dfhl):
-    v = np.NINF
-    rv = None
-    for r in dfhl.iterrows():
-        if np.isnan(r[1]['min']):
-            if r[1]['max'] > v:
-                v = r[1]['max']
-                rv = (r[0], v)
-        else:
-            if rv:
-                yield rv
-                v = np.NINF
-                rv = None
-    if rv:
-        yield rv
-
-
-def get_unique_min(dfhl):
-    v = np.PINF
-    rv = None
-    for r in dfhl.iterrows():
-        if np.isnan(r[1]['max']):
-            if r[1]['min'] < v:
-                v = r[1]['min']
-                rv = (r[0], v)
-        else:
-            if rv:
-                yield rv
-                v = np.PINF
-                rv = None
-    if rv:
-        yield rv
-
-
-def build_unique_highs(dfhl):
-    dfhu = pd.DataFrame.from_records(get_unique_max(dfhl), index=0)
-    dfhu = dfhu.drop(columns=[0])
-    dfhu.columns = ['max']
-    dfhu.index.name = 'time'
-    return dfhu
-
-
-def build_unique_lows(dfhl):
-    dflu = pd.DataFrame.from_records(get_unique_min(dfhl), index=0)
-    dflu = dflu.drop(columns=[0])
-    dflu.columns = ['min']
-    dflu.index.name = 'time'
-    return dflu
-
-
-def ffill_zero_gradient(df):
-    """Forward fill with zero gradients
+def get_tidal_amplitude(dfh, dfl):
+    """Tidal amplitude given tidal highs and lows
 
     Args:
-        df (DataFrame): with a single column
+
+        dfh (DataFrame): Tidal highs time series
+
+        dfl (DataFrame): Tidal lows time series
 
     Returns:
-        DataFrame: filled with the locations of the zero gradient
+
+        DataFrame: Amplitude timeseries, at the times of the low following the high being used for amplitude calculation
     """
-    dfg = np.gradient(df[df.columns[0]])
-    zerog = np.where(dfg[1:] == 0)[0]
-    return df.iloc[zerog].resample(df.index.freq).ffill()
+    dfamp = pd.concat([dfh, dfl], axis=1)
+    dfamp = dfamp[['min']].dropna().join(dfamp[['max']].ffill())
+    return pd.DataFrame(dfamp['max']-dfamp['min'], columns=['amplitude'])
+
+
+def get_value_diff(df, percent_diff=False):
+    '''
+    Get the difference of values of each element in the dataframe
+    The times in the dataframe may or may not coincide as this is a slice of irregularly sampled time series
+    On any error, the returned value is np.nan
+    '''
+    try:
+        arr = [df[c].dropna() for c in df.columns]
+        if percent_diff:
+            value_diff = 100.0 * (arr[0].values[0]-arr[1].values[0])/arr[1].values[0]
+        else:
+            value_diff = arr[0].values[0]-arr[1].values[0]
+        return value_diff
+    except:
+        return np.nan
+
+
+def get_tidal_amplitude_diff(dfamp1, dfamp2, percent_diff=False):
+    """Get the difference of values within +/- 4H of values in the two amplitude arrays
+
+    Args:
+
+        dfamp1 (DataFrame): Amplitude time series
+
+        dfamp2 (DataFrame): Amplitude time series
+
+        percent_diff (bool, optional): If true do percent diff. Defaults to False.
+
+    Returns:
+
+        DataFrame: Difference dfamp1-dfamp2 or % Difference (dfamp1-dfamp2)/dfamp2*100  for values within +/- 4H of each other
+    """
+    dfamp = pd.concat([dfamp1, dfamp2], axis=1).dropna(how='all')
+    dfamp.columns = ['2', '1']
+    tdelta = '4H'
+    sliceamp = [slice(t-pd.to_timedelta(tdelta), t+pd.to_timedelta(tdelta)) for t in dfamp.index]
+    ampdiff = [get_value_diff(dfamp[sl], percent_diff) for sl in sliceamp]
+    return pd.DataFrame(ampdiff, index=dfamp.index)
+
+
+def get_index_diff(df):
+    '''
+    Get the difference of index values of each element in the dataframe
+    The times in the dataframe may or may not coincide
+    The difference is in Timedelta and is converted to minutes 
+    On any error, the returned value is np.nan
+    '''
+    try:
+        arr = [df[c].dropna() for c in df.columns]
+        tidal_phase_diff = (arr[0].index[0]-arr[1].index[0]).total_seconds()/60.
+        return tidal_phase_diff
+    except:
+        return np.nan
+
+
+def get_tidal_phase_diff(dfh2, dfl2, dfh1, dfl1):
+    """Calculates the phase difference between df2 and df1 tidal highs and lows
+
+    Scans +/- 4 hours in df1 to get the highs and lows in that windows for df2 to 
+    get the tidal highs and lows at the times of df1
+
+
+    Args:
+
+        dfh2 (DataFrame): Timeseries of tidal highs
+
+        dfl2 (DataFrame): Timeseries of tidal lows
+
+        dfh1 (DataFrame): Timeseries of tidal highs
+
+        dfl1 (DataFRame): Timeseries of tidal lows
+
+    Returns:
+
+        DataFrame: Phase difference (dfh2-dfh1) and (dfl2-dfl1) in minutes
+    """
+    '''
+    '''
+    tdelta = '4H'
+    sliceh1 = [slice(t-pd.to_timedelta(tdelta), t+pd.to_timedelta(tdelta)) for t in dfh1.index]
+    slicel1 = [slice(t-pd.to_timedelta(tdelta), t+pd.to_timedelta(tdelta)) for t in dfl1.index]
+    dfh21 = pd.concat([dfh2, dfh1], axis=1)
+    dfh21.columns = ['2', '1']
+    dfl21 = pd.concat([dfl2, dfl1], axis=1)
+    dfl21.columns = ['2', '1']
+    high_phase_diff, low_phase_diff = [get_index_diff(dfh21[sl]) for sl in sliceh1], [
+        get_index_diff(dfl21[sl]) for sl in slicel1]
+    merged_diff = pd.merge(pd.DataFrame(high_phase_diff, index=dfh1.index), pd.DataFrame(
+        low_phase_diff, index=dfl1.index), how='outer', left_index=True, right_index=True)
+    return merged_diff.iloc[:, 0].fillna(merged_diff.iloc[:, 1])
+
+
+def get_tidal_hl_zerocrossing(df, round_to='1T'):
+    '''
+    Finds the tidal high and low times using zero crossings of the first derivative. 
+
+    This works for all situations but is not robust in the face of noise and perturbations in the signal
+    '''
+    zc, zi = zerocross(df)
+    if round_to:
+        zc = pd.to_datetime(zc).round(round_to)
+    return zc
+
+
+def zerocross(df):
+    '''
+    Calculates the gradient of the time series and identifies locations where gradient changes sign
+    Returns the time rounded to nearest minute where the zero crossing happens (based on linear derivative assumption)
+    '''
+    diffdfv = pd.Series(np.gradient(df[df.columns[0]].values), index=df.index)
+    indi = np.where((np.diff(np.sign(diffdfv))) & (diffdfv[1:] != 0))[0]
+    # Find the zero crossing by linear interpolation
+    zdb = diffdfv[indi].index
+    zda = diffdfv[indi+1].index
+    x = diffdfv.index
+    y = diffdfv.values
+    dx = x[indi+1] - x[indi]
+    dy = y[indi+1] - y[indi]
+    zc = -y[indi] * (dx/dy) + x[indi]
+    return zc, indi
+
+##---- FUNCTIONS CACHED BELOW THIS LINE PERHAPS TO USE LATER? ---#
 
 
 def where_changed(df):
@@ -162,194 +308,3 @@ def filter_where_na(df, dfb):
     '''
     dfx = dfb.loc[df.index]
     return df.loc[dfx.dropna().index, :]
-
-
-def get_tidal_hl_zerocrossing(df, round_to='1T'):
-    '''
-    Finds the tidal high and low times
-    '''
-    # ddf=np.gradient(df[df.columns[0]].values)
-    # zc,zi=zerocross1d(df.index.astype(np.int64),ddf,getIndices=True)
-    zc, zi = zerocross(df)
-    if round_to:
-        zc = pd.to_datetime(zc).round(round_to)
-    return zc
-
-
-def zerocross(df):
-    '''
-    Calculates the gradient of the time series and identifies locations where gradient changes sign
-    Returns the time rounded to nearest minute where the zero crossing happens (based on linear derivative assumption)
-    '''
-    diffdfv = pd.Series(np.gradient(df[df.columns[0]].values), index=df.index)
-    indi = np.where((np.diff(np.sign(diffdfv))) & (diffdfv[1:] != 0))[0]
-    # Find the zero crossing by linear interpolation
-    zdb = diffdfv[indi].index
-    zda = diffdfv[indi+1].index
-    x = diffdfv.index
-    y = diffdfv.values
-    dx = x[indi+1] - x[indi]
-    dy = y[indi+1] - y[indi]
-    zc = -y[indi] * (dx/dy) + x[indi]
-    return zc, indi
-
-
-def zerocross1d(x, y, getIndices=False):
-    """
-      Find the zero crossing points in 1d data.
-
-      Find the zero crossing events in a discrete data set.
-      Linear interpolation is used to determine the actual
-      locations of the zero crossing between two data points
-      showing a change in sign. Data point which are zero
-      are counted in as zero crossings if a sign change occurs
-      across them. Note that the first and last data point will
-      not be considered whether or not they are zero. 
-
-      Parameters
-      ----------
-      x, y : arrays
-          Ordinate and abscissa data values.
-      getIndices : boolean, optional
-          If True, also the indicies of the points preceding
-          the zero crossing event will be returned. Defeualt is
-          False.
-
-      Returns
-      -------
-      xvals : array
-          The locations of the zero crossing events determined
-          by linear interpolation on the data.
-      indices : array, optional
-          The indices of the points preceding the zero crossing
-          events. Only returned if `getIndices` is set True.
-    """
-
-    # Check sorting of x-values
-    if np.any((x[1:] - x[0:-1]) <= 0.0):
-        raise("The x-values must be sorted in ascending order!")
-    # Indices of points *before* zero-crossing
-    indi = np.where(y[1:]*y[0:-1] < 0.0)[0]
-
-    # Find the zero crossing by linear interpolation
-    dx = x[indi+1] - x[indi]
-    dy = y[indi+1] - y[indi]
-    zc = -y[indi] * (dx/dy) + x[indi]
-
-    # What about the points, which are actually zero
-    zi = np.where(y == 0.0)[0]
-    # Do nothing about the first and last point should they
-    # be zero
-    zi = zi[np.where((zi > 0) & (zi < x.size-1))]
-    # Select those point, where zero is crossed (sign change
-    # across the point)
-    zi = zi[np.where(y[zi-1]*y[zi+1] < 0.0)]
-
-    # Concatenate indices
-    zzindi = np.concatenate((indi, zi))
-    # Concatenate zc and locations corresponding to zi
-    zz = np.concatenate((zc, x[zi]))
-
-    # Sort by x-value
-    sind = np.argsort(zz)
-    zz, zzindi = zz[sind], zzindi[sind]
-
-    if not getIndices:
-        return zz
-    else:
-        return zz, zzindi
-
-
-def get_tidal_amplitude(dfh, dfl):
-    '''
-    Returns a dataframe with amplitude at the times of the low following the high being used for amplitude calculation
-    '''
-    dfamp = pd.concat([dfh, dfl], axis=1)
-    dfamp = dfamp[['min']].dropna().join(dfamp[['max']].ffill())
-    return pd.DataFrame(dfamp['max']-dfamp['min'], columns=['amplitude'])
-
-
-def get_tidal_amplitude_diff(dfamp1, dfamp2, percent_diff=False):
-    '''
-    Get the difference of values within +/- 4H of values in the two amplitude arrays
-    '''
-    dfamp = pd.concat([dfamp1, dfamp2], axis=1).dropna(how='all')
-    dfamp.columns = ['2', '1']
-    tdelta = '4H'
-    sliceamp = [slice(t-pd.to_timedelta(tdelta), t+pd.to_timedelta(tdelta)) for t in dfamp.index]
-    ampdiff = [get_value_diff(dfamp[sl], percent_diff) for sl in sliceamp]
-    return pd.DataFrame(ampdiff, index=dfamp.index)
-
-
-def get_index_diff(df):
-    '''
-    Get the difference of index values of each element in the dataframe
-    The times in the dataframe may or may not coincide
-    The difference is in Timedelta and is converted to minutes 
-    On any error, the returned value is np.nan
-    '''
-    try:
-        arr = [df[c].dropna() for c in df.columns]
-        tidal_phase_diff = (arr[0].index[0]-arr[1].index[0]).total_seconds()/60.
-        return tidal_phase_diff
-    except:
-        return np.nan
-
-
-def get_value_diff(df, percent_diff=False):
-    '''
-    Get the difference of values of each element in the dataframe
-    The times in the dataframe may or may not coincide as this is a slice of irregularly sampled time series
-    On any error, the returned value is np.nan
-    '''
-    try:
-        arr = [df[c].dropna() for c in df.columns]
-        if percent_diff:
-            value_diff = 100.0 * (arr[0].values[0]-arr[1].values[0])/arr[1].values[0]
-        else:
-            value_diff = arr[0].values[0]-arr[1].values[0]
-        return value_diff
-    except:
-        return np.nan
-
-
-def get_tidal_phase_diff(dfh2, dfl2, dfh1, dfl1):
-    '''
-    return the phase difference between df2 and df1 tidal highs and lows
-    scans +/- 4 hours in df1 to get the highs and lows in that windows for df2 to 
-    get the tidal highs and lows at the times of df1
-    '''
-    tdelta = '4H'
-    sliceh1 = [slice(t-pd.to_timedelta(tdelta), t+pd.to_timedelta(tdelta)) for t in dfh1.index]
-    slicel1 = [slice(t-pd.to_timedelta(tdelta), t+pd.to_timedelta(tdelta)) for t in dfl1.index]
-    dfh21 = pd.concat([dfh2, dfh1], axis=1)
-    dfh21.columns = ['2', '1']
-    dfl21 = pd.concat([dfl2, dfl1], axis=1)
-    dfl21.columns = ['2', '1']
-    high_phase_diff, low_phase_diff = [get_index_diff(dfh21[sl]) for sl in sliceh1], [
-        get_index_diff(dfl21[sl]) for sl in slicel1]
-    merged_diff = pd.merge(pd.DataFrame(high_phase_diff, index=dfh1.index), pd.DataFrame(
-        low_phase_diff, index=dfl1.index), how='outer', left_index=True, right_index=True)
-    return merged_diff.iloc[:, 0].fillna(merged_diff.iloc[:, 1])
-
-
-def get_mean(arr):
-    return np.nanmean(arr)
-
-
-def match_next(dfh1, dfh2):
-    dfh = pd.concat([dfh1, dfh2], axis=1)
-    dfh.columns = ['1', '2']
-    # resample and fill 4 hours in either direction
-    dfh1 = dfh[['1']].resample('1T').asfreq().ffill(limit=240).bfill(limit=240)
-    # sample at index and drop na to get values within 4 hours of each other
-    dfh = dfh1.loc[dfh[['1']].index].join(dfh[['2']]).dropna()
-    return dfh
-
-
-def match_high_lows(dfh1, dfl1, dfh2, dfl2):
-    dfh = match_next(dfh1, dfh2)
-    dfh.columns = ['1', '2']
-    dfl = match_next(dfl1, dfl2)
-    dfl.columns = ['1', '2']
-    return match_next(dfh1, dfh2), match_next(dfl1, dfl2)
