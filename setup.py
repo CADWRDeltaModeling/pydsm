@@ -14,7 +14,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['Click','networkx','h5py==2.10','pyhecdss','vtools3','pandas==1.0','numba']
+requirements = ['Click','networkx','h5py','pyhecdss','vtools3','pandas','numba']
 
 setup_requirements = ['pytest-runner>=5.0', ]
 

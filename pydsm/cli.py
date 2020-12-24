@@ -1,3 +1,4 @@
+from pydsm.ptm_animator import ptm_animate
 import sys
 import click
 import pyhecdss
@@ -180,5 +181,6 @@ def compare_dss(dssfile1, dssfile2, tolerance=3, cpart=None):
 # adding sub commands to main
 main.add_command(extract_dss)
 main.add_command(compare_dss)
+main.add_command(ptm_animate)
 if __name__ == "__main__":
     sys.exit(main())
