@@ -1,17 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>pydsm package &#8212; pydsm 0.2.1 documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pydsm package &#8212; pydsm 0.3+5.g65727c1.dirty documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -43,22 +43,22 @@
 </div>
 <div class="section" id="module-pydsm.h5common">
 <span id="pydsm-h5common-module"></span><h2>pydsm.h5common module<a class="headerlink" href="#module-pydsm.h5common" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="pydsm.h5common.list_table_paths">
-<code class="sig-prename descclassname">pydsm.h5common.</code><code class="sig-name descname">list_table_paths</code><span class="sig-paren">(</span><em class="sig-param">h5</em>, <em class="sig-param">group_paths</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/h5common.html#list_table_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.h5common.list_table_paths" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pydsm.h5common.</code><code class="sig-name descname">list_table_paths</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">h5</span></em>, <em class="sig-param"><span class="n">group_paths</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/h5common.html#list_table_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.h5common.list_table_paths" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns a list of paths to tables (h5py.DataSets)</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pydsm.h5common.read_compound_table">
-<code class="sig-prename descclassname">pydsm.h5common.</code><code class="sig-name descname">read_compound_table</code><span class="sig-paren">(</span><em class="sig-param">h5</em>, <em class="sig-param">tpath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/h5common.html#read_compound_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.h5common.read_compound_table" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pydsm.h5common.</code><code class="sig-name descname">read_compound_table</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">h5</span></em>, <em class="sig-param"><span class="n">tpath</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/h5common.html#read_compound_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.h5common.read_compound_table" title="Permalink to this definition">¶</a></dt>
 <dd><p>reads a compound table from the open h5 handle and table path tpath
 returns a DataFrame after converting them to strings (stripped)</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pydsm.h5common.strip">
-<code class="sig-prename descclassname">pydsm.h5common.</code><code class="sig-name descname">strip</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/h5common.html#strip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.h5common.strip" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pydsm.h5common.</code><code class="sig-name descname">strip</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/h5common.html#strip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.h5common.strip" title="Permalink to this definition">¶</a></dt>
 <dd><p>strips the object types of a DataFrame df</p>
 </dd></dl>
 
@@ -74,77 +74,77 @@ get time series data as pandas DataFrame</p>
 <div><p>for given list of channels 
 for given list of reservoirs</p>
 </div></blockquote>
-<dl class="class">
+<dl class="py class">
 <dt id="pydsm.hydroh5.HydroH5">
-<em class="property">class </em><code class="sig-prename descclassname">pydsm.hydroh5.</code><code class="sig-name descname">HydroH5</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pydsm.hydroh5.</code><code class="sig-name descname">HydroH5</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="method">
+<dl class="py method">
 <dt id="pydsm.hydroh5.HydroH5.get_channel_area">
-<code class="sig-name descname">get_channel_area</code><span class="sig-paren">(</span><em class="sig-param">channel_id</em>, <em class="sig-param">location_id='upstream'</em>, <em class="sig-param">timewindow=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_channel_area"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_channel_area" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_channel_area</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">channel_id</span></em>, <em class="sig-param"><span class="n">location_id</span><span class="o">=</span><span class="default_value">'upstream'</span></em>, <em class="sig-param"><span class="n">timewindow</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_channel_area"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_channel_area" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pydsm.hydroh5.HydroH5.get_channel_avg_area">
-<code class="sig-name descname">get_channel_avg_area</code><span class="sig-paren">(</span><em class="sig-param">channel_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_channel_avg_area"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_channel_avg_area" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_channel_avg_area</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">channel_id</span></em>, <em class="sig-param"><span class="n">timewindow</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_channel_avg_area"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_channel_avg_area" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pydsm.hydroh5.HydroH5.get_channel_flow">
-<code class="sig-name descname">get_channel_flow</code><span class="sig-paren">(</span><em class="sig-param">channel_id</em>, <em class="sig-param">location_id='upstream'</em>, <em class="sig-param">timewindow=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_channel_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_channel_flow" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_channel_flow</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">channel_id</span></em>, <em class="sig-param"><span class="n">location_id</span><span class="o">=</span><span class="default_value">'upstream'</span></em>, <em class="sig-param"><span class="n">timewindow</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_channel_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_channel_flow" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pydsm.hydroh5.HydroH5.get_channel_locations">
 <code class="sig-name descname">get_channel_locations</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_channel_locations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_channel_locations" title="Permalink to this definition">¶</a></dt>
 <dd><p>return pandas DataFrame of channel locations ( upstream or downstream)</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pydsm.hydroh5.HydroH5.get_channel_stage">
-<code class="sig-name descname">get_channel_stage</code><span class="sig-paren">(</span><em class="sig-param">channel_id</em>, <em class="sig-param">location_id='upstream'</em>, <em class="sig-param">timewindow=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_channel_stage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_channel_stage" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_channel_stage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">channel_id</span></em>, <em class="sig-param"><span class="n">location_id</span><span class="o">=</span><span class="default_value">'upstream'</span></em>, <em class="sig-param"><span class="n">timewindow</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_channel_stage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_channel_stage" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pydsm.hydroh5.HydroH5.get_channels">
 <code class="sig-name descname">get_channels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_channels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_channels" title="Permalink to this definition">¶</a></dt>
 <dd><p>return pandas DataFrame of channel ids as indexed</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pydsm.hydroh5.HydroH5.get_data_tables">
 <code class="sig-name descname">get_data_tables</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_data_tables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_data_tables" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pydsm.hydroh5.HydroH5.get_qext">
 <code class="sig-name descname">get_qext</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_qext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_qext" title="Permalink to this definition">¶</a></dt>
 <dd><p>return external flows as defined in DSM2 Hydro</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pydsm.hydroh5.HydroH5.get_qext_flow">
-<code class="sig-name descname">get_qext_flow</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_qext_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_qext_flow" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_qext_flow</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">qext_id</span></em>, <em class="sig-param"><span class="n">timewindow</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_qext_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_qext_flow" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pydsm.hydroh5.HydroH5.get_reservoir_flow">
-<code class="sig-name descname">get_reservoir_flow</code><span class="sig-paren">(</span><em class="sig-param">reservoir_id</em>, <em class="sig-param">connection_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_reservoir_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_reservoir_flow" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_reservoir_flow</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reservoir_name</span></em>, <em class="sig-param"><span class="n">timewindow</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_reservoir_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_reservoir_flow" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pydsm.hydroh5.HydroH5.get_reservoir_height">
-<code class="sig-name descname">get_reservoir_height</code><span class="sig-paren">(</span><em class="sig-param">reservoir_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_reservoir_height"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_reservoir_height" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_reservoir_height</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reservoir_name</span></em>, <em class="sig-param"><span class="n">timewindow</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_reservoir_height"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_reservoir_height" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pydsm.hydroh5.HydroH5.get_reservoirs">
 <code class="sig-name descname">get_reservoirs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_reservoirs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_reservoirs" title="Permalink to this definition">¶</a></dt>
 <dd><p>return pandas DataFrame of reservoirs</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pydsm.hydroh5.HydroH5.get_transfer_flow">
-<code class="sig-name descname">get_transfer_flow</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_transfer_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_transfer_flow" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_transfer_flow</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">transfer_id</span></em>, <em class="sig-param"><span class="n">timewindow</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/hydroh5.html#HydroH5.get_transfer_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.hydroh5.HydroH5.get_transfer_flow" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -152,45 +152,45 @@ for given list of reservoirs</p>
 </div>
 <div class="section" id="module-pydsm.io">
 <span id="pydsm-io-module"></span><h2>pydsm.io module<a class="headerlink" href="#module-pydsm.io" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="pydsm.io.df_column_values_to_index">
-<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">df_column_values_to_index</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">column_label</em>, <em class="sig-param">matching_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#df_column_values_to_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.df_column_values_to_index" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">df_column_values_to_index</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">column_label</span></em>, <em class="sig-param"><span class="n">matching_values</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#df_column_values_to_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.df_column_values_to_index" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns in the index values for the column_label for the matching_values
 in the DataFrame of that column</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pydsm.io.df_to_dict">
-<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">df_to_dict</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">key_column='Name'</em>, <em class="sig-param">value_column='Value'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#df_to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.df_to_dict" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">df_to_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">key_column</span><span class="o">=</span><span class="default_value">'Name'</span></em>, <em class="sig-param"><span class="n">value_column</span><span class="o">=</span><span class="default_value">'Value'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#df_to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.df_to_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>creates a dictionary based on a key_column (default Name) mapped to a value_column (default Value)</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pydsm.io.get_datapaths">
-<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">get_datapaths</code><span class="sig-paren">(</span><em class="sig-param">modeltype='hydro'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#get_datapaths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.get_datapaths" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">get_datapaths</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">modeltype</span><span class="o">=</span><span class="default_value">'hydro'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#get_datapaths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.get_datapaths" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pydsm.io.get_model">
-<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">get_model</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#get_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.get_model" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">get_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#get_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.get_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns one of “hydro” or “qual”</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pydsm.io.list_groups_as_df">
-<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">list_groups_as_df</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">group_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#list_groups_as_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.list_groups_as_df" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">list_groups_as_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">group_path</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#list_groups_as_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.list_groups_as_df" title="Permalink to this definition">¶</a></dt>
 <dd><p>reads listing of group path as pd.DataFrame</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pydsm.io.list_table_paths">
-<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">list_table_paths</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#list_table_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.list_table_paths" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">list_table_paths</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#list_table_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.list_table_paths" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns a list of paths to tables (h5py.DataSets)</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pydsm.io.read_dsm2_table">
-<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">read_dsm2_table</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">table_path</em>, <em class="sig-param">column_values</em>, <em class="sig-param">column_names</em>, <em class="sig-param">start_time_key='start_time'</em>, <em class="sig-param">interval_key='interval'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#read_dsm2_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.read_dsm2_table" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">read_dsm2_table</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">table_path</span></em>, <em class="sig-param"><span class="n">column_values</span></em>, <em class="sig-param"><span class="n">column_names</span></em>, <em class="sig-param"><span class="n">start_time_key</span><span class="o">=</span><span class="default_value">'start_time'</span></em>, <em class="sig-param"><span class="n">interval_key</span><span class="o">=</span><span class="default_value">'interval'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#read_dsm2_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.read_dsm2_table" title="Permalink to this definition">¶</a></dt>
 <dd><p>filename: Name of h5 file (full path or relative path)
 table_path: Path within the h5 file to the values table e.g. /output/channel_concentrations
 column_values: Values used for the 2nd and 3rd dimension of table.</p>
@@ -206,23 +206,23 @@ returns DataFrame with time as index and variable and location (channel number)
 is the MultiIndex for columns</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pydsm.io.read_table_as_array">
 <code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">read_table_as_array</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">table_path</em>, <em class="sig-param">dtype=&lt;class 'str'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#read_table_as_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.read_table_as_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>reads table from h5 filename from the table_path and returns array of dtype</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pydsm.io.read_table_as_df">
-<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">read_table_as_df</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">table_path</em>, <em class="sig-param">sliver=slice(None</em>, <em class="sig-param">None</em>, <em class="sig-param">None)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#read_table_as_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.read_table_as_df" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">read_table_as_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">table_path</span></em>, <em class="sig-param"><span class="n">sliver</span><span class="o">=</span><span class="default_value">slice(None, None, None)</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#read_table_as_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.read_table_as_df" title="Permalink to this definition">¶</a></dt>
 <dd><p>reads table as a pandas.DateFrame
 if slice is specified, only that slice of the table is read, default is slice(None)
 returns a data frame with forcing datatype to string</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pydsm.io.read_table_attr">
-<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">read_table_attr</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">table_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#read_table_attr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.read_table_attr" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pydsm.io.</code><code class="sig-name descname">read_table_attr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">table_path</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/io.html#read_table_attr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pydsm.io.read_table_attr" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns a dictionary of attribute names to values</p>
 </dd></dl>
 
@@ -303,7 +303,7 @@ returns a data frame with forcing datatype to string</p>
       &copy;2019, Nicky Sandhu.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

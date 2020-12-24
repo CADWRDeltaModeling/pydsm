@@ -1,17 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>pydsm.hydroh5 &#8212; pydsm 0.2.1 documentation</title>
-    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pydsm.hydroh5 &#8212; pydsm 0.3+5.g65727c1.dirty documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -107,7 +107,7 @@
 <span class="sd">        return pandas DataFrame of reservoirs</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reservoirs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h5</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="n">HydroH5</span><span class="o">.</span><span class="n">_GEOM_PATH</span><span class="o">+</span><span class="s1">&#39;/reservoir_names&#39;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">str</span><span class="p">)</span>
+            <span class="n">HydroH5</span><span class="o">.</span><span class="n">_GEOM_PATH</span><span class="o">+</span><span class="s1">&#39;/reservoir_names&#39;</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">str</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reservoir_node_connections</span> <span class="o">=</span> <span class="n">h5common</span><span class="o">.</span><span class="n">read_compound_table</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">h5</span><span class="p">,</span> <span class="n">HydroH5</span><span class="o">.</span><span class="n">_GEOM_PATH</span><span class="o">+</span><span class="s1">&#39;/reservoir_node_connect&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reservoirs</span></div>
@@ -140,6 +140,15 @@
     <span class="k">def</span> <span class="nf">_is_sequence_like</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
         <span class="n">tobj</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">tobj</span><span class="p">,</span> <span class="s1">&#39;__len__&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">tobj</span><span class="p">,</span> <span class="s1">&#39;__getitem__&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_channel_ids_to_sequence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_id_slice</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        convert a slice of channel ids to a slice of channel indices into data table</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">channel_id_slice</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">channel_id_slice</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">channel_id_slice</span>
 
     <span class="k">def</span> <span class="nf">_channel_ids_to_indicies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_id_slice</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -191,20 +200,22 @@
         <span class="n">end_index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">et</span><span class="o">-</span><span class="n">table_start_time</span><span class="p">)</span><span class="o">/</span><span class="n">interval</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">slice</span><span class="p">(</span><span class="n">start_index</span><span class="p">,</span> <span class="n">end_index</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_get_channel_ts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_path</span><span class="p">,</span> <span class="n">channels</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;upstream&#39;</span><span class="p">,</span> <span class="n">timewindow</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_read_time_indexed_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_path</span><span class="p">,</span> <span class="n">timewindow</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">id_indicies</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">third_indices</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        return a pandas DataFrame of time series from the table for the given </span>
-<span class="sd">            list of channels</span>
-<span class="sd">            channel_location (&#39;upstream&#39; or &#39;downstream&#39;)</span>
-<span class="sd">            timewindow in the format of &lt;&lt;start time str&gt;&gt; - &lt;&lt;end time str&gt;&gt;, e.g. 01JAN1990 - 05JUL1992</span>
+<span class="sd">        returns a pandas DataFrame of time series from the table where </span>
+<span class="sd">         - the first index is time (if None retrieves the entire time window)</span>
+<span class="sd">            - specified as timewindow in the format of &lt;&lt;start time str&gt;&gt; - &lt;&lt;end time str&gt;&gt;, e.g. 01JAN1990 - 05JUL1992</span>
+<span class="sd">         - second index are the ids</span>
+<span class="sd">         - third index (if any) is the location identifier within the id aka 3rd dimension</span>
+
+<span class="sd">        The attributes of the HDF5 data sets contains &quot;start_time&quot; and &quot;interval&quot; for evenly spaced data. This is</span>
+<span class="sd">        used to infer the time window if none is given</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">h5</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">table_path</span><span class="p">)</span>
         <span class="c1">#</span>
         <span class="n">attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_attributes_from_table</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="c1">#</span>
-        <span class="n">channel_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_channel_ids_to_indicies</span><span class="p">(</span><span class="n">channels</span><span class="p">)</span>
-        <span class="n">location_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_channel_locations_to_indicies</span><span class="p">(</span>
-            <span class="n">location</span><span class="p">)</span>  <span class="c1"># FIXME: add location slicing</span>
+        <span class="n">id_indicies</span>
         <span class="n">stime</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;start_time&#39;</span><span class="p">])</span>
         <span class="c1"># if start time and end time given use the slice</span>
         <span class="k">if</span> <span class="n">timewindow</span><span class="p">:</span>
@@ -215,13 +226,69 @@
             <span class="n">timeSlice</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">timeSlice</span><span class="o">.</span><span class="n">start</span><span class="p">:</span>
             <span class="n">stime</span> <span class="o">=</span> <span class="n">stime</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;interval&#39;</span><span class="p">])</span><span class="o">*</span><span class="n">timeSlice</span><span class="o">.</span><span class="n">start</span>
-        <span class="n">darr</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">timeSlice</span><span class="p">,</span> <span class="n">channel_indices</span><span class="p">,</span> <span class="n">location_indices</span><span class="p">]</span>
+        <span class="n">darr</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">timeSlice</span><span class="p">,</span> <span class="n">id_indicies</span><span class="p">]</span> <span class="k">if</span> <span class="n">third_indices</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">data</span><span class="p">[</span><span class="n">timeSlice</span><span class="p">,</span> <span class="n">id_indicies</span><span class="p">,</span> <span class="n">third_indices</span><span class="p">]</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">darr</span><span class="p">,</span>
-                          <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;-&#39;</span><span class="o">+</span><span class="n">location</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">channels</span><span class="p">],</span>
                           <span class="n">index</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">stime</span><span class="p">,</span>
                                               <span class="n">freq</span><span class="o">=</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;interval&#39;</span><span class="p">],</span>
                                               <span class="n">periods</span><span class="o">=</span><span class="n">darr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
                           <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span>
+    
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">_get_channel_ts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_path</span><span class="p">,</span> <span class="n">channels</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;upstream&#39;</span><span class="p">,</span> <span class="n">timewindow</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        return a pandas DataFrame of time series from the table for the given </span>
+<span class="sd">            list of channels</span>
+<span class="sd">            channel_location (&#39;upstream&#39; or &#39;downstream&#39;)</span>
+<span class="sd">            timewindow in the format of &lt;&lt;start time str&gt;&gt; - &lt;&lt;end time str&gt;&gt;, e.g. 01JAN1990 - 05JUL1992</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">channel_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_channel_ids_to_indicies</span><span class="p">(</span><span class="n">channels</span><span class="p">)</span>
+        <span class="n">location_indices</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">location</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_channel_locations_to_indicies</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+        <span class="n">location_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="k">if</span> <span class="n">location</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_read_time_indexed_table</span><span class="p">(</span><span class="n">table_path</span><span class="p">,</span> <span class="n">timewindow</span><span class="p">,</span> <span class="n">channel_indices</span><span class="p">,</span> <span class="n">location_indices</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;-&#39;</span><span class="o">+</span><span class="n">location_str</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_channel_ids_to_sequence</span><span class="p">(</span><span class="n">channels</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">df</span>
+
+    <span class="k">def</span> <span class="nf">_normalize_to_slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">str_or_seq</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">str_or_seq</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">str_or_seq</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_sequence_like</span><span class="p">(</span><span class="n">str_or_seq</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">str_or_seq</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">str_or_seq</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">str_or_seq</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> should be string, sequence of strings or slice: called with type: </span><span class="si">%s</span><span class="s1">&#39;</span>
+                                <span class="o">%</span><span class="p">(</span><span class="n">str_or_seq</span><span class="p">,</span><span class="nb">type</span><span class="p">(</span><span class="n">str_or_seq</span><span class="p">)))</span>
+
+    <span class="k">def</span> <span class="nf">_get_reservoir_ts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_path</span><span class="p">,</span> <span class="n">reservoirs_names</span><span class="p">,</span> <span class="n">connection_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timewindow</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">res</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_reservoirs</span><span class="p">()</span>
+        <span class="n">rnc</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reservoir_node_connections</span>
+        <span class="n">res_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_normalize_to_slice</span><span class="p">(</span><span class="n">reservoirs_names</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">connection_ids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="n">res</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">res_names</span><span class="p">)]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">connection_ids</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">res_names</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="s2">&quot;Connection ID array length should match reservoir names&quot;</span>
+            <span class="n">mask</span><span class="o">=</span><span class="n">rnc</span><span class="p">[[</span><span class="s1">&#39;res_name&#39;</span><span class="p">,</span><span class="s1">&#39;connect_index&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">isin</span><span class="p">({</span><span class="s1">&#39;res_name&#39;</span><span class="p">:</span><span class="n">res_names</span><span class="p">,</span><span class="s1">&#39;connect_index&#39;</span><span class="p">:</span><span class="n">connection_ids</span><span class="p">})</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="n">rnc</span><span class="p">[</span><span class="n">mask</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_time_indexed_table</span><span class="p">(</span><span class="n">table_path</span><span class="p">,</span> <span class="n">timewindow</span><span class="p">,</span> <span class="n">indices</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">connection_ids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">res_names</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="nb">zip</span><span class="p">(</span><span class="n">reservoirs_names</span><span class="p">,</span><span class="n">connection_ids</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">df</span>
+
+    <span class="k">def</span> <span class="nf">_get_qext_ts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_path</span><span class="p">,</span> <span class="n">qext_names</span><span class="p">,</span> <span class="n">timewindow</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">qext</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_qext</span><span class="p">()</span>
+        <span class="n">qext_norm</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_normalize_to_slice</span><span class="p">(</span><span class="n">qext_names</span><span class="p">)</span>
+        <span class="n">qext_indicies</span> <span class="o">=</span> <span class="n">qext</span><span class="p">[</span><span class="n">qext</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">qext_norm</span><span class="p">)]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_time_indexed_table</span><span class="p">(</span><span class="n">table_path</span><span class="p">,</span> <span class="n">timewindow</span><span class="p">,</span> <span class="n">qext_indicies</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">qext_norm</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">df</span>
 
 <div class="viewcode-block" id="HydroH5.get_channel_flow"><a class="viewcode-back" href="../../pydsm.html#pydsm.hydroh5.HydroH5.get_channel_flow">[docs]</a>    <span class="k">def</span> <span class="nf">get_channel_flow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_id</span><span class="p">,</span> <span class="n">location_id</span><span class="o">=</span><span class="s1">&#39;upstream&#39;</span><span class="p">,</span> <span class="n">timewindow</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -233,20 +300,22 @@
 <div class="viewcode-block" id="HydroH5.get_channel_stage"><a class="viewcode-back" href="../../pydsm.html#pydsm.hydroh5.HydroH5.get_channel_stage">[docs]</a>    <span class="k">def</span> <span class="nf">get_channel_stage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_id</span><span class="p">,</span> <span class="n">location_id</span><span class="o">=</span><span class="s1">&#39;upstream&#39;</span><span class="p">,</span> <span class="n">timewindow</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_channel_ts</span><span class="p">(</span><span class="s1">&#39;/hydro/data/channel stage&#39;</span><span class="p">,</span> <span class="n">channel_id</span><span class="p">,</span> <span class="n">location_id</span><span class="p">,</span> <span class="n">timewindow</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="HydroH5.get_channel_avg_area"><a class="viewcode-back" href="../../pydsm.html#pydsm.hydroh5.HydroH5.get_channel_avg_area">[docs]</a>    <span class="k">def</span> <span class="nf">get_channel_avg_area</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_id</span><span class="p">):</span>
-        <span class="k">pass</span></div>
+<div class="viewcode-block" id="HydroH5.get_channel_avg_area"><a class="viewcode-back" href="../../pydsm.html#pydsm.hydroh5.HydroH5.get_channel_avg_area">[docs]</a>    <span class="k">def</span> <span class="nf">get_channel_avg_area</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_id</span><span class="p">,</span> <span class="n">timewindow</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_channel_ts</span><span class="p">(</span><span class="s1">&#39;/hydro/data/channel avg area&#39;</span><span class="p">,</span> <span class="n">channel_id</span><span class="p">,</span> <span class="n">timewindow</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="HydroH5.get_reservoir_flow"><a class="viewcode-back" href="../../pydsm.html#pydsm.hydroh5.HydroH5.get_reservoir_flow">[docs]</a>    <span class="k">def</span> <span class="nf">get_reservoir_flow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reservoir_id</span><span class="p">,</span> <span class="n">connection_id</span><span class="p">):</span>
-        <span class="k">pass</span></div>
+<div class="viewcode-block" id="HydroH5.get_reservoir_flow"><a class="viewcode-back" href="../../pydsm.html#pydsm.hydroh5.HydroH5.get_reservoir_flow">[docs]</a>    <span class="k">def</span> <span class="nf">get_reservoir_flow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reservoir_name</span><span class="p">,</span> <span class="n">timewindow</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">res</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_reservoirs</span><span class="p">()</span>
+        <span class="n">rt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reservoir_node_connections</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">reservoir_node_connections</span><span class="o">.</span><span class="n">res_name</span><span class="o">==</span><span class="n">reservoir_name</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_reservoir_ts</span><span class="p">(</span><span class="s1">&#39;/hydro/data/reservoir flow&#39;</span><span class="p">,</span> <span class="n">rt</span><span class="o">.</span><span class="n">res_name</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">rt</span><span class="o">.</span><span class="n">connect_index</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">timewindow</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="HydroH5.get_reservoir_height"><a class="viewcode-back" href="../../pydsm.html#pydsm.hydroh5.HydroH5.get_reservoir_height">[docs]</a>    <span class="k">def</span> <span class="nf">get_reservoir_height</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reservoir_id</span><span class="p">):</span>
-        <span class="k">pass</span></div>
+<div class="viewcode-block" id="HydroH5.get_reservoir_height"><a class="viewcode-back" href="../../pydsm.html#pydsm.hydroh5.HydroH5.get_reservoir_height">[docs]</a>    <span class="k">def</span> <span class="nf">get_reservoir_height</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reservoir_name</span><span class="p">,</span> <span class="n">timewindow</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_reservoir_ts</span><span class="p">(</span><span class="s1">&#39;/hydro/data/reservoir height&#39;</span><span class="p">,</span> <span class="n">reservoir_name</span><span class="p">,</span> <span class="n">timewindow</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="HydroH5.get_qext_flow"><a class="viewcode-back" href="../../pydsm.html#pydsm.hydroh5.HydroH5.get_qext_flow">[docs]</a>    <span class="k">def</span> <span class="nf">get_qext_flow</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span></div>
+<div class="viewcode-block" id="HydroH5.get_qext_flow"><a class="viewcode-back" href="../../pydsm.html#pydsm.hydroh5.HydroH5.get_qext_flow">[docs]</a>    <span class="k">def</span> <span class="nf">get_qext_flow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qext_id</span><span class="p">,</span> <span class="n">timewindow</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_qext_ts</span><span class="p">(</span><span class="s1">&#39;/hydro/data/qext flow&#39;</span><span class="p">,</span> <span class="n">qext_id</span><span class="p">,</span> <span class="n">timewindow</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="HydroH5.get_transfer_flow"><a class="viewcode-back" href="../../pydsm.html#pydsm.hydroh5.HydroH5.get_transfer_flow">[docs]</a>    <span class="k">def</span> <span class="nf">get_transfer_flow</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span></div></div>
+<div class="viewcode-block" id="HydroH5.get_transfer_flow"><a class="viewcode-back" href="../../pydsm.html#pydsm.hydroh5.HydroH5.get_transfer_flow">[docs]</a>    <span class="k">def</span> <span class="nf">get_transfer_flow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transfer_id</span><span class="p">,</span> <span class="n">timewindow</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_channel_ts</span><span class="p">(</span><span class="s1">&#39;/hydro/data/transfer flow&#39;</span><span class="p">,</span> <span class="n">transfer_id</span><span class="p">,</span> <span class="n">timewindow</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>
@@ -312,7 +381,7 @@
       &copy;2019, Nicky Sandhu.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

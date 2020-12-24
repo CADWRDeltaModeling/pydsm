@@ -1,17 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>Examples &#8212; pydsm 0.2.1 documentation</title>
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Examples &#8212; pydsm 0.3+5.g65727c1.dirty documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/language_data.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -38,10 +38,15 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="dsm2_read_input.html">Reading Hydro echo files into Pandas DataFrame</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html#Read-input-into-a-dictionary-of-pandas-DataFrames">Read input into a dictionary of pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html#Print-list-of-all-tables">Print list of all tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html#Display-the-DataFrame-for-a-table,-e.g. CHANNEL">Display the DataFrame for a table, e.g. CHANNEL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html#Programmatic-inspection-of-input">Programmatic inspection of input</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html#Combining-input-tables">Combining input tables</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="dsm2_read_input.html#Visualizing-input-data">Visualizing input data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dsm2_read_input.html#Writing-input-to-file">Writing input to file</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dsm2_input_network.html">DSM2 as a graph network</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="dsm2_input_network.html#Read-in-input-file">Read in input file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dsm2_input_network.html#Convert-to-a-graph-network">Convert to a graph network</a></li>
@@ -93,6 +98,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">pydsm</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html">Reading Hydro echo files into Pandas DataFrame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html#Visualizing-input-data">Visualizing input data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html#Writing-input-to-file">Writing input to file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dsm2_input_network.html">DSM2 as a graph network</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dsm2_h5_read_example.html">Reading hydro hdf5 files from DSM2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dsm2_h5_read_example.html#Hydro-data-file-structure">Hydro data file structure</a></li>
@@ -139,7 +146,7 @@
       &copy;2019, Nicky Sandhu.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
