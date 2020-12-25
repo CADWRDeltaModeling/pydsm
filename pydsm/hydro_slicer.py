@@ -25,22 +25,33 @@ def slice_table(tbl, stime, etime):
     return tbl[slice(bi, ei)]
 
 
-def copy_attrs_table(ntbl, tbl):
-    for a in tbl.attrs:
-        ntbl.attrs[a] = tbl.attrs[a]
+def copy_attrs_table(fromtbl, totbl):
+    for a in fromtbl.attrs:
+        totbl.attrs[a] = fromtbl.attrs[a]
 
-def copy_path(path,fromhf,tohf):
+
+def mins_since_origin(dstr, origin_date='1899-12-30'):
+    '''
+    origin date default is HEC convention.
+    '''
+    delt = pd.to_datetime(dstr)-pd.to_datetime(origin_date)
+    return delt.total_seconds()/60.
+
+
+def copy_path(path, fromhf, tohf):
     for tname in fromhf[path]:
-        tpath = '%s/%s' % (path,tname)
+        tpath = '%s/%s' % (path, tname)
         tbl = fromhf[tpath]
         tohf[tpath] = fromhf[tpath][:]
         ntbl = tohf[tpath]
         copy_attrs_table(ntbl, tbl)
 
-#infile='historical_v8.h5'
-#outfile='historical_sliced.h5'
-#stime = '1990-01-10'
-#etime = '1990-01-15'
+# infile='historical_v8.h5'
+# outfile='historical_sliced.h5'
+# stime = '1990-01-10'
+# etime = '1990-01-15'
+
+
 @click.command()
 @click.argument('infile')
 @click.argument('outfile')
@@ -58,15 +69,23 @@ def slice_hydro(infile, outfile, stime, etime):
         STIME (str): Datetime string, e.g. 1990-01-10
 
         ETIME (str): Datetime string, e.g. 1990-01-15
-    """    
-    with h5py.File(infile,'r') as hf:
+    """
+    with h5py.File(infile, 'r') as hf:
         with h5py.File(outfile, 'w-') as nhf:
+            nhf.create_group('hydro')
+            copy_attrs_table(hf['/hydro'], nhf['/hydro'])
+            nhf['/hydro'].attrs['Start time string'] = bytes(str(pd.to_datetime(
+                stime).strftime('%d%b%Y %H%M').upper()), 'utf-8')
+            nhf['/hydro'].attrs['Start time']=int(mins_since_origin(stime))
+            nhf.create_group('/hydro/data')
+            copy_attrs_table(hf['/hydro/data'], nhf['/hydro/data'])
+            nhf['/hydro/data'].attrs['Start Time']=int(mins_since_origin(stime))
             for tname in hf['/hydro/data']:
-                tpath = '/hydro/data/%s' % tname
-                tbl = hf[tpath]
-                nhf[tpath] = slice_table(tbl, stime, etime)
-                ntbl = nhf[tpath]
-                copy_attrs_table(ntbl, tbl)
-                ntbl.attrs['start_time'] = bytes(str(pd.to_datetime(stime)), 'utf-8')
-            copy_path('/hydro/geometry',hf,nhf)
-            copy_path('/hydro/input',hf,nhf)
+                tpath='/hydro/data/%s' % tname
+                tbl=hf[tpath]
+                nhf[tpath]=slice_table(tbl, stime, etime)
+                ntbl=nhf[tpath]
+                copy_attrs_table(tbl, ntbl)
+                ntbl.attrs['start_time']=bytes(str(pd.to_datetime(stime)), 'utf-8')
+            copy_path('/hydro/geometry', hf, nhf)
+            copy_path('/hydro/input', hf, nhf)
