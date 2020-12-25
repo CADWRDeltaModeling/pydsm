@@ -1,10 +1,12 @@
-from pydsm.ptm_animator import ptm_animate
 import sys
 import click
 import pyhecdss
 from vtools.functions import filter
 import pandas as pd
 import numpy as np
+
+from pydsm.ptm_animator import ptm_animate
+from pydsm.hydro_slicer import slice_hydro
 
 @click.group()
 def main():
@@ -182,5 +184,6 @@ def compare_dss(dssfile1, dssfile2, tolerance=3, cpart=None):
 main.add_command(extract_dss)
 main.add_command(compare_dss)
 main.add_command(ptm_animate)
+main.add_command(slice_hydro)
 if __name__ == "__main__":
     sys.exit(main())
