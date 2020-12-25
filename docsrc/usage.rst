@@ -64,6 +64,7 @@ Extract DSS
 
 PTM Animate
 ~~~~~~~~~~~~
+
     To use pydsm to run ptm animator. 
 
     Usage::
@@ -73,3 +74,26 @@ PTM Animate
         Options:
         --help  Show this message and exit.pydsm ptm-animate
 
+Slice Hydro
+~~~~~~~~~~~
+
+    Slices hydro tidefile and writes out a hydro tidefile
+
+    Usage:: 
+    
+        pydsm slice-hydro [OPTIONS] INFILE OUTFILE STIME ETIME
+
+        Slices hydro tidefile and writes out a hydro tidefile
+
+        Args:
+
+            INFILE (str): Input hydro tidefile
+
+            OUTFILE (str): Output hydro tidefile
+
+            STIME (str): Datetime string, e.g. 1990-01-10
+
+            ETIME (str): Datetime string, e.g. 1990-01-15
+
+        Options:
+        --help  Show this message and exit.
