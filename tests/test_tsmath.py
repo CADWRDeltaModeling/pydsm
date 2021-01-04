@@ -32,3 +32,17 @@ def test_per_min(linear_timeseries):
     tsmin=tsmath.per_min(linear_timeseries)
     assert tsmin.loc['02JAN2000'].values[0] == 0
 
+def test_mse(linear_timeseries):
+    assert 0 == tsmath.mse(linear_timeseries.iloc[:,0],linear_timeseries.iloc[:,0])
+
+def test_rmse(linear_timeseries):
+    assert 0 == tsmath.rmse(linear_timeseries.iloc[:,0],linear_timeseries.iloc[:,0])
+
+def test_nse(linear_timeseries):
+    assert 1 == tsmath.nash_sutcliffe(linear_timeseries.iloc[:,0,],linear_timeseries.iloc[:,0])
+
+def test_percent_bias(linear_timeseries):
+    assert 0 == tsmath.percent_bias(linear_timeseries.iloc[:,0],linear_timeseries.iloc[:,0])
+
+def test_mean_error(linear_timeseries):
+    assert 0 == tsmath.mean_error(linear_timeseries.iloc[:,0], linear_timeseries.iloc[:,0])
