@@ -17,6 +17,7 @@ from pandas.core.frame import DataFrame
 from vtools.functions.filter import godin
 from pydsm.functions import tidalhl
 
+Study = collections.namedtuple('Study', ['name', 'dssfile'])
 Location = collections.namedtuple('Location', ['name', 'bpart', 'description'])
 VarType = collections.namedtuple('VarType', ['name', 'units'])
 
@@ -129,12 +130,11 @@ class PostProcessor:
     TIME_INTERVAL = '15MIN'
     CPART_SUFFIX_MAP = {}
 
-    def __init__(self, fname: str, location: Location, vartype: VarType, study_name: str):
-        self.fname = fname
+    def __init__(self, study: Study, location: Location, vartype: VarType):
+        self.study = study
         self.location = location
         self.vartype = vartype
-        self.study_name = study_name
-        self.cache = PostProCache(self.fname)
+        self.cache = PostProCache(self.study.dssfile)
         self._set_default_ops()
 
     def _set_default_ops(self):
@@ -157,14 +157,14 @@ class PostProcessor:
 
     def _read_ts(self):
         pathname = '//%s/%s////' % (self.location.bpart, self.vartype.name)
-        return pyhecdss.get_ts(self.fname, pathname.upper())
+        return pyhecdss.get_ts(self.study.dssfile, pathname.upper())
 
     def process(self):
         with contextlib.closing(self._read_ts()) as dfgen:
             if self.do_resampling_with_merging:
-                    dflist = [resample_with_interpolation(
-                        df.data, time_interval=PostProcessor.TIME_INTERVAL) for df in dfgen]
-                    df = merge(dflist)
+                dflist = [resample_with_interpolation(
+                    df.data, time_interval=PostProcessor.TIME_INTERVAL) for df in dfgen]
+                df = merge(dflist)
             else:
                 df = next(dfgen).data
                 convert_index_to_timestamps(df)  # inplace change of index
@@ -180,13 +180,13 @@ class PostProcessor:
         self.gdf = godin(self.df)
         self.high, self.low = tidalhl.get_tidal_hl_rolling(self.df)
         self.amp = tidalhl.get_tidal_amplitude(self.high, self.low)
-    
+
     def clear_refs(self):
-        self.df=self.gdf=self.high=self.low=self.amp=None
+        self.df = self.gdf = self.high = self.low = self.amp = None
 
     def _store(self, df, cpart_suffix='', epart=TIME_INTERVAL):
         self.cache.store(df, self.vartype.units, self.location.name, self.vartype.name + cpart_suffix,
-                         epart, self.study_name)
+                         epart, self.study.name)
 
     def _load(self, cpart_suffix='', timewindow=''):
         return self.cache.load(self.location.name, self.vartype.name+cpart_suffix, timewindow).data
@@ -253,11 +253,11 @@ def build_processors(dssfile, locationfile, vartype, units, study_name, observed
     dfloc = load_location_file(locationfile)
     processors = []
     for index, row in dfloc.iterrows():
-        processor = PostProcessor(dssfile,
+        processor = PostProcessor(Study(study_name, dssfile),
                                   Location(row['Name'],
                                            row['BPart'] if observed else row['Name'],
                                            row['Description']),
-                                  VarType(vartype, units), study_name)
+                                  VarType(vartype, units))
         if observed:  # TODO: Could be pushed out to a processing instruction file
             processor.do_resample_with_merge('15MIN')
             processor.do_fill_in()
@@ -269,15 +269,17 @@ def build_processors(dssfile, locationfile, vartype, units, study_name, observed
 
 
 def run_processor(processor):
-    logging.info('Running %s/%s'%(processor.location.name,processor.vartype.name))
-    print('Running %s/%s'%(processor.location.name,processor.vartype.name))
+    logging.info('Running %s/%s' % (processor.location.name, processor.vartype.name))
+    print('Running %s/%s' % (processor.location.name, processor.vartype.name))
     processor.process()
-    logging.info('Storing %s/%s'%(processor.location.name,processor.vartype.name))
+    logging.info('Storing %s/%s' % (processor.location.name, processor.vartype.name))
     processor.store_processed()
     processor.clear_refs()
-    logging.info('Done %s/%s'%(processor.location.name,processor.vartype.name))
+    logging.info('Done %s/%s' % (processor.location.name, processor.vartype.name))
 
 #
+
+
 @click.command()
 @click.argument('dssfile', type=click.Path(exists=True))
 @click.argument('locationfile', type=click.Path(exists=True))
@@ -298,8 +300,8 @@ def postpro(dssfile, locationfile, vartype, units, study_name, observed=False):
     """
     dfloc = load_location_file(locationfile)
     for index, row in dfloc.iterrows():
-        processor = PostProcessor(dssfile, Location(
-            row['Name'], row['BPart'], row['Description']), VarType(vartype, units), study_name)
+        processor = PostProcessor(Study(study_name, dssfile), Location(
+            row['Name'], row['BPart'], row['Description']), VarType(vartype, units))
         if observed:  # TODO: Could be pushed out to a processing instruction file
             processor.do_resample_with_merge('15MIN')
             processor.do_fill_in()
@@ -309,13 +311,13 @@ def postpro(dssfile, locationfile, vartype, units, study_name, observed=False):
         processor.store_processed()
 
 
-def postpro_diff(dssfile1, dssfile2, locationfile, vartype, units, study_name1, study_name2):
+def postpro_diff(study1, study2, locationfile, vartype, units):
     dfloc = load_location_file(locationfile)
     for index, row in dfloc.iterrows():
-        p1 = PostProcessor(dssfile1, Location(
-            row['Name'], row['BPart'], row['Description']), VarType(vartype, units), study_name1)
-        p2 = PostProcessor(dssfile2, Location(
-            row['Name'], row['BPart'], row['Description']), VarType(vartype, units), study_name2)
+        p1 = PostProcessor(study1, Location(
+            row['Name'], row['BPart'], row['Description']), VarType(vartype, units))
+        p2 = PostProcessor(study2, Location(
+            row['Name'], row['BPart'], row['Description']), VarType(vartype, units))
         p1.load_processed()
         p2.load_processed()
         p1.process_diff(p2)
