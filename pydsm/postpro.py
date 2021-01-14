@@ -258,12 +258,9 @@ def build_processors(dssfile, locationfile, vartype, units, study_name, observed
                                            row['BPart'] if observed else row['Name'],
                                            row['Description']),
                                   VarType(vartype, units))
-        if observed:  # TODO: Could be pushed out to a processing instruction file
+        if observed:
             processor.do_resample_with_merge('15MIN')
             processor.do_fill_in()
-            # TODO: Should be pushed out to an external file
-            if vartype == 'FLOW' and row['Name'] == 'VCU':
-                processor.do_scale(-1)
         processors.append(processor)
     return processors
 
