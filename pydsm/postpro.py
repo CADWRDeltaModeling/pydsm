@@ -109,7 +109,7 @@ class PostProCache:
         self.fname = PostProCache.postpro_filename(fname)
 
     def store(self, df, units, bpart, cpart, epart, fpart):
-        with pyhecdss.DSSFile(self.fname) as dh:
+        with pyhecdss.DSSFile(self.fname, create_new=True) as dh:
             if PostProCache.is_rts(df):
                 dh.write_rts('/%s/%s/%s//%s/%s/' % (PostProCache.A_PART, bpart.upper(), cpart.upper(), epart.upper(), fpart.upper()),
                              df, units.upper(), 'INST-VAL')
@@ -265,13 +265,22 @@ def build_processors(dssfile, locationfile, vartype, units, study_name, observed
     return processors
 
 
-def run_processor(processor):
+def run_processor(processor, store=True, clear=True):
     logging.info('Running %s/%s' % (processor.location.name, processor.vartype.name))
     print('Running %s/%s' % (processor.location.name, processor.vartype.name))
-    processor.process()
-    logging.info('Storing %s/%s' % (processor.location.name, processor.vartype.name))
-    processor.store_processed()
-    processor.clear_refs()
+    try:
+        processor.process()
+    except Exception as ex:
+        errmsg='Failed to process {processor.location.name}/{processor.vartype.name}: '
+        print(errmsg)
+        logging.error(errmsg)
+        raise ex
+    if store: 
+        logging.info('Storing %s/%s' % (processor.location.name, processor.vartype.name))
+        processor.store_processed()
+    if clear:
+        logging.info('Clearing %s/%s' % (processor.location.name, processor.vartype.name))
+        processor.clear_refs()
     logging.info('Done %s/%s' % (processor.location.name, processor.vartype.name))
 
 #
@@ -302,11 +311,7 @@ def postpro(dssfile, locationfile, vartype, units, study_name, observed=False):
         if observed:  # TODO: Could be pushed out to a processing instruction file
             processor.do_resample_with_merge('15MIN')
             processor.do_fill_in()
-            if vartype == 'FLOW' and row['Name'] == 'VCU':
-                processor.do_scale(-1)
-        processor.process()
-        processor.store_processed()
-
+        run_processor(processor, store=True, clear=False)
 
 def postpro_diff(study1, study2, locationfile, vartype, units):
     dfloc = load_location_file(locationfile)
