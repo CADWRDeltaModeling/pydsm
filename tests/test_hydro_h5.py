@@ -8,7 +8,7 @@ import pandas as pd
 class TestHydroH5:
     @pytest.fixture(scope="module")
     def hydro(self):
-        filename = os.path.join(os.path.dirname(__file__), 'historical_v82.h5')
+        filename = os.path.join(os.path.dirname(__file__), 'data', 'historical_v82.h5')
         return HydroH5(filename)
 
     def test_is_hydro_file(self, hydro):
@@ -51,7 +51,7 @@ class TestHydroH5:
         assert hydro._is_sequence_like(np.array(5))
 
     def test_get_channel_flow_441(self, hydro):
-        f441 = hydro.get_channel_flow('441','upstream')
+        f441 = hydro.get_channel_flow('441', 'upstream')
         assert f441.count()[0] == 1393
 
     def test_get_channel_flow(self, hydro):
@@ -65,7 +65,7 @@ class TestHydroH5:
         assert flow4_5up.mean()[1] == pytest.approx(1248.0035)
         # --- regression saves for compare
         # flow4up.to_csv('flow4up.csv')
-        fname = os.path.join(os.path.dirname(__file__), 'flow4up.csv')
+        fname = os.path.join(os.path.dirname(__file__), 'data', 'flow4up.csv')
         cflow4up = pd.read_csv(fname, index_col=[
                                0], parse_dates=[0], dtype=np.float32)
         pd.testing.assert_frame_equal(cflow4up, flow4up)
@@ -80,7 +80,7 @@ class TestHydroH5:
         area4up = hydro.get_channel_area('4', 'upstream')
         # --- regression saves for compare
         # area4up.to_csv('area4up.csv')
-        fname = os.path.join(os.path.dirname(__file__), 'area4up.csv')
+        fname = os.path.join(os.path.dirname(__file__), 'data', 'area4up.csv')
         carea4up = pd.read_csv(fname, index_col=[
                                0], parse_dates=[0], dtype=np.float32)
         pd.testing.assert_frame_equal(carea4up, area4up)
@@ -88,34 +88,34 @@ class TestHydroH5:
     def test_get_channel_stage(self, hydro):
         stage4up = hydro.get_channel_stage('4', 'upstream')
         # --- regression saves for compare
-        #stage4up.to_csv('stage4up.csv')
-        fname = os.path.join(os.path.dirname(__file__), 'stage4up.csv')
+        # stage4up.to_csv('stage4up.csv')
+        fname = os.path.join(os.path.dirname(__file__), 'data', 'stage4up.csv')
         cstage4up = pd.read_csv(fname, index_col=[
-                               0], parse_dates=[0], dtype=np.float32)
-        pd.testing.assert_frame_equal(cstage4up,stage4up)
+            0], parse_dates=[0], dtype=np.float32)
+        pd.testing.assert_frame_equal(cstage4up, stage4up)
 
     def test_get_channel_avg_area(self, hydro):
-        area441=hydro.get_channel_avg_area('441')
+        area441 = hydro.get_channel_avg_area('441')
         # --- regression saves for compare
-        #area441.to_csv('area441.csv')
-        fname = os.path.join(os.path.dirname(__file__), 'area441.csv')
+        # area441.to_csv('area441.csv')
+        fname = os.path.join(os.path.dirname(__file__), 'data', 'area441.csv')
         carea441 = pd.read_csv(fname, index_col=[
                                0], parse_dates=[0], dtype=np.float32)
-        pd.testing.assert_frame_equal(carea441,area441)                       
+        pd.testing.assert_frame_equal(carea441, area441)
 
     def test_get_reservoir_flow(self, hydro):
-        rflow=hydro.get_reservoir_flow('franks_tract')
+        rflow = hydro.get_reservoir_flow('franks_tract')
         assert not rflow.empty
-        assert rflow.values.shape == (1393,6)
+        assert rflow.values.shape == (1393, 6)
 
-    def test_get_reservoir_height(self,hydro):
-        rht=hydro.get_reservoir_height('mildred')
+    def test_get_reservoir_height(self, hydro):
+        rht = hydro.get_reservoir_height('mildred')
         assert not rht.empty
 
-    def test_get_qext_flow(self,hydro):
-        qn=hydro.get_qext()
-        assert not qn[qn.name=='calaveras'].empty
-        qf=hydro.get_qext_flow('calaveras')
+    def test_get_qext_flow(self, hydro):
+        qn = hydro.get_qext()
+        assert not qn[qn.name == 'calaveras'].empty
+        qf = hydro.get_qext_flow('calaveras')
         print(qf)
         assert not qf.empty
 
