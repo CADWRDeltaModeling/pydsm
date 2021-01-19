@@ -153,55 +153,59 @@ def extract_dss(dssfile, outfile, cpart, godin_filter, daily_average, daily_max,
 
 @click.command()
 @click.option("--cpart", help="filter by cpart string match (e.g. EC for only loading EC)")
-@click.option("--tolerance", default=3, help="number of digits after decimal. Defaults to 3")
+@click.option("--threshold", default=1e-3, help="Threshold to check for mean squared error")
 @click.option("--metricsfile", default="compare_dss_metrics_diff.csv", help="name of file to write out metrics differnce")
 @click.argument("dssfile1", type=click.Path(exists=True))
 @click.argument("dssfile2", type=click.Path(exists=True))
-def compare_dss(dssfile1, dssfile2, tolerance=3, cpart=None, metricsfile='compare_dss_metrics_diff.csv'):
+def compare_dss(dssfile1, dssfile2, threshold=1e-3, cpart=None, godin=False, metricsfile='compare_dss_metrics_diff.csv'):
     '''
-    Compares the dss files for common pathnames (B and C parts)
-    after filtering for matching c parts
+    Compares the dss files for common pathnames (B and C parts) and writes out various metrics to file
+    Filtering for matching c parts
     and compare values with tolerance (default of 3 digits)
     '''
     pyhecdss.set_message_level(0)
-    d1 = pyhecdss.DSSFile(dssfile1)
-    d2 = pyhecdss.DSSFile(dssfile2)
-    dc1 = d1.read_catalog()
-    dc2 = d2.read_catalog()
-    if cpart != None:
-        dc1 = dc1[dc1.C == cpart]
-        dc2 = dc2[dc2.C == cpart]
-    # common B and C
-    cc = dc1.merge(dc2, on=['B', 'C'])
-    metrics = []
-    for index, row in cc.iterrows():
-        rowid = '%s/%s' % (row.loc['B'], row.loc['C'])
-        print('Comparing %s' % rowid)
-        p1 = d1.get_pathnames(dc1[(dc1.B == row.loc['B']) & (dc1.C == row.loc['C'])])
-        df1, u1, p1 = d1.read_rts(p1[0])
-        p2 = d2.get_pathnames(dc2[(dc2.B == row.loc['B']) & (dc2.C == row.loc['C'])])
-        df2, u2, p2 = d2.read_rts(p2[0])
-        series1 = df1.iloc[:, 0]
-        series2 = df2.iloc[:, 0]
-        metrics.append((rowid, tsmath.mean_error(series1, series2),
-                        tsmath.mse(series1, series2),
-                        tsmath.rmse(series1, series2),
-                        tsmath.nash_sutcliffe(series1, series2),
-                        tsmath.percent_bias(series1, series2)))
-    dfmetrics = pd.DataFrame.from_records(
-        metrics, columns=['name', 'mean_error', 'mse', 'rmse', 'nash_sutcliffe', 'percent_bias'])
-    # -- display missing or unmatched pathnames
-    missingc1 = dc1[(~dc1.B.isin(cc.B)) & (~dc1.C.isin(cc.C))]
-    missingc2 = dc2[(~dc2.B.isin(cc.B)) & (~dc2.C.isin(cc.C))]
-    if not missingc1.empty:
-        print('No matches for FILE1: %s' % dssfile1)
-        print(missingc1)
-    if not missingc2.empty:
-        print('No matches for FILE2: %s' % dssfile2)
-        print(missingc2)
-    print(dfmetrics)
-    print('Writing out metrics to file: ', metricsfile)
-    dfmetrics.to_csv(metricsfile)
+    with pyhecdss.DSSFile(dssfile1) as d1, pyhecdss.DSSFile(dssfile2) as d2:
+        dc1 = d1.read_catalog()
+        dc2 = d2.read_catalog()
+        if cpart != None:
+            dc1 = dc1[dc1.C == cpart]
+            dc2 = dc2[dc2.C == cpart]
+        # common B and C
+        cc = dc1.merge(dc2, on=['B', 'C'])
+        metrics = []
+        for index, row in cc.iterrows():
+            rowid = '%s/%s' % (row.loc['B'], row.loc['C'])
+            print('Comparing %s' % rowid)
+            p1 = d1.get_pathnames(dc1[(dc1.B == row.loc['B']) & (dc1.C == row.loc['C'])])
+            df1, u1, p1 = d1.read_rts(p1[0])
+            p2 = d2.get_pathnames(dc2[(dc2.B == row.loc['B']) & (dc2.C == row.loc['C'])])
+            df2, u2, p2 = d2.read_rts(p2[0])
+            series1 = df1.iloc[:, 0]
+            series2 = df2.iloc[:, 0]
+            metrics.append((rowid, tsmath.mean_error(series1, series2),
+                            tsmath.mse(series1, series2),
+                            tsmath.rmse(series1, series2),
+                            tsmath.nash_sutcliffe(series1, series2),
+                            tsmath.percent_bias(series1, series2)))
+        dfmetrics = pd.DataFrame.from_records(
+            metrics, columns=['name', 'mean_error', 'mse', 'rmse', 'nash_sutcliffe', 'percent_bias'])
+        # -- display missing or unmatched pathnames
+        missingc1 = dc1[(~dc1.B.isin(cc.B)) & (~dc1.C.isin(cc.C))]
+        missingc2 = dc2[(~dc2.B.isin(cc.B)) & (~dc2.C.isin(cc.C))]
+        if not missingc1.empty:
+            print('No matches for FILE1: %s' % dssfile1)
+            print(missingc1)
+        if not missingc2.empty:
+            print('No matches for FILE2: %s' % dssfile2)
+            print(missingc2)
+        print(dfmetrics)
+        print('Writing out metrics to file: ', metricsfile)
+        dfmetrics.to_csv(metricsfile)
+        threshold_cond = dfmetrics['rmse'] > threshold
+        if threshold_cond.any():
+            print(f'Threshold {threshold} exceeded! See exceeded rows below')
+            print(dfmetrics[threshold_cond])
+
 
 # adding sub commands to main
 main.add_command(extract_dss)
