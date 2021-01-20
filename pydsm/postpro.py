@@ -162,8 +162,7 @@ class PostProcessor:
     def process(self):
         with contextlib.closing(self._read_ts()) as dfgen:
             if self.do_resampling_with_merging:
-                dflist = [resample_with_interpolation(
-                    df.data, time_interval=PostProcessor.TIME_INTERVAL) for df in dfgen]
+                dflist = [df.data.resample(PostProcessor.TIME_INTERVAL).asfreq() for df in dfgen]
                 df = merge(dflist)
             else:
                 df = next(dfgen).data
@@ -271,11 +270,11 @@ def run_processor(processor, store=True, clear=True):
     try:
         processor.process()
     except Exception as ex:
-        errmsg='Failed to process {processor.location.name}/{processor.vartype.name}: '
+        errmsg = 'Failed to process {processor.location.name}/{processor.vartype.name}: '
         print(errmsg)
         logging.error(errmsg)
         raise ex
-    if store: 
+    if store:
         logging.info('Storing %s/%s' % (processor.location.name, processor.vartype.name))
         processor.store_processed()
     if clear:
@@ -312,6 +311,7 @@ def postpro(dssfile, locationfile, vartype, units, study_name, observed=False):
             processor.do_resample_with_merge('15MIN')
             processor.do_fill_in()
         run_processor(processor, store=True, clear=False)
+
 
 def postpro_diff(study1, study2, locationfile, vartype, units):
     dfloc = load_location_file(locationfile)
