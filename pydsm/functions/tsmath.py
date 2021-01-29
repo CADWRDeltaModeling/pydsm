@@ -46,10 +46,7 @@ def mse(series1: pd.Series, series2: pd.Series):
     """
     diff = series1-series2
     diff2=diff*diff
-    try:
-        return diff2.mean()/len(diff2)
-    except (AttributeError,TypeError):
-        return diff2
+    return diff2.mean()
 
 def rmse(series1, series2):
     return np.sqrt(mse(series1, series2))
