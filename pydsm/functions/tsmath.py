@@ -81,7 +81,7 @@ def percent_bias(series1, series2):
     Args:
 
         series1 (Series): can be considered as model
-        series2 (Serie): can be considered as observed or target
+        series2 (Series): can be considered as observed or target
 
     Returns:
 
@@ -91,3 +91,18 @@ def percent_bias(series1, series2):
 
 def linregress(xseries, yseries):
     return stats.linregress(xseries, yseries)
+
+def rsr(series1, series2):
+    """
+    Ratio of the RMSE to the standard deviation of the observed time series
+
+    Args:
+
+        series1 (Series): can be considered as model
+        series2 (Series): can be considered as observed or target
+
+    Returns:
+
+        float : RSR
+    """
+    return rmse(series1, series2) / stats.tstd(series2)
