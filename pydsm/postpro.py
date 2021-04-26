@@ -120,9 +120,13 @@ class PostProCache:
                              df, units.upper(), 'INST-VAL')
 
     def load(self, bpart, cpart, dpart):
-        return next(pyhecdss.get_ts(self.fname, '/%s/%s/%s/%s///' %
+        return_series = None
+        try:
+            return_series = next(pyhecdss.get_ts(self.fname, '/%s/%s/%s/%s///' %
                                     (PostProCache.A_PART, bpart.upper(), cpart.upper(), dpart.upper())))
-
+        except StopIteration as e:
+            print('pydsm.postpro.PostProCache.load: no data found')
+        return return_series
 
 class PostProcessor:
     '''Post processor contains the operations to be applied to the input HEC-DSS file'''
@@ -188,7 +192,14 @@ class PostProcessor:
                          epart, self.study.name)
 
     def _load(self, cpart_suffix='', timewindow=''):
-        return self.cache.load(self.location.name, self.vartype.name+cpart_suffix, timewindow).data
+        return_series = None
+        try:
+            series = self.cache.load(self.location.name, self.vartype.name+cpart_suffix, timewindow)
+            if series is not None:
+                return_series = series.data
+        except StopIteration as e:
+            print('pydsm.postpro.PostProCache.load: no data found')
+        return return_series
 
     def store_processed(self):
         self._store(self.df)
@@ -203,6 +214,11 @@ class PostProcessor:
         self.high = self._load(cpart_suffix='-HIGH', timewindow=timewindow)
         self.low = self._load(cpart_suffix='-LOW', timewindow=timewindow)
         self.amp = self._load(cpart_suffix='-AMP', timewindow=timewindow)
+        success = False
+        if self.df is not None and self.gdf is not None and self.high is not None and self.low is not None and self.amp is not None \
+            and len(self.df)>0 and len(self.gdf)>0 and len(self.high)>0 and len(self.low)>0 and len(self.amp)>0:
+            success = True
+        return success
 
     def process_diff(self, other):
         self.amp_diff = tidalhl.get_tidal_amplitude_diff(self.amp, other.amp)
