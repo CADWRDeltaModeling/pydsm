@@ -28,17 +28,17 @@ def multindex_iloc(df, index):
     return label, df.iloc[df.index.get_loc(label)]
 
 
-def get_chan_geometry(channel_id):
+def get_chan_geometry(channel_id, dsm2_chan_geom_map):
     return dsm2_chan_geom_map[channel_id]
 
 
-def interpolate_positions(dfn):
+def interpolate_positions(dfn, dsm2_chan_geom_map):
     vals = np.empty(len(dfn), dtype='object')
     i = 0
     for r in dfn.iterrows():
         try:
             if r[1].cid > 0:
-                geom = get_chan_geometry(r[1].cid)
+                geom = get_chan_geometry(r[1].cid, dsm2_chan_geom_map)
                 val = geom.interpolate(1.0-r[1].x/100.0, normalized=True)
                 vals[i] = val
             i = i+1
@@ -63,8 +63,8 @@ def get_particle_geopositions(time_index, dfall):
     return dfp_xy
 
 
-def cache_calcs(df):
-    apos = interpolate_positions(df)
+def cache_calcs(df, dsm2_chan_geom_map):
+    apos = interpolate_positions(df, dsm2_chan_geom_map)
     # df_xy=df.assign('geometry',apos) # do we need the geometry column ?
     x = np.fromiter((p.x if p else None for p in apos), dtype=np.float32)
     y = np.fromiter((p.y if p else None for p in apos), dtype=np.float32)
@@ -120,7 +120,7 @@ def ptm_animate(ptm_file, hydro_file, flowlines_shape_file):
         # pd.read_csv(ptm_file+'.csv') # executed in 4.30s,
     except:
         print('Failed to load cached calculated particle positions. Recalculating ...')
-        dfall_xy = cache_calcs(dfall)
+        dfall_xy = cache_calcs(dfall, dsm2_chan_geom_map)
         dfall_xy.to_pickle(ptm_file+'.pickle')  # executed in 469ms
     # map from index+1 (numbers 1--> higher to )
     b = dsm2_chans.to_crs(epsg=3857).geometry.bounds
