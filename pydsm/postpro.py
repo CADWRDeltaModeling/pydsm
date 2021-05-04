@@ -283,20 +283,23 @@ def build_processors(dssfile, locationfile, vartype, units, study_name, observed
 def run_processor(processor, store=True, clear=True):
     logging.info('Running %s/%s' % (processor.location.name, processor.vartype.name))
     print('Running %s/%s' % (processor.location.name, processor.vartype.name))
+    processed = False
     try:
         processor.process()
+        processed = True
     except Exception as ex:
         errmsg = 'Failed to process {processor.location.name}/{processor.vartype.name}: '
         print(errmsg)
         logging.error(errmsg)
-        raise ex
-    if store:
-        logging.info('Storing %s/%s' % (processor.location.name, processor.vartype.name))
-        processor.store_processed()
-    if clear:
-        logging.info('Clearing %s/%s' % (processor.location.name, processor.vartype.name))
-        processor.clear_refs()
-    logging.info('Done %s/%s' % (processor.location.name, processor.vartype.name))
+        # raise ex
+    if processed:
+	    if store:
+	        logging.info('Storing %s/%s' % (processor.location.name, processor.vartype.name))
+	        processor.store_processed()
+	    if clear:
+	        logging.info('Clearing %s/%s' % (processor.location.name, processor.vartype.name))
+	        processor.clear_refs()
+	    logging.info('Done %s/%s' % (processor.location.name, processor.vartype.name))
 
 #
 
