@@ -123,10 +123,11 @@ class PostProCache:
         return_series = None
         try:
             return_series = next(pyhecdss.get_ts(self.fname, '/%s/%s/%s/%s///' %
-                                    (PostProCache.A_PART, bpart.upper(), cpart.upper(), dpart.upper())))
+                                                 (PostProCache.A_PART, bpart.upper(), cpart.upper(), dpart.upper())))
         except StopIteration as e:
-            print('pydsm.postpro.PostProCache.load: no data found')
+            logging.exception('pydsm.postpro.PostProCache.load: no data found')
         return return_series
+
 
 class PostProcessor:
     '''Post processor contains the operations to be applied to the input HEC-DSS file'''
@@ -198,7 +199,7 @@ class PostProcessor:
             if series is not None:
                 return_series = series.data
         except StopIteration as e:
-            print('pydsm.postpro.PostProCache.load: no data found')
+            logging.exception('pydsm.postpro.PostProCache.load: no data found')
         return return_series
 
     def store_processed(self):
@@ -216,7 +217,7 @@ class PostProcessor:
         self.amp = self._load(cpart_suffix='-AMP', timewindow=timewindow)
         success = False
         if self.df is not None and self.gdf is not None and self.high is not None and self.low is not None and self.amp is not None \
-            and len(self.df)>0 and len(self.gdf)>0 and len(self.high)>0 and len(self.low)>0 and len(self.amp)>0:
+                and len(self.df) > 0 and len(self.gdf) > 0 and len(self.high) > 0 and len(self.low) > 0 and len(self.amp) > 0:
             success = True
         return success
 
@@ -288,18 +289,15 @@ def run_processor(processor, store=True, clear=True):
         processor.process()
         processed = True
     except Exception as ex:
-        errmsg = 'Failed to process {processor.location.name}/{processor.vartype.name}: '
-        print(errmsg)
-        logging.error(errmsg)
-        # raise ex
+        logging.exception(f'Failed to process {processor.location.name}/{processor.vartype.name}: ')
     if processed:
-	    if store:
-	        logging.info('Storing %s/%s' % (processor.location.name, processor.vartype.name))
-	        processor.store_processed()
-	    if clear:
-	        logging.info('Clearing %s/%s' % (processor.location.name, processor.vartype.name))
-	        processor.clear_refs()
-	    logging.info('Done %s/%s' % (processor.location.name, processor.vartype.name))
+        if store:
+            logging.info('Storing %s/%s' % (processor.location.name, processor.vartype.name))
+            processor.store_processed()
+        if clear:
+            logging.info('Clearing %s/%s' % (processor.location.name, processor.vartype.name))
+            processor.clear_refs()
+        logging.info('Done %s/%s' % (processor.location.name, processor.vartype.name))
 
 #
 
