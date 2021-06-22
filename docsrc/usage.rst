@@ -33,11 +33,12 @@ Compare DSS
         of 3 digits)
 
         Options:
-        --cpart TEXT         filter by cpart string match (e.g. EC for only loading
-                            EC)
-
-        --tolerance INTEGER  number of digits after decimal. Defaults to 3
-        --help               Show this message and exit.pydsm compare-dss historical_v81.dss historical_v81_linux.dss --cpart FLOW --tolerance 3
+        --cpart TEXT            filter by cpart string match (e.g. EC for only loading EC)
+        --threshold FLOAT       Threshold to check for mean squared error
+        --threshold-metric      [mean_error|mse|rmse|nash_sutcliffe|percent_bias]
+        --metricsfile TEXT      name of file to write out metrics differnce
+        --time-window TEXT      ddMMMyyyy [HHmm] - ddMMMyyyy [HHmm], e.g. "01JAN1990 - 01OCT1991" (quoted on command line)
+        --help                  Show this message and exit.
 
 Extract DSS 
 ~~~~~~~~~~~~

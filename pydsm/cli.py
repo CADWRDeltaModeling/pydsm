@@ -157,7 +157,7 @@ def extract_dss(dssfile, outfile, cpart, godin_filter, daily_average, daily_max,
 @click.option('--threshold-metric', default='rmse',
               type=click.Choice(['mean_error', 'mse', 'rmse', 'nash_sutcliffe', 'percent_bias'], case_sensitive=False))
 @click.option("--metricsfile", default="compare_dss_metrics_diff.csv", help="name of file to write out metrics differnce")
-@click.option("--time-window", default=None)
+@click.option("--time-window", default=None, help='ddMMMyyyy [HHmm] - ddMMMyyyy [HHmm], e.g. "01JAN1990 - 01OCT1991" (quoted on command line)')
 @click.argument("dssfile1", type=click.Path(exists=True))
 @click.argument("dssfile2", type=click.Path(exists=True))
 def compare_dss(dssfile1, dssfile2, threshold=1e-3, threshold_metric='rmse', time_window=None, cpart=None, godin=False, metricsfile='compare_dss_metrics_diff.csv'):
