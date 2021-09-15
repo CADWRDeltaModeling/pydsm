@@ -16,6 +16,7 @@ from pydsm.functions import tsmath
 def main():
     pass
 
+
 def _build_column(columns, cpart_append, epart_replace=None):
     '''
     builds column name based on /A/B/C/D/E/F/ DSS pathname and
@@ -39,7 +40,7 @@ def _extract_processing(df, godin_filter, daily_average, daily_max, daily_min, m
     results = df
     results_monthly = None
     if godin_filter:
-        results = filter.godin_filter(results)
+        results = filter.godin(results)
     if daily_average:  # if godin filtered then replace that with daily averaged values
         tdf = results.resample('1D', closed='right', label='right').mean()
         tdf.columns = _build_column(df.columns, '-MEAN', '1DAY')
@@ -136,19 +137,26 @@ def extract_dss(dssfile, outfile, cpart, godin_filter, daily_average, daily_max,
         od.close()
     else:
         all_daily = pd.concat(results_daily, axis=1)
-        all_monthly = pd.concat(results_monthly, axis=1)
+        if monthly_average:
+            all_monthly = pd.concat(results_monthly, axis=1)
         if outfile.endswith('zip') or outfile.endswith('bz2') or outfile.endswith('gzip'):
-            all_daily.to_csv(outfile)
-            all_monthly.to_csv(outfile)
+            compression_opts = dict(method='infer', archive_name=outfile.split('.')[0]+'.csv')
+            all_daily.to_csv(outfile, compression=compression_opts)
+            if monthly_average:
+                compression_opts = dict(
+                    method='infer', archive_name=outfile.split('.')[0]+'-monthly.csv')
+                all_monthly.to_csv(outfile, mode='a', compression=compression_opts)
         elif outfile.endswith('.h5'):
             all_daily.to_hdf(outfile, 'daily')
-            all_monthly.to_hdf(outfile, 'monthly')
+            if monthly_average:
+                all_monthly.to_hdf(outfile, 'monthly')
         elif outfile.endswith('dss'):
             od.close()
         else:
             print('Unknown type of file ending: %s' % outfile)
             all_daily.to_pickle(outfile)
-            all_monthly.to_pickle(outfile)
+            if monthly_average:
+                all_monthly.to_pickle(outfile)
 
 
 @click.command()
