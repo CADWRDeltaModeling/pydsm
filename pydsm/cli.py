@@ -163,7 +163,7 @@ def extract_dss(dssfile, outfile, cpart, godin_filter, daily_average, daily_max,
 @click.option("--cpart", help="filter by cpart string match (e.g. EC for only loading EC)")
 @click.option("--threshold", default=1e-3, help="Threshold to check for mean squared error")
 @click.option('--threshold-metric', default='rmse',
-              type=click.Choice(['mean_error', 'mse', 'rmse', 'nash_sutcliffe', 'percent_bias'], case_sensitive=False))
+              type=click.Choice(['mean_error', 'nmean_error','mse', 'nmse', 'rmse', 'nrmse', 'nash_sutcliffe', 'percent_bias'], case_sensitive=False))
 @click.option("--metricsfile", default="compare_dss_metrics_diff.csv", help="name of file to write out metrics differnce")
 @click.option("--time-window", default=None, help='ddMMMyyyy [HHmm] - ddMMMyyyy [HHmm], e.g. "01JAN1990 - 01OCT1991" (quoted on command line)')
 @click.argument("dssfile1", type=click.Path(exists=True))
@@ -196,13 +196,13 @@ def compare_dss(dssfile1, dssfile2, threshold=1e-3, threshold_metric='rmse', tim
             df2, u2, p2 = d2.read_rts(p2[0], sdate, edate)
             series1 = df1.iloc[:, 0]
             series2 = df2.iloc[:, 0]
-            metrics.append((rowid, tsmath.mean_error(series1, series2),
-                            tsmath.mse(series1, series2),
-                            tsmath.rmse(series1, series2),
+            metrics.append((rowid, tsmath.mean_error(series1, series2), tsmath.nmean_error(series1, series2),
+                            tsmath.mse(series1, series2), tsmath.nmse(series1, series2),
+                            tsmath.rmse(series1, series2), tsmath.nrmse(series1, series2),
                             tsmath.nash_sutcliffe(series1, series2),
                             tsmath.percent_bias(series1, series2)))
         dfmetrics = pd.DataFrame.from_records(
-            metrics, columns=['name', 'mean_error', 'mse', 'rmse', 'nash_sutcliffe', 'percent_bias'])
+            metrics, columns=['name', 'mean_error', 'nmean_error','mse', 'nmse', 'rmse', 'nrmse', 'nash_sutcliffe', 'percent_bias'])
         # -- display missing or unmatched pathnames
         missingc1 = dc1[(~dc1.B.isin(cc.B)) & (~dc1.C.isin(cc.C))]
         missingc2 = dc2[(~dc2.B.isin(cc.B)) & (~dc2.C.isin(cc.C))]

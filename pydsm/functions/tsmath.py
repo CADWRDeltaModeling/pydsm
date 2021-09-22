@@ -48,13 +48,23 @@ def mse(series1: pd.Series, series2: pd.Series):
     diff2=diff*diff
     return diff2.mean()
 
+def nmse(series1: pd.Series, series2: pd.Series):
+    """Normalized Mean Squared Error (NMSE)
+    Normalizes (i.e. divides) by the mean value of series2 (considered the target or observed values)
+    """
+    return mse(series1, series2)/series2.mean()
+
 def rmse(series1, series2):
     return np.sqrt(mse(series1, series2))
 
+def nrmse(series1, series2):
+    return rmse(series1, series2)/ series2.mean()
 
 def mean_error(series1, series2):
     return (series1-series2).mean()
 
+def nmean_error(series1, series2):
+    return mean_error(series1, series2)/series2.mean()
 
 def nash_sutcliffe(series1, series2):
     """https://en.wikipedia.org/wiki/Nash%E2%80%93Sutcliffe_model_efficiency_coefficient
