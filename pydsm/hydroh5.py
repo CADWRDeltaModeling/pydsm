@@ -50,8 +50,7 @@ class HydroH5:
         '''
         return pandas DataFrame of channel ids as indexed
         '''
-        channels = pd.DataFrame(self.h5.get(
-            HydroH5._GEOM_PATH+'/channel_number'), dtype=np.str)
+        channels = pd.DataFrame(self.h5.get(HydroH5._GEOM_PATH+'/channel_number'), dtype=str)
         self.channel_index2number = channels[0].to_dict()
         self.channel_number2index = {
             value: key for key, value in self.channel_index2number.items()}
@@ -61,8 +60,8 @@ class HydroH5:
         '''
         return pandas DataFrame of channel locations ( upstream or downstream)
         '''
-        self.channel_locs = pd.DataFrame(self.h5.get(
-            HydroH5._GEOM_PATH+'/channel_location'), dtype=np.str)
+        self.channel_locs = pd.DataFrame(self.h5.get(HydroH5._GEOM_PATH+'/channel_location'))
+        self.channel_locs.iloc[:, 0] = self.channel_locs.iloc[:, 0].str.decode('utf-8')
         self.channel_location2number = self.channel_locs[0].to_dict()
         self.channel_location2index = {
             value: key for key, value in self.channel_location2number.items()}
@@ -73,7 +72,8 @@ class HydroH5:
         return pandas DataFrame of reservoirs
         '''
         self.reservoirs = pd.DataFrame(self.h5.get(
-            HydroH5._GEOM_PATH+'/reservoir_names'), columns=['name'],dtype=np.str)
+            HydroH5._GEOM_PATH+'/reservoir_names'), columns=['name'])
+        self.reservoirs.iloc[:, 0] = self.reservoirs.iloc[:, 0].str.decode('utf-8')
         self.reservoir_node_connections = h5common.read_compound_table(
             self.h5, HydroH5._GEOM_PATH+'/reservoir_node_connect')
         return self.reservoirs
@@ -192,14 +192,15 @@ class HydroH5:
             timeSlice = slice(None)
         if timeSlice.start:
             stime = stime + pd.Timedelta(attrs['interval'])*timeSlice.start
-        darr = data[timeSlice, id_indicies] if third_indices is None else data[timeSlice, id_indicies, third_indices]
+        darr = data[timeSlice, id_indicies] if third_indices is None else data[timeSlice,
+                                                                               id_indicies, third_indices]
         df = pd.DataFrame(darr,
                           index=pd.date_range(stime,
                                               freq=attrs['interval'],
                                               periods=darr.shape[0]),
                           dtype=np.float32)
         return df
-    
+
         pass
 
     def _get_channel_ts(self, table_path, channels, location='upstream', timewindow=None):
@@ -210,9 +211,11 @@ class HydroH5:
             timewindow in the format of <<start time str>> - <<end time str>>, e.g. 01JAN1990 - 05JUL1992
         '''
         channel_indices = self._channel_ids_to_indicies(channels)
-        location_indices = None if location is None else self._channel_locations_to_indicies(location)
+        location_indices = None if location is None else self._channel_locations_to_indicies(
+            location)
         location_str = "" if location is None else str(location)
-        df=self._read_time_indexed_table(table_path, timewindow, channel_indices, location_indices)
+        df = self._read_time_indexed_table(
+            table_path, timewindow, channel_indices, location_indices)
         df.columns = [str(id)+'-'+location_str for id in self._channel_ids_to_sequence(channels)]
         return df
 
@@ -225,33 +228,34 @@ class HydroH5:
             return str_or_seq
         else:
             raise RuntimeError('%s should be string, sequence of strings or slice: called with type: %s'
-                                %(str_or_seq,type(str_or_seq)))
+                               % (str_or_seq, type(str_or_seq)))
 
     def _get_reservoir_ts(self, table_path, reservoirs_names, connection_ids=None, timewindow=None):
         '''
         '''
-        res=self.get_reservoirs()
-        rnc=self.reservoir_node_connections
+        res = self.get_reservoirs()
+        rnc = self.reservoir_node_connections
         res_names = self._normalize_to_slice(reservoirs_names)
         if connection_ids is None:
             indices = res[res.name.isin(res_names)].index.values
         else:
             if len(connection_ids) != len(res_names):
                 raise "Connection ID array length should match reservoir names"
-            mask=rnc[['res_name','connect_index']].isin({'res_name':res_names,'connect_index':connection_ids})
+            mask = rnc[['res_name', 'connect_index']].isin(
+                {'res_name': res_names, 'connect_index': connection_ids})
             indices = rnc[mask.all(axis=1)].index.values
         df = self._read_time_indexed_table(table_path, timewindow, indices)
         if connection_ids is None:
             df.columns = list(res_names)
         else:
-            df.columns = list(map(lambda x: x[0]+'/'+x[1],zip(reservoirs_names,connection_ids)))
+            df.columns = list(map(lambda x: x[0]+'/'+x[1], zip(reservoirs_names, connection_ids)))
         return df
 
     def _get_qext_ts(self, table_path, qext_names, timewindow=None):
         '''
         '''
-        qext=self.get_qext()
-        qext_norm=self._normalize_to_slice(qext_names)
+        qext = self.get_qext()
+        qext_norm = self._normalize_to_slice(qext_names)
         qext_indicies = qext[qext.name.isin(qext_norm)].index.values
         df = self._read_time_indexed_table(table_path, timewindow, qext_indicies)
         df.columns = list(qext_norm)
@@ -270,8 +274,8 @@ class HydroH5:
         return self._get_channel_ts('/hydro/data/channel avg area', channel_id, timewindow)
 
     def get_reservoir_flow(self, reservoir_name, timewindow=None):
-        res=self.get_reservoirs()
-        rt=self.reservoir_node_connections[self.reservoir_node_connections.res_name==reservoir_name]
+        res = self.get_reservoirs()
+        rt = self.reservoir_node_connections[self.reservoir_node_connections.res_name == reservoir_name]
         return self._get_reservoir_ts('/hydro/data/reservoir flow', rt.res_name.values, rt.connect_index.values, timewindow)
 
     def get_reservoir_height(self, reservoir_name, timewindow=None):

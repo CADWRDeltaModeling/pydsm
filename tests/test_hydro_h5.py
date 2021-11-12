@@ -64,10 +64,10 @@ class TestHydroH5:
         assert flow4_5up.mean()[0] == pytest.approx(1244.4728)
         assert flow4_5up.mean()[1] == pytest.approx(1248.0035)
         # --- regression saves for compare
-        # flow4up.to_csv('flow4up.csv')
-        fname = os.path.join(os.path.dirname(__file__), 'data', 'flow4up.csv')
-        cflow4up = pd.read_csv(fname, index_col=[
-                               0], parse_dates=[0], dtype=np.float32)
+        # flow4up.to_pickle('flow4up.pkl')
+        # return
+        fname = os.path.join(os.path.dirname(__file__), 'data', 'flow4up.pkl')
+        cflow4up = pd.read_pickle(fname)
         pd.testing.assert_frame_equal(cflow4up, flow4up)
         # --- get with time window
         flow4uptw = hydro.get_channel_flow(
@@ -79,28 +79,28 @@ class TestHydroH5:
     def test_get_channel_area(self, hydro):
         area4up = hydro.get_channel_area('4', 'upstream')
         # --- regression saves for compare
-        # area4up.to_csv('area4up.csv')
-        fname = os.path.join(os.path.dirname(__file__), 'data', 'area4up.csv')
-        carea4up = pd.read_csv(fname, index_col=[
-                               0], parse_dates=[0], dtype=np.float32)
+        # area4up.to_pickle('area4up.pkl')
+        # return
+        fname = os.path.join(os.path.dirname(__file__), 'data', 'area4up.pkl')
+        carea4up = pd.read_pickle(fname)
         pd.testing.assert_frame_equal(carea4up, area4up)
 
     def test_get_channel_stage(self, hydro):
         stage4up = hydro.get_channel_stage('4', 'upstream')
         # --- regression saves for compare
-        # stage4up.to_csv('stage4up.csv')
-        fname = os.path.join(os.path.dirname(__file__), 'data', 'stage4up.csv')
-        cstage4up = pd.read_csv(fname, index_col=[
-            0], parse_dates=[0], dtype=np.float32)
+        # stage4up.to_pickle('stage4up.pkl')
+        # return
+        fname = os.path.join(os.path.dirname(__file__), 'data', 'stage4up.pkl')
+        cstage4up = pd.read_pickle(fname)
         pd.testing.assert_frame_equal(cstage4up, stage4up)
 
     def test_get_channel_avg_area(self, hydro):
         area441 = hydro.get_channel_avg_area('441')
         # --- regression saves for compare
-        # area441.to_csv('area441.csv')
-        fname = os.path.join(os.path.dirname(__file__), 'data', 'area441.csv')
-        carea441 = pd.read_csv(fname, index_col=[
-                               0], parse_dates=[0], dtype=np.float32)
+        # area441.to_pickle('area441.pkl')
+        # return
+        fname = os.path.join(os.path.dirname(__file__), 'data', 'area441.pkl')
+        carea441 = pd.read_pickle(fname)
         pd.testing.assert_frame_equal(carea441, area441)
 
     def test_get_reservoir_flow(self, hydro):

@@ -42,7 +42,7 @@ def _extract_processing(df, godin_filter, daily_average, daily_max, daily_min, m
     if godin_filter:
         results = filter.godin(results)
     if daily_average:  # if godin filtered then replace that with daily averaged values
-        tdf = results.resample('1D', closed='right', label='right').mean()
+        tdf = df.resample('1D', closed='right', label='right').mean()
         tdf.columns = _build_column(df.columns, '-MEAN', '1DAY')
         results = tdf
     if daily_max:

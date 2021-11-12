@@ -30,16 +30,17 @@ def read_compound_table(h5, tpath):
     x = h5.get(tpath)
     result = pd.DataFrame(
         [
-            [v[name].astype(np.str).strip() for name in v.dtype.names] for v in x],
+            [v[name].astype(str).strip() for name in v.dtype.names] for v in x],
         columns=[name for name in x[0].dtype.names
                  ]
     )
     return result
 
+
 def strip(df):
     '''
     strips the object types of a DataFrame df
     '''
-    df_obj=df.select_dtypes(['object'])
+    df_obj = df.select_dtypes(['object'])
     df[df_obj.columns] = df_obj.apply(lambda x: x.str.strip())
     return df
