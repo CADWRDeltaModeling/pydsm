@@ -27,4 +27,6 @@ dependencies:
   - click
   - nbsphinx
   - sphinx-autobuild
+  - coverage
+  - pytest-cov
 

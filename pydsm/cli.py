@@ -36,27 +36,38 @@ def _restart_console_line():
     sys.stdout.flush()
 
 
+def _to_periods(df):
+    try:
+        df.index = df.index.to_period()
+    except:
+        pass
+
+
 def _extract_processing(df, godin_filter, daily_average, daily_max, daily_min, monthly_average):
     results = df
     results_monthly = None
     if godin_filter:
-        results = filter.godin(results)
+        results_godin = filter.godin(results)
     if daily_average:  # if godin filtered then replace that with daily averaged values
-        tdf = df.resample('1D', closed='right', label='right').mean()
+        tdf = tsmath.per_aver(df, 'D')
+        _to_periods(tdf)
         tdf.columns = _build_column(df.columns, '-MEAN', '1DAY')
         results = tdf
     if daily_max:
-        tdf = df.resample('1D', closed='right', label='right').max()
+        tdf = tsmath.per_max(df, 'D')
+        _to_periods(tdf)
         tdf.columns = _build_column(df.columns, '-MAX', '1DAY')
         results = results.join(tdf, how='outer')
     if daily_min:
-        tdf = df.resample('1D', closed='right', label='right').min()
+        tdf = tsmath.per_min(df, 'D')
+        _to_periods(tdf)
         tdf.columns = _build_column(df.columns, '-MIN', '1DAY')
         results = results.join(tdf, how='outer')
     if monthly_average:
-        results_monthly = df.resample('M', closed='right', label='right').mean()
+        results_monthly = tsmath.per_aver(df, 'M')
+        _to_periods(results_monthly)
         results_monthly.columns = _build_column(df.columns, '-MONTHLY-AVG', '1MON')
-    return results, results_monthly
+    return results_godin, results, results_monthly
 
 
 def _write_to_dss(od, rtg_daily, rtg_monthly, units, ptype='PER-VAL'):
@@ -163,7 +174,7 @@ def extract_dss(dssfile, outfile, cpart, godin_filter, daily_average, daily_max,
 @click.option("--cpart", help="filter by cpart string match (e.g. EC for only loading EC)")
 @click.option("--threshold", default=1e-3, help="Threshold to check for mean squared error")
 @click.option('--threshold-metric', default='rmse',
-              type=click.Choice(['mean_error', 'nmean_error','mse', 'nmse', 'rmse', 'nrmse', 'nash_sutcliffe', 'percent_bias'], case_sensitive=False))
+              type=click.Choice(['mean_error', 'nmean_error', 'mse', 'nmse', 'rmse', 'nrmse', 'nash_sutcliffe', 'percent_bias'], case_sensitive=False))
 @click.option("--metricsfile", default="compare_dss_metrics_diff.csv", help="name of file to write out metrics differnce")
 @click.option("--time-window", default=None, help='ddMMMyyyy [HHmm] - ddMMMyyyy [HHmm], e.g. "01JAN1990 - 01OCT1991" (quoted on command line)')
 @click.argument("dssfile1", type=click.Path(exists=True))
@@ -202,7 +213,7 @@ def compare_dss(dssfile1, dssfile2, threshold=1e-3, threshold_metric='rmse', tim
                             tsmath.nash_sutcliffe(series1, series2),
                             tsmath.percent_bias(series1, series2)))
         dfmetrics = pd.DataFrame.from_records(
-            metrics, columns=['name', 'mean_error', 'nmean_error','mse', 'nmse', 'rmse', 'nrmse', 'nash_sutcliffe', 'percent_bias'])
+            metrics, columns=['name', 'mean_error', 'nmean_error', 'mse', 'nmse', 'rmse', 'nrmse', 'nash_sutcliffe', 'percent_bias'])
         # -- display missing or unmatched pathnames
         missingc1 = dc1[(~dc1.B.isin(cc.B)) & (~dc1.C.isin(cc.C))]
         missingc2 = dc2[(~dc2.B.isin(cc.B)) & (~dc2.C.isin(cc.C))]
