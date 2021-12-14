@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>pydsm &#8212; pydsm 2021.12.13+0.geb83565.dirty documentation</title>
+    <title>pydsm &#8212; pydsm 2021.12.13+1.g51f6697 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -36,7 +36,7 @@
             
   <section id="pydsm">
 <h1>pydsm<a class="headerlink" href="#pydsm" title="Permalink to this headline">¶</a></h1>
-<p>For loading data from DSM2 hdf5 files into pandas DataFrame</p>
+<p>For working with DSM2 input (.inp) and output (.h5 and .dss) with python (pandas)</p>
 <ul class="simple">
 <li><p>Free software: MIT license</p></li>
 <li><p>Documentation: <a class="reference external" href="https://cadwrdeltamodeling.github.io/pydsm">https://cadwrdeltamodeling.github.io/pydsm</a></p></li>
@@ -44,8 +44,16 @@
 <section id="features">
 <h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Reads DSM2 hdf5 files into pandas DataFrame</p></li>
-<li><p>Reads DSM2 echo files into pandas DataFrame</p></li>
+<li><dl class="simple">
+<dt>Reads DSM2 hdf5 files into pandas DataFrame</dt><dd><ul>
+<li><p>Reads Hydro tidefiles time series data, input tables and geometry tables</p></li>
+<li><p>Reads Qual tidefiles time series data and input tables</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Reads and writes DSM2 echo files into and from pandas DataFrame</p></li>
+<li><p>Shows use of graph network libraries to work with DSM2 grid as a graph of nodes and channels/reservoirs connecting them</p></li>
 </ul>
 </section>
 <section id="known-issues">
