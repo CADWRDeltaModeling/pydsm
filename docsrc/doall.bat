@@ -1,4 +1,5 @@
 rem only needed if you add submodules etc..
+call conda activate dev_pydsm
 call sphinx-apidoc -f -o . ..\pydsm
 call make clean
 call make html

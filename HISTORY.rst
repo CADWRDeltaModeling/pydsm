@@ -13,7 +13,7 @@ Refactoring and testing
 added normalized metrics
 
 0.3.x (2020-12-24)
-----------------
+------------------
 tidal amplitude
 ptm animator changes
 added stats functions
