@@ -1,14 +1,17 @@
 =======
 History
 =======
+
 2021.12.13
 ----------
 Added major functionality for hydro and qual .h5 reading
 Cleaned up documentation and notebook examples
 Refactoring and testing 
+
 2021.11.14
 -----------
 added normalized metrics
+
 0.3.x (2020-12-24)
 ----------------
 tidal amplitude
@@ -16,10 +19,12 @@ ptm animator changes
 added stats functions
 fixed for pyhecdss updates
 added metrics functions
+
 0.2.7 (2020-12-01)
 ------------------
 added tests for tidal amplitude
 added docs for dsm2 input reading/writing
+
 0.2.6 (2020-10-16)
 ------------------
 added ptm reading sample notebooks
