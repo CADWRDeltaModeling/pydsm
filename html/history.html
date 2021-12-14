@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>History &#8212; pydsm 0.3+0.gc7d1d55.dirty documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Credits" href="authors.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="history">
+<h1>History<a class="headerlink" href="#history" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>0.2.6 (2020-10-16)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>added ptm reading sample notebooks
+added tidal high and low calculation function
+added tsmath for period average/min/max using HEC style end of timestamp for consistency with HEC-DSSVue ops
+added reservoir flow and qext flow retrieval from hdf5</p>
+</div>
+<div class="section" id="id2">
+<h2>0.2.5 (2020-04-09)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>pinning conda recipe to use hdf5 1.10.4 and h5py to 2.10.x</p>
+</div>
+<div class="section" id="id3">
+<h2>0.2.4 (2020-04-07)<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>updated mass balance with source flow reservoir</p>
+</div>
+<div class="section" id="id4">
+<h2>0.2.3 (2020-04-05)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>switching to versioneer for versioning</p>
+</div>
+<div class="section" id="id5">
+<h2>0.2.0 (2020-03-17)<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>added input parsing of echo files into pandas DataFrame</p>
+<p>added creation of graph network from channel and reservoir tables</p>
+</div>
+<div class="section" id="id6">
+<h2>0.1.9 (2019-11-11)<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>moved godin filter to vtools3. Dependency on vtools3&gt;=3.0.1</p>
+</div>
+<div class="section" id="id7">
+<h2>0.1.8 (2019-10-28)<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>added command line for comparing dss files with tolerance</p>
+</div>
+<div class="section" id="id8">
+<h2>0.1.7 (2019-09-25)<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>fixed command line extract-dss error when monthly average is being calculated</p>
+</div>
+<div class="section" id="id9">
+<h2>0.1.6 (2019-09-24)<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<p>regression tested godin filter against vtools for 15 min time series</p>
+<p>fix for installing command line pydsm script</p>
+</div>
+<div class="section" id="id10">
+<h2>0.1.5 (2019-09-19)<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<p>updated extract-dss command to used end of time period when resampling (min,max,avg commands)</p>
+</div>
+<div class="section" id="id11">
+<h2>0.1.4 (2019-09-16)<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<p>Reads hydro h5 flows and area</p>
+<p>Godin filter time series</p>
+<p>command line tool :</p>
+<blockquote>
+<div><p>extract_dss to postprocess to daily, max, min and monthly from DSM2 dss files</p>
+</div></blockquote>
+</div>
+<div class="section" id="id12">
+<h2>0.1.4 (2019-09-16)<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<p>Reads hydro h5 flows and area</p>
+<p>Godin filter time series</p>
+<p>command line tool :</p>
+<blockquote>
+<div><p>extract_dss to postprocess to daily, max, min and monthly from DSM2 dss files</p>
+</div></blockquote>
+</div>
+<div class="section" id="id13">
+<h2>0.1.0 (2019-08-21)<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No releases yet</p></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">pydsm</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">pydsm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">pydsm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/notebooks.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">0.2.6 (2020-10-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">0.2.5 (2020-04-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">0.2.4 (2020-04-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">0.2.3 (2020-04-05)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">0.2.0 (2020-03-17)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">0.1.9 (2019-11-11)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">0.1.8 (2019-10-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">0.1.7 (2019-09-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">0.1.6 (2019-09-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">0.1.5 (2019-09-19)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id13">0.1.0 (2019-08-21)</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="authors.html" title="previous chapter">Credits</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nicky Sandhu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/history.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
