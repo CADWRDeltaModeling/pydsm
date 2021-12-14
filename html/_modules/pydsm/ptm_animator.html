@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pydsm.ptm_animator &#8212; pydsm 2021.12.13+0.geb83565.dirty documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for pydsm.ptm_animator</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># coding: utf-8</span>
+
+<span class="kn">import</span> <span class="nn">click</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">import</span> <span class="nn">geopandas</span>
+<span class="kn">import</span> <span class="nn">shapely</span>
+<span class="c1"># PTM Animator</span>
+<span class="c1">#</span>
+<span class="c1"># This scripts starts a PTM animation can be done with numpy, pandas, geopandas, shapely and holoviews.</span>
+<span class="c1">#</span>
+<span class="kn">import</span> <span class="nn">holoviews</span> <span class="k">as</span> <span class="nn">hv</span>
+<span class="kn">from</span> <span class="nn">holoviews</span> <span class="kn">import</span> <span class="n">opts</span>
+<span class="kn">import</span> <span class="nn">hvplot.pandas</span>
+<span class="kn">import</span> <span class="nn">panel</span> <span class="k">as</span> <span class="nn">pn</span>
+
+<span class="kn">import</span> <span class="nn">pydsm</span>
+<span class="kn">from</span> <span class="nn">pydsm</span> <span class="kn">import</span> <span class="n">ptm</span>
+<span class="kn">from</span> <span class="nn">pydsm</span> <span class="kn">import</span> <span class="n">hydroh5</span>
+
+<span class="n">hv</span><span class="o">.</span><span class="n">extension</span><span class="p">(</span><span class="s1">&#39;bokeh&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="multindex_iloc"><a class="viewcode-back" href="../../pydsm.html#pydsm.ptm_animator.multindex_iloc">[docs]</a><span class="k">def</span> <span class="nf">multindex_iloc</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">levels</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">label</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">label</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="get_chan_geometry"><a class="viewcode-back" href="../../pydsm.html#pydsm.ptm_animator.get_chan_geometry">[docs]</a><span class="k">def</span> <span class="nf">get_chan_geometry</span><span class="p">(</span><span class="n">channel_id</span><span class="p">,</span> <span class="n">dsm2_chan_geom_map</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">dsm2_chan_geom_map</span><span class="p">[</span><span class="n">channel_id</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="interpolate_positions"><a class="viewcode-back" href="../../pydsm.html#pydsm.ptm_animator.interpolate_positions">[docs]</a><span class="k">def</span> <span class="nf">interpolate_positions</span><span class="p">(</span><span class="n">dfn</span><span class="p">,</span> <span class="n">dsm2_chan_geom_map</span><span class="p">):</span>
+    <span class="n">vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dfn</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;object&#39;</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">dfn</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">cid</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">geom</span> <span class="o">=</span> <span class="n">get_chan_geometry</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">cid</span><span class="p">,</span> <span class="n">dsm2_chan_geom_map</span><span class="p">)</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="o">/</span><span class="mf">100.0</span><span class="p">,</span> <span class="n">normalized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">vals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Exception for row: &#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+            <span class="k">raise</span>
+    <span class="k">return</span> <span class="n">vals</span></div>
+
+
+<div class="viewcode-block" id="get_particle_geopositions"><a class="viewcode-back" href="../../pydsm.html#pydsm.ptm_animator.get_particle_geopositions">[docs]</a><span class="k">def</span> <span class="nf">get_particle_geopositions</span><span class="p">(</span><span class="n">time_index</span><span class="p">,</span> <span class="n">dfall</span><span class="p">):</span>
+    <span class="n">dt</span><span class="p">,</span> <span class="n">dfn</span> <span class="o">=</span> <span class="n">multindex_iloc</span><span class="p">(</span><span class="n">dfall</span><span class="p">,</span> <span class="n">time_index</span><span class="p">)</span>
+    <span class="c1"># dfn=dfn.droplevel(0) # drop level as time is the slice</span>
+    <span class="n">dfn</span> <span class="o">=</span> <span class="n">dfall</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">dt</span><span class="p">]</span>
+    <span class="c1"># dfn[&#39;geometry&#39;] = interpolate_positions(dfn) # add new column to copy of full slice so warning is ok</span>
+    <span class="n">dfn</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="n">interpolate_positions</span><span class="p">(</span><span class="n">dfn</span><span class="p">))</span>
+    <span class="n">dfp</span> <span class="o">=</span> <span class="n">dfn</span><span class="p">[</span><span class="n">dfn</span><span class="o">.</span><span class="n">cid</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">gdf_merc</span> <span class="o">=</span> <span class="n">geopandas</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">dfp</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s1">&#39;geometry&#39;</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s1">&#39;EPSG:3857&#39;</span><span class="p">)</span>
+    <span class="c1"># gdf_merc=gdf.to_crs(epsg=3857)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">gdf_merc</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">y</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">gdf_merc</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">dfp_xy</span> <span class="o">=</span> <span class="n">dfp</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;easting&#39;</span><span class="p">:</span> <span class="n">x</span><span class="p">}),</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;northing&#39;</span><span class="p">:</span> <span class="n">y</span><span class="p">})])</span>
+    <span class="k">return</span> <span class="n">dfp_xy</span></div>
+
+
+<div class="viewcode-block" id="cache_calcs"><a class="viewcode-back" href="../../pydsm.html#pydsm.ptm_animator.cache_calcs">[docs]</a><span class="k">def</span> <span class="nf">cache_calcs</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">dsm2_chan_geom_map</span><span class="p">):</span>
+    <span class="n">apos</span> <span class="o">=</span> <span class="n">interpolate_positions</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">dsm2_chan_geom_map</span><span class="p">)</span>
+    <span class="c1"># df_xy=df.assign(&#39;geometry&#39;,apos) # do we need the geometry column ?</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="k">if</span> <span class="n">p</span> <span class="k">else</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">apos</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">y</span> <span class="k">if</span> <span class="n">p</span> <span class="k">else</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">apos</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">df_xy</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">easting</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">northing</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+    <span class="c1"># save dfall_xy to cached parquet format or feather format</span>
+    <span class="k">return</span> <span class="n">df_xy</span></div>
+
+<span class="c1"># dfall_xy.to_feather(ptm_file+&#39;.feather&#39;) # failed to serialize multiindex</span>
+<span class="c1"># dfall_xy.to_parquet(ptm_file+&#39;.parquet&#39;) # executed in 2.01s, 30 MB</span>
+<span class="c1"># dfall_xy.to_csv(ptm_file+&#39;.csv&#39;) # executed in 29.6s, 348 MB</span>
+<span class="c1"># dfall_xy.to_pickle(ptm_file+&#39;.pickle&#39;) # executed in 469ms, 138 MB</span>
+<span class="c1"># display(map)</span>
+
+
+<span class="nd">@click</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s2">&quot;ptm_file&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s2">&quot;hydro_file&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s2">&quot;flowlines_shape_file&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">ptm_animate</span><span class="p">(</span><span class="n">ptm_file</span><span class="p">,</span> <span class="n">hydro_file</span><span class="p">,</span> <span class="n">flowlines_shape_file</span><span class="p">):</span>
+    <span class="c1"># Tiles always in pseudo mercator epsg=3857</span>
+    <span class="c1"># Load PTM animation file</span>
+    <span class="c1">#ptm_file = &#39;D:/delta/dsm2_v8.2.0b1/studies/historical/output/anim_db.bin&#39;</span>
+    <span class="n">ptm_data</span> <span class="o">=</span> <span class="n">ptm</span><span class="o">.</span><span class="n">load_anim_data</span><span class="p">(</span><span class="n">ptm_file</span><span class="p">)</span>
+    <span class="c1">#print(&#39;PTM Animation file has %d records&#39; % len(ptm_data))</span>
+    <span class="c1"># print(&#39;Animation starts at %s %04d&#39; %</span>
+    <span class="c1">#      (ptm_data[0].model_date.decode(&quot;utf-8&quot;), ptm_data[0].model_time))</span>
+    <span class="c1"># print(&#39;Animation ends at %s %04d&#39; %</span>
+    <span class="c1">#      (ptm_data[-1].model_date.decode(&quot;utf-8&quot;), ptm_data[-1].model_time))</span>
+    <span class="c1">#print(&#39;There are %d particles in this animation&#39; % ptm_data[0].nparticles)</span>
+    <span class="n">dfall</span> <span class="o">=</span> <span class="n">ptm</span><span class="o">.</span><span class="n">create_frame_for_anim_data</span><span class="p">(</span><span class="n">ptm_data</span><span class="p">)</span>
+    <span class="c1"># load hydrodynamic information for PTM</span>
+    <span class="c1">#hydro_file = &#39;D:/delta/dsm2_v8.2.0b1/studies/historical/output/historical_v82.h5&#39;</span>
+    <span class="n">hydro</span> <span class="o">=</span> <span class="n">hydroh5</span><span class="o">.</span><span class="n">HydroH5</span><span class="p">(</span><span class="n">hydro_file</span><span class="p">)</span>
+    <span class="n">chan_int2ext</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">hydro</span><span class="o">.</span><span class="n">channel_index2number</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
+                                <span class="s1">&#39;internal&#39;</span><span class="p">,</span> <span class="s1">&#39;external&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="n">chan_int2ext</span> <span class="o">=</span> <span class="n">chan_int2ext</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">internal</span><span class="o">=</span><span class="n">chan_int2ext</span><span class="o">.</span><span class="n">internal</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">chan_int2ext</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">chan_int2ext</span><span class="o">.</span><span class="n">internal</span>
+    <span class="n">dfallj</span> <span class="o">=</span> <span class="n">dfall</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">chan_int2ext</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;cid&#39;</span><span class="p">)</span>
+    <span class="n">dfallj</span> <span class="o">=</span> <span class="n">dfallj</span><span class="o">.</span><span class="n">fillna</span><span class="p">({</span><span class="s1">&#39;internal&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;external&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">})</span>
+    <span class="n">dfallj</span> <span class="o">=</span> <span class="n">dfallj</span><span class="o">.</span><span class="n">astype</span><span class="p">({</span><span class="s1">&#39;internal&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="s1">&#39;external&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">})</span>
+    <span class="c1"># dsm2_chans=geopandas.read_file(&#39;maps/v8.2/DSM2_Channels.shp&#39;).to_crs(epsg=3857)</span>
+    <span class="c1">#flowlines_shape_file = &#39;D:/delta/maps/v8.2/DSM2_Flowline_Segments.shp&#39;</span>
+    <span class="n">dsm2_chans</span> <span class="o">=</span> <span class="n">geopandas</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">flowlines_shape_file</span><span class="p">)</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">3857</span><span class="p">)</span>
+    <span class="n">dsm2_chan_geom_map</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">dsm2_chans</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">chan</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">chan_index</span> <span class="o">=</span> <span class="n">hydro</span><span class="o">.</span><span class="n">channel_number2index</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">chan</span><span class="o">.</span><span class="n">channel_nu</span><span class="p">)]</span>
+        <span class="n">dsm2_chan_geom_map</span><span class="p">[</span><span class="n">chan_index</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">chan</span><span class="o">.</span><span class="n">geometry</span>
+    <span class="c1"># uncomment below to recalculate cached</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">dfall_xy</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="n">ptm_file</span><span class="o">+</span><span class="s1">&#39;.pickle&#39;</span><span class="p">)</span>  <span class="c1"># executed in 195ms</span>
+        <span class="c1"># pd.read_parquet(ptm_file+&#39;.parquet&#39;) # executed in 870 ms</span>
+        <span class="c1"># pd.read_csv(ptm_file+&#39;.csv&#39;) # executed in 4.30s,</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Failed to load cached calculated particle positions. Recalculating ...&#39;</span><span class="p">)</span>
+        <span class="n">dfall_xy</span> <span class="o">=</span> <span class="n">cache_calcs</span><span class="p">(</span><span class="n">dfall</span><span class="p">,</span> <span class="n">dsm2_chan_geom_map</span><span class="p">)</span>
+        <span class="n">dfall_xy</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="n">ptm_file</span><span class="o">+</span><span class="s1">&#39;.pickle&#39;</span><span class="p">)</span>  <span class="c1"># executed in 469ms</span>
+    <span class="c1"># map from index+1 (numbers 1--&gt; higher to )</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">dsm2_chans</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">3857</span><span class="p">)</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">bounds</span>
+    <span class="n">extents</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">minx</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">b</span><span class="o">.</span><span class="n">miny</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">b</span><span class="o">.</span><span class="n">maxx</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">b</span><span class="o">.</span><span class="n">maxy</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+    <span class="nb">map</span> <span class="o">=</span> <span class="n">hv</span><span class="o">.</span><span class="n">element</span><span class="o">.</span><span class="n">tiles</span><span class="o">.</span><span class="n">OSM</span><span class="p">()</span><span class="o">.</span><span class="n">opts</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+    <span class="nb">map</span><span class="o">.</span><span class="n">extents</span> <span class="o">=</span> <span class="n">extents</span>
+    <span class="c1">#</span>
+
+    <span class="k">def</span> <span class="nf">particle_map</span><span class="p">(</span><span class="n">ti</span><span class="p">):</span>
+        <span class="n">tlabel</span> <span class="o">=</span> <span class="n">dfall_xy</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">levels</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">ti</span><span class="p">]</span>
+        <span class="n">dfp_xy</span> <span class="o">=</span> <span class="n">dfall_xy</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tlabel</span><span class="p">]</span>
+        <span class="n">ov</span> <span class="o">=</span> <span class="nb">map</span><span class="o">*</span><span class="n">dfp_xy</span><span class="o">.</span><span class="n">hvplot</span><span class="o">.</span><span class="n">points</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;easting&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;northing&#39;</span><span class="p">,</span>
+                                      <span class="n">hover_cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;cid&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">opts</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Time: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">tlabel</span><span class="p">,</span> <span class="n">framewise</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ov</span>
+    <span class="c1">#</span>
+    <span class="n">dmap</span> <span class="o">=</span> <span class="n">hv</span><span class="o">.</span><span class="n">DynamicMap</span><span class="p">(</span><span class="n">particle_map</span><span class="p">,</span> <span class="n">kdims</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ti&#39;</span><span class="p">])</span>
+    <span class="n">time_index</span> <span class="o">=</span> <span class="n">dfall_xy</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">levels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">anim_pane</span> <span class="o">=</span> <span class="n">dmap</span><span class="o">.</span><span class="n">redim</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="n">ti</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ptm_data</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">opts</span><span class="p">(</span><span class="n">framewise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">panel</span><span class="p">(</span><span class="n">anim_pane</span><span class="p">)</span>
+    <span class="n">titlePane</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">pane</span><span class="o">.</span><span class="n">Markdown</span><span class="p">(</span><span class="s1">&#39;&#39;&#39; # Particle Animation: </span>
+<span class="s1">    Move the slider to the time desired or select the slider and use the left/right arrow keys to run animation {back/for}wards&#39;&#39;&#39;</span><span class="p">)</span>
+    <span class="n">anim_panel</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">pn</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span><span class="n">titlePane</span><span class="p">,</span> <span class="o">*</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="n">anim_panel</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># dsm2_chans.hvplot.line()</span>
+<span class="c1"># anim_pane.select(ti=1500)</span>
+<span class="c1"># pl1=dfall_xy[dfall_xy.id==373].cid.hvplot()</span>
+<span class="c1"># pl2=dfall_xy[dfall_xy.id==151].cid.hvplot()</span>
+<span class="c1"># pl1*pl2</span>
+<span class="c1"># anim_pane.select(ti=500)</span>
+<span class="c1">#from holoviews.streams import Selection1D</span>
+<span class="c1">#sel = Selection1D(source=anim_pane[0].Points.I)</span>
+<span class="c1"># print(anim_pane)</span>
+<span class="c1">#hv.DynamicMap(lambda index: dfall_xy[dfall_xy.index==id].hvplot(), streams=[sel])</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">sys</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">ptm_animate</span><span class="p">())</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">pydsm</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">pydsm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pydsm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/notebooks.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nicky Sandhu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

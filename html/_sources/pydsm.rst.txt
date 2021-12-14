@@ -1,0 +1,94 @@
+pydsm package
+=============
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   pydsm.functions
+   pydsm.input
+
+Submodules
+----------
+
+pydsm.cli module
+----------------
+
+.. automodule:: pydsm.cli
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydsm.dsm2h5 module
+-------------------
+
+.. automodule:: pydsm.dsm2h5
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydsm.extract\_output module
+----------------------------
+
+.. automodule:: pydsm.extract_output
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydsm.hydro\_slicer module
+--------------------------
+
+.. automodule:: pydsm.hydro_slicer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydsm.hydroh5 module
+--------------------
+
+.. automodule:: pydsm.hydroh5
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydsm.postpro module
+--------------------
+
+.. automodule:: pydsm.postpro
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydsm.ptm module
+----------------
+
+.. automodule:: pydsm.ptm
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydsm.ptm\_animator module
+--------------------------
+
+.. automodule:: pydsm.ptm_animator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydsm.qualh5 module
+-------------------
+
+.. automodule:: pydsm.qualh5
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pydsm
+   :members:
+   :undoc-members:
+   :show-inheritance:

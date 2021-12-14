@@ -1,0 +1,295 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Reading qual hdf5 files from DSM2\n",
+    "\n",
+    "This notebook is an example of using pydsm to read DSM2 qual h5 output. Please the [notebook for reading hydro h5](dsm2_read_hydro_h5.ipynb) first.\n",
+    "\n",
+    "The timeseries are loaded as pandas DataFrame with datetime index and mcolumns of variable type (e.g. flow, stage, ec). This is similar to pyhecdss read in objects."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "import matplotlib.pyplot as plt\n",
+    "import numpy as np\n",
+    "import h5py\n",
+    "# main import \n",
+    "from pydsm.qualh5 import QualH5\n",
+    "# Turn on ones below if in debug or development mode\n",
+    "#%load_ext autoreload\n",
+    "#%autoreload 2"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Opening a H5 file\n",
+    "This provides the handle to the HDF5 file. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "filename='../../tests/data/historical_v82_ec.h5'\n",
+    "qual=QualH5(filename)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Qual data file structure\n",
+    "DSM2 Qual HDF5 stores data under two groups:\n",
+    " * /input\n",
+    " * /output"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Display channels\n",
+    "\n",
+    "The method get_channels() returns a data frame indexed by internal channel index. The first column contains the external channel id that is referenced in the dsm2 input files"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "qual.get_channels()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Reservoirs\n",
+    "The reservoirs table shows the name of the reservoirs"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "qual.get_reservoirs()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Constituents\n",
+    "These are the constituents that have been simulated for which data is available in the .h5 file"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "qual.get_constituents()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Get Data Tables\n",
+    "\n",
+    "These are tables that contain time series data. There are corresponding \n",
+    "get_* for each table. Those are described below"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "qual.get_data_tables()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Extracting time series data\n",
+    "Extracting data can then be done using the channel numbers. All data arrays have the first axis as time. The time start and time interval is available in the attrs along with other meta data.\n",
+    "\n",
+    "Constituent data shape is *time* x *constituent name* x *channel index* x *channel location*\n",
+    "\n",
+    "* time start is available in attribue \"START_TIME\"\n",
+    "* constituent name is the value found as explained in the get_constituents() method above\n",
+    "* channel index to channel numbers is explained above in the get_channels() method\n",
+    "* channel location (upstream/downstream) if available"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### get_* methods\n",
+    "\n",
+    "Each of the data tables has a corresponding get_* method. \n",
+    "E.g. To the get the channel flow data use the methods below\n",
+    "\n",
+    "Time window is an optional argument that can allow to retrieve only a part of the information"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "up1 = qual.get_channel_concentration('ec', '434','upstream')\n",
+    "down1 = qual.get_channel_concentration('ec','434','downstream')\n",
+    "pd.concat([up1,down1],axis=1)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Use the timewindow argument to retrieve only part of the time series"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "up2 = qual.get_channel_avg_concentration('ec', '380','10JAN1990 - 25JAN1990')\n",
+    "up2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "qual.get_channel_concentration('ec', 1,'upstream','08JAN1990 - 10JAN1990')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Qual Input Tables\n",
+    "The .h5 file in qual contains many (though not all) input tables (*.inp). A complete listing of those tables can be read from the echo files. See this [notebook to read input](dsm2_read_input.ipynb)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "qual.get_input_tables()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "To read the contents of any of the above tables simply use the get_input_table method"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "qual.get_input_table('/input/tidefile')"
+   ]
+  }
+ ],
+ "metadata": {
+  "hide_input": false,
+  "interpreter": {
+   "hash": "db7c19f4a439e5789451de0a908f63cf1cf9873bacb97bdd6cf888b60f976b5c"
+  },
+  "kernelspec": {
+   "display_name": "Python [conda env:dev_pydsm]",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.11"
+  },
+  "toc": {
+   "base_numbering": 1,
+   "nav_menu": {},
+   "number_sections": true,
+   "sideBar": true,
+   "skip_h1_title": false,
+   "title_cell": "Table of Contents",
+   "title_sidebar": "Contents",
+   "toc_cell": false,
+   "toc_position": {},
+   "toc_section_display": true,
+   "toc_window_display": false
+  },
+  "varInspector": {
+   "cols": {
+    "lenName": 16,
+    "lenType": 16,
+    "lenVar": 40
+   },
+   "kernels_config": {
+    "python": {
+     "delete_cmd_postfix": "",
+     "delete_cmd_prefix": "del ",
+     "library": "var_list.py",
+     "varRefreshCmd": "print(var_dic_list())"
+    },
+    "r": {
+     "delete_cmd_postfix": ") ",
+     "delete_cmd_prefix": "rm(",
+     "library": "var_list.r",
+     "varRefreshCmd": "cat(var_dic_list()) "
+    }
+   },
+   "types_to_exclude": [
+    "module",
+    "function",
+    "builtin_function_or_method",
+    "instance",
+    "_Feature"
+   ],
+   "window_display": false
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

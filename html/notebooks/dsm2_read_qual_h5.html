@@ -1,0 +1,1164 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Reading qual hdf5 files from DSM2 &#8212; pydsm 2021.12.13+0.geb83565.dirty documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="DSM2 as a graph network" href="dsm2_input_network.html" />
+    <link rel="prev" title="Reading hydro hdf5 files from DSM2" href="dsm2_read_hydro_h5.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<section id="Reading-qual-hdf5-files-from-DSM2">
+<h1>Reading qual hdf5 files from DSM2<a class="headerlink" href="#Reading-qual-hdf5-files-from-DSM2" title="Permalink to this headline">¶</a></h1>
+<p>This notebook is an example of using pydsm to read DSM2 qual h5 output. Please the <a class="reference internal" href="dsm2_read_hydro_h5.html"><span class="doc">notebook for reading hydro h5</span></a> first.</p>
+<p>The timeseries are loaded as pandas DataFrame with datetime index and mcolumns of variable type (e.g. flow, stage, ec). This is similar to pyhecdss read in objects.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">h5py</span>
+<span class="c1"># main import</span>
+<span class="kn">from</span> <span class="nn">pydsm.qualh5</span> <span class="kn">import</span> <span class="n">QualH5</span>
+<span class="c1"># Turn on ones below if in debug or development mode</span>
+<span class="c1">#%load_ext autoreload</span>
+<span class="c1">#%autoreload 2</span>
+</pre></div>
+</div>
+</div>
+<section id="Opening-a-H5-file">
+<h2>Opening a H5 file<a class="headerlink" href="#Opening-a-H5-file" title="Permalink to this headline">¶</a></h2>
+<p>This provides the handle to the HDF5 file.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;../../tests/data/historical_v82_ec.h5&#39;</span>
+<span class="n">qual</span><span class="o">=</span><span class="n">QualH5</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="Qual-data-file-structure">
+<h1>Qual data file structure<a class="headerlink" href="#Qual-data-file-structure" title="Permalink to this headline">¶</a></h1>
+<p>DSM2 Qual HDF5 stores data under two groups: * /input * /output</p>
+<section id="Display-channels">
+<h2>Display channels<a class="headerlink" href="#Display-channels" title="Permalink to this headline">¶</a></h2>
+<p>The method get_channels() returns a data frame indexed by internal channel index. The first column contains the external channel id that is referenced in the dsm2 input files</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_channels</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>516</th>
+      <td>575</td>
+    </tr>
+    <tr>
+      <th>517</th>
+      <td>700</td>
+    </tr>
+    <tr>
+      <th>518</th>
+      <td>701</td>
+    </tr>
+    <tr>
+      <th>519</th>
+      <td>702</td>
+    </tr>
+    <tr>
+      <th>520</th>
+      <td>703</td>
+    </tr>
+  </tbody>
+</table>
+<p>521 rows × 1 columns</p>
+</div></div>
+</div>
+</section>
+<section id="Reservoirs">
+<h2>Reservoirs<a class="headerlink" href="#Reservoirs" title="Permalink to this headline">¶</a></h2>
+<p>The reservoirs table shows the name of the reservoirs</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_reservoirs</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>bethel</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>clifton_court</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>discovery_bay</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>franks_tract</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>liberty</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>mildred</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Constituents">
+<h2>Constituents<a class="headerlink" href="#Constituents" title="Permalink to this headline">¶</a></h2>
+<p>These are the constituents that have been simulated for which data is available in the .h5 file</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_constituents</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>constituent_names</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>ec</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Get-Data-Tables">
+<h2>Get Data Tables<a class="headerlink" href="#Get-Data-Tables" title="Permalink to this headline">¶</a></h2>
+<p>These are tables that contain time series data. There are corresponding <a href="#id3"><span class="problematic" id="id4">get_</span></a>* for each table. Those are described below</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_data_tables</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;channel avg concentration&#39;,
+ &#39;channel concentration&#39;,
+ &#39;reservoir concentration&#39;]
+</pre></div></div>
+</div>
+</section>
+<section id="Extracting-time-series-data">
+<h2>Extracting time series data<a class="headerlink" href="#Extracting-time-series-data" title="Permalink to this headline">¶</a></h2>
+<p>Extracting data can then be done using the channel numbers. All data arrays have the first axis as time. The time start and time interval is available in the attrs along with other meta data.</p>
+<p>Constituent data shape is <em>time</em> x <em>constituent name</em> x <em>channel index</em> x <em>channel location</em></p>
+<ul class="simple">
+<li><p>time start is available in attribue “START_TIME”</p></li>
+<li><p>constituent name is the value found as explained in the get_constituents() method above</p></li>
+<li><p>channel index to channel numbers is explained above in the get_channels() method</p></li>
+<li><p>channel location (upstream/downstream) if available</p></li>
+</ul>
+<section id="get*-methods">
+<h3><a href="#id5"><span class="problematic" id="id6">get_</span></a>* methods<a class="headerlink" href="#get*-methods" title="Permalink to this headline">¶</a></h3>
+<p>Each of the data tables has a corresponding <a href="#id7"><span class="problematic" id="id8">get_</span></a>* method. E.g. To the get the channel flow data use the methods below</p>
+<p>Time window is an optional argument that can allow to retrieve only a part of the information</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">up1</span> <span class="o">=</span> <span class="n">qual</span><span class="o">.</span><span class="n">get_channel_concentration</span><span class="p">(</span><span class="s1">&#39;ec&#39;</span><span class="p">,</span> <span class="s1">&#39;434&#39;</span><span class="p">,</span><span class="s1">&#39;upstream&#39;</span><span class="p">)</span>
+<span class="n">down1</span> <span class="o">=</span> <span class="n">qual</span><span class="o">.</span><span class="n">get_channel_concentration</span><span class="p">(</span><span class="s1">&#39;ec&#39;</span><span class="p">,</span><span class="s1">&#39;434&#39;</span><span class="p">,</span><span class="s1">&#39;downstream&#39;</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">up1</span><span class="p">,</span><span class="n">down1</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>434-upstream</th>
+      <th>434-downstream</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1990-01-04 00:00:00</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>1990-01-04 01:00:00</th>
+      <td>0.039021</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>1990-01-04 02:00:00</th>
+      <td>0.053210</td>
+      <td>0.000686</td>
+    </tr>
+    <tr>
+      <th>1990-01-04 03:00:00</th>
+      <td>0.101569</td>
+      <td>0.005568</td>
+    </tr>
+    <tr>
+      <th>1990-01-04 04:00:00</th>
+      <td>0.127697</td>
+      <td>0.061579</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1990-01-30 20:00:00</th>
+      <td>1369.167969</td>
+      <td>3097.956055</td>
+    </tr>
+    <tr>
+      <th>1990-01-30 21:00:00</th>
+      <td>1016.531372</td>
+      <td>2442.458252</td>
+    </tr>
+    <tr>
+      <th>1990-01-30 22:00:00</th>
+      <td>682.779236</td>
+      <td>1874.719360</td>
+    </tr>
+    <tr>
+      <th>1990-01-30 23:00:00</th>
+      <td>491.581543</td>
+      <td>1415.053955</td>
+    </tr>
+    <tr>
+      <th>1990-01-31 00:00:00</th>
+      <td>390.986542</td>
+      <td>1064.520752</td>
+    </tr>
+  </tbody>
+</table>
+<p>649 rows × 2 columns</p>
+</div></div>
+</div>
+<p>Use the timewindow argument to retrieve only part of the time series</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">up2</span> <span class="o">=</span> <span class="n">qual</span><span class="o">.</span><span class="n">get_channel_avg_concentration</span><span class="p">(</span><span class="s1">&#39;ec&#39;</span><span class="p">,</span> <span class="s1">&#39;380&#39;</span><span class="p">,</span><span class="s1">&#39;10JAN1990 - 25JAN1990&#39;</span><span class="p">)</span>
+<span class="n">up2</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>380</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1990-01-10 00:00:00</th>
+      <td>123.189064</td>
+    </tr>
+    <tr>
+      <th>1990-01-10 01:00:00</th>
+      <td>123.963478</td>
+    </tr>
+    <tr>
+      <th>1990-01-10 02:00:00</th>
+      <td>125.721069</td>
+    </tr>
+    <tr>
+      <th>1990-01-10 03:00:00</th>
+      <td>127.292564</td>
+    </tr>
+    <tr>
+      <th>1990-01-10 04:00:00</th>
+      <td>128.298035</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1990-01-24 19:00:00</th>
+      <td>189.090286</td>
+    </tr>
+    <tr>
+      <th>1990-01-24 20:00:00</th>
+      <td>189.432419</td>
+    </tr>
+    <tr>
+      <th>1990-01-24 21:00:00</th>
+      <td>190.366257</td>
+    </tr>
+    <tr>
+      <th>1990-01-24 22:00:00</th>
+      <td>192.871918</td>
+    </tr>
+    <tr>
+      <th>1990-01-24 23:00:00</th>
+      <td>197.562775</td>
+    </tr>
+  </tbody>
+</table>
+<p>360 rows × 1 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_channel_concentration</span><span class="p">(</span><span class="s1">&#39;ec&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="s1">&#39;upstream&#39;</span><span class="p">,</span><span class="s1">&#39;08JAN1990 - 10JAN1990&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>1-upstream</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1990-01-08 00:00:00</th>
+      <td>1138.650635</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 01:00:00</th>
+      <td>1139.727905</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 02:00:00</th>
+      <td>1139.729492</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 03:00:00</th>
+      <td>1138.398071</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 04:00:00</th>
+      <td>1133.848022</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 05:00:00</th>
+      <td>1130.868042</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 06:00:00</th>
+      <td>1130.011353</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 07:00:00</th>
+      <td>1129.855347</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 08:00:00</th>
+      <td>1129.834106</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 09:00:00</th>
+      <td>1129.832275</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 10:00:00</th>
+      <td>1129.832642</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 11:00:00</th>
+      <td>1129.833008</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 12:00:00</th>
+      <td>1129.833252</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 13:00:00</th>
+      <td>1129.833374</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 14:00:00</th>
+      <td>1129.833374</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 15:00:00</th>
+      <td>1129.833374</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 16:00:00</th>
+      <td>1129.833496</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 17:00:00</th>
+      <td>1129.833862</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 18:00:00</th>
+      <td>1129.834473</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 19:00:00</th>
+      <td>1129.835449</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 20:00:00</th>
+      <td>1129.836304</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 21:00:00</th>
+      <td>1129.836182</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 22:00:00</th>
+      <td>1129.835571</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 23:00:00</th>
+      <td>1129.834961</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 00:00:00</th>
+      <td>1129.834229</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 01:00:00</th>
+      <td>1129.515137</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 02:00:00</th>
+      <td>1129.518677</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 03:00:00</th>
+      <td>1129.651978</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 04:00:00</th>
+      <td>1130.105225</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 05:00:00</th>
+      <td>1130.407227</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 06:00:00</th>
+      <td>1130.495361</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 07:00:00</th>
+      <td>1130.511963</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 08:00:00</th>
+      <td>1130.514526</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 09:00:00</th>
+      <td>1130.515137</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 10:00:00</th>
+      <td>1130.515503</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 11:00:00</th>
+      <td>1130.515869</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 12:00:00</th>
+      <td>1130.515991</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 13:00:00</th>
+      <td>1130.516113</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 14:00:00</th>
+      <td>1130.516113</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 15:00:00</th>
+      <td>1130.515991</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 16:00:00</th>
+      <td>1130.515991</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 17:00:00</th>
+      <td>1130.516113</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 18:00:00</th>
+      <td>1130.516357</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 19:00:00</th>
+      <td>1130.516846</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 20:00:00</th>
+      <td>1130.517700</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 21:00:00</th>
+      <td>1130.518311</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 22:00:00</th>
+      <td>1130.518188</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 23:00:00</th>
+      <td>1130.517700</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+</section>
+<section id="Qual-Input-Tables">
+<h2>Qual Input Tables<a class="headerlink" href="#Qual-Input-Tables" title="Permalink to this headline">¶</a></h2>
+<p>The .h5 file in qual contains many (though not all) input tables (<a href="#id1"><span class="problematic" id="id2">*</span></a>.inp). A complete listing of those tables can be read from the echo files. See this <a class="reference internal" href="dsm2_read_input.html"><span class="doc">notebook to read input</span></a></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_input_tables</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;/input/envvar&#39;,
+ &#39;/input/group&#39;,
+ &#39;/input/group_member&#39;,
+ &#39;/input/input_climate&#39;,
+ &#39;/input/io_file&#39;,
+ &#39;/input/layers&#39;,
+ &#39;/input/node_concentration&#39;,
+ &#39;/input/output_channel&#39;,
+ &#39;/input/output_channel_source_track&#39;,
+ &#39;/input/output_reservoir&#39;,
+ &#39;/input/output_reservoir_source_track&#39;,
+ &#39;/input/rate_coefficient&#39;,
+ &#39;/input/reservoir_concentration&#39;,
+ &#39;/input/scalar&#39;,
+ &#39;/input/tidefile&#39;]
+</pre></div></div>
+</div>
+<p>To read the contents of any of the above tables simply use the get_input_table method</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_input_table</span><span class="p">(</span><span class="s1">&#39;/input/tidefile&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>start_date</th>
+      <th>end_date</th>
+      <th>file</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>runtime</td>
+      <td>length</td>
+      <td>./output/historical_v82.h5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">pydsm</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">pydsm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">pydsm</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="notebooks.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html">Reading Hydro echo files into Pandas DataFrame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html#Visualizing-input-data">Visualizing input data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html#Writing-input-to-file">Writing input to file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_hydro_h5.html">Reading hydro hdf5 files from DSM2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_hydro_h5.html#Hydro-data-file-structure">Hydro data file structure</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Reading qual hdf5 files from DSM2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Qual-data-file-structure">Qual data file structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_input_network.html">DSM2 as a graph network</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="notebooks.html">Examples</a><ul>
+      <li>Previous: <a href="dsm2_read_hydro_h5.html" title="previous chapter">Reading hydro hdf5 files from DSM2</a></li>
+      <li>Next: <a href="dsm2_input_network.html" title="next chapter">DSM2 as a graph network</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nicky Sandhu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/notebooks/dsm2_read_qual_h5.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

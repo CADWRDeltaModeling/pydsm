@@ -1,0 +1,1411 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Reading hydro hdf5 files from DSM2 &#8212; pydsm 2021.12.13+0.geb83565.dirty documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Reading qual hdf5 files from DSM2" href="dsm2_read_qual_h5.html" />
+    <link rel="prev" title="Reading Hydro echo files into Pandas DataFrame" href="dsm2_read_input.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<section id="Reading-hydro-hdf5-files-from-DSM2">
+<h1>Reading hydro hdf5 files from DSM2<a class="headerlink" href="#Reading-hydro-hdf5-files-from-DSM2" title="Permalink to this headline">¶</a></h1>
+<p>This notebook is an example of using pydsm to read DSM2 h5 output.</p>
+<p>The timeseries are loaded as pandas DataFrame with datetime index and mcolumns of variable type (e.g. flow, stage, ec). This is similar to pyhecdss read in objects.</p>
+<p>In addition to the state of the model as time series, the HDF file also contains the input tables as intepreted by DSM2. I say interpreted because it also has important tables such as virtual cross-sections that is the geometry finally used by DSM2 even though the user specifies the physical geometry in the input files.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">h5py</span>
+<span class="c1"># main import</span>
+<span class="kn">from</span> <span class="nn">pydsm.hydroh5</span> <span class="kn">import</span> <span class="n">HydroH5</span>
+<span class="c1"># Turn on ones below if in debug or development mode</span>
+<span class="c1">#%load_ext autoreload</span>
+<span class="c1">#%autoreload 2</span>
+</pre></div>
+</div>
+</div>
+<section id="Opening-a-H5-file">
+<h2>Opening a H5 file<a class="headerlink" href="#Opening-a-H5-file" title="Permalink to this headline">¶</a></h2>
+<p>This provides the handle to the HDF5 file.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;../../tests/data/historical_v82.h5&#39;</span>
+<span class="n">hydro</span><span class="o">=</span><span class="n">HydroH5</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="Hydro-data-file-structure">
+<h1>Hydro data file structure<a class="headerlink" href="#Hydro-data-file-structure" title="Permalink to this headline">¶</a></h1>
+<p>DSM2 Hydro HDF5 stores data under three groups: * /hydro/data * /hydro/input * /hydro/geometry</p>
+<section id="Display-channels">
+<h2>Display channels<a class="headerlink" href="#Display-channels" title="Permalink to this headline">¶</a></h2>
+<p>The method get_channels() returns a data frame indexed by internal channel index. The first column contains the external channel id that is referenced in the dsm2 input files</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">hydro</span><span class="o">.</span><span class="n">get_channels</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>516</th>
+      <td>575</td>
+    </tr>
+    <tr>
+      <th>517</th>
+      <td>700</td>
+    </tr>
+    <tr>
+      <th>518</th>
+      <td>701</td>
+    </tr>
+    <tr>
+      <th>519</th>
+      <td>702</td>
+    </tr>
+    <tr>
+      <th>520</th>
+      <td>703</td>
+    </tr>
+  </tbody>
+</table>
+<p>521 rows × 1 columns</p>
+</div></div>
+</div>
+</section>
+<section id="Reservoirs">
+<h2>Reservoirs<a class="headerlink" href="#Reservoirs" title="Permalink to this headline">¶</a></h2>
+<p>The reservoirs table shows the name of the reservoirs</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">hydro</span><span class="o">.</span><span class="n">get_reservoirs</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>bethel</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>clifton_court</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>discovery_bay</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>franks_tract</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>liberty</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>mildred</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="External-Flows">
+<h2>External Flows<a class="headerlink" href="#External-Flows" title="Permalink to this headline">¶</a></h2>
+<p>These are external flows defined in the input files. E.g all the boundary flow inputs, including the diversions/seepage/returns at nodes are available from this table</p>
+<p>?Need reference to dsm2 docs here</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">hydro</span><span class="o">.</span><span class="n">get_qext</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>attach_obj_name</th>
+      <th>attached_obj_type</th>
+      <th>attached_obj_no</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>calaveras</td>
+      <td>21</td>
+      <td>2</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>cosumnes</td>
+      <td>446</td>
+      <td>2</td>
+      <td>428</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>moke</td>
+      <td>447</td>
+      <td>2</td>
+      <td>429</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>north_bay</td>
+      <td>273</td>
+      <td>2</td>
+      <td>402</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>sac</td>
+      <td>330</td>
+      <td>2</td>
+      <td>295</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>785</th>
+      <td>stockton</td>
+      <td>15</td>
+      <td>2</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>786</th>
+      <td>dicu_div_bbid</td>
+      <td>clifton_court</td>
+      <td>3</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>787</th>
+      <td>dicu_drain_bbid</td>
+      <td>clifton_court</td>
+      <td>3</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>788</th>
+      <td>dicu_seep_bbid</td>
+      <td>clifton_court</td>
+      <td>3</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>789</th>
+      <td>swp</td>
+      <td>clifton_court</td>
+      <td>3</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+<p>790 rows × 4 columns</p>
+</div></div>
+</div>
+</section>
+<section id="Get-Data-Tables">
+<h2>Get Data Tables<a class="headerlink" href="#Get-Data-Tables" title="Permalink to this headline">¶</a></h2>
+<p>These are tables that contain time series data. There are corresponding <a href="#id3"><span class="problematic" id="id4">get_</span></a>* for each table. Those are described below</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">hydro</span><span class="o">.</span><span class="n">get_data_tables</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;channel flow&#39;,
+ &#39;channel area&#39;,
+ &#39;channel stage&#39;,
+ &#39;channel avg area&#39;,
+ &#39;qext flow&#39;,
+ &#39;reservoir flow&#39;,
+ &#39;reservoir height&#39;,
+ &#39;transfer flow&#39;]
+</pre></div></div>
+</div>
+</section>
+<section id="Channel-indices-to-numbers">
+<h2>Channel indices to numbers<a class="headerlink" href="#Channel-indices-to-numbers" title="Permalink to this headline">¶</a></h2>
+<p>The data in DataSets under /hydro/data is typically indexed by time, channel index, upstream/downstream if needed The channel index can be mapped to the channel number by looking up that information from /hydro/geometry/channel_number</p>
+</section>
+<section id="Extracting-time-series-data">
+<h2>Extracting time series data<a class="headerlink" href="#Extracting-time-series-data" title="Permalink to this headline">¶</a></h2>
+<p>Extracting data can then be done using the channel numbers. All data arrays have the first axis as time. The time start and time interval is available in the attrs along with other meta data.</p>
+<p>Flow data shape is <em>time</em> x <em>channel index</em> x <em>channel location</em></p>
+<p>time start is available in attribue “START_TIME” channel index to channel numbers is explained above channel location (upstream/downstream) is available in /hydro/geometry/channel_location</p>
+<section id="get*-methods">
+<h3><a href="#id5"><span class="problematic" id="id6">get_</span></a>* methods<a class="headerlink" href="#get*-methods" title="Permalink to this headline">¶</a></h3>
+<p>Each of the data tables has a corresponding <a href="#id7"><span class="problematic" id="id8">get_</span></a>* method. E.g. To the get the channel flow data use the methods below</p>
+<p>Time window is an optional argument that can allow to retrieve only a part of the information</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">up1</span> <span class="o">=</span> <span class="n">hydro</span><span class="o">.</span><span class="n">get_channel_flow</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span><span class="s1">&#39;upstream&#39;</span><span class="p">)</span>
+<span class="n">down1</span> <span class="o">=</span> <span class="n">hydro</span><span class="o">.</span><span class="n">get_channel_flow</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span><span class="s1">&#39;downstream&#39;</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">up1</span><span class="p">,</span><span class="n">down1</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>1-upstream</th>
+      <th>1-downstream</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1990-01-02 00:00:00</th>
+      <td>2600.000000</td>
+      <td>2400.000000</td>
+    </tr>
+    <tr>
+      <th>1990-01-02 00:30:00</th>
+      <td>207.439545</td>
+      <td>1069.039551</td>
+    </tr>
+    <tr>
+      <th>1990-01-02 01:00:00</th>
+      <td>1274.626099</td>
+      <td>1000.641602</td>
+    </tr>
+    <tr>
+      <th>1990-01-02 01:30:00</th>
+      <td>1156.880615</td>
+      <td>1157.169312</td>
+    </tr>
+    <tr>
+      <th>1990-01-02 02:00:00</th>
+      <td>1167.104126</td>
+      <td>1245.222656</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1990-01-30 22:00:00</th>
+      <td>1208.349243</td>
+      <td>1205.972046</td>
+    </tr>
+    <tr>
+      <th>1990-01-30 22:30:00</th>
+      <td>1208.321655</td>
+      <td>1203.835205</td>
+    </tr>
+    <tr>
+      <th>1990-01-30 23:00:00</th>
+      <td>1208.271362</td>
+      <td>1201.660400</td>
+    </tr>
+    <tr>
+      <th>1990-01-30 23:30:00</th>
+      <td>1208.193848</td>
+      <td>1200.023438</td>
+    </tr>
+    <tr>
+      <th>1990-01-31 00:00:00</th>
+      <td>1208.081909</td>
+      <td>1199.686401</td>
+    </tr>
+  </tbody>
+</table>
+<p>1393 rows × 2 columns</p>
+</div></div>
+</div>
+<p>Use the timewindow argument to retrieve only part of the time series</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">up2</span> <span class="o">=</span> <span class="n">hydro</span><span class="o">.</span><span class="n">get_channel_flow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;downstream&#39;</span><span class="p">,</span><span class="s1">&#39;05JAN1990 0000 - 07JAN1990 0445&#39;</span><span class="p">)</span>
+<span class="n">up2</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>2-downstream</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1990-01-05 00:00:00</th>
+      <td>1172.085571</td>
+    </tr>
+    <tr>
+      <th>1990-01-05 00:30:00</th>
+      <td>1170.742676</td>
+    </tr>
+    <tr>
+      <th>1990-01-05 01:00:00</th>
+      <td>1169.590088</td>
+    </tr>
+    <tr>
+      <th>1990-01-05 01:30:00</th>
+      <td>1168.591675</td>
+    </tr>
+    <tr>
+      <th>1990-01-05 02:00:00</th>
+      <td>1167.637939</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1990-01-07 02:00:00</th>
+      <td>1211.994995</td>
+    </tr>
+    <tr>
+      <th>1990-01-07 02:30:00</th>
+      <td>1210.896851</td>
+    </tr>
+    <tr>
+      <th>1990-01-07 03:00:00</th>
+      <td>1209.269531</td>
+    </tr>
+    <tr>
+      <th>1990-01-07 03:30:00</th>
+      <td>1207.549438</td>
+    </tr>
+    <tr>
+      <th>1990-01-07 04:00:00</th>
+      <td>1205.847412</td>
+    </tr>
+  </tbody>
+</table>
+<p>105 rows × 1 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">hydro</span><span class="o">.</span><span class="n">get_channel_stage</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;upstream&#39;</span><span class="p">,</span><span class="s1">&#39;08JAN1990 - 10JAN1990&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>1-upstream</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1990-01-08 00:00:00</th>
+      <td>7.170351</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 00:30:00</th>
+      <td>7.165919</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 01:00:00</th>
+      <td>7.156087</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 01:30:00</th>
+      <td>7.148658</td>
+    </tr>
+    <tr>
+      <th>1990-01-08 02:00:00</th>
+      <td>7.142569</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 21:30:00</th>
+      <td>7.093923</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 22:00:00</th>
+      <td>7.094852</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 22:30:00</th>
+      <td>7.095624</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 23:00:00</th>
+      <td>7.096228</td>
+    </tr>
+    <tr>
+      <th>1990-01-09 23:30:00</th>
+      <td>7.096662</td>
+    </tr>
+  </tbody>
+</table>
+<p>96 rows × 1 columns</p>
+</div></div>
+</div>
+</section>
+</section>
+<section id="Hydro-Input-Tables">
+<h2>Hydro Input Tables<a class="headerlink" href="#Hydro-Input-Tables" title="Permalink to this headline">¶</a></h2>
+<p>The .h5 file in hydro contains many (though not all) input tables (<a href="#id1"><span class="problematic" id="id2">*</span></a>.inp). A complete listing of those tables can be read from the echo files. See this <a class="reference internal" href="dsm2_read_input.html"><span class="doc">notebook to read input</span></a></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">hydro</span><span class="o">.</span><span class="n">get_input_tables</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;/hydro/input/boundary_flow&#39;,
+ &#39;/hydro/input/boundary_stage&#39;,
+ &#39;/hydro/input/channel&#39;,
+ &#39;/hydro/input/channel_ic&#39;,
+ &#39;/hydro/input/envvar&#39;,
+ &#39;/hydro/input/gate&#39;,
+ &#39;/hydro/input/gate_pipe_device&#39;,
+ &#39;/hydro/input/gate_weir_device&#39;,
+ &#39;/hydro/input/input_gate&#39;,
+ &#39;/hydro/input/input_transfer_flow&#39;,
+ &#39;/hydro/input/io_file&#39;,
+ &#39;/hydro/input/layers&#39;,
+ &#39;/hydro/input/operating_rule&#39;,
+ &#39;/hydro/input/oprule_expression&#39;,
+ &#39;/hydro/input/oprule_time_series&#39;,
+ &#39;/hydro/input/output_channel&#39;,
+ &#39;/hydro/input/output_gate&#39;,
+ &#39;/hydro/input/output_reservoir&#39;,
+ &#39;/hydro/input/reservoir&#39;,
+ &#39;/hydro/input/reservoir_connection&#39;,
+ &#39;/hydro/input/reservoir_ic&#39;,
+ &#39;/hydro/input/reservoir_vol&#39;,
+ &#39;/hydro/input/scalar&#39;,
+ &#39;/hydro/input/source_flow&#39;,
+ &#39;/hydro/input/source_flow_reservoir&#39;,
+ &#39;/hydro/input/transfer&#39;,
+ &#39;/hydro/input/xsect&#39;,
+ &#39;/hydro/input/xsect_layer&#39;]
+</pre></div></div>
+</div>
+<p>To read the contents of any of the above tables simply use the get_input_table method</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">hydro</span><span class="o">.</span><span class="n">get_input_table</span><span class="p">(</span><span class="s1">&#39;/hydro/input/channel&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>chan_no</th>
+      <th>length</th>
+      <th>manning</th>
+      <th>dispersion</th>
+      <th>upnode</th>
+      <th>downnode</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>19500</td>
+      <td>0.035</td>
+      <td>360.0</td>
+      <td>1</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>14000</td>
+      <td>0.028</td>
+      <td>360.0</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>13000</td>
+      <td>0.028</td>
+      <td>360.0</td>
+      <td>3</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>14050</td>
+      <td>0.028</td>
+      <td>360.0</td>
+      <td>4</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>12350</td>
+      <td>0.028</td>
+      <td>360.0</td>
+      <td>5</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>516</th>
+      <td>575</td>
+      <td>13000</td>
+      <td>0.022</td>
+      <td>1800.0</td>
+      <td>328</td>
+      <td>357</td>
+    </tr>
+    <tr>
+      <th>517</th>
+      <td>700</td>
+      <td>10000</td>
+      <td>0.033</td>
+      <td>360.0</td>
+      <td>700</td>
+      <td>330</td>
+    </tr>
+    <tr>
+      <th>518</th>
+      <td>701</td>
+      <td>10000</td>
+      <td>0.033</td>
+      <td>360.0</td>
+      <td>701</td>
+      <td>700</td>
+    </tr>
+    <tr>
+      <th>519</th>
+      <td>702</td>
+      <td>10000</td>
+      <td>0.033</td>
+      <td>360.0</td>
+      <td>702</td>
+      <td>701</td>
+    </tr>
+    <tr>
+      <th>520</th>
+      <td>703</td>
+      <td>10000</td>
+      <td>0.033</td>
+      <td>360.0</td>
+      <td>703</td>
+      <td>702</td>
+    </tr>
+  </tbody>
+</table>
+<p>521 rows × 6 columns</p>
+</div></div>
+</div>
+</section>
+<section id="Hydro-geometry-input">
+<h2>Hydro geometry input<a class="headerlink" href="#Hydro-geometry-input" title="Permalink to this headline">¶</a></h2>
+<p>Hydro also contains the geometry information such as the mapping of internal channel ids to external ones</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">hydro</span><span class="o">.</span><span class="n">get_geometry_tables</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;/hydro/geometry/channel_bottom&#39;,
+ &#39;/hydro/geometry/channel_location&#39;,
+ &#39;/hydro/geometry/channel_number&#39;,
+ &#39;/hydro/geometry/external_flow_names&#39;,
+ &#39;/hydro/geometry/hydro_comp_point&#39;,
+ &#39;/hydro/geometry/node_flow_connections&#39;,
+ &#39;/hydro/geometry/qext&#39;,
+ &#39;/hydro/geometry/reservoir_flow_connections&#39;,
+ &#39;/hydro/geometry/reservoir_names&#39;,
+ &#39;/hydro/geometry/reservoir_node_connect&#39;,
+ &#39;/hydro/geometry/stage_boundaries&#39;,
+ &#39;/hydro/geometry/transfer_names&#39;]
+</pre></div></div>
+</div>
+<p>Channel bottoms are a calculation especially when looking at channel stage. These then have to be used in conjunction with that information to calculate depths</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">channels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span><span class="s1">&#39;331&#39;</span><span class="p">,</span><span class="s1">&#39;441&#39;</span><span class="p">]</span>
+<span class="n">hydro</span><span class="o">.</span><span class="n">get_channel_bottom</span><span class="p">(</span><span class="n">channels</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>upstream</th>
+      <th>downstream</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>3.502402</td>
+      <td>2.509000</td>
+    </tr>
+    <tr>
+      <th>331</th>
+      <td>-13.584000</td>
+      <td>-15.414000</td>
+    </tr>
+    <tr>
+      <th>441</th>
+      <td>-69.570999</td>
+      <td>-52.325001</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Hydro does its computation at certain points and those are available from the table below</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">hydro</span><span class="o">.</span><span class="n">get_geometry_table</span><span class="p">(</span><span class="s1">&#39;/hydro/geometry/hydro_comp_point&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>comp_index</th>
+      <th>channel</th>
+      <th>distance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1</td>
+      <td>6500.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1</td>
+      <td>13000.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1</td>
+      <td>19500.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>2</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1218</th>
+      <td>1219</td>
+      <td>520</td>
+      <td>5000.0</td>
+    </tr>
+    <tr>
+      <th>1219</th>
+      <td>1220</td>
+      <td>520</td>
+      <td>10000.0</td>
+    </tr>
+    <tr>
+      <th>1220</th>
+      <td>1221</td>
+      <td>521</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1221</th>
+      <td>1222</td>
+      <td>521</td>
+      <td>5000.0</td>
+    </tr>
+    <tr>
+      <th>1222</th>
+      <td>1223</td>
+      <td>521</td>
+      <td>10000.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>1223 rows × 3 columns</p>
+</div></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">pydsm</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">pydsm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">pydsm</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="notebooks.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html">Reading Hydro echo files into Pandas DataFrame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html#Visualizing-input-data">Visualizing input data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html#Writing-input-to-file">Writing input to file</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Reading hydro hdf5 files from DSM2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Hydro-data-file-structure">Hydro data file structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_qual_h5.html">Reading qual hdf5 files from DSM2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_qual_h5.html#Qual-data-file-structure">Qual data file structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_input_network.html">DSM2 as a graph network</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="notebooks.html">Examples</a><ul>
+      <li>Previous: <a href="dsm2_read_input.html" title="previous chapter">Reading Hydro echo files into Pandas DataFrame</a></li>
+      <li>Next: <a href="dsm2_read_qual_h5.html" title="next chapter">Reading qual hdf5 files from DSM2</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nicky Sandhu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/notebooks/dsm2_read_hydro_h5.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

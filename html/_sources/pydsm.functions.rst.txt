@@ -1,0 +1,29 @@
+pydsm.functions package
+=======================
+
+Submodules
+----------
+
+pydsm.functions.tidalhl module
+------------------------------
+
+.. automodule:: pydsm.functions.tidalhl
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydsm.functions.tsmath module
+-----------------------------
+
+.. automodule:: pydsm.functions.tsmath
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pydsm.functions
+   :members:
+   :undoc-members:
+   :show-inheritance:
