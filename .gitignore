@@ -110,3 +110,4 @@ ENV/
 
 # mypy
 .mypy_cache/
+tests/hydro_echo_historical_v82_copy.inp

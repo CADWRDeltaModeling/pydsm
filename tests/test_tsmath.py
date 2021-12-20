@@ -26,15 +26,15 @@ def linear_timeseries(request):
 
 def test_per_aver(linear_timeseries):
     tsavg=tsmath.per_aver(linear_timeseries)
-    assert tsavg.loc['02JAN2000'].values[0] == sum(range(0,24))/24
+    assert tsavg.loc['01JAN2000'].values[0] == sum(range(0,24))/24
 
 def test_per_max(linear_timeseries):
     tsmax=tsmath.per_max(linear_timeseries)
-    assert tsmax.loc['02JAN2000'].values[0] == 23
+    assert tsmax.loc['01JAN2000'].values[0] == 23
 
 def test_per_min(linear_timeseries):
     tsmin=tsmath.per_min(linear_timeseries)
-    assert tsmin.loc['02JAN2000'].values[0] == 0
+    assert tsmin.loc['01JAN2000'].values[0] == 0
 
 def test_mse(linear_timeseries):
     assert 0 == tsmath.mse(linear_timeseries.iloc[:,0],linear_timeseries.iloc[:,0])

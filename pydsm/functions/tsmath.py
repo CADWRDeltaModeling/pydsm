@@ -13,7 +13,7 @@ def resample_hec_style(df, interval='D'):
     In addition to conform to HEC-conventions the resampling is done with closed="right" and label="right"
     see pandas resample documentation to understand these arguments
     '''
-    return df.resample(interval, closed='right', label='right', kind='timestamp')
+    return df.resample(interval, closed='right', kind='timestamp')
 
 
 def per_aver(df, interval='D'):
