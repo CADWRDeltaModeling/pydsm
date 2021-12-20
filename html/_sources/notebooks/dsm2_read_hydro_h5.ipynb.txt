@@ -4,7 +4,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# Reading hydro hdf5 files from DSM2\n",
+    "# Reading hydro h5 output files\n",
     "\n",
     "This notebook is an example of using pydsm to read DSM2 h5 output.\n",
     "\n",
@@ -52,7 +52,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# Hydro data file structure\n",
+    "## Hydro data file structure\n",
     "DSM2 Hydro HDF5 stores data under three groups:\n",
     " * /hydro/data\n",
     " * /hydro/input\n",
@@ -64,7 +64,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Display channels\n",
+    "### Channels\n",
     "\n",
     "The method get_channels() returns a data frame indexed by internal channel index. The first column contains the external channel id that is referenced in the dsm2 input files"
    ]
@@ -82,7 +82,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Reservoirs\n",
+    "### Reservoirs\n",
     "The reservoirs table shows the name of the reservoirs"
    ]
   },
@@ -99,7 +99,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## External Flows\n",
+    "### External Flows\n",
     "\n",
     "These are external flows defined in the input files. E.g all the boundary flow inputs, including the diversions/seepage/returns at nodes are available from this table\n",
     "\n",
@@ -120,7 +120,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Get Data Tables\n",
+    "### Data Tables\n",
     "\n",
     "These are tables that contain time series data. There are corresponding \n",
     "get_* for each table. Those are described below"
@@ -139,7 +139,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Channel indices to numbers\n",
+    "### Channel indices to numbers\n",
     "The data in DataSets under /hydro/data is typically indexed by time, channel index, upstream/downstream if needed\n",
     "The channel index can be mapped to the channel number by looking up that information from /hydro/geometry/channel_number"
    ]
@@ -148,7 +148,8 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Extracting time series data\n",
+    "\n",
+    "### Extracting time series data\n",
     "Extracting data can then be done using the channel numbers. All data arrays have the first axis as time. The time start and time interval is available in the attrs along with other meta data.\n",
     "\n",
     "Flow data shape is *time* x *channel index* x *channel location*\n",
@@ -162,7 +163,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "### get_* methods\n",
+    "#### get_* methods\n",
     "\n",
     "Each of the data tables has a corresponding get_* method. \n",
     "E.g. To the get the channel flow data use the methods below\n",
@@ -211,7 +212,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Hydro Input Tables\n",
+    "### Hydro Input Tables\n",
     "The .h5 file in hydro contains many (though not all) input tables (*.inp). A complete listing of those tables can be read from the echo files. See this [notebook to read input](dsm2_read_input.ipynb)"
    ]
   },
@@ -244,7 +245,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Hydro geometry input\n",
+    "### Hydro geometry input\n",
     "Hydro also contains the geometry information such as the mapping of internal channel ids to external ones"
    ]
   },

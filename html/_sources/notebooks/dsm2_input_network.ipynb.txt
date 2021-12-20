@@ -4,8 +4,9 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# DSM2 as a graph network\n",
-    "DSM2 is a network of junctions and reservoirs with connections of either channels, reservoir connections or gates. In this view of DSM2 the input tables that represent the hydrodynamic network can be represented as a mathematical graph.\n",
+    "# DSM2 as a network\n",
+    "\n",
+    "DSM2 is a network (graph theory) of junctions and reservoirs with connections of either channels, reservoir connections or gates. In this view of DSM2 the input tables that represent the hydrodynamic network can be represented as a mathematical graph.\n",
     "This view allows some interesting questions to be asked and answered. \n",
     "E.g.\n",
     "What is the shortest path from one node to another? (if it exists)\n",
@@ -257,7 +258,8 @@
    },
    "outputs": [],
    "source": [
-    "for node in gall.nodes:\n",
+    "print('Limiting print to first 5 nodes')\n",
+    "for node in list(gall.nodes)[0:5]:\n",
     "    print(list(nx.shortest_path(gall,node,361)))"
    ]
   },

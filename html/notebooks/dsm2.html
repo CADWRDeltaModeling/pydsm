@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Examples &#8212; pydsm 2021.12.20+0.g3216eaa.dirty documentation</title>
+    <title>DSM2 Input/Output &#8212; pydsm 2021.12.20+0.g3216eaa.dirty documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -16,8 +16,8 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="DSM2 Input/Output" href="dsm2.html" />
-    <link rel="prev" title="pydsm.input package" href="../pydsm.input.html" />
+    <link rel="next" title="Reading/writing echo files into/from Pandas DataFrame" href="dsm2_read_input.html" />
+    <link rel="prev" title="Examples" href="notebooks.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -34,29 +34,28 @@
 
           <div class="body" role="main">
             
-  <section id="examples">
-<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+  <section id="dsm2-input-output">
+<h1>DSM2 Input/Output<a class="headerlink" href="#dsm2-input-output" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="dsm2.html">DSM2 Input/Output</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html">Reading/writing echo files into/from Pandas DataFrame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html#Visualizing-input-data">Visualizing input data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html#Writing-input-to-file">Writing input to file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dsm2_read_hydro_h5.html">Reading hydro h5 output files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dsm2_read_qual_h5.html">Reading Qual h5 output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dsm2_read_input.html">Reading/writing echo files into/from Pandas DataFrame</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html#Read-input-into-a-dictionary-of-pandas-DataFrames">Read input into a dictionary of pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html#Print-list-of-all-tables">Print list of all tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html#Display-the-DataFrame-for-a-table,-e.g. CHANNEL">Display the DataFrame for a table, e.g. CHANNEL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html#Programmatic-inspection-of-input">Programmatic inspection of input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html#Combining-input-tables">Combining input tables</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="dsm2_input_network.html">DSM2 as a network</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="dsm2_input_network.html#Read-in-input-file">Read in input file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dsm2_input_network.html#Convert-to-a-graph-network">Convert to a graph network</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dsm2_input_network.html#Drawing-graph-networks">Drawing graph networks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dsm2_input_network.html#Utilizing-graph-information">Utilizing graph information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dsm2_read_input.html#Visualizing-input-data">Visualizing input data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dsm2_read_input.html#Writing-input-to-file">Writing input to file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dsm2_read_hydro_h5.html">Reading hydro h5 output files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_hydro_h5.html#Opening-a-H5-file">Opening a H5 file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_hydro_h5.html#Hydro-data-file-structure">Hydro data file structure</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="timestamps_periods_hec_conventions.html">Time stamps, Periods HEC convention</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="timestamps_periods_hec_conventions.html#Time-formats-(standards-and-military-conventions)">Time formats (standards and military conventions)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="timestamps_periods_hec_conventions.html#Period-and-Instantaneous-data-types">Period and Instantaneous data types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="timestamps_periods_hec_conventions.html#Period-operations">Period operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dsm2_read_qual_h5.html">Reading Qual h5 output</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_qual_h5.html#Opening-a-H5-file">Opening a H5 file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_read_qual_h5.html#Qual-data-file-structure">Qual data file structure</a></li>
 </ul>
 </li>
 </ul>
@@ -86,8 +85,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">pydsm</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="dsm2.html">DSM2 Input/Output</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="notebooks.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">DSM2 Input/Output</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dsm2_input_network.html">DSM2 as a network</a></li>
 <li class="toctree-l2"><a class="reference internal" href="timestamps_periods_hec_conventions.html">Time stamps, Periods HEC convention</a></li>
 </ul>
@@ -101,8 +100,10 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="../pydsm.input.html" title="previous chapter">pydsm.input package</a></li>
-      <li>Next: <a href="dsm2.html" title="next chapter">DSM2 Input/Output</a></li>
+  <li><a href="notebooks.html">Examples</a><ul>
+      <li>Previous: <a href="notebooks.html" title="previous chapter">Examples</a></li>
+      <li>Next: <a href="dsm2_read_input.html" title="next chapter">Reading/writing echo files into/from Pandas DataFrame</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>
@@ -136,7 +137,7 @@
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
-      <a href="../_sources/notebooks/notebooks.rst.txt"
+      <a href="../_sources/notebooks/dsm2.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>pydsm.functions package &#8212; pydsm 2021.12.13+1.g51f6697 documentation</title>
+    <title>pydsm.functions package &#8212; pydsm 2021.12.20+0.g3216eaa.dirty documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -321,19 +321,23 @@ Normalizes (i.e. divides) by the mean value of series2 (considered the target or
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsm.functions.tsmath.per_aver">
 <span class="sig-prename descclassname"><span class="pre">pydsm.functions.tsmath.</span></span><span class="sig-name descname"><span class="pre">per_aver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'D'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tsmath.html#per_aver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tsmath.per_aver" title="Permalink to this definition">¶</a></dt>
-<dd><p>PermissionErroriod averages of the time series in DataFrame provided for the interval (see Pandas resample for codes)
-In addition to conform to HEC-conventions the resampling is done with closed=”right” and label=”right”</p>
+<dd><p>Period averages of the time series in DataFrame provided for the interval
+See for details <a class="reference internal" href="#pydsm.functions.tsmath.resample_hec_style" title="pydsm.functions.tsmath.resample_hec_style"><code class="xref py py-func docutils literal notranslate"><span class="pre">resample_hec_style()</span></code></a></p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsm.functions.tsmath.per_max">
 <span class="sig-prename descclassname"><span class="pre">pydsm.functions.tsmath.</span></span><span class="sig-name descname"><span class="pre">per_max</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'D'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tsmath.html#per_max"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tsmath.per_max" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Period maximums of the time series in DataFrame provided for the interval
+See for details <a class="reference internal" href="#pydsm.functions.tsmath.resample_hec_style" title="pydsm.functions.tsmath.resample_hec_style"><code class="xref py py-func docutils literal notranslate"><span class="pre">resample_hec_style()</span></code></a></p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsm.functions.tsmath.per_min">
 <span class="sig-prename descclassname"><span class="pre">pydsm.functions.tsmath.</span></span><span class="sig-name descname"><span class="pre">per_min</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'D'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tsmath.html#per_min"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tsmath.per_min" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Period minimums of the time series in DataFrame provided for the interval
+See for details <a class="reference internal" href="#pydsm.functions.tsmath.resample_hec_style" title="pydsm.functions.tsmath.resample_hec_style"><code class="xref py py-func docutils literal notranslate"><span class="pre">resample_hec_style()</span></code></a></p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsm.functions.tsmath.percent_bias">
@@ -356,8 +360,8 @@ series2 (Series): can be considered as observed or target</p>
 <dt class="sig sig-object py" id="pydsm.functions.tsmath.resample_hec_style">
 <span class="sig-prename descclassname"><span class="pre">pydsm.functions.tsmath.</span></span><span class="sig-name descname"><span class="pre">resample_hec_style</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'D'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tsmath.html#resample_hec_style"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tsmath.resample_hec_style" title="Permalink to this definition">¶</a></dt>
 <dd><p>Resampling of time series in DataFrame provided for the interval (see Pandas resample for codes)
-In addition to conform to HEC-conventions the resampling is done with closed=”right” and label=”right”
-see pandas resample documentation to understand these arguments</p>
+In addition to conform to HEC-conventions the resampling is done with closed=”right”
+see pandas [resample documentation](<a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#resampling">https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#resampling</a>) to understand these arguments</p>
 </dd></dl>
 
 <dl class="py function">

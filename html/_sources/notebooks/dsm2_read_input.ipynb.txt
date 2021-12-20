@@ -4,7 +4,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# Reading Hydro echo files into Pandas DataFrame\n",
+    "# Reading/writing echo files into/from Pandas DataFrame\n",
     "\n",
     "hydro (and qual) compile the input files and output an echo file that contains all the input data that goes into the model run. This is a very useful file as it is a direct representation of the input as seen by the model. This is especially important as the input system with its layering and overrides and include featues can be quite complex and sometimes it can be hard to see what actually finally make it into the model run.\n",
     "\n",
@@ -16,7 +16,7 @@
     " qual -e qual_main.inp\n",
     "```\n",
     "\n",
-    "The notebook here shows how to use the pydsm parser to read this echo file into a dictionary of pandas DataFrame objects\n"
+    "The notebook here shows how to use the pydsm parser to read this echo file (hydro -e) into a dictionary of pandas DataFrame objects\n"
    ]
   },
   {

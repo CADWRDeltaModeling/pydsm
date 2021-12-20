@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Reading hydro hdf5 files from DSM2 &#8212; pydsm 2021.12.13+1.g51f6697 documentation</title>
+    <title>Reading hydro h5 output files &#8212; pydsm 2021.12.20+0.g3216eaa.dirty documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -18,8 +18,8 @@
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Reading qual hdf5 files from DSM2" href="dsm2_read_qual_h5.html" />
-    <link rel="prev" title="Reading Hydro echo files into Pandas DataFrame" href="dsm2_read_input.html" />
+    <link rel="next" title="Reading Qual h5 output" href="dsm2_read_qual_h5.html" />
+    <link rel="prev" title="Reading/writing echo files into/from Pandas DataFrame" href="dsm2_read_input.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -284,8 +284,8 @@ div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
-<section id="Reading-hydro-hdf5-files-from-DSM2">
-<h1>Reading hydro hdf5 files from DSM2<a class="headerlink" href="#Reading-hydro-hdf5-files-from-DSM2" title="Permalink to this headline">¶</a></h1>
+<section id="Reading-hydro-h5-output-files">
+<h1>Reading hydro h5 output files<a class="headerlink" href="#Reading-hydro-h5-output-files" title="Permalink to this headline">¶</a></h1>
 <p>This notebook is an example of using pydsm to read DSM2 h5 output.</p>
 <p>The timeseries are loaded as pandas DataFrame with datetime index and mcolumns of variable type (e.g. flow, stage, ec). This is similar to pyhecdss read in objects.</p>
 <p>In addition to the state of the model as time series, the HDF file also contains the input tables as intepreted by DSM2. I say interpreted because it also has important tables such as virtual cross-sections that is the geometry finally used by DSM2 even though the user specifies the physical geometry in the input files.</p>
@@ -320,12 +320,11 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 </section>
-</section>
 <section id="Hydro-data-file-structure">
-<h1>Hydro data file structure<a class="headerlink" href="#Hydro-data-file-structure" title="Permalink to this headline">¶</a></h1>
+<h2>Hydro data file structure<a class="headerlink" href="#Hydro-data-file-structure" title="Permalink to this headline">¶</a></h2>
 <p>DSM2 Hydro HDF5 stores data under three groups: * /hydro/data * /hydro/input * /hydro/geometry</p>
-<section id="Display-channels">
-<h2>Display channels<a class="headerlink" href="#Display-channels" title="Permalink to this headline">¶</a></h2>
+<section id="Channels">
+<h3>Channels<a class="headerlink" href="#Channels" title="Permalink to this headline">¶</a></h3>
 <p>The method get_channels() returns a data frame indexed by internal channel index. The first column contains the external channel id that is referenced in the dsm2 input files</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
@@ -414,7 +413,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="Reservoirs">
-<h2>Reservoirs<a class="headerlink" href="#Reservoirs" title="Permalink to this headline">¶</a></h2>
+<h3>Reservoirs<a class="headerlink" href="#Reservoirs" title="Permalink to this headline">¶</a></h3>
 <p>The reservoirs table shows the name of the reservoirs</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
@@ -482,7 +481,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="External-Flows">
-<h2>External Flows<a class="headerlink" href="#External-Flows" title="Permalink to this headline">¶</a></h2>
+<h3>External Flows<a class="headerlink" href="#External-Flows" title="Permalink to this headline">¶</a></h3>
 <p>These are external flows defined in the input files. E.g all the boundary flow inputs, including the diversions/seepage/returns at nodes are available from this table</p>
 <p>?Need reference to dsm2 docs here</p>
 <div class="nbinput docutils container">
@@ -607,8 +606,8 @@ div.rendered_html tbody tr:hover {
 </div></div>
 </div>
 </section>
-<section id="Get-Data-Tables">
-<h2>Get Data Tables<a class="headerlink" href="#Get-Data-Tables" title="Permalink to this headline">¶</a></h2>
+<section id="Data-Tables">
+<h3>Data Tables<a class="headerlink" href="#Data-Tables" title="Permalink to this headline">¶</a></h3>
 <p>These are tables that contain time series data. There are corresponding <a href="#id3"><span class="problematic" id="id4">get_</span></a>* for each table. Those are described below</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
@@ -637,16 +636,16 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="Channel-indices-to-numbers">
-<h2>Channel indices to numbers<a class="headerlink" href="#Channel-indices-to-numbers" title="Permalink to this headline">¶</a></h2>
+<h3>Channel indices to numbers<a class="headerlink" href="#Channel-indices-to-numbers" title="Permalink to this headline">¶</a></h3>
 <p>The data in DataSets under /hydro/data is typically indexed by time, channel index, upstream/downstream if needed The channel index can be mapped to the channel number by looking up that information from /hydro/geometry/channel_number</p>
 </section>
 <section id="Extracting-time-series-data">
-<h2>Extracting time series data<a class="headerlink" href="#Extracting-time-series-data" title="Permalink to this headline">¶</a></h2>
+<h3>Extracting time series data<a class="headerlink" href="#Extracting-time-series-data" title="Permalink to this headline">¶</a></h3>
 <p>Extracting data can then be done using the channel numbers. All data arrays have the first axis as time. The time start and time interval is available in the attrs along with other meta data.</p>
 <p>Flow data shape is <em>time</em> x <em>channel index</em> x <em>channel location</em></p>
 <p>time start is available in attribue “START_TIME” channel index to channel numbers is explained above channel location (upstream/downstream) is available in /hydro/geometry/channel_location</p>
 <section id="get*-methods">
-<h3><a href="#id5"><span class="problematic" id="id6">get_</span></a>* methods<a class="headerlink" href="#get*-methods" title="Permalink to this headline">¶</a></h3>
+<h4><a href="#id5"><span class="problematic" id="id6">get_</span></a>* methods<a class="headerlink" href="#get*-methods" title="Permalink to this headline">¶</a></h4>
 <p>Each of the data tables has a corresponding <a href="#id7"><span class="problematic" id="id8">get_</span></a>* method. E.g. To the get the channel flow data use the methods below</p>
 <p>Time window is an optional argument that can allow to retrieve only a part of the information</p>
 <div class="nbinput docutils container">
@@ -923,7 +922,7 @@ div.rendered_html tbody tr:hover {
 </section>
 </section>
 <section id="Hydro-Input-Tables">
-<h2>Hydro Input Tables<a class="headerlink" href="#Hydro-Input-Tables" title="Permalink to this headline">¶</a></h2>
+<h3>Hydro Input Tables<a class="headerlink" href="#Hydro-Input-Tables" title="Permalink to this headline">¶</a></h3>
 <p>The .h5 file in hydro contains many (though not all) input tables (<a href="#id1"><span class="problematic" id="id2">*</span></a>.inp). A complete listing of those tables can be read from the echo files. See this <a class="reference internal" href="dsm2_read_input.html"><span class="doc">notebook to read input</span></a></p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
@@ -1118,7 +1117,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="Hydro-geometry-input">
-<h2>Hydro geometry input<a class="headerlink" href="#Hydro-geometry-input" title="Permalink to this headline">¶</a></h2>
+<h3>Hydro geometry input<a class="headerlink" href="#Hydro-geometry-input" title="Permalink to this headline">¶</a></h3>
 <p>Hydro also contains the geometry information such as the mapping of internal channel ids to external ones</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
@@ -1319,6 +1318,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 </section>
+</section>
 
 
           </div>
@@ -1344,14 +1344,9 @@ div.rendered_html tbody tr:hover {
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">pydsm</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="notebooks.html">Examples</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html">Reading Hydro echo files into Pandas DataFrame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html#Visualizing-input-data">Visualizing input data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dsm2_read_input.html#Writing-input-to-file">Writing input to file</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Reading hydro hdf5 files from DSM2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Hydro-data-file-structure">Hydro data file structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dsm2_read_qual_h5.html">Reading qual hdf5 files from DSM2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dsm2_read_qual_h5.html#Qual-data-file-structure">Qual data file structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dsm2_input_network.html">DSM2 as a graph network</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="dsm2.html">DSM2 Input/Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_input_network.html">DSM2 as a network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timestamps_periods_hec_conventions.html">Time stamps, Periods HEC convention</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
@@ -1364,8 +1359,10 @@ div.rendered_html tbody tr:hover {
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="notebooks.html">Examples</a><ul>
-      <li>Previous: <a href="dsm2_read_input.html" title="previous chapter">Reading Hydro echo files into Pandas DataFrame</a></li>
-      <li>Next: <a href="dsm2_read_qual_h5.html" title="next chapter">Reading qual hdf5 files from DSM2</a></li>
+  <li><a href="dsm2.html">DSM2 Input/Output</a><ul>
+      <li>Previous: <a href="dsm2_read_input.html" title="previous chapter">Reading/writing echo files into/from Pandas DataFrame</a></li>
+      <li>Next: <a href="dsm2_read_qual_h5.html" title="next chapter">Reading Qual h5 output</a></li>
+  </ul></li>
   </ul></li>
   </ul></li>
 </ul>
