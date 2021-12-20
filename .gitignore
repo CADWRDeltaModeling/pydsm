@@ -1,6 +1,10 @@
 #DSS Files and catalogs
 **/*.ds[cdk]
 
+#
+tests/*.inp
+docsrc/notebooks/*.dss
+
 # Data files
 data/**
 # Byte-compiled / optimized / DLL files
@@ -110,4 +114,8 @@ ENV/
 
 # mypy
 .mypy_cache/
-tests/hydro_echo_historical_v82_copy.inp
+
+docsrc/modules.rst
+docsrc/pydsm.functions.rst
+docsrc/pydsm.input.rst
+docsrc/pydsm.rst

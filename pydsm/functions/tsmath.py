@@ -10,25 +10,33 @@ import pandas as pd
 def resample_hec_style(df, interval='D'):
     '''
     Resampling of time series in DataFrame provided for the interval (see Pandas resample for codes)
-    In addition to conform to HEC-conventions the resampling is done with closed="right" and label="right"
-    see pandas resample documentation to understand these arguments
+    In addition to conform to HEC-conventions the resampling is done with closed="right"
+    see pandas [resample documentation](https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#resampling) to understand these arguments
     '''
     return df.resample(interval, closed='right', kind='timestamp')
 
 
 def per_aver(df, interval='D'):
     '''
-    PermissionErroriod averages of the time series in DataFrame provided for the interval (see Pandas resample for codes)
-    In addition to conform to HEC-conventions the resampling is done with closed="right" and label="right"
+    Period averages of the time series in DataFrame provided for the interval
+    See for details :py:func:`resample_hec_style`
     '''
     return resample_hec_style(df, interval).mean().to_period()
 
 
 def per_max(df, interval='D'):
+    '''
+    Period maximums of the time series in DataFrame provided for the interval
+    See for details :py:func:`resample_hec_style`
+    '''
     return resample_hec_style(df, interval).max().to_period()
 
 
 def per_min(df, interval='D'):
+    '''
+    Period minimums of the time series in DataFrame provided for the interval
+    See for details :py:func:`resample_hec_style`
+    '''
     return resample_hec_style(df, interval).min().to_period()
 
 
