@@ -7,12 +7,14 @@
     "# DSM2 as a network\n",
     "\n",
     "DSM2 is a network (graph theory) of junctions and reservoirs with connections of either channels, reservoir connections or gates. In this view of DSM2 the input tables that represent the hydrodynamic network can be represented as a mathematical graph.\n",
+    "\n",
     "This view allows some interesting questions to be asked and answered. \n",
+    "\n",
     "E.g.\n",
-    "What is the shortest path from one node to another? (if it exists)\n",
-    "What nodes are downstream of this node?\n",
-    "What nodes are upstream of this node?\n",
-    "and many more graph related information\n",
+    "* What is the shortest path from one node to another? (if it exists)\n",
+    "* What nodes are downstream of this node?\n",
+    "* What nodes are upstream of this node?\n",
+    "* ... and many more graph related information\n",
     "\n",
     "For illustrating this concept, this notebook shows how the tables can be easily converted to a graph using networkx package and answering some these interesting questions"
    ]
@@ -51,7 +53,12 @@
    "metadata": {},
    "source": [
     "## Convert to a graph network \n",
-    "The channel tables contain upnode and downnode connections. The reservoir_connection table contains the nodes to which the reservoirs connect. These can be used to construct a directed graph network"
+    "\n",
+    "The channel tables contain upnode and downnode connections. \n",
+    "\n",
+    "The reservoir_connection table contains the nodes to which the reservoirs connect. \n",
+    "\n",
+    "These can be used to construct a directed graph network"
    ]
   },
   {
@@ -115,7 +122,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "### Combine reservoir connections and channel table for a complete graph"
+    "Combine reservoir connections and channel table for a complete graph"
    ]
   },
   {
@@ -132,7 +139,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "### Use the pydsm.input.network module to encapsulate the building in one method"
+    "Use the pydsm.input.network module to encapsulate the building in one method"
    ]
   },
   {
