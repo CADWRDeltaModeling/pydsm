@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 from pydsm.functions import tsmath
 
-@pytest.fixture
-def linear_timeseries():
+@pytest.fixture(scope="module",params=['ts','period'])
+def linear_timeseries(request):
     '''
     A simple increasing time series to use for averaging functions
     ```
@@ -18,7 +18,11 @@ def linear_timeseries():
     ```
     '''
     nvals=100
-    return pd.DataFrame(np.arange(0,nvals), columns=['values'], index=pd.date_range(start='01JAN2000 0100',periods=nvals,freq='H'))
+    ts = pd.DataFrame(np.arange(0,nvals), columns=['values'], index=pd.date_range(start='01JAN2000 0100',periods=nvals,freq='H'))
+    if request.param=='period':
+        return ts.to_period()
+    else:
+        return ts
 
 def test_per_aver(linear_timeseries):
     tsavg=tsmath.per_aver(linear_timeseries)
