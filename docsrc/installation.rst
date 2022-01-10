@@ -12,17 +12,16 @@ To install pydsm, run this command in your terminal:
 
 .. code-block:: console
 
-    $ pip install h5py 
+    $ conda env create -f enviornment.yml
+    or install into a current environment 
     $ conda install -c cadwr-dms pydsm
 
 This is the preferred method to install pydsm, as it will always install the most recent stable release.
-The pip line is needed currently because of the issue below. Once it is resolved the conda channel h5py can 
-be used.
 
 Known Issues
 ------------
 conda install h5py lacks szip/zlib support (https://github.com/ContinuumIO/anaconda-issues/issues/11382)
-Instead conda uninstall h5py and pip install h5py instead
+Instead conda uninstall h5py and conda install -c cadwr-dms h5py
 
 
 If you don't have `conda`_ installed, this `Python installation guide`_ can guide
@@ -41,6 +40,9 @@ You can either clone the public repository:
 .. code-block:: console
 
     $ git clone https://github.com/CADWRDeltaModeling/pydsm.git
+    $ cd pydsm 
+    $ conda env create -f environment_dev.yml
+    $ pip install --no-deps -e .
 
 Or download the `tarball`_:
 
@@ -52,7 +54,7 @@ Once you have a copy of the source, you can install it with:
 
 .. code-block:: console
 
-    $ python setup.py install
+    $ pip install --no-deps -e .
 
 
 .. _Github repo: https://github.com/CADWRDeltaModeling/pydsm

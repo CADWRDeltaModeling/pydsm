@@ -11,8 +11,9 @@ from pydsm.hydro_slicer import slice_hydro
 from pydsm.postpro import load_location_file, load_location_table
 from pydsm.functions import tsmath
 
+CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
-@click.group()
+@click.group(context_settings=CONTEXT_SETTINGS)
 def main():
     pass
 
