@@ -58,7 +58,7 @@ def calc_number_nan_filled(df: DataFrame, filled_df: DataFrame) -> int:
     calculates number of NaN values filled between df and filled_df
 
     Args:
-        df (DataFrame): dataframe 
+        df (DataFrame): dataframe
         filled_df (DataFrame): dataframe after filling with some method
 
     Returns:
@@ -70,7 +70,7 @@ def calc_number_nan_filled(df: DataFrame, filled_df: DataFrame) -> int:
 
 
 def fill_in(df: DataFrame, max_fillin_gap: int, fillin_method: str) -> DataFrame:
-    """fill in DataFrame 
+    """fill in DataFrame
 
     Args:
         df (DataFrame): A dataframe with a time index of a frequency
@@ -125,6 +125,7 @@ class PostProCache:
             return_series = next(pyhecdss.get_ts(self.fname, '/%s/%s/%s/%s///' %
                                                  (PostProCache.A_PART, bpart.upper(), cpart.upper(), dpart.upper())))
         except StopIteration as e:
+            print('no data found for '+self.fname+',/%s/%s/%s/%s///' % (PostProCache.A_PART, bpart.upper(), cpart.upper(), dpart.upper()))
             logging.exception('pydsm.postpro.PostProCache.load: no data found')
         return return_series
 
@@ -238,7 +239,7 @@ class PostProcessor:
 
 
 def load_location_table(loc_name_file: str):
-    """Loads locations from the table. 
+    """Loads locations from the table.
 
     DSM2 ID,CDEC ID,Station Name,Elevation,Latitude,Longitude,...
     SSS,SSS,Steamboat Slough,10,38.285,-121.587,...
@@ -258,8 +259,19 @@ def load_location_table(loc_name_file: str):
 
 def load_location_file(locationfile):
     df = load_location_table(locationfile)
-    dfloc = df[['DSM2 ID', 'CDEC ID', 'Station Name', 'Latitude', 'Longitude']]
-    dfloc.columns = ['Name', 'BPart', 'Description', 'Latitude', 'Longitude']
+    columns_to_keep = ['DSM2 ID', 'CDEC ID', 'Station Name', 'Latitude', 'Longitude']
+    new_column_names = ['Name', 'BPart', 'Description', 'Latitude', 'Longitude']
+    # optionally allow overriding of VARTYPE, by specifying a vartype for each dataset in the calibration_<constituent>_stations.csv file. 
+    # This is needed for DSM2 rim flow input files, which have cparts such as FLOW-DIVERSION and FLOW-EXPORT
+    if 'OBS VARTYPE' in df.columns:
+        columns_to_keep.append('OBS VARTYPE')
+        new_column_names.append('OBS_VARTYPE')
+    if 'MODEL VARTYPE' in df.columns:
+        columns_to_keep.append('MODEL VARTYPE')
+        new_column_names.append('MODEL_VARTYPE')
+    dfloc = df[columns_to_keep]
+
+    dfloc.columns = new_column_names
     return dfloc
 
 #-------- HELPER FUNCTIONS ----------#
@@ -269,6 +281,15 @@ def build_processors(dssfile, locationfile, vartype, units, study_name, observed
     dfloc = load_location_file(locationfile)
     processors = []
     for index, row in dfloc.iterrows():
+        # if obs or model vartype specified, override specified vartype
+        # this is necessary for files such as DSM2 input DSS files, which have FLOW, FLOW-DIVERSION, and FLOW-EXPORT
+        if observed:
+            if 'OBS_VARTYPE' in dfloc.columns:
+                vartype = row['OBS_VARTYPE']
+        else:
+            if 'MODEL_VARTYPE' in dfloc.columns:
+                vartype = row['MODEL_VARTYPE']
+
         processor = PostProcessor(Study(study_name, dssfile),
                                   Location(row['Name'],
                                            row['BPart'] if observed else row['Name'],
@@ -311,7 +332,7 @@ def run_processor(processor, store=True, clear=True):
 @click.option('--observed', is_flag=True, default=False, help='if dss file is observed data (resampling, merging, filling, scaling may be needed)')
 def postpro(dssfile, locationfile, vartype, units, study_name, observed=False):
     """
-    Postprocess dssfile with locations defined in locationfile for vartype.    
+    Postprocess dssfile with locations defined in locationfile for vartype.
     Args:
         dssfile: DSS file (input)
         locationfile: Location file (.csv) with location names and descriptions
