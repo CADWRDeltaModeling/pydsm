@@ -136,11 +136,12 @@ class PostProcessor:
     TIME_INTERVAL = '15MIN'
     CPART_SUFFIX_MAP = {}
 
-    def __init__(self, study: Study, location: Location, vartype: VarType):
+    def __init__(self, study: Study, location: Location, vartype: VarType, subtract=False):
         self.study = study
         self.location = location
         self.vartype = vartype
         self.cache = PostProCache(self.study.dssfile)
+        self.subtract = subtract
         self._set_default_ops()
 
     def _set_default_ops(self):
@@ -161,18 +162,72 @@ class PostProcessor:
         self.do_scaling = True
         self.scale = scale
 
+    def append_dss_path_part(self, pathname, path_part_appendage, path_part='b_part'):
+        parts = pathname.split('/')
+        parts.pop()
+        parts.pop(0)
+        if path_part != 'd_part':
+            dss_parts_list = ['a_part', 'b_part', 'c_part', 'd_part', 'e_part', 'f_part']
+            i = dss_parts_list.index(path_part)
+            parts[i] += path_part_appendage
+        return '/%s/%s/%s/%s/%s/%s/' % tuple(parts)
+
+    def get_part_from_dss_path(self, pathname, path_part='b_part'):
+        parts = pathname.split('/')
+        dss_parts_list = ['a_part', 'b_part', 'c_part', 'd_part', 'e_part', 'f_part']
+        i = dss_parts_list.index(path_part)
+        return parts[i]
+
     def _read_ts(self):
+        '''Sometimes we need to subtract two flow time series. For example, cross-delta flow=RSAC128-RSAC123 and SDC-GES. \
+        If data type is flow, and if pathname not found in file, check to see if there is a minus sign. \
+        if there is, split the b part on the minus sign, and see if pathnames with each part exist. \
+        if yes, then subtract the two time series and return the result. 
+        returns dataframe
+        '''
         pathname = '//%s/%s////' % (self.location.bpart, self.vartype.name)
-        return pyhecdss.get_ts(self.study.dssfile, pathname.upper())
+        return_df = None
+        if not self.subtract:
+            generator = pyhecdss.get_ts(self.study.dssfile, pathname.upper())
+            with contextlib.closing(generator) as dfgen:
+                if self.do_resampling_with_merging:
+                    dflist = [df.data.resample(PostProcessor.TIME_INTERVAL).asfreq() for df in dfgen]
+                    return_df = merge(dflist)
+                else:
+                    return_df = next(dfgen).data
+                    convert_index_to_timestamps(return_df)  # inplace change of index
+        else:
+            # read in >1 time series, and subtract them. Column names of dataframes are set to 'data' because when
+            # subtracting, column names must match. new_dss_path is used for the column name of the result, and will typically have
+            # a bpart that is 'SDC-GES' or 'RSAC128-RSAC123'
+            return_df = None
+            df_index = 0
+            if (self.vartype.name.lower() == 'flow') and ('-' in self.location.bpart):
+                parts = pathname.upper().split('/')
+                bpart_parts = parts[2].split('-')
+                new_dss_path = None
+                for bp in bpart_parts:
+                    pathname = '//%s/%s////' % (bp, self.vartype.name)
+                    generator = pyhecdss.get_ts(self.study.dssfile, pathname.upper())
+                    with contextlib.closing(generator) as dfgen:
+                        dflist = [df.data.resample(PostProcessor.TIME_INTERVAL).asfreq() for df in dfgen]
+                        if df_index == 0:
+                            return_df = merge(dflist)
+                            new_dss_path = return_df.columns[0]
+                            return_df.columns = ['data']
+                        else:
+                            return_df.columns = ['data']
+                            new_df = merge(dflist)
+                            new_dss_path = self.append_dss_path_part(new_dss_path, '-'+self.get_part_from_dss_path(new_df.columns[0]))
+                            new_df.columns = ['data']
+                            return_df = return_df.subtract(new_df)
+                    df_index += 1
+                return_df.columns = [new_dss_path]
+        return return_df
+
 
     def process(self):
-        with contextlib.closing(self._read_ts()) as dfgen:
-            if self.do_resampling_with_merging:
-                dflist = [df.data.resample(PostProcessor.TIME_INTERVAL).asfreq() for df in dfgen]
-                df = merge(dflist)
-            else:
-                df = next(dfgen).data
-                convert_index_to_timestamps(df)  # inplace change of index
+        df = self._read_ts()
 
         if self.do_filling_in:
             df = fill_in(df, self.max_fillin_gap, self.fillin_method)
@@ -259,8 +314,8 @@ def load_location_table(loc_name_file: str):
 
 def load_location_file(locationfile):
     df = load_location_table(locationfile)
-    columns_to_keep = ['DSM2 ID', 'CDEC ID', 'Station Name', 'Latitude', 'Longitude']
-    new_column_names = ['Name', 'BPart', 'Description', 'Latitude', 'Longitude']
+    columns_to_keep = ['DSM2 ID', 'CDEC ID', 'Station Name', 'subtract', 'Latitude', 'Longitude']
+    new_column_names = ['Name', 'BPart', 'Description', 'subtract', 'Latitude', 'Longitude']
     # optionally allow overriding of VARTYPE, by specifying a vartype for each dataset in the calibration_<constituent>_stations.csv file. 
     # This is needed for DSM2 rim flow input files, which have cparts such as FLOW-DIVERSION and FLOW-EXPORT
     if 'OBS VARTYPE' in df.columns:
@@ -289,12 +344,15 @@ def build_processors(dssfile, locationfile, vartype, units, study_name, observed
         else:
             if 'MODEL_VARTYPE' in dfloc.columns:
                 vartype = row['MODEL_VARTYPE']
-
+        subtract = False
+        if 'subtract' in row and row['subtract'].lower() in ['yes', 'true'] and '-' in row['Name'] and '-' in row['BPart']:
+            subtract = True
         processor = PostProcessor(Study(study_name, dssfile),
                                   Location(row['Name'],
                                            row['BPart'] if observed else row['Name'],
                                            row['Description']),
-                                  VarType(vartype, units))
+                                  VarType(vartype, units),
+                                  subtract = subtract)
         if observed:
             processor.do_resample_with_merge('15MIN')
             processor.do_fill_in()
