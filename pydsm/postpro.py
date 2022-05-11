@@ -16,6 +16,8 @@ import pyhecdss
 from pandas.core.frame import DataFrame
 from vtools.functions.filter import godin
 from pydsm.functions import tidalhl
+from os.path import exists
+
 
 Study = collections.namedtuple('Study', ['name', 'dssfile'])
 Location = collections.namedtuple('Location', ['name', 'bpart', 'description'])
@@ -121,12 +123,20 @@ class PostProCache:
 
     def load(self, bpart, cpart, dpart):
         return_series = None
+        dss_path = '/%s/%s/%s/%s///' % (PostProCache.A_PART, bpart.upper(), cpart.upper(), dpart.upper())
         try:
-            return_series = next(pyhecdss.get_ts(self.fname, '/%s/%s/%s/%s///' %
-                                                 (PostProCache.A_PART, bpart.upper(), cpart.upper(), dpart.upper())))
+            return_series = next(pyhecdss.get_ts(self.fname, dss_path))
         except StopIteration as e:
-            print('no data found for '+self.fname+',/%s/%s/%s/%s///' % (PostProCache.A_PART, bpart.upper(), cpart.upper(), dpart.upper()))
             logging.exception('pydsm.postpro.PostProCache.load: no data found')
+        finally:
+            print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+            print('Exception in pydsm.postpro.PostProCache.load() while trying to load data.')
+            print('no data found for '+self.fname + ',' + dss_path)
+            if exists(self.fname):
+                print('DSS file found, but data not found in file. DSS File, DSS path='+self.fname+','+dss_path)
+            else:
+                print('DSS file not found:'+self.fname)
+            print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
         return return_series
 
 
@@ -179,7 +189,9 @@ class PostProcessor:
         return parts[i]
 
     def _read_ts(self):
-        '''Sometimes we need to subtract two flow time series. For example, cross-delta flow=RSAC128-RSAC123 and SDC-GES. \
+        '''
+        Reads data from DSS, and returns a time series dataframe.
+        Sometimes we need to subtract two flow time series. For example, cross-delta flow=RSAC128-RSAC123 and SDC-GES. \
         If data type is flow, and if pathname not found in file, check to see if there is a minus sign. \
         if there is, split the b part on the minus sign, and see if pathnames with each part exist. \
         if yes, then subtract the two time series and return the result. 
@@ -225,7 +237,6 @@ class PostProcessor:
                 return_df.columns = [new_dss_path]
         return return_df
 
-
     def process(self):
         df = self._read_ts()
 
@@ -256,6 +267,8 @@ class PostProcessor:
                 return_series = series.data
         except StopIteration as e:
             logging.exception('pydsm.postpro.PostProCache.load: no data found')
+        # except AttributeError as e:
+        #     print('ERROR: location, vartype='+str(self.location)+','+str(self.vartype))
         return return_series
 
     def store_processed(self):
@@ -292,7 +305,6 @@ class PostProcessor:
         self.amp_diff_pct = self._load('-AMP-DIFF-PCT', timewindow)
         self.phase_diff = self._load('-PHASE-DIFF', timewindow)
 
-
 def load_location_table(loc_name_file: str):
     """Loads locations from the table.
 
@@ -311,11 +323,14 @@ def load_location_table(loc_name_file: str):
     dfnames.columns = dfnames.columns.str.strip()
     return dfnames
 
-
-def load_location_file(locationfile):
+def load_location_file(locationfile, gate_data=False):
+# def load_location_file(locationfile):
     df = load_location_table(locationfile)
     columns_to_keep = ['DSM2 ID', 'CDEC ID', 'Station Name', 'subtract', 'Latitude', 'Longitude']
     new_column_names = ['Name', 'BPart', 'Description', 'subtract', 'Latitude', 'Longitude']
+    if gate_data:
+        columns_to_keep = ['DSM2 ID', 'CDEC ID', 'Station Name']
+        new_column_names = ['Name', 'BPart', 'Description']
     # optionally allow overriding of VARTYPE, by specifying a vartype for each dataset in the calibration_<constituent>_stations.csv file. 
     # This is needed for DSM2 rim flow input files, which have cparts such as FLOW-DIVERSION and FLOW-EXPORT
     if 'OBS VARTYPE' in df.columns:
@@ -324,9 +339,13 @@ def load_location_file(locationfile):
     if 'MODEL VARTYPE' in df.columns:
         columns_to_keep.append('MODEL VARTYPE')
         new_column_names.append('MODEL_VARTYPE')
-    dfloc = df[columns_to_keep]
-
-    dfloc.columns = new_column_names
+    dfloc = None
+    try:
+        dfloc = df[columns_to_keep]
+        dfloc.columns = new_column_names
+    except:
+        print('error in pydsm.postpro.load_location_file: location file must have the following fields:')
+        print(str(columns_to_keep))
     return dfloc
 
 #-------- HELPER FUNCTIONS ----------#
