@@ -128,14 +128,17 @@ class PostProCache:
             return_series = next(pyhecdss.get_ts(self.fname, dss_path))
         except StopIteration as e:
             logging.exception('pydsm.postpro.PostProCache.load: no data found')
-        finally:
             print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
             print('Exception in pydsm.postpro.PostProCache.load() while trying to load data.')
+            logging.exception('Exception in pydsm.postpro.PostProCache.load() while trying to load data.')
             print('no data found for '+self.fname + ',' + dss_path)
+            logging.exception('no data found for '+self.fname + ',' + dss_path)
             if exists(self.fname):
                 print('DSS file found, but data not found in file. DSS File, DSS path='+self.fname+','+dss_path)
+                logging.exception('DSS file found, but data not found in file. DSS File, DSS path='+self.fname+','+dss_path)
             else:
                 print('DSS file not found:'+self.fname)
+                logging.exception('DSS file not found:'+self.fname)
             print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
         return return_series
 
