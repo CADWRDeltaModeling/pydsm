@@ -149,12 +149,13 @@ class PostProcessor:
     TIME_INTERVAL = '15MIN'
     CPART_SUFFIX_MAP = {}
 
-    def __init__(self, study: Study, location: Location, vartype: VarType, subtract=False):
+    def __init__(self, study: Study, location: Location, vartype: VarType, subtract=False, ratio=False):
         self.study = study
         self.location = location
         self.vartype = vartype
         self.cache = PostProCache(self.study.dssfile)
         self.subtract = subtract
+        self.ratio = ratio
         self._set_default_ops()
 
     def _set_default_ops(self):
@@ -202,24 +203,32 @@ class PostProcessor:
         '''
         pathname = '//%s/%s////' % (self.location.bpart, self.vartype.name)
         return_df = None
-        if not self.subtract:
+        if not self.subtract and not self.ratio:
             generator = pyhecdss.get_ts(self.study.dssfile, pathname.upper())
             with contextlib.closing(generator) as dfgen:
                 if self.do_resampling_with_merging:
                     dflist = [df.data.resample(PostProcessor.TIME_INTERVAL).asfreq() for df in dfgen]
                     return_df = merge(dflist)
                 else:
+
                     return_df = next(dfgen).data
                     convert_index_to_timestamps(return_df)  # inplace change of index
-        else:
+        elif self.subtract or self.ratio:
             # read in >1 time series, and subtract them. Column names of dataframes are set to 'data' because when
             # subtracting, column names must match. new_dss_path is used for the column name of the result, and will typically have
             # a bpart that is 'SDC-GES' or 'RSAC128-RSAC123'
             return_df = None
             df_index = 0
-            if (self.vartype.name.lower() == 'flow') and ('-' in self.location.bpart):
+            bpart_separator = None
+            if ('_div_' in self.location.bpart):
+                bpart_separator = '_div_'
+            elif ('-' in self.location.bpart):
+                bpart_separator = '-'
+            if (self.vartype.name.lower() == 'flow') and (bpart_separator in self.location.bpart):
                 parts = pathname.upper().split('/')
-                bpart_parts = parts[2].split('-')
+                bpart_parts = parts[2].split(bpart_separator.upper())
+                print('bpart_parts='+str(bpart_parts))
+
                 new_dss_path = None
                 for bp in bpart_parts:
                     pathname = '//%s/%s////' % (bp, self.vartype.name)
@@ -233,9 +242,23 @@ class PostProcessor:
                         else:
                             return_df.columns = ['data']
                             new_df = merge(dflist)
-                            new_dss_path = self.append_dss_path_part(new_dss_path, '-'+self.get_part_from_dss_path(new_df.columns[0]))
+                            new_dss_path = self.append_dss_path_part(new_dss_path, bpart_separator +self.get_part_from_dss_path(new_df.columns[0]))
                             new_df.columns = ['data']
-                            return_df = return_df.subtract(new_df)
+                            if self.subtract:
+                                return_df = return_df.subtract(new_df)
+                            elif self.ratio:
+                                # this is not the place to do this, because we need godin
+                                # first remove all rows if either value is nan
+                                # ratio_df = return_df.merge(new_df, how='inner')
+                                # print('ratio_df='+str(ratio_df.head()))
+                                # ratio_df = ratio_df[ratio_df.notna()]
+                                # numerator_col_name = ratio_df.columns[0]
+                                # denominator_col_name = ratio_df.columns[1]
+                                # ratio_df['ratio'] = ratio_df[numerator_col_name] / ratio_df[denominator_col_name]
+                                # # return_df = return_df.divide(new_df)
+                                # return_df = ratio_df[denominator_col_name]
+                                # do nothing for now.
+                                return_df = None
                     df_index += 1
                 return_df.columns = [new_dss_path]
         return return_df
@@ -329,8 +352,8 @@ def load_location_table(loc_name_file: str):
 def load_location_file(locationfile, gate_data=False):
 # def load_location_file(locationfile):
     df = load_location_table(locationfile)
-    columns_to_keep = ['DSM2 ID', 'CDEC ID', 'Station Name', 'subtract', 'Latitude', 'Longitude']
-    new_column_names = ['Name', 'BPart', 'Description', 'subtract', 'Latitude', 'Longitude']
+    columns_to_keep = ['DSM2 ID', 'CDEC ID', 'Station Name', 'subtract', 'ratio', 'Latitude', 'Longitude']
+    new_column_names = ['Name', 'BPart', 'Description', 'subtract', 'ratio', 'Latitude', 'Longitude']
     if gate_data:
         columns_to_keep = ['DSM2 ID', 'CDEC ID', 'Station Name']
         new_column_names = ['Name', 'BPart', 'Description']
@@ -344,6 +367,12 @@ def load_location_file(locationfile, gate_data=False):
         new_column_names.append('MODEL_VARTYPE')
     dfloc = None
     try:
+        if 'subtract' not in df.columns:
+            columns_to_keep.remove('subtract')
+            new_column_names.remove('subtract')
+        if 'ratio' not in df.columns: 
+            columns_to_keep.remove('ratio')
+            new_column_names.remove('ratio')
         dfloc = df[columns_to_keep]
         dfloc.columns = new_column_names
     except:
@@ -367,14 +396,17 @@ def build_processors(dssfile, locationfile, vartype, units, study_name, observed
             if 'MODEL_VARTYPE' in dfloc.columns:
                 vartype = row['MODEL_VARTYPE']
         subtract = False
+        ratio = False
         if 'subtract' in row and row['subtract'].lower() in ['yes', 'true'] and '-' in row['Name'] and '-' in row['BPart']:
             subtract = True
+        if 'ratio' in row and row['ratio'].lower() in ['yes', 'true'] and '_div_' in row['Name'] and '_div_' in row['BPart']:
+            ratio = True
         processor = PostProcessor(Study(study_name, dssfile),
                                   Location(row['Name'],
                                            row['BPart'] if observed else row['Name'],
                                            row['Description']),
                                   VarType(vartype, units),
-                                  subtract = subtract)
+                                  subtract = subtract, ratio = ratio)
         if observed:
             processor.do_resample_with_merge('15MIN')
             processor.do_fill_in()
@@ -390,6 +422,7 @@ def run_processor(processor, store=True, clear=True):
         processor.process()
         processed = True
     except Exception as ex:
+        print('exception caught in run_processor: ' + str(ex))
         logging.exception(f'Failed to process {processor.location.name}/{processor.vartype.name}: ')
     if processed:
         if store:
