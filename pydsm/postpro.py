@@ -20,7 +20,7 @@ from os.path import exists
 
 
 Study = collections.namedtuple('Study', ['name', 'dssfile'])
-Location = collections.namedtuple('Location', ['name', 'bpart', 'description'])
+Location = collections.namedtuple('Location', ['name', 'bpart', 'description', 'time_window_exclusion_list'])
 VarType = collections.namedtuple('VarType', ['name', 'units'])
 
 
@@ -352,8 +352,8 @@ def load_location_table(loc_name_file: str):
 def load_location_file(locationfile, gate_data=False):
 # def load_location_file(locationfile):
     df = load_location_table(locationfile)
-    columns_to_keep = ['DSM2 ID', 'CDEC ID', 'Station Name', 'subtract', 'ratio', 'Latitude', 'Longitude']
-    new_column_names = ['Name', 'BPart', 'Description', 'subtract', 'ratio', 'Latitude', 'Longitude']
+    columns_to_keep = ['DSM2 ID', 'CDEC ID', 'Station Name', 'subtract', 'time_window_exclusion_list', 'ratio', 'Latitude', 'Longitude']
+    new_column_names = ['Name', 'BPart', 'Description', 'subtract', 'time_window_exclusion_list', 'ratio', 'Latitude', 'Longitude']
     if gate_data:
         columns_to_keep = ['DSM2 ID', 'CDEC ID', 'Station Name']
         new_column_names = ['Name', 'BPart', 'Description']
