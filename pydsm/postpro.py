@@ -404,7 +404,8 @@ def build_processors(dssfile, locationfile, vartype, units, study_name, observed
         processor = PostProcessor(Study(study_name, dssfile),
                                   Location(row['Name'],
                                            row['BPart'] if observed else row['Name'],
-                                           row['Description']),
+                                           row['Description'],
+                                           row['time_window_exclusion_list']),
                                   VarType(vartype, units),
                                   subtract = subtract, ratio = ratio)
         if observed:
