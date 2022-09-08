@@ -20,7 +20,9 @@ from os.path import exists
 
 
 Study = collections.namedtuple('Study', ['name', 'dssfile'])
-Location = collections.namedtuple('Location', ['name', 'bpart', 'description', 'time_window_exclusion_list'])
+# time_window_exclusion_list is a comma separated list of timewindows
+# threshold_value is a value, above and below which data will be removed, to create plots/metrics 
+Location = collections.namedtuple('Location', ['name', 'bpart', 'description', 'time_window_exclusion_list', 'threshold_value'])
 VarType = collections.namedtuple('VarType', ['name', 'units'])
 
 
@@ -208,6 +210,10 @@ class PostProcessor:
             with contextlib.closing(generator) as dfgen:
                 if self.do_resampling_with_merging:
                     dflist = [df.data.resample(PostProcessor.TIME_INTERVAL).asfreq() for df in dfgen]
+                    if len(dflist) <= 0:
+                        print('****************************************************************************************************************')
+                        print('Error in postpro._read_ts: dflist has len 0, after trying to read pathname: '+ pathname.upper())
+                        print('****************************************************************************************************************')
                     return_df = merge(dflist)
                 else:
 
@@ -352,8 +358,8 @@ def load_location_table(loc_name_file: str):
 def load_location_file(locationfile, gate_data=False):
 # def load_location_file(locationfile):
     df = load_location_table(locationfile)
-    columns_to_keep = ['DSM2 ID', 'CDEC ID', 'Station Name', 'subtract', 'time_window_exclusion_list', 'ratio', 'Latitude', 'Longitude']
-    new_column_names = ['Name', 'BPart', 'Description', 'subtract', 'time_window_exclusion_list', 'ratio', 'Latitude', 'Longitude']
+    columns_to_keep = ['DSM2 ID', 'CDEC ID', 'Station Name', 'subtract', 'time_window_exclusion_list', 'threshold_value', 'ratio', 'Latitude', 'Longitude']
+    new_column_names = ['Name', 'BPart', 'Description', 'subtract', 'time_window_exclusion_list', 'threshold_value', 'ratio', 'Latitude', 'Longitude']
     if gate_data:
         columns_to_keep = ['DSM2 ID', 'CDEC ID', 'Station Name']
         new_column_names = ['Name', 'BPart', 'Description']
@@ -405,7 +411,8 @@ def build_processors(dssfile, locationfile, vartype, units, study_name, observed
                                   Location(row['Name'],
                                            row['BPart'] if observed else row['Name'],
                                            row['Description'],
-                                           row['time_window_exclusion_list']),
+                                           row['time_window_exclusion_list'],
+                                           row['threshold_value']),
                                   VarType(vartype, units),
                                   subtract = subtract, ratio = ratio)
         if observed:
