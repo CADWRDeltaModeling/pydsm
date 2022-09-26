@@ -53,26 +53,32 @@ def mse(series1: pd.Series, series2: pd.Series):
         Mean squared error
     """
     diff = series1-series2
-    diff2=diff*diff
+    diff2 = diff*diff
     return diff2.mean()
+
 
 def nmse(series1: pd.Series, series2: pd.Series):
     """Normalized Mean Squared Error (NMSE)
     Normalizes (i.e. divides) by the mean value of series2 (considered the target or observed values)
     """
-    return mse(series1, series2)/series2.mean()
+    return np.divide(mse(series1, series2), series2.mean())
+
 
 def rmse(series1, series2):
     return np.sqrt(mse(series1, series2))
 
+
 def nrmse(series1, series2):
-    return rmse(series1, series2)/ series2.mean()
+    return np.divide(rmse(series1, series2), series2.mean())
+
 
 def mean_error(series1, series2):
     return (series1-series2).mean()
 
+
 def nmean_error(series1, series2):
-    return mean_error(series1, series2)/series2.mean()
+    return np.divide(mean_error(series1, series2), series2.mean())
+
 
 def nash_sutcliffe(series1, series2):
     """https://en.wikipedia.org/wiki/Nash%E2%80%93Sutcliffe_model_efficiency_coefficient
@@ -90,10 +96,7 @@ def nash_sutcliffe(series1, series2):
 
     num = 1-mse(series1, series2)
     den = mse(series2, series2.mean())
-    if den == 0:
-        return np.nan
-    else:
-        return num/den
+    np.divide(num,den)
 
 
 def percent_bias(series1, series2):
@@ -110,11 +113,13 @@ def percent_bias(series1, series2):
     Returns:
 
         float : percent bias
-    """    
-    return 100*((series1.sum()-series2.sum())/series2.sum())
+    """
+    return 100*np.divide(series1.sum()-series2.sum(),series2.sum())
+
 
 def linregress(xseries, yseries):
     return stats.linregress(xseries, yseries)
+
 
 def rsr(series1, series2):
     """
@@ -129,4 +134,4 @@ def rsr(series1, series2):
 
         float : RSR
     """
-    return rmse(series1, series2) / stats.tstd(series2)
+    return np.divide(rmse(series1, series2) , stats.tstd(series2))
