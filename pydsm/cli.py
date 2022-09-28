@@ -46,10 +46,22 @@ def compare_dss(dssfile1, dssfile2, threshold=1e-3, threshold_metric='rmse', tim
     '''
     dssutils.compare_dss(dssfile1, dssfile2, threshold, threshold_metric, time_window, cpart, godin, metricsfile)
 
+
+@click.command()
+@click.argument('hydro_tidefile', type=click.Path(exists=True))
+@click.argument('input_file', type=click.Path(exists=True))
+@click.argument('tidefile_path', type=click.STRING, default='/hydro/input/channel')
+@click.argument('table_name', type=click.STRING, default='CHANNEL')
+def update_hydro_tidefile_with_inp(hydro_tidefile, input_file, tidefile_path, table_name):
+    from . import utils
+    utils.update_hydro_tidefile_with_inp(hydro_tidefile, input_file, tidefile_path=tidefile_path, table_name=table_name)
+
 # adding sub commands to main
 main.add_command(extract_dss)
 main.add_command(compare_dss)
 main.add_command(ptm_animate)
 main.add_command(slice_hydro)
+main.add_command(update_hydro_tidefile_with_inp)
+
 if __name__ == "__main__":
     sys.exit(main())

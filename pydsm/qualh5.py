@@ -6,7 +6,7 @@ import h5py
 import pandas as pd
 import numpy as np
 
-from .import dsm2h5
+from . import dsm2h5
 
 
 class QualH5:
@@ -31,7 +31,7 @@ class QualH5:
         '''
         opens a handle to the filename in read mode
         '''
-        self.h5 = h5py.File(filename, 'r')
+        self.h5 = h5py.File(filename, 'r+')
         if not dsm2h5.get_model(self.h5) == 'qual':
             raise f'{filename} is not a qual tidefile: Could be '+dsm2h5.get_model(self.h5)+' ?'
         # initialization of tables needed

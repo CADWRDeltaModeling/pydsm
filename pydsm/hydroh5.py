@@ -29,7 +29,7 @@ class HydroH5:
         opens the file and initializes variables for subsequent requests
         '''
         self.filename = filename
-        self.h5 = h5py.File(filename, 'r')
+        self.h5 = h5py.File(filename, 'r+')
         if not dsm2h5.get_model(self.h5) == 'hydro':
             raise f'{filename} is not a hydro tidefile: Could be '+dsm2h5.get_model(self.h5)+' ?'
         # -- initialization code -- FIXME: be more lazy
