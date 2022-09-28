@@ -161,6 +161,13 @@ def extract_dss(dssfile, outfile, cpart, godin_filter, daily_average, daily_max,
             if monthly_average:
                 all_monthly.to_pickle(outfile)
 
+def _read_ts(dssh, pathname, sdate, edate):
+    ''' read regular or irregular time series as indicated by pathname E (5th) part '''
+    if pathname.split('/')[5].startswith('IR-'):
+        return dssh.read_its(pathname, sdate, edate)
+    else:
+        return dssh.read_rts(pathname, sdate, edate)
+
 
 def compare_dss(dssfile1, dssfile2, threshold=1e-3, threshold_metric='rmse', time_window=None, cpart=None, godin=False, metricsfile='compare_dss_metrics_diff.csv'):
     '''
@@ -185,9 +192,9 @@ def compare_dss(dssfile1, dssfile2, threshold=1e-3, threshold_metric='rmse', tim
             rowid = '%s/%s' % (row.loc['B'], row.loc['C'])
             print('Comparing %s' % rowid)
             p1 = d1.get_pathnames(dc1[(dc1.B == row.loc['B']) & (dc1.C == row.loc['C'])])
-            df1, u1, p1 = d1.read_rts(p1[0], sdate, edate)
+            df1, u1, p1 = _read_ts(d1, p1[0], sdate, edate)
             p2 = d2.get_pathnames(dc2[(dc2.B == row.loc['B']) & (dc2.C == row.loc['C'])])
-            df2, u2, p2 = d2.read_rts(p2[0], sdate, edate)
+            df2, u2, p2 = _read_ts(d2, p2[0], sdate, edate)
             series1 = df1.iloc[:, 0]
             series2 = df2.iloc[:, 0]
             metrics.append((rowid, tsmath.mean_error(series1, series2), tsmath.nmean_error(series1, series2),
