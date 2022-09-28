@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pydsm.dssutils &#8212; pydsm 2021.12.20+15.g880ce94.dirty documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for pydsm.dssutils</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Utility functions for working with dss files</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
+<span class="kn">import</span> <span class="nn">pyhecdss</span>
+<span class="kn">from</span> <span class="nn">vtools.functions</span> <span class="kn">import</span> <span class="nb">filter</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">pydsm.ptm_animator</span> <span class="kn">import</span> <span class="n">ptm_animate</span>
+<span class="kn">from</span> <span class="nn">pydsm.hydro_slicer</span> <span class="kn">import</span> <span class="n">slice_hydro</span>
+<span class="kn">from</span> <span class="nn">pydsm.postpro</span> <span class="kn">import</span> <span class="n">load_location_file</span><span class="p">,</span> <span class="n">load_location_table</span>
+<span class="kn">from</span> <span class="nn">pydsm.functions</span> <span class="kn">import</span> <span class="n">tsmath</span>
+
+<span class="kn">from</span> <span class="nn">pydsm</span> <span class="kn">import</span> <span class="n">lockutil</span>
+
+<span class="k">def</span> <span class="nf">_restart_console_line</span><span class="p">():</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">_to_periods</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_period</span><span class="p">()</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+
+
+<span class="k">def</span> <span class="nf">_to_periods</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_period</span><span class="p">()</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+<span class="k">def</span> <span class="nf">_build_column</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="n">cpart_append</span><span class="p">,</span> <span class="n">epart_replace</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    builds column name based on /A/B/C/D/E/F/ DSS pathname and</span>
+<span class="sd">    replacing the cpart with existing cpart + cpart_append value</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">append_cpart</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="n">parts</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="n">cpart_append</span>
+        <span class="k">if</span> <span class="n">epart_replace</span><span class="p">:</span>
+            <span class="n">parts</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">epart_replace</span>
+        <span class="k">return</span> <span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">append_cpart</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">_extract_processing</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">godin_filter</span><span class="p">,</span> <span class="n">daily_average</span><span class="p">,</span> <span class="n">daily_max</span><span class="p">,</span> <span class="n">daily_min</span><span class="p">,</span> <span class="n">monthly_average</span><span class="p">):</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">df</span>
+    <span class="n">results_monthly</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">godin_filter</span><span class="p">:</span>
+        <span class="n">results_godin</span> <span class="o">=</span> <span class="nb">filter</span><span class="o">.</span><span class="n">godin</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">daily_average</span><span class="p">:</span>  <span class="c1"># if godin filtered then replace that with daily averaged values</span>
+        <span class="n">tdf</span> <span class="o">=</span> <span class="n">tsmath</span><span class="o">.</span><span class="n">per_aver</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">)</span>
+        <span class="n">_to_periods</span><span class="p">(</span><span class="n">tdf</span><span class="p">)</span>
+        <span class="n">tdf</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">_build_column</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="s1">&#39;-MEAN&#39;</span><span class="p">,</span> <span class="s1">&#39;1DAY&#39;</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">tdf</span>
+    <span class="k">if</span> <span class="n">daily_max</span><span class="p">:</span>
+        <span class="n">tdf</span> <span class="o">=</span> <span class="n">tsmath</span><span class="o">.</span><span class="n">per_max</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">)</span>
+        <span class="n">_to_periods</span><span class="p">(</span><span class="n">tdf</span><span class="p">)</span>
+        <span class="n">tdf</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">_build_column</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="s1">&#39;-MAX&#39;</span><span class="p">,</span> <span class="s1">&#39;1DAY&#39;</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tdf</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">daily_min</span><span class="p">:</span>
+        <span class="n">tdf</span> <span class="o">=</span> <span class="n">tsmath</span><span class="o">.</span><span class="n">per_min</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">)</span>
+        <span class="n">_to_periods</span><span class="p">(</span><span class="n">tdf</span><span class="p">)</span>
+        <span class="n">tdf</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">_build_column</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="s1">&#39;-MIN&#39;</span><span class="p">,</span> <span class="s1">&#39;1DAY&#39;</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tdf</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">monthly_average</span><span class="p">:</span>
+        <span class="n">results_monthly</span> <span class="o">=</span> <span class="n">tsmath</span><span class="o">.</span><span class="n">per_aver</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">)</span>
+        <span class="n">_to_periods</span><span class="p">(</span><span class="n">results_monthly</span><span class="p">)</span>
+        <span class="n">results_monthly</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">_build_column</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="s1">&#39;-MONTHLY-AVG&#39;</span><span class="p">,</span> <span class="s1">&#39;1MON&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">results_godin</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">results_monthly</span>
+
+
+<span class="k">def</span> <span class="nf">_write_to_dss</span><span class="p">(</span><span class="n">od</span><span class="p">,</span> <span class="n">rtg_daily</span><span class="p">,</span> <span class="n">rtg_monthly</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">ptype</span><span class="o">=</span><span class="s1">&#39;PER-VAL&#39;</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rtg_daily</span><span class="o">.</span><span class="n">columns</span><span class="p">)):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">rtg_daily</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+        <span class="n">od</span><span class="o">.</span><span class="n">write_rts</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">r</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">ptype</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">rtg_monthly</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+        <span class="n">od</span><span class="o">.</span><span class="n">write_rts</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">r</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">ptype</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+
+<span class="k">def</span> <span class="nf">_build_column</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="n">cpart_append</span><span class="p">,</span> <span class="n">epart_replace</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    builds column name based on /A/B/C/D/E/F/ DSS pathname and</span>
+<span class="sd">    replacing the cpart with existing cpart + cpart_append value</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">append_cpart</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="n">parts</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="n">cpart_append</span>
+        <span class="k">if</span> <span class="n">epart_replace</span><span class="p">:</span>
+            <span class="n">parts</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">epart_replace</span>
+        <span class="k">return</span> <span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">append_cpart</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span>
+
+<div class="viewcode-block" id="extract_dss"><a class="viewcode-back" href="../../pydsm.html#pydsm.dssutils.extract_dss">[docs]</a><span class="k">def</span> <span class="nf">extract_dss</span><span class="p">(</span><span class="n">dssfile</span><span class="p">,</span> <span class="n">outfile</span><span class="p">,</span> <span class="n">cpart</span><span class="p">,</span> <span class="n">godin_filter</span><span class="p">,</span> <span class="n">daily_average</span><span class="p">,</span> <span class="n">daily_max</span><span class="p">,</span> <span class="n">daily_min</span><span class="p">,</span> <span class="n">monthly_average</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Extract data from DSS file, optionally filtering it and writing to a pickle for quick future loads</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">pyhecdss</span><span class="o">.</span><span class="n">set_message_level</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">DSSFile</span><span class="p">(</span><span class="n">dssfile</span><span class="p">)</span>
+    <span class="n">od</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">outfile</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;dss&#39;</span><span class="p">):</span>
+        <span class="n">od</span> <span class="o">=</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">DSSFile</span><span class="p">(</span><span class="n">outfile</span><span class="p">)</span>
+    <span class="n">catdf</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">read_catalog</span><span class="p">()</span>
+    <span class="n">catec</span> <span class="o">=</span> <span class="n">catdf</span><span class="p">[</span><span class="n">catdf</span><span class="o">.</span><span class="n">C</span> <span class="o">==</span> <span class="n">cpart</span><span class="p">]</span>
+    <span class="n">plist</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get_pathnames</span><span class="p">(</span><span class="n">catec</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">plist</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No pathnames found in dssfile: </span><span class="si">%s</span><span class="s2"> for cpart=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>
+              <span class="p">(</span><span class="n">dssfile</span><span class="p">,</span> <span class="n">cpart</span><span class="p">))</span>
+
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;@ </span><span class="si">%d</span><span class="s1"> / </span><span class="si">%d</span><span class="s1"> ==&gt; Processing: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">plist</span><span class="p">),</span> <span class="n">plist</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">r</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">read_rts</span><span class="p">(</span><span class="n">plist</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">results_daily</span><span class="p">,</span> <span class="n">results_monthly</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="n">rtg_daily</span><span class="p">,</span> <span class="n">rtg_monthly</span> <span class="o">=</span> <span class="n">_extract_processing</span><span class="p">(</span>
+        <span class="n">r</span><span class="p">,</span> <span class="n">godin_filter</span><span class="p">,</span> <span class="n">daily_average</span><span class="p">,</span> <span class="n">daily_max</span><span class="p">,</span> <span class="n">daily_min</span><span class="p">,</span> <span class="n">monthly_average</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">od</span><span class="p">:</span>
+        <span class="n">_write_to_dss</span><span class="p">(</span><span class="n">od</span><span class="p">,</span> <span class="n">rtg_daily</span><span class="p">,</span> <span class="n">rtg_monthly</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">results_daily</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rtg_daily</span><span class="p">)</span>
+        <span class="n">results_monthly</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rtg_monthly</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">plist</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">_restart_console_line</span><span class="p">()</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;@ </span><span class="si">%d</span><span class="s1"> / </span><span class="si">%d</span><span class="s1"> ==&gt; Processing: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">plist</span><span class="p">),</span> <span class="n">p</span><span class="p">))</span>
+        <span class="n">r</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">read_rts</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="n">rtg_daily</span><span class="p">,</span> <span class="n">rtg_monthly</span> <span class="o">=</span> <span class="n">_extract_processing</span><span class="p">(</span>
+            <span class="n">r</span><span class="p">,</span> <span class="n">godin_filter</span><span class="p">,</span> <span class="n">daily_average</span><span class="p">,</span> <span class="n">daily_max</span><span class="p">,</span> <span class="n">daily_min</span><span class="p">,</span> <span class="n">monthly_average</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">od</span><span class="p">:</span>
+            <span class="n">_write_to_dss</span><span class="p">(</span><span class="n">od</span><span class="p">,</span> <span class="n">rtg_daily</span><span class="p">,</span> <span class="n">rtg_monthly</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">results_daily</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rtg_daily</span><span class="p">)</span>
+            <span class="n">results_monthly</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rtg_monthly</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">od</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Done writing to DSS: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">outfile</span><span class="p">)</span>
+        <span class="n">od</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">all_daily</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">results_daily</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">monthly_average</span><span class="p">:</span>
+            <span class="n">all_monthly</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">results_monthly</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">outfile</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;zip&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">outfile</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;bz2&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">outfile</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;gzip&#39;</span><span class="p">):</span>
+            <span class="n">compression_opts</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;infer&#39;</span><span class="p">,</span> <span class="n">archive_name</span><span class="o">=</span><span class="n">outfile</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;.csv&#39;</span><span class="p">)</span>
+            <span class="n">all_daily</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="n">compression_opts</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">monthly_average</span><span class="p">:</span>
+                <span class="n">compression_opts</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;infer&#39;</span><span class="p">,</span> <span class="n">archive_name</span><span class="o">=</span><span class="n">outfile</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;-monthly.csv&#39;</span><span class="p">)</span>
+                <span class="n">all_monthly</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="n">compression_opts</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">outfile</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.h5&#39;</span><span class="p">):</span>
+            <span class="n">all_daily</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="s1">&#39;daily&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">monthly_average</span><span class="p">:</span>
+                <span class="n">all_monthly</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="s1">&#39;monthly&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">outfile</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;dss&#39;</span><span class="p">):</span>
+            <span class="n">od</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Unknown type of file ending: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">outfile</span><span class="p">)</span>
+            <span class="n">all_daily</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="n">outfile</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">monthly_average</span><span class="p">:</span>
+                <span class="n">all_monthly</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="n">outfile</span><span class="p">)</span></div>
+
+<span class="k">def</span> <span class="nf">_read_ts</span><span class="p">(</span><span class="n">dssh</span><span class="p">,</span> <span class="n">pathname</span><span class="p">,</span> <span class="n">sdate</span><span class="p">,</span> <span class="n">edate</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; read regular or irregular time series as indicated by pathname E (5th) part &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">pathname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;IR-&#39;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">dssh</span><span class="o">.</span><span class="n">read_its</span><span class="p">(</span><span class="n">pathname</span><span class="p">,</span> <span class="n">sdate</span><span class="p">,</span> <span class="n">edate</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">dssh</span><span class="o">.</span><span class="n">read_rts</span><span class="p">(</span><span class="n">pathname</span><span class="p">,</span> <span class="n">sdate</span><span class="p">,</span> <span class="n">edate</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="compare_dss"><a class="viewcode-back" href="../../pydsm.html#pydsm.dssutils.compare_dss">[docs]</a><span class="k">def</span> <span class="nf">compare_dss</span><span class="p">(</span><span class="n">dssfile1</span><span class="p">,</span> <span class="n">dssfile2</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">threshold_metric</span><span class="o">=</span><span class="s1">&#39;rmse&#39;</span><span class="p">,</span> <span class="n">time_window</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cpart</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">godin</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">metricsfile</span><span class="o">=</span><span class="s1">&#39;compare_dss_metrics_diff.csv&#39;</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Compares the dss files for common pathnames (B and C parts) and writes out various metrics to file</span>
+<span class="sd">    Filtering for matching c parts</span>
+<span class="sd">    and compare values with tolerance (default of 3 digits)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">pyhecdss</span><span class="o">.</span><span class="n">set_message_level</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">DSSFile</span><span class="p">(</span><span class="n">dssfile1</span><span class="p">)</span> <span class="k">as</span> <span class="n">d1</span><span class="p">,</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">DSSFile</span><span class="p">(</span><span class="n">dssfile2</span><span class="p">)</span> <span class="k">as</span> <span class="n">d2</span><span class="p">:</span>
+        <span class="n">dc1</span> <span class="o">=</span> <span class="n">d1</span><span class="o">.</span><span class="n">read_catalog</span><span class="p">()</span>
+        <span class="n">dc2</span> <span class="o">=</span> <span class="n">d2</span><span class="o">.</span><span class="n">read_catalog</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">cpart</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">dc1</span> <span class="o">=</span> <span class="n">dc1</span><span class="p">[</span><span class="n">dc1</span><span class="o">.</span><span class="n">C</span> <span class="o">==</span> <span class="n">cpart</span><span class="p">]</span>
+            <span class="n">dc2</span> <span class="o">=</span> <span class="n">dc2</span><span class="p">[</span><span class="n">dc2</span><span class="o">.</span><span class="n">C</span> <span class="o">==</span> <span class="n">cpart</span><span class="p">]</span>
+        <span class="c1"># common B and C</span>
+        <span class="n">cc</span> <span class="o">=</span> <span class="n">dc1</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">dc2</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">])</span>
+        <span class="n">metrics</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">sdate</span><span class="p">,</span> <span class="n">edate</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">time_window</span><span class="p">:</span>
+            <span class="n">sdate</span><span class="p">,</span> <span class="n">edate</span> <span class="o">=</span> <span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">time_window</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cc</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="n">rowid</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">/</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">],</span> <span class="n">row</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Comparing </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">rowid</span><span class="p">)</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="n">d1</span><span class="o">.</span><span class="n">get_pathnames</span><span class="p">(</span><span class="n">dc1</span><span class="p">[(</span><span class="n">dc1</span><span class="o">.</span><span class="n">B</span> <span class="o">==</span> <span class="n">row</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dc1</span><span class="o">.</span><span class="n">C</span> <span class="o">==</span> <span class="n">row</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">])])</span>
+            <span class="n">df1</span><span class="p">,</span> <span class="n">u1</span><span class="p">,</span> <span class="n">p1</span> <span class="o">=</span> <span class="n">_read_ts</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sdate</span><span class="p">,</span> <span class="n">edate</span><span class="p">)</span>
+            <span class="n">p2</span> <span class="o">=</span> <span class="n">d2</span><span class="o">.</span><span class="n">get_pathnames</span><span class="p">(</span><span class="n">dc2</span><span class="p">[(</span><span class="n">dc2</span><span class="o">.</span><span class="n">B</span> <span class="o">==</span> <span class="n">row</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dc2</span><span class="o">.</span><span class="n">C</span> <span class="o">==</span> <span class="n">row</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">])])</span>
+            <span class="n">df2</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">_read_ts</span><span class="p">(</span><span class="n">d2</span><span class="p">,</span> <span class="n">p2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sdate</span><span class="p">,</span> <span class="n">edate</span><span class="p">)</span>
+            <span class="n">series1</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="n">series2</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="n">metrics</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">rowid</span><span class="p">,</span> <span class="n">tsmath</span><span class="o">.</span><span class="n">mean_error</span><span class="p">(</span><span class="n">series1</span><span class="p">,</span> <span class="n">series2</span><span class="p">),</span> <span class="n">tsmath</span><span class="o">.</span><span class="n">nmean_error</span><span class="p">(</span><span class="n">series1</span><span class="p">,</span> <span class="n">series2</span><span class="p">),</span>
+                            <span class="n">tsmath</span><span class="o">.</span><span class="n">mse</span><span class="p">(</span><span class="n">series1</span><span class="p">,</span> <span class="n">series2</span><span class="p">),</span> <span class="n">tsmath</span><span class="o">.</span><span class="n">nmse</span><span class="p">(</span><span class="n">series1</span><span class="p">,</span> <span class="n">series2</span><span class="p">),</span>
+                            <span class="n">tsmath</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">series1</span><span class="p">,</span> <span class="n">series2</span><span class="p">),</span> <span class="n">tsmath</span><span class="o">.</span><span class="n">nrmse</span><span class="p">(</span><span class="n">series1</span><span class="p">,</span> <span class="n">series2</span><span class="p">),</span>
+                            <span class="n">tsmath</span><span class="o">.</span><span class="n">nash_sutcliffe</span><span class="p">(</span><span class="n">series1</span><span class="p">,</span> <span class="n">series2</span><span class="p">),</span>
+                            <span class="n">tsmath</span><span class="o">.</span><span class="n">percent_bias</span><span class="p">(</span><span class="n">series1</span><span class="p">,</span> <span class="n">series2</span><span class="p">)))</span>
+        <span class="n">dfmetrics</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span>
+            <span class="n">metrics</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;mean_error&#39;</span><span class="p">,</span> <span class="s1">&#39;nmean_error&#39;</span><span class="p">,</span> <span class="s1">&#39;mse&#39;</span><span class="p">,</span> <span class="s1">&#39;nmse&#39;</span><span class="p">,</span> <span class="s1">&#39;rmse&#39;</span><span class="p">,</span> <span class="s1">&#39;nrmse&#39;</span><span class="p">,</span> <span class="s1">&#39;nash_sutcliffe&#39;</span><span class="p">,</span> <span class="s1">&#39;percent_bias&#39;</span><span class="p">])</span>
+        <span class="c1"># -- display missing or unmatched pathnames</span>
+        <span class="n">missingc1</span> <span class="o">=</span> <span class="n">dc1</span><span class="p">[(</span><span class="o">~</span><span class="n">dc1</span><span class="o">.</span><span class="n">B</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">cc</span><span class="o">.</span><span class="n">B</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="o">~</span><span class="n">dc1</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">cc</span><span class="o">.</span><span class="n">C</span><span class="p">))]</span>
+        <span class="n">missingc2</span> <span class="o">=</span> <span class="n">dc2</span><span class="p">[(</span><span class="o">~</span><span class="n">dc2</span><span class="o">.</span><span class="n">B</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">cc</span><span class="o">.</span><span class="n">B</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="o">~</span><span class="n">dc2</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">cc</span><span class="o">.</span><span class="n">C</span><span class="p">))]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">missingc1</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No matches for FILE1: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">dssfile1</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">missingc1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">missingc2</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No matches for FILE2: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">dssfile2</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">missingc2</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">dfmetrics</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Writing out metrics to file: &#39;</span><span class="p">,</span> <span class="n">metricsfile</span><span class="p">)</span>
+        <span class="n">dfmetrics</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">metricsfile</span><span class="p">)</span>
+        <span class="n">threshold_cond</span> <span class="o">=</span> <span class="n">dfmetrics</span><span class="p">[</span><span class="n">threshold_metric</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span> <span class="o">&gt;</span> <span class="n">threshold</span>
+        <span class="k">if</span> <span class="n">threshold_cond</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Threshold </span><span class="si">{</span><span class="n">threshold</span><span class="si">}</span><span class="s1"> exceeded! See exceeded rows below&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">dfmetrics</span><span class="p">[</span><span class="n">threshold_cond</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="do_catalog_with_lock"><a class="viewcode-back" href="../../pydsm.html#pydsm.dssutils.do_catalog_with_lock">[docs]</a><span class="nd">@lockutil</span><span class="o">.</span><span class="n">do_with_lock</span><span class="p">(</span><span class="n">lockfile</span><span class="o">=</span><span class="s1">&#39;my.test.lock&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">check_interval</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">do_catalog_with_lock</span><span class="p">(</span><span class="n">dssfile</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Does catalog by first acquiring system wide lock on lockfile. </span>
+<span class="sd">    </span>
+<span class="sd">    This is because HEC-DSS version 6 uses a single temporary catalog file across any process that is attempting a catalog on a DSS File</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">with</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">DSSFile</span><span class="p">(</span><span class="n">dssfile</span><span class="p">)</span> <span class="k">as</span> <span class="n">dssh</span><span class="p">:</span>
+        <span class="n">dssh</span><span class="o">.</span><span class="n">do_catalog</span><span class="p">()</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">pydsm</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">pydsm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pydsm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/notebooks.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Nicky Sandhu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

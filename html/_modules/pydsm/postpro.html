@@ -1,16 +1,17 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pydsm.postpro &#8212; pydsm 2021.12.20+0.g3216eaa.dirty documentation</title>
+    <title>pydsm.postpro &#8212; pydsm 2021.12.20+15.g880ce94.dirty documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -50,9 +51,13 @@
 <span class="kn">from</span> <span class="nn">pandas.core.frame</span> <span class="kn">import</span> <span class="n">DataFrame</span>
 <span class="kn">from</span> <span class="nn">vtools.functions.filter</span> <span class="kn">import</span> <span class="n">godin</span>
 <span class="kn">from</span> <span class="nn">pydsm.functions</span> <span class="kn">import</span> <span class="n">tidalhl</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">exists</span>
+
 
 <span class="n">Study</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Study&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;dssfile&#39;</span><span class="p">])</span>
-<span class="n">Location</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Location&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;bpart&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">])</span>
+<span class="c1"># time_window_exclusion_list is a comma separated list of timewindows</span>
+<span class="c1"># threshold_value is a value, above and below which data will be removed, to create plots/metrics </span>
+<span class="n">Location</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Location&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;bpart&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;time_window_exclusion_list&#39;</span><span class="p">,</span> <span class="s1">&#39;threshold_value&#39;</span><span class="p">])</span>
 <span class="n">VarType</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;VarType&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;units&#39;</span><span class="p">])</span>
 
 
@@ -92,7 +97,7 @@
 <span class="sd">    calculates number of NaN values filled between df and filled_df</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        df (DataFrame): dataframe </span>
+<span class="sd">        df (DataFrame): dataframe</span>
 <span class="sd">        filled_df (DataFrame): dataframe after filling with some method</span>
 
 <span class="sd">    Returns:</span>
@@ -104,7 +109,7 @@
 
 
 <div class="viewcode-block" id="fill_in"><a class="viewcode-back" href="../../pydsm.html#pydsm.postpro.fill_in">[docs]</a><span class="k">def</span> <span class="nf">fill_in</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">max_fillin_gap</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">fillin_method</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;fill in DataFrame </span>
+    <span class="sd">&quot;&quot;&quot;fill in DataFrame</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        df (DataFrame): A dataframe with a time index of a frequency</span>
@@ -155,11 +160,23 @@
 
 <div class="viewcode-block" id="PostProCache.load"><a class="viewcode-back" href="../../pydsm.html#pydsm.postpro.PostProCache.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bpart</span><span class="p">,</span> <span class="n">cpart</span><span class="p">,</span> <span class="n">dpart</span><span class="p">):</span>
         <span class="n">return_series</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">dss_path</span> <span class="o">=</span> <span class="s1">&#39;/</span><span class="si">%s</span><span class="s1">/</span><span class="si">%s</span><span class="s1">/</span><span class="si">%s</span><span class="s1">/</span><span class="si">%s</span><span class="s1">///&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">PostProCache</span><span class="o">.</span><span class="n">A_PART</span><span class="p">,</span> <span class="n">bpart</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">cpart</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">dpart</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">return_series</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">pyhecdss</span><span class="o">.</span><span class="n">get_ts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;/</span><span class="si">%s</span><span class="s1">/</span><span class="si">%s</span><span class="s1">/</span><span class="si">%s</span><span class="s1">/</span><span class="si">%s</span><span class="s1">///&#39;</span> <span class="o">%</span>
-                                                 <span class="p">(</span><span class="n">PostProCache</span><span class="o">.</span><span class="n">A_PART</span><span class="p">,</span> <span class="n">bpart</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">cpart</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">dpart</span><span class="o">.</span><span class="n">upper</span><span class="p">())))</span>
+            <span class="n">return_series</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">pyhecdss</span><span class="o">.</span><span class="n">get_ts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">,</span> <span class="n">dss_path</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">StopIteration</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;pydsm.postpro.PostProCache.load: no data found&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Exception in pydsm.postpro.PostProCache.load() while trying to load data.&#39;</span><span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;Exception in pydsm.postpro.PostProCache.load() while trying to load data.&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no data found for &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="n">dss_path</span><span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;no data found for &#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="n">dss_path</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;DSS file found, but data not found in file. DSS File, DSS path=&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="n">dss_path</span><span class="p">)</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;DSS file found, but data not found in file. DSS File, DSS path=&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="n">dss_path</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;DSS file not found:&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">)</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;DSS file not found:&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">return_series</span></div></div>
 
 
@@ -169,11 +186,13 @@
     <span class="n">TIME_INTERVAL</span> <span class="o">=</span> <span class="s1">&#39;15MIN&#39;</span>
     <span class="n">CPART_SUFFIX_MAP</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="n">Location</span><span class="p">,</span> <span class="n">vartype</span><span class="p">:</span> <span class="n">VarType</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="n">Location</span><span class="p">,</span> <span class="n">vartype</span><span class="p">:</span> <span class="n">VarType</span><span class="p">,</span> <span class="n">subtract</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">study</span> <span class="o">=</span> <span class="n">study</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">location</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vartype</span> <span class="o">=</span> <span class="n">vartype</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="n">PostProCache</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">study</span><span class="o">.</span><span class="n">dssfile</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subtract</span> <span class="o">=</span> <span class="n">subtract</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ratio</span> <span class="o">=</span> <span class="n">ratio</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_default_ops</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_set_default_ops</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -194,18 +213,99 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">do_scaling</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span></div>
 
+<div class="viewcode-block" id="PostProcessor.append_dss_path_part"><a class="viewcode-back" href="../../pydsm.html#pydsm.postpro.PostProcessor.append_dss_path_part">[docs]</a>    <span class="k">def</span> <span class="nf">append_dss_path_part</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pathname</span><span class="p">,</span> <span class="n">path_part_appendage</span><span class="p">,</span> <span class="n">path_part</span><span class="o">=</span><span class="s1">&#39;b_part&#39;</span><span class="p">):</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">pathname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="n">parts</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="n">parts</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">path_part</span> <span class="o">!=</span> <span class="s1">&#39;d_part&#39;</span><span class="p">:</span>
+            <span class="n">dss_parts_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a_part&#39;</span><span class="p">,</span> <span class="s1">&#39;b_part&#39;</span><span class="p">,</span> <span class="s1">&#39;c_part&#39;</span><span class="p">,</span> <span class="s1">&#39;d_part&#39;</span><span class="p">,</span> <span class="s1">&#39;e_part&#39;</span><span class="p">,</span> <span class="s1">&#39;f_part&#39;</span><span class="p">]</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">dss_parts_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">path_part</span><span class="p">)</span>
+            <span class="n">parts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">path_part_appendage</span>
+        <span class="k">return</span> <span class="s1">&#39;/</span><span class="si">%s</span><span class="s1">/</span><span class="si">%s</span><span class="s1">/</span><span class="si">%s</span><span class="s1">/</span><span class="si">%s</span><span class="s1">/</span><span class="si">%s</span><span class="s1">/</span><span class="si">%s</span><span class="s1">/&#39;</span> <span class="o">%</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PostProcessor.get_part_from_dss_path"><a class="viewcode-back" href="../../pydsm.html#pydsm.postpro.PostProcessor.get_part_from_dss_path">[docs]</a>    <span class="k">def</span> <span class="nf">get_part_from_dss_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pathname</span><span class="p">,</span> <span class="n">path_part</span><span class="o">=</span><span class="s1">&#39;b_part&#39;</span><span class="p">):</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">pathname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="n">dss_parts_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a_part&#39;</span><span class="p">,</span> <span class="s1">&#39;b_part&#39;</span><span class="p">,</span> <span class="s1">&#39;c_part&#39;</span><span class="p">,</span> <span class="s1">&#39;d_part&#39;</span><span class="p">,</span> <span class="s1">&#39;e_part&#39;</span><span class="p">,</span> <span class="s1">&#39;f_part&#39;</span><span class="p">]</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">dss_parts_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">path_part</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">parts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span></div>
+
     <span class="k">def</span> <span class="nf">_read_ts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Reads data from DSS, and returns a time series dataframe.</span>
+<span class="sd">        Sometimes we need to subtract two flow time series. For example, cross-delta flow=RSAC128-RSAC123 and SDC-GES. \</span>
+<span class="sd">        If data type is flow, and if pathname not found in file, check to see if there is a minus sign. \</span>
+<span class="sd">        if there is, split the b part on the minus sign, and see if pathnames with each part exist. \</span>
+<span class="sd">        if yes, then subtract the two time series and return the result. </span>
+<span class="sd">        returns dataframe</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">pathname</span> <span class="o">=</span> <span class="s1">&#39;//</span><span class="si">%s</span><span class="s1">/</span><span class="si">%s</span><span class="s1">////&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">bpart</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vartype</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">get_ts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">study</span><span class="o">.</span><span class="n">dssfile</span><span class="p">,</span> <span class="n">pathname</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+        <span class="n">return_df</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">subtract</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ratio</span><span class="p">:</span>
+            <span class="n">generator</span> <span class="o">=</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">get_ts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">study</span><span class="o">.</span><span class="n">dssfile</span><span class="p">,</span> <span class="n">pathname</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+            <span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">closing</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span> <span class="k">as</span> <span class="n">dfgen</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_resampling_with_merging</span><span class="p">:</span>
+                    <span class="n">dflist</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">PostProcessor</span><span class="o">.</span><span class="n">TIME_INTERVAL</span><span class="p">)</span><span class="o">.</span><span class="n">asfreq</span><span class="p">()</span> <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">dfgen</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dflist</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;****************************************************************************************************************&#39;</span><span class="p">)</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error in postpro._read_ts: dflist has len 0, after trying to read pathname: &#39;</span><span class="o">+</span> <span class="n">pathname</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;****************************************************************************************************************&#39;</span><span class="p">)</span>
+                    <span class="n">return_df</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">dflist</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+
+                    <span class="n">return_df</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">dfgen</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
+                    <span class="n">convert_index_to_timestamps</span><span class="p">(</span><span class="n">return_df</span><span class="p">)</span>  <span class="c1"># inplace change of index</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">subtract</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">ratio</span><span class="p">:</span>
+            <span class="c1"># read in &gt;1 time series, and subtract them. Column names of dataframes are set to &#39;data&#39; because when</span>
+            <span class="c1"># subtracting, column names must match. new_dss_path is used for the column name of the result, and will typically have</span>
+            <span class="c1"># a bpart that is &#39;SDC-GES&#39; or &#39;RSAC128-RSAC123&#39;</span>
+            <span class="n">return_df</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">df_index</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">bpart_separator</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;_div_&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">bpart</span><span class="p">):</span>
+                <span class="n">bpart_separator</span> <span class="o">=</span> <span class="s1">&#39;_div_&#39;</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="s1">&#39;-&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">bpart</span><span class="p">):</span>
+                <span class="n">bpart_separator</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vartype</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;flow&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">bpart_separator</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">bpart</span><span class="p">):</span>
+                <span class="n">parts</span> <span class="o">=</span> <span class="n">pathname</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+                <span class="n">bpart_parts</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">bpart_separator</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;bpart_parts=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">bpart_parts</span><span class="p">))</span>
+
+                <span class="n">new_dss_path</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">for</span> <span class="n">bp</span> <span class="ow">in</span> <span class="n">bpart_parts</span><span class="p">:</span>
+                    <span class="n">pathname</span> <span class="o">=</span> <span class="s1">&#39;//</span><span class="si">%s</span><span class="s1">/</span><span class="si">%s</span><span class="s1">////&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">bp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vartype</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                    <span class="n">generator</span> <span class="o">=</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">get_ts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">study</span><span class="o">.</span><span class="n">dssfile</span><span class="p">,</span> <span class="n">pathname</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+                    <span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">closing</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span> <span class="k">as</span> <span class="n">dfgen</span><span class="p">:</span>
+                        <span class="n">dflist</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">PostProcessor</span><span class="o">.</span><span class="n">TIME_INTERVAL</span><span class="p">)</span><span class="o">.</span><span class="n">asfreq</span><span class="p">()</span> <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">dfgen</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">df_index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">return_df</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">dflist</span><span class="p">)</span>
+                            <span class="n">new_dss_path</span> <span class="o">=</span> <span class="n">return_df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                            <span class="n">return_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">return_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+                            <span class="n">new_df</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">dflist</span><span class="p">)</span>
+                            <span class="n">new_dss_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">append_dss_path_part</span><span class="p">(</span><span class="n">new_dss_path</span><span class="p">,</span> <span class="n">bpart_separator</span> <span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">get_part_from_dss_path</span><span class="p">(</span><span class="n">new_df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                            <span class="n">new_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+                            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">subtract</span><span class="p">:</span>
+                                <span class="n">return_df</span> <span class="o">=</span> <span class="n">return_df</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">new_df</span><span class="p">)</span>
+                            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ratio</span><span class="p">:</span>
+                                <span class="c1"># this is not the place to do this, because we need godin</span>
+                                <span class="c1"># first remove all rows if either value is nan</span>
+                                <span class="c1"># ratio_df = return_df.merge(new_df, how=&#39;inner&#39;)</span>
+                                <span class="c1"># print(&#39;ratio_df=&#39;+str(ratio_df.head()))</span>
+                                <span class="c1"># ratio_df = ratio_df[ratio_df.notna()]</span>
+                                <span class="c1"># numerator_col_name = ratio_df.columns[0]</span>
+                                <span class="c1"># denominator_col_name = ratio_df.columns[1]</span>
+                                <span class="c1"># ratio_df[&#39;ratio&#39;] = ratio_df[numerator_col_name] / ratio_df[denominator_col_name]</span>
+                                <span class="c1"># # return_df = return_df.divide(new_df)</span>
+                                <span class="c1"># return_df = ratio_df[denominator_col_name]</span>
+                                <span class="c1"># do nothing for now.</span>
+                                <span class="n">return_df</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="n">df_index</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">return_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">new_dss_path</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">return_df</span>
 
 <div class="viewcode-block" id="PostProcessor.process"><a class="viewcode-back" href="../../pydsm.html#pydsm.postpro.PostProcessor.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">closing</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_read_ts</span><span class="p">())</span> <span class="k">as</span> <span class="n">dfgen</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_resampling_with_merging</span><span class="p">:</span>
-                <span class="n">dflist</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">PostProcessor</span><span class="o">.</span><span class="n">TIME_INTERVAL</span><span class="p">)</span><span class="o">.</span><span class="n">asfreq</span><span class="p">()</span> <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">dfgen</span><span class="p">]</span>
-                <span class="n">df</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">dflist</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">df</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">dfgen</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
-                <span class="n">convert_index_to_timestamps</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>  <span class="c1"># inplace change of index</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_ts</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_filling_in</span><span class="p">:</span>
             <span class="n">df</span> <span class="o">=</span> <span class="n">fill_in</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fillin_gap</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fillin_method</span><span class="p">)</span>
@@ -234,6 +334,8 @@
                 <span class="n">return_series</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">data</span>
         <span class="k">except</span> <span class="ne">StopIteration</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;pydsm.postpro.PostProCache.load: no data found&#39;</span><span class="p">)</span>
+        <span class="c1"># except AttributeError as e:</span>
+        <span class="c1">#     print(&#39;ERROR: location, vartype=&#39;+str(self.location)+&#39;,&#39;+str(self.vartype))</span>
         <span class="k">return</span> <span class="n">return_series</span>
 
 <div class="viewcode-block" id="PostProcessor.store_processed"><a class="viewcode-back" href="../../pydsm.html#pydsm.postpro.PostProcessor.store_processed">[docs]</a>    <span class="k">def</span> <span class="nf">store_processed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -270,9 +372,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">amp_diff_pct</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load</span><span class="p">(</span><span class="s1">&#39;-AMP-DIFF-PCT&#39;</span><span class="p">,</span> <span class="n">timewindow</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">phase_diff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load</span><span class="p">(</span><span class="s1">&#39;-PHASE-DIFF&#39;</span><span class="p">,</span> <span class="n">timewindow</span><span class="p">)</span></div></div>
 
-
 <div class="viewcode-block" id="load_location_table"><a class="viewcode-back" href="../../pydsm.html#pydsm.postpro.load_location_table">[docs]</a><span class="k">def</span> <span class="nf">load_location_table</span><span class="p">(</span><span class="n">loc_name_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Loads locations from the table. </span>
+    <span class="sd">&quot;&quot;&quot;Loads locations from the table.</span>
 
 <span class="sd">    DSM2 ID,CDEC ID,Station Name,Elevation,Latitude,Longitude,...</span>
 <span class="sd">    SSS,SSS,Steamboat Slough,10,38.285,-121.587,...</span>
@@ -289,11 +390,35 @@
     <span class="n">dfnames</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">dfnames</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">dfnames</span></div>
 
-
-<div class="viewcode-block" id="load_location_file"><a class="viewcode-back" href="../../pydsm.html#pydsm.postpro.load_location_file">[docs]</a><span class="k">def</span> <span class="nf">load_location_file</span><span class="p">(</span><span class="n">locationfile</span><span class="p">):</span>
+<div class="viewcode-block" id="load_location_file"><a class="viewcode-back" href="../../pydsm.html#pydsm.postpro.load_location_file">[docs]</a><span class="k">def</span> <span class="nf">load_location_file</span><span class="p">(</span><span class="n">locationfile</span><span class="p">,</span> <span class="n">gate_data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="c1"># def load_location_file(locationfile):</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">load_location_table</span><span class="p">(</span><span class="n">locationfile</span><span class="p">)</span>
-    <span class="n">dfloc</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;DSM2 ID&#39;</span><span class="p">,</span> <span class="s1">&#39;CDEC ID&#39;</span><span class="p">,</span> <span class="s1">&#39;Station Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Latitude&#39;</span><span class="p">,</span> <span class="s1">&#39;Longitude&#39;</span><span class="p">]]</span>
-    <span class="n">dfloc</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;BPart&#39;</span><span class="p">,</span> <span class="s1">&#39;Description&#39;</span><span class="p">,</span> <span class="s1">&#39;Latitude&#39;</span><span class="p">,</span> <span class="s1">&#39;Longitude&#39;</span><span class="p">]</span>
+    <span class="n">columns_to_keep</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;DSM2 ID&#39;</span><span class="p">,</span> <span class="s1">&#39;CDEC ID&#39;</span><span class="p">,</span> <span class="s1">&#39;Station Name&#39;</span><span class="p">,</span> <span class="s1">&#39;subtract&#39;</span><span class="p">,</span> <span class="s1">&#39;time_window_exclusion_list&#39;</span><span class="p">,</span> <span class="s1">&#39;threshold_value&#39;</span><span class="p">,</span> <span class="s1">&#39;ratio&#39;</span><span class="p">,</span> <span class="s1">&#39;Latitude&#39;</span><span class="p">,</span> <span class="s1">&#39;Longitude&#39;</span><span class="p">]</span>
+    <span class="n">new_column_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;BPart&#39;</span><span class="p">,</span> <span class="s1">&#39;Description&#39;</span><span class="p">,</span> <span class="s1">&#39;subtract&#39;</span><span class="p">,</span> <span class="s1">&#39;time_window_exclusion_list&#39;</span><span class="p">,</span> <span class="s1">&#39;threshold_value&#39;</span><span class="p">,</span> <span class="s1">&#39;ratio&#39;</span><span class="p">,</span> <span class="s1">&#39;Latitude&#39;</span><span class="p">,</span> <span class="s1">&#39;Longitude&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">gate_data</span><span class="p">:</span>
+        <span class="n">columns_to_keep</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;DSM2 ID&#39;</span><span class="p">,</span> <span class="s1">&#39;CDEC ID&#39;</span><span class="p">,</span> <span class="s1">&#39;Station Name&#39;</span><span class="p">]</span>
+        <span class="n">new_column_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;BPart&#39;</span><span class="p">,</span> <span class="s1">&#39;Description&#39;</span><span class="p">]</span>
+    <span class="c1"># optionally allow overriding of VARTYPE, by specifying a vartype for each dataset in the calibration_&lt;constituent&gt;_stations.csv file. </span>
+    <span class="c1"># This is needed for DSM2 rim flow input files, which have cparts such as FLOW-DIVERSION and FLOW-EXPORT</span>
+    <span class="k">if</span> <span class="s1">&#39;OBS VARTYPE&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">columns_to_keep</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;OBS VARTYPE&#39;</span><span class="p">)</span>
+        <span class="n">new_column_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;OBS_VARTYPE&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;MODEL VARTYPE&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">columns_to_keep</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;MODEL VARTYPE&#39;</span><span class="p">)</span>
+        <span class="n">new_column_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;MODEL_VARTYPE&#39;</span><span class="p">)</span>
+    <span class="n">dfloc</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;subtract&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">columns_to_keep</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;subtract&#39;</span><span class="p">)</span>
+            <span class="n">new_column_names</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;subtract&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;ratio&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span> 
+            <span class="n">columns_to_keep</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;ratio&#39;</span><span class="p">)</span>
+            <span class="n">new_column_names</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;ratio&#39;</span><span class="p">)</span>
+        <span class="n">dfloc</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">columns_to_keep</span><span class="p">]</span>
+        <span class="n">dfloc</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">new_column_names</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error in pydsm.postpro.load_location_file: location file must have the following fields:&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">columns_to_keep</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">dfloc</span></div>
 
 <span class="c1">#-------- HELPER FUNCTIONS ----------#</span>
@@ -303,11 +428,28 @@
     <span class="n">dfloc</span> <span class="o">=</span> <span class="n">load_location_file</span><span class="p">(</span><span class="n">locationfile</span><span class="p">)</span>
     <span class="n">processors</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">dfloc</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="c1"># if obs or model vartype specified, override specified vartype</span>
+        <span class="c1"># this is necessary for files such as DSM2 input DSS files, which have FLOW, FLOW-DIVERSION, and FLOW-EXPORT</span>
+        <span class="k">if</span> <span class="n">observed</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;OBS_VARTYPE&#39;</span> <span class="ow">in</span> <span class="n">dfloc</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="n">vartype</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;OBS_VARTYPE&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;MODEL_VARTYPE&#39;</span> <span class="ow">in</span> <span class="n">dfloc</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="n">vartype</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;MODEL_VARTYPE&#39;</span><span class="p">]</span>
+        <span class="n">subtract</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">ratio</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="s1">&#39;subtract&#39;</span> <span class="ow">in</span> <span class="n">row</span> <span class="ow">and</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;subtract&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="s1">&#39;-&#39;</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="s1">&#39;-&#39;</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;BPart&#39;</span><span class="p">]:</span>
+            <span class="n">subtract</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="s1">&#39;ratio&#39;</span> <span class="ow">in</span> <span class="n">row</span> <span class="ow">and</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;ratio&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="s1">&#39;_div_&#39;</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="s1">&#39;_div_&#39;</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;BPart&#39;</span><span class="p">]:</span>
+            <span class="n">ratio</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">processor</span> <span class="o">=</span> <span class="n">PostProcessor</span><span class="p">(</span><span class="n">Study</span><span class="p">(</span><span class="n">study_name</span><span class="p">,</span> <span class="n">dssfile</span><span class="p">),</span>
                                   <span class="n">Location</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">],</span>
                                            <span class="n">row</span><span class="p">[</span><span class="s1">&#39;BPart&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">observed</span> <span class="k">else</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">],</span>
-                                           <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Description&#39;</span><span class="p">]),</span>
-                                  <span class="n">VarType</span><span class="p">(</span><span class="n">vartype</span><span class="p">,</span> <span class="n">units</span><span class="p">))</span>
+                                           <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Description&#39;</span><span class="p">],</span>
+                                           <span class="n">row</span><span class="p">[</span><span class="s1">&#39;time_window_exclusion_list&#39;</span><span class="p">],</span>
+                                           <span class="n">row</span><span class="p">[</span><span class="s1">&#39;threshold_value&#39;</span><span class="p">]),</span>
+                                  <span class="n">VarType</span><span class="p">(</span><span class="n">vartype</span><span class="p">,</span> <span class="n">units</span><span class="p">),</span>
+                                  <span class="n">subtract</span> <span class="o">=</span> <span class="n">subtract</span><span class="p">,</span> <span class="n">ratio</span> <span class="o">=</span> <span class="n">ratio</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">observed</span><span class="p">:</span>
             <span class="n">processor</span><span class="o">.</span><span class="n">do_resample_with_merge</span><span class="p">(</span><span class="s1">&#39;15MIN&#39;</span><span class="p">)</span>
             <span class="n">processor</span><span class="o">.</span><span class="n">do_fill_in</span><span class="p">()</span>
@@ -323,6 +465,7 @@
         <span class="n">processor</span><span class="o">.</span><span class="n">process</span><span class="p">()</span>
         <span class="n">processed</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;exception caught in run_processor: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">ex</span><span class="p">))</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Failed to process </span><span class="si">{</span><span class="n">processor</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">processor</span><span class="o">.</span><span class="n">vartype</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">: &#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">processed</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">store</span><span class="p">:</span>
@@ -345,7 +488,7 @@
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">&#39;--observed&#39;</span><span class="p">,</span> <span class="n">is_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;if dss file is observed data (resampling, merging, filling, scaling may be needed)&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">postpro</span><span class="p">(</span><span class="n">dssfile</span><span class="p">,</span> <span class="n">locationfile</span><span class="p">,</span> <span class="n">vartype</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">study_name</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Postprocess dssfile with locations defined in locationfile for vartype.    </span>
+<span class="sd">    Postprocess dssfile with locations defined in locationfile for vartype.</span>
 <span class="sd">    Args:</span>
 <span class="sd">        dssfile: DSS file (input)</span>
 <span class="sd">        locationfile: Location file (.csv) with location names and descriptions</span>
@@ -393,7 +536,7 @@
 
 
 <h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../readme.html">pydsm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
@@ -418,12 +561,12 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -440,7 +583,7 @@
       &copy;2019, Nicky Sandhu.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

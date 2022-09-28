@@ -1,21 +1,22 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Reading Qual h5 output &#8212; pydsm 2021.12.20+0.g3216eaa.dirty documentation</title>
+    <title>Reading Qual h5 output &#8212; pydsm 2021.12.20+15.g880ce94.dirty documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="DSM2 as a network" href="dsm2_input_network.html" />
@@ -246,11 +247,12 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
-.prompt a.copybtn {
+.prompt .copybtn {
     display: none;
 }
 
 /* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
 div.rendered_html table {
   border: none;
   border-collapse: collapse;
@@ -259,10 +261,14 @@ div.rendered_html table {
   font-size: 12px;
   table-layout: fixed;
 }
+.jp-RenderedHTMLCommon thead,
 div.rendered_html thead {
   border-bottom: 1px solid black;
   vertical-align: bottom;
 }
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
 div.rendered_html tr,
 div.rendered_html th,
 div.rendered_html td {
@@ -274,26 +280,28 @@ div.rendered_html td {
   max-width: none;
   border: none;
 }
+.jp-RenderedHTMLCommon th,
 div.rendered_html th {
   font-weight: bold;
 }
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
 div.rendered_html tbody tr:nth-child(odd) {
   background: #f5f5f5;
 }
+.jp-RenderedHTMLCommon tbody tr:hover,
 div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
 <section id="Reading-Qual-h5-output">
-<h1>Reading Qual h5 output<a class="headerlink" href="#Reading-Qual-h5-output" title="Permalink to this headline">¶</a></h1>
+<h1>Reading Qual h5 output<a class="headerlink" href="#Reading-Qual-h5-output" title="Permalink to this heading">¶</a></h1>
 <p>This notebook is an example of using pydsm to read DSM2 qual h5 output. Please the <a class="reference internal" href="dsm2_read_hydro_h5.html"><span class="doc">notebook for reading hydro h5</span></a> first.</p>
 <p>The timeseries are loaded as pandas DataFrame with datetime index and mcolumns of variable type (e.g. flow, stage, ec). This is similar to pyhecdss read in objects.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">h5py</span>
@@ -306,31 +314,29 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <section id="Opening-a-H5-file">
-<h2>Opening a H5 file<a class="headerlink" href="#Opening-a-H5-file" title="Permalink to this headline">¶</a></h2>
+<h2>Opening a H5 file<a class="headerlink" href="#Opening-a-H5-file" title="Permalink to this heading">¶</a></h2>
 <p>This provides the handle to the HDF5 file.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;../../tests/data/historical_v82_ec.h5&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;../../tests/data/historical_v82_ec.h5&#39;</span>
 <span class="n">qual</span><span class="o">=</span><span class="n">QualH5</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </section>
 <section id="Qual-data-file-structure">
-<h2>Qual data file structure<a class="headerlink" href="#Qual-data-file-structure" title="Permalink to this headline">¶</a></h2>
+<h2>Qual data file structure<a class="headerlink" href="#Qual-data-file-structure" title="Permalink to this heading">¶</a></h2>
 <p>DSM2 Qual HDF5 stores data under two groups: * /input * /output</p>
 <section id="Channels">
-<h3>Channels<a class="headerlink" href="#Channels" title="Permalink to this headline">¶</a></h3>
+<h3>Channels<a class="headerlink" href="#Channels" title="Permalink to this heading">¶</a></h3>
 <p>The method get_channels() returns a data frame indexed by internal channel index. The first column contains the external channel id that is referenced in the dsm2 input files</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_channels</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_channels</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -412,14 +418,13 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="Reservoirs">
-<h3>Reservoirs<a class="headerlink" href="#Reservoirs" title="Permalink to this headline">¶</a></h3>
+<h3>Reservoirs<a class="headerlink" href="#Reservoirs" title="Permalink to this heading">¶</a></h3>
 <p>The reservoirs table shows the name of the reservoirs</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_reservoirs</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_reservoirs</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -480,14 +485,13 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="Constituents">
-<h3>Constituents<a class="headerlink" href="#Constituents" title="Permalink to this headline">¶</a></h3>
+<h3>Constituents<a class="headerlink" href="#Constituents" title="Permalink to this heading">¶</a></h3>
 <p>These are the constituents that have been simulated for which data is available in the .h5 file</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_constituents</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_constituents</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -528,14 +532,13 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="Data-Tables">
-<h3>Data Tables<a class="headerlink" href="#Data-Tables" title="Permalink to this headline">¶</a></h3>
+<h3>Data Tables<a class="headerlink" href="#Data-Tables" title="Permalink to this heading">¶</a></h3>
 <p>These are tables that contain time series data. There are corresponding <a href="#id3"><span class="problematic" id="id4">get_</span></a>* for each table. Those are described below</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_data_tables</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_data_tables</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -552,7 +555,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="Extracting-time-series-data">
-<h3>Extracting time series data<a class="headerlink" href="#Extracting-time-series-data" title="Permalink to this headline">¶</a></h3>
+<h3>Extracting time series data<a class="headerlink" href="#Extracting-time-series-data" title="Permalink to this heading">¶</a></h3>
 <p>Extracting data can then be done using the channel numbers. All data arrays have the first axis as time. The time start and time interval is available in the attrs along with other meta data.</p>
 <p>Constituent data shape is <em>time</em> x <em>constituent name</em> x <em>channel index</em> x <em>channel location</em></p>
 <ul class="simple">
@@ -562,15 +565,14 @@ div.rendered_html tbody tr:hover {
 <li><p>channel location (upstream/downstream) if available</p></li>
 </ul>
 <section id="get*-methods">
-<h4><a href="#id5"><span class="problematic" id="id6">get_</span></a>* methods<a class="headerlink" href="#get*-methods" title="Permalink to this headline">¶</a></h4>
+<h4><a href="#id5"><span class="problematic" id="id6">get_</span></a>* methods<a class="headerlink" href="#get*-methods" title="Permalink to this heading">¶</a></h4>
 <p>Each of the data tables has a corresponding <a href="#id7"><span class="problematic" id="id8">get_</span></a>* method. E.g. To the get the channel flow data use the methods below</p>
 <p>Time window is an optional argument that can allow to retrieve only a part of the information</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">up1</span> <span class="o">=</span> <span class="n">qual</span><span class="o">.</span><span class="n">get_channel_concentration</span><span class="p">(</span><span class="s1">&#39;ec&#39;</span><span class="p">,</span> <span class="s1">&#39;434&#39;</span><span class="p">,</span><span class="s1">&#39;upstream&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">up1</span> <span class="o">=</span> <span class="n">qual</span><span class="o">.</span><span class="n">get_channel_concentration</span><span class="p">(</span><span class="s1">&#39;ec&#39;</span><span class="p">,</span> <span class="s1">&#39;434&#39;</span><span class="p">,</span><span class="s1">&#39;upstream&#39;</span><span class="p">)</span>
 <span class="n">down1</span> <span class="o">=</span> <span class="n">qual</span><span class="o">.</span><span class="n">get_channel_concentration</span><span class="p">(</span><span class="s1">&#39;ec&#39;</span><span class="p">,</span><span class="s1">&#39;434&#39;</span><span class="p">,</span><span class="s1">&#39;downstream&#39;</span><span class="p">)</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">up1</span><span class="p">,</span><span class="n">down1</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
@@ -669,8 +671,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">up2</span> <span class="o">=</span> <span class="n">qual</span><span class="o">.</span><span class="n">get_channel_avg_concentration</span><span class="p">(</span><span class="s1">&#39;ec&#39;</span><span class="p">,</span> <span class="s1">&#39;380&#39;</span><span class="p">,</span><span class="s1">&#39;10JAN1990 - 25JAN1990&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">up2</span> <span class="o">=</span> <span class="n">qual</span><span class="o">.</span><span class="n">get_channel_avg_concentration</span><span class="p">(</span><span class="s1">&#39;ec&#39;</span><span class="p">,</span> <span class="s1">&#39;380&#39;</span><span class="p">,</span><span class="s1">&#39;10JAN1990 - 25JAN1990&#39;</span><span class="p">)</span>
 <span class="n">up2</span>
 </pre></div>
 </div>
@@ -755,8 +756,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_channel_concentration</span><span class="p">(</span><span class="s1">&#39;ec&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="s1">&#39;upstream&#39;</span><span class="p">,</span><span class="s1">&#39;08JAN1990 - 10JAN1990&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_channel_concentration</span><span class="p">(</span><span class="s1">&#39;ec&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="s1">&#39;upstream&#39;</span><span class="p">,</span><span class="s1">&#39;08JAN1990 - 10JAN1990&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -986,14 +986,13 @@ div.rendered_html tbody tr:hover {
 </section>
 </section>
 <section id="Qual-Input-Tables">
-<h3>Qual Input Tables<a class="headerlink" href="#Qual-Input-Tables" title="Permalink to this headline">¶</a></h3>
+<h3>Qual Input Tables<a class="headerlink" href="#Qual-Input-Tables" title="Permalink to this heading">¶</a></h3>
 <p>The .h5 file in qual contains many (though not all) input tables (<a href="#id1"><span class="problematic" id="id2">*</span></a>.inp). A complete listing of those tables can be read from the echo files. See this <a class="reference internal" href="dsm2_read_input.html"><span class="doc">notebook to read input</span></a></p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_input_tables</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_input_tables</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1025,8 +1024,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_input_table</span><span class="p">(</span><span class="s1">&#39;/input/tidefile&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_input_table</span><span class="p">(</span><span class="s1">&#39;/input/tidefile&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1090,7 +1088,7 @@ div.rendered_html tbody tr:hover {
 
 
 <h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../readme.html">pydsm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
@@ -1124,12 +1122,12 @@ div.rendered_html tbody tr:hover {
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -1146,7 +1144,7 @@ div.rendered_html tbody tr:hover {
       &copy;2019, Nicky Sandhu.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

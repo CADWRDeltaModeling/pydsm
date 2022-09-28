@@ -1,21 +1,22 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Time stamps, Periods HEC convention &#8212; pydsm 2021.12.20+0.g3216eaa.dirty documentation</title>
+    <title>Time stamps, Periods HEC convention &#8212; pydsm 2021.12.20+15.g880ce94.dirty documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Contributing" href="../contributing.html" />
@@ -246,11 +247,12 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
-.prompt a.copybtn {
+.prompt .copybtn {
     display: none;
 }
 
 /* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
 div.rendered_html table {
   border: none;
   border-collapse: collapse;
@@ -259,10 +261,14 @@ div.rendered_html table {
   font-size: 12px;
   table-layout: fixed;
 }
+.jp-RenderedHTMLCommon thead,
 div.rendered_html thead {
   border-bottom: 1px solid black;
   vertical-align: bottom;
 }
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
 div.rendered_html tr,
 div.rendered_html th,
 div.rendered_html td {
@@ -274,22 +280,25 @@ div.rendered_html td {
   max-width: none;
   border: none;
 }
+.jp-RenderedHTMLCommon th,
 div.rendered_html th {
   font-weight: bold;
 }
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
 div.rendered_html tbody tr:nth-child(odd) {
   background: #f5f5f5;
 }
+.jp-RenderedHTMLCommon tbody tr:hover,
 div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
 <section id="Time-stamps,-Periods-HEC-convention">
-<h1>Time stamps, Periods HEC convention<a class="headerlink" href="#Time-stamps,-Periods-HEC-convention" title="Permalink to this headline">¶</a></h1>
+<h1>Time stamps, Periods HEC convention<a class="headerlink" href="#Time-stamps,-Periods-HEC-convention" title="Permalink to this heading">¶</a></h1>
 <p>HEC (and perhaps others) timestamp the data to the next time to indicate time from the start to end (including the end)</p>
 <p>In pandas, this is handled by differentiating between time stamp ( a point in time ) to time period ( a period of time). Furthermore, in pandas the period of time is closed at the start by default as opposed to end as it is in HEC</p>
 <section id="Time-formats-(standards-and-military-conventions)">
-<h2>Time formats (standards and military conventions)<a class="headerlink" href="#Time-formats-(standards-and-military-conventions)" title="Permalink to this headline">¶</a></h2>
+<h2>Time formats (standards and military conventions)<a class="headerlink" href="#Time-formats-(standards-and-military-conventions)" title="Permalink to this heading">¶</a></h2>
 <p>ISO 8601 is a standard for date and times. Read this for <a class="reference external" href="https://en.wikipedia.org/wiki/ISO_8601#Durations">duration</a> and <a class="reference external" href="https://en.wikipedia.org/wiki/ISO_8601#Time_intervals">time interval</a></p>
 <p>An important distinction is that there is 2400 for HHmm (hour/minutes) representation in the <a class="reference external" href="https://en.wikipedia.org/wiki/ISO_8601#Times">ISO 8601 standards</a> however HEC-DSS stores the midnight with a 2400 designation and that is reflected in their libraries ability to parse that timestamp to the midnight of the next day. In summary 2400 is interpreted as midnight (0000) of the next day.</p>
 <p>Infact that is now explicitly disallowed</p>
@@ -300,14 +309,14 @@ but this is explicitly disallowed by the 2019 revision.
 <p>Military time allows for 2400 and this is interpreted as 0000 of the next day. See this <a class="reference external" href="https://en.wikipedia.org/wiki/24-hour_clock#Midnight_00:00_and_24:00">wikipedia reference</a></p>
 </section>
 <section id="Period-and-Instantaneous-data-types">
-<h2>Period and Instantaneous data types<a class="headerlink" href="#Period-and-Instantaneous-data-types" title="Permalink to this headline">¶</a></h2>
+<h2>Period and Instantaneous data types<a class="headerlink" href="#Period-and-Instantaneous-data-types" title="Permalink to this heading">¶</a></h2>
 <p>HEC-DSS reads the data, its units and a string representing the interval type as either starting with “INST” for instantaneous or “PER” for period data.</p>
 <p>For regularly sampled time series in HEC is either INST-VAL (timestamped) or PER-AVER (or just PER- prefixed) to designated period data.</p>
 <p>pyhecdss reads the “INST” data as is into a timestamp indexed data.</p>
 <p>However for “PER” data, the time stamp is moved to the left ( backwards ) by the length of the period and the data returned is period indexed. E.g. 31JAN1991 2400 for monthly data is interpreted as 01JAN1991 by first moving the 31JAN1991 2400 timestamp to 31DEC1990 2400 (i.e. 1 month) and then interpreted as the timestamp which is 01JAN1991 0000 and then converted to a period with 1 month interval which is the period 01JAN1991 The reverse is applied to period data on writes.</p>
 </section>
 <section id="Period-operations">
-<h2>Period operations<a class="headerlink" href="#Period-operations" title="Permalink to this headline">¶</a></h2>
+<h2>Period operations<a class="headerlink" href="#Period-operations" title="Permalink to this heading">¶</a></h2>
 <p>If you use the default conventions (pandas), the timestamps for a particular period include the start and not the end. For HEC style (or end of timestamp data), you should use the closed=“right” when <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#resampling">resampling (pandas function)</a> the data</p>
 <p>One catch is to use kind=“timestamp” and the convert back with to_period() (pandas function).</p>
 <p><strong>TLDR; just use the pydsm.functions tsmath module which has functions for per_aver, per_max, per_min</strong></p>
@@ -315,8 +324,7 @@ but this is explicitly disallowed by the 2019 revision.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pyhecdss</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyhecdss</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pydsm</span>
@@ -325,12 +333,49 @@ but this is explicitly disallowed by the 2019 revision.
 </div>
 </div>
 <p>A function to generate a simple increasing time series from 0 -&gt; 99 with timestamps regularly placed at 1 hour intervals</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s1">&#39;01JAN1999 0100&#39;</span><span class="p">,</span><span class="n">periods</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;15T&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+DatetimeIndex([&#39;1999-01-01 01:00:00&#39;, &#39;1999-01-01 01:15:00&#39;,
+               &#39;1999-01-01 01:30:00&#39;, &#39;1999-01-01 01:45:00&#39;],
+              dtype=&#39;datetime64[ns]&#39;, freq=&#39;15T&#39;)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">period_range</span><span class="p">(</span><span class="s1">&#39;01JAN1999 0100&#39;</span><span class="p">,</span><span class="n">periods</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;15T&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+PeriodIndex([&#39;1999-01-01 01:00&#39;, &#39;1999-01-01 01:15&#39;, &#39;1999-01-01 01:30&#39;,
+             &#39;1999-01-01 01:45&#39;],
+            dtype=&#39;period[15T]&#39;)
+</pre></div></div>
+</div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">def</span> <span class="nf">linear_timeseries</span><span class="p">():</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">linear_timeseries</span><span class="p">():</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    A simple increasing time series to use for averaging functions</span>
 <span class="sd">    ```</span>
@@ -344,22 +389,20 @@ but this is explicitly disallowed by the 2019 revision.
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">nvals</span><span class="o">=</span><span class="mi">100</span>
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">nvals</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;values&#39;</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="s1">&#39;01JAN2000 0100&#39;</span><span class="p">,</span><span class="n">periods</span><span class="o">=</span><span class="n">nvals</span><span class="p">,</span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;H&#39;</span><span class="p">))</span>
-
-</pre></div>
+<br/></pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">ts</span><span class="o">=</span><span class="n">linear_timeseries</span><span class="p">()</span>
-<span class="n">ts</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">=</span><span class="n">linear_timeseries</span><span class="p">()</span>
+<span class="n">ts</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">24</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -406,41 +449,91 @@ but this is explicitly disallowed by the 2019 revision.
       <td>4</td>
     </tr>
     <tr>
-      <th>...</th>
-      <td>...</td>
+      <th>2000-01-01 06:00:00</th>
+      <td>5</td>
     </tr>
     <tr>
-      <th>2000-01-05 00:00:00</th>
-      <td>95</td>
+      <th>2000-01-01 07:00:00</th>
+      <td>6</td>
     </tr>
     <tr>
-      <th>2000-01-05 01:00:00</th>
-      <td>96</td>
+      <th>2000-01-01 08:00:00</th>
+      <td>7</td>
     </tr>
     <tr>
-      <th>2000-01-05 02:00:00</th>
-      <td>97</td>
+      <th>2000-01-01 09:00:00</th>
+      <td>8</td>
     </tr>
     <tr>
-      <th>2000-01-05 03:00:00</th>
-      <td>98</td>
+      <th>2000-01-01 10:00:00</th>
+      <td>9</td>
     </tr>
     <tr>
-      <th>2000-01-05 04:00:00</th>
-      <td>99</td>
+      <th>2000-01-01 11:00:00</th>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 12:00:00</th>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 13:00:00</th>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 14:00:00</th>
+      <td>13</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 15:00:00</th>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 16:00:00</th>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 17:00:00</th>
+      <td>16</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 18:00:00</th>
+      <td>17</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 19:00:00</th>
+      <td>18</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 20:00:00</th>
+      <td>19</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 21:00:00</th>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 22:00:00</th>
+      <td>21</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 23:00:00</th>
+      <td>22</td>
+    </tr>
+    <tr>
+      <th>2000-01-02 00:00:00</th>
+      <td>23</td>
     </tr>
   </tbody>
 </table>
-<p>100 rows × 1 columns</p>
 </div></div>
 </div>
 <p>Use the tsmath modules per_aver, per_max or per_min functions to get the average, max and min respectively in the HEC convention The interval is passed to pandas <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#resampling">resample</a> and should be DateOffset, Timedelta or str</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">dfall</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">tsmath</span><span class="o">.</span><span class="n">per_aver</span><span class="p">(</span><span class="n">ts</span><span class="o">.</span><span class="n">to_period</span><span class="p">(),</span> <span class="n">interval</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">),</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dfall</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">tsmath</span><span class="o">.</span><span class="n">per_aver</span><span class="p">(</span><span class="n">ts</span><span class="o">.</span><span class="n">to_period</span><span class="p">(),</span> <span class="n">interval</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">),</span>
            <span class="n">tsmath</span><span class="o">.</span><span class="n">per_max</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">),</span>
            <span class="n">tsmath</span><span class="o">.</span><span class="n">per_min</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">dfall</span><span class="o">.</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;avg&#39;</span><span class="p">,</span><span class="s1">&#39;max&#39;</span><span class="p">,</span><span class="s1">&#39;min&#39;</span><span class="p">]</span>
@@ -449,7 +542,7 @@ but this is explicitly disallowed by the 2019 revision.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -514,43 +607,55 @@ but this is explicitly disallowed by the 2019 revision.
 <p>Storing these time series in DSS and retrieving this is demoed below</p>
 <p>HECDSS api only supported for double type so convert to doubles first</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">ts</span><span class="o">=</span><span class="n">ts</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;double&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">=</span><span class="n">ts</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;double&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;hecavg.dss&#39;</span><span class="p">)</span>
 <span class="k">with</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">DSSFile</span><span class="p">(</span><span class="s1">&#39;hecavg.dss&#39;</span><span class="p">,</span><span class="n">create_new</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">d</span><span class="p">:</span>
     <span class="n">d</span><span class="o">.</span><span class="n">write_rts</span><span class="p">(</span><span class="s1">&#39;/AVG/TS/C//1HOUR/F/&#39;</span><span class="p">,</span><span class="n">ts</span><span class="p">,</span><span class="s1">&#39;unk&#39;</span><span class="p">,</span><span class="s1">&#39;INST-VAL&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">PermissionError</span>                           Traceback (most recent call last)
+<span class="ansi-green-intense-fg ansi-bold">~\AppData\Local\Temp/ipykernel_24220/607455423.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">      1</span> <span class="ansi-green-intense-fg ansi-bold">import</span> os
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 2</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>os<span class="ansi-yellow-intense-fg ansi-bold">.</span>remove<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;hecavg.dss&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">      3</span> <span class="ansi-green-intense-fg ansi-bold">with</span> pyhecdss<span class="ansi-yellow-intense-fg ansi-bold">.</span>DSSFile<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;hecavg.dss&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span>create_new<span class="ansi-yellow-intense-fg ansi-bold">=</span><span class="ansi-green-intense-fg ansi-bold">True</span><span class="ansi-yellow-intense-fg ansi-bold">)</span> <span class="ansi-green-intense-fg ansi-bold">as</span> d<span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-fg">      4</span>     d<span class="ansi-yellow-intense-fg ansi-bold">.</span>write_rts<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;/AVG/TS/C//1HOUR/F/&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span>ts<span class="ansi-yellow-intense-fg ansi-bold">,</span><span class="ansi-blue-intense-fg ansi-bold">&#39;unk&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span><span class="ansi-blue-intense-fg ansi-bold">&#39;INST-VAL&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-red-intense-fg ansi-bold">PermissionError</span>: [WinError 32] The process cannot access the file because it is being used by another process: &#39;hecavg.dss&#39;
+</pre></div></div>
+</div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">ts_avg</span> <span class="o">=</span> <span class="n">tsmath</span><span class="o">.</span><span class="n">per_aver</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="s1">&#39;1D&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_avg</span> <span class="o">=</span> <span class="n">tsmath</span><span class="o">.</span><span class="n">per_aver</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="s1">&#39;1D&#39;</span><span class="p">)</span>
 <span class="n">ts_max</span> <span class="o">=</span> <span class="n">tsmath</span><span class="o">.</span><span class="n">per_max</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="s1">&#39;1D&#39;</span><span class="p">)</span>
 <span class="n">ts_min</span> <span class="o">=</span> <span class="n">tsmath</span><span class="o">.</span><span class="n">per_min</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="s1">&#39;1D&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">with</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">DSSFile</span><span class="p">(</span><span class="s1">&#39;hecavg.dss&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">d</span><span class="p">:</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">DSSFile</span><span class="p">(</span><span class="s1">&#39;hecavg.dss&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">d</span><span class="p">:</span>
     <span class="n">d</span><span class="o">.</span><span class="n">write_rts</span><span class="p">(</span><span class="s1">&#39;/AVG/TS/C-PER-AVER//1DAY/F/&#39;</span><span class="p">,</span><span class="n">ts_avg</span><span class="p">,</span><span class="s1">&#39;unk&#39;</span><span class="p">,</span><span class="s1">&#39;PER-AVER&#39;</span><span class="p">)</span>
     <span class="n">d</span><span class="o">.</span><span class="n">write_rts</span><span class="p">(</span><span class="s1">&#39;/AVG/TS/C-PER-MAX//1DAY/F/&#39;</span><span class="p">,</span><span class="n">ts_max</span><span class="p">,</span><span class="s1">&#39;unk&#39;</span><span class="p">,</span><span class="s1">&#39;PER-AVER&#39;</span><span class="p">)</span>
     <span class="n">d</span><span class="o">.</span><span class="n">write_rts</span><span class="p">(</span><span class="s1">&#39;/AVG/TS/C-PER-MIN//1DAY/F/&#39;</span><span class="p">,</span><span class="n">ts_min</span><span class="p">,</span><span class="s1">&#39;unk&#39;</span><span class="p">,</span><span class="s1">&#39;PER-AVER&#39;</span><span class="p">)</span>
@@ -558,11 +663,10 @@ but this is explicitly disallowed by the 2019 revision.
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">matching</span> <span class="o">=</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">get_ts</span><span class="p">(</span><span class="s1">&#39;hecavg.dss&#39;</span><span class="p">,</span><span class="s1">&#39;/AVG/TS/C-PER-AVER//1DAY/F/&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">matching</span> <span class="o">=</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">get_ts</span><span class="p">(</span><span class="s1">&#39;hecavg.dss&#39;</span><span class="p">,</span><span class="s1">&#39;/AVG/TS/C-PER-AVER//1DAY/F/&#39;</span><span class="p">)</span>
 <span class="n">ts_avg_read</span><span class="o">=</span><span class="nb">next</span><span class="p">(</span><span class="n">matching</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Units: &#39;</span><span class="p">,</span><span class="n">ts_avg_read</span><span class="o">.</span><span class="n">units</span><span class="p">,</span> <span class="s1">&#39; | Period Type: &#39;</span><span class="p">,</span><span class="n">ts_avg_read</span><span class="o">.</span><span class="n">period_type</span><span class="p">)</span>
 <span class="n">ts_avg_read</span><span class="o">.</span><span class="n">data</span>
@@ -578,7 +682,7 @@ Units:  unk  | Period Type:  PER-AVER
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -629,16 +733,15 @@ Units:  unk  | Period Type:  PER-AVER
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">ts_avg</span><span class="p">,</span><span class="n">ts_avg_read</span><span class="o">.</span><span class="n">data</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">ts_avg</span><span class="p">,</span><span class="n">ts_avg_read</span><span class="o">.</span><span class="n">data</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -697,17 +800,16 @@ Units:  unk  | Period Type:  PER-AVER
 <p>A slightly more detailed explanation is below The <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#resampling">resample</a> function is used with particular options to conform to the HEC convention.</p>
 <p>For example below you can use the other grouping functions with resample to do other operations with these conventions The resample_hec_style() function is a convenience for call resample with the hec conventions</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">ts</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;1D&#39;</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;timestamp&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">to_period</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;1D&#39;</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;timestamp&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">to_period</span><span class="p">()</span>
 <span class="n">tsmath</span><span class="o">.</span><span class="n">resample_hec_style</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="s1">&#39;1D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">to_period</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -757,12 +859,234 @@ Units:  unk  | Period Type:  PER-AVER
 </table>
 </div></div>
 </div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tsmath</span><span class="o">.</span><span class="n">resample_hec_style</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="s1">&#39;4H&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">to_period</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>values</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2000-01-01 00:00</th>
+      <td>6.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 04:00</th>
+      <td>22.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 08:00</th>
+      <td>38.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 12:00</th>
+      <td>54.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 16:00</th>
+      <td>70.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 20:00</th>
+      <td>86.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-02 00:00</th>
+      <td>102.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-02 04:00</th>
+      <td>118.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-02 08:00</th>
+      <td>134.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-02 12:00</th>
+      <td>150.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-02 16:00</th>
+      <td>166.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-02 20:00</th>
+      <td>182.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-03 00:00</th>
+      <td>198.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-03 04:00</th>
+      <td>214.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-03 08:00</th>
+      <td>230.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-03 12:00</th>
+      <td>246.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-03 16:00</th>
+      <td>262.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-03 20:00</th>
+      <td>278.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-04 00:00</th>
+      <td>294.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-04 04:00</th>
+      <td>310.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-04 08:00</th>
+      <td>326.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-04 12:00</th>
+      <td>342.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-04 16:00</th>
+      <td>358.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-04 20:00</th>
+      <td>374.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-05 00:00</th>
+      <td>390.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>values</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2000-01-01 01:00:00</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 02:00:00</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 03:00:00</th>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 04:00:00</th>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 05:00:00</th>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2000-01-05 00:00:00</th>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-05 01:00:00</th>
+      <td>96.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-05 02:00:00</th>
+      <td>97.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-05 03:00:00</th>
+      <td>98.0</td>
+    </tr>
+    <tr>
+      <th>2000-01-05 04:00:00</th>
+      <td>99.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>100 rows × 1 columns</p>
+</div></div>
+</div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </div>
@@ -786,7 +1110,7 @@ Units:  unk  | Period Type:  PER-AVER
 
 
 <h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../readme.html">pydsm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
@@ -818,12 +1142,12 @@ Units:  unk  | Period Type:  PER-AVER
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -840,7 +1164,7 @@ Units:  unk  | Period Type:  PER-AVER
       &copy;2019, Nicky Sandhu.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

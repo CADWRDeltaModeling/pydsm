@@ -29,10 +29,26 @@ pydsm.dsm2h5 module
    :undoc-members:
    :show-inheritance:
 
+pydsm.dssutils module
+---------------------
+
+.. automodule:: pydsm.dssutils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 pydsm.extract\_output module
 ----------------------------
 
 .. automodule:: pydsm.extract_output
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydsm.hydro\_flow\_calcs module
+-------------------------------
+
+.. automodule:: pydsm.hydro_flow_calcs
    :members:
    :undoc-members:
    :show-inheritance:
@@ -49,6 +65,14 @@ pydsm.hydroh5 module
 --------------------
 
 .. automodule:: pydsm.hydroh5
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydsm.lockutil module
+---------------------
+
+.. automodule:: pydsm.lockutil
    :members:
    :undoc-members:
    :show-inheritance:
@@ -81,6 +105,14 @@ pydsm.qualh5 module
 -------------------
 
 .. automodule:: pydsm.qualh5
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pydsm.utils module
+------------------
+
+.. automodule:: pydsm.utils
    :members:
    :undoc-members:
    :show-inheritance:

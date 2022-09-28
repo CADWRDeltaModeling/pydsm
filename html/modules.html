@@ -1,17 +1,18 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>pydsm &#8212; pydsm 2021.12.20+0.g3216eaa.dirty documentation</title>
+    <title>pydsm &#8212; pydsm 2021.12.20+15.g880ce94.dirty documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -35,13 +36,14 @@
           <div class="body" role="main">
             
   <section id="pydsm">
-<h1>pydsm<a class="headerlink" href="#pydsm" title="Permalink to this headline">¶</a></h1>
+<h1>pydsm<a class="headerlink" href="#pydsm" title="Permalink to this heading">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="pydsm.html">pydsm package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="pydsm.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="pydsm.functions.html">pydsm.functions package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pydsm.functions.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydsm.functions.html#module-pydsm.functions.tafcfs">pydsm.functions.tafcfs module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pydsm.functions.html#module-pydsm.functions.tidalhl">pydsm.functions.tidalhl module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pydsm.functions.html#module-pydsm.functions.tsmath">pydsm.functions.tsmath module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pydsm.functions.html#module-pydsm.functions">Module contents</a></li>
@@ -59,13 +61,17 @@
 <li class="toctree-l2"><a class="reference internal" href="pydsm.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pydsm.html#module-pydsm.cli">pydsm.cli module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pydsm.html#module-pydsm.dsm2h5">pydsm.dsm2h5 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.html#module-pydsm.dssutils">pydsm.dssutils module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pydsm.html#module-pydsm.extract_output">pydsm.extract_output module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.html#module-pydsm.hydro_flow_calcs">pydsm.hydro_flow_calcs module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pydsm.html#module-pydsm.hydro_slicer">pydsm.hydro_slicer module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pydsm.html#module-pydsm.hydroh5">pydsm.hydroh5 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.html#module-pydsm.lockutil">pydsm.lockutil module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pydsm.html#module-pydsm.postpro">pydsm.postpro module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pydsm.html#module-pydsm.ptm">pydsm.ptm module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pydsm.html#module-pydsm.ptm_animator">pydsm.ptm_animator module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pydsm.html#module-pydsm.qualh5">pydsm.qualh5 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.html#module-pydsm.utils">pydsm.utils module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pydsm.html#module-pydsm">Module contents</a></li>
 </ul>
 </li>
@@ -90,7 +96,7 @@
 
 
 <h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="readme.html">pydsm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
@@ -118,12 +124,12 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -140,7 +146,7 @@
       &copy;2019, Nicky Sandhu.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
