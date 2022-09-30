@@ -13,6 +13,9 @@ from pydsm.functions import tsmath
 
 from pydsm import lockutil
 
+import hvplot.pandas
+import holoviews as hv
+
 def _restart_console_line():
     sys.stdout.write('\r')
     sys.stdout.flush()
@@ -169,7 +172,10 @@ def _read_ts(dssh, pathname, sdate, edate):
         return dssh.read_rts(pathname, sdate, edate)
 
 
-def compare_dss(dssfile1, dssfile2, threshold=1e-3, threshold_metric='rmse', time_window=None, cpart=None, godin=False, metricsfile='compare_dss_metrics_diff.csv'):
+def compare_dss(dssfile1, dssfile2, threshold=1e-3, threshold_metric='rmse', 
+    time_window=None, cpart=None, godin=False, 
+    metricsfile='compare_dss_metrics_diff.csv',
+    threshold_plots=False):
     '''
     Compares the dss files for common pathnames (B and C parts) and writes out various metrics to file
     Filtering for matching c parts
@@ -186,6 +192,9 @@ def compare_dss(dssfile1, dssfile2, threshold=1e-3, threshold_metric='rmse', tim
         cc = dc1.merge(dc2, on=['B', 'C'])
         metrics = []
         sdate, edate = (None, None)
+        metrics_names = ['mean_error', 'nmean_error', 'mse', 'nmse', 'rmse', 'nrmse', 'nash_sutcliffe', 'percent_bias']
+        if threshold_plots:
+            plots_threshold_exceeds = []
         if time_window:
             sdate, edate = (f.strip() for f in time_window.split("-"))
         for index, row in cc.iterrows():
@@ -202,6 +211,12 @@ def compare_dss(dssfile1, dssfile2, threshold=1e-3, threshold_metric='rmse', tim
                             tsmath.rmse(series1, series2), tsmath.nrmse(series1, series2),
                             tsmath.nash_sutcliffe(series1, series2),
                             tsmath.percent_bias(series1, series2)))
+            if threshold_plots:
+                threshold_metric_value = metrics[-1][1+metrics_names.index(threshold_metric)]
+                if threshold_metric_value > threshold:
+                    plt = df1.hvplot(label=dssfile1)*df2.hvplot(label=dssfile2)
+                    plt.opts(title=rowid)
+                    plots_threshold_exceeds.append(plt)
         dfmetrics = pd.DataFrame.from_records(
             metrics, columns=['name', 'mean_error', 'nmean_error', 'mse', 'nmse', 'rmse', 'nrmse', 'nash_sutcliffe', 'percent_bias'])
         # -- display missing or unmatched pathnames
@@ -216,10 +231,15 @@ def compare_dss(dssfile1, dssfile2, threshold=1e-3, threshold_metric='rmse', tim
         print(dfmetrics)
         print('Writing out metrics to file: ', metricsfile)
         dfmetrics.to_csv(metricsfile)
+        if threshold_plots:
+            print('Saving plots for threshold exceeds')
+            if len(plots_threshold_exceeds) > 0:
+                hvplot.save(hv.Layout(plots_threshold_exceeds).cols(1), 'plots_threshold_exceeds.html')
         threshold_cond = dfmetrics[threshold_metric.lower()] > threshold
         if threshold_cond.any():
             print(f'Threshold {threshold} exceeded! See exceeded rows below')
             print(dfmetrics[threshold_cond])
+
 
 @lockutil.do_with_lock(lockfile='my.test.lock', timeout=20, check_interval=5)
 def do_catalog_with_lock(dssfile):

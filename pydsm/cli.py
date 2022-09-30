@@ -36,15 +36,17 @@ def extract_dss(dssfile, outfile, cpart, godin_filter, daily_average, daily_max,
               type=click.Choice(['mean_error', 'nmean_error', 'mse', 'nmse', 'rmse', 'nrmse', 'nash_sutcliffe', 'percent_bias'], case_sensitive=False))
 @click.option("--metricsfile", default="compare_dss_metrics_diff.csv", help="name of file to write out metrics differnce")
 @click.option("--time-window", default=None, help='ddMMMyyyy [HHmm] - ddMMMyyyy [HHmm], e.g. "01JAN1990 - 01OCT1991" (quoted on command line)')
+@click.option("--threshold-plots", default=False, type=click.BOOL, help="specify to output plots to html file for those matches that exceed the threshold metric")
 @click.argument("dssfile1", type=click.Path(exists=True))
 @click.argument("dssfile2", type=click.Path(exists=True))
-def compare_dss(dssfile1, dssfile2, threshold=1e-3, threshold_metric='rmse', time_window=None, cpart=None, godin=False, metricsfile='compare_dss_metrics_diff.csv'):
+def compare_dss(dssfile1, dssfile2, threshold=1e-3, threshold_metric='rmse', time_window=None, cpart=None,
+     godin=False, metricsfile='compare_dss_metrics_diff.csv', threshold_plots=False):
     '''
     Compares the dss files for common pathnames (B and C parts) and writes out various metrics to file
     Filtering for matching c parts
     and compare values with tolerance (default of 3 digits)
     '''
-    dssutils.compare_dss(dssfile1, dssfile2, threshold, threshold_metric, time_window, cpart, godin, metricsfile)
+    dssutils.compare_dss(dssfile1, dssfile2, threshold, threshold_metric, time_window, cpart, godin, metricsfile, threshold_plots)
 
 
 @click.command()
