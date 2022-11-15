@@ -51,6 +51,7 @@ def _build_column(columns, cpart_append, epart_replace=None):
 def _extract_processing(df, godin_filter, daily_average, daily_max, daily_min, monthly_average):
     results = df
     results_monthly = None
+    results_godin = None
     if godin_filter:
         results_godin = filter.godin(results)
     if daily_average:  # if godin filtered then replace that with daily averaged values
