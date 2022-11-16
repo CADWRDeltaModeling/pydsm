@@ -119,7 +119,7 @@ def extract_dss(dssfile, outfile, cpart, godin_filter, daily_average, daily_max,
     sys.stdout.write('@ %d / %d ==> Processing: %s' % (0, len(plist), plist[0]))
     r, u, p = d.read_rts(plist[0])
     results_daily, results_monthly = [], []
-    rtg_daily, rtg_monthly = _extract_processing(
+    rtg_godin, rtg_daily, rtg_monthly = _extract_processing(
         r, godin_filter, daily_average, daily_max, daily_min, monthly_average)
     if od:
         _write_to_dss(od, rtg_daily, rtg_monthly, u)
@@ -131,7 +131,7 @@ def extract_dss(dssfile, outfile, cpart, godin_filter, daily_average, daily_max,
         _restart_console_line()
         sys.stdout.write('@ %d / %d ==> Processing: %s' % (index, len(plist), p))
         r, u, p = d.read_rts(p)
-        rtg_daily, rtg_monthly = _extract_processing(
+        rtg_godin, rtg_daily, rtg_monthly = _extract_processing(
             r, godin_filter, daily_average, daily_max, daily_min, monthly_average)
         if od:
             _write_to_dss(od, rtg_daily, rtg_monthly, u)
