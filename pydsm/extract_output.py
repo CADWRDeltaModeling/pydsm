@@ -1,5 +1,5 @@
 import pyhecdss
-from vtools.functions.filter import cosine_lanczos, godin   
+from vtools.functions.filter import cosine_lanczos, godin
 def extract_from_dss(dssfile,loc,type='EC',filter='lanczos'):
     df,units,ptype=pyhecdss.get_rts(dssfile,'//%s/EC////'%loc)[0]
     if filter == 'lanczos':
