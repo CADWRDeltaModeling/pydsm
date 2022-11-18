@@ -214,7 +214,7 @@ class HydroH5:
         return self._get_channel_ts('/hydro/data/channel stage', channel_id, location_id, timewindow)
 
     def get_channel_avg_area(self, channel_id, timewindow=None):
-        return self._get_channel_ts('/hydro/data/channel avg area', channel_id, timewindow)
+        return self._get_channel_ts('/hydro/data/channel avg area', channel_id, location=None, timewindow=timewindow)
 
     def get_reservoir_flow(self, reservoir_name, timewindow=None):
         res = self.get_reservoirs()
@@ -222,7 +222,7 @@ class HydroH5:
         return self._get_reservoir_ts('/hydro/data/reservoir flow', rt.res_name.values, rt.connect_index.values, timewindow)
 
     def get_reservoir_height(self, reservoir_name, timewindow=None):
-        return self._get_reservoir_ts('/hydro/data/reservoir height', reservoir_name, timewindow)
+        return self._get_reservoir_ts('/hydro/data/reservoir height', reservoir_name, timewindow=timewindow)
 
     def get_qext_flow(self, qext_id, timewindow=None):
         return self._get_qext_ts('/hydro/data/qext flow', qext_id, timewindow)
