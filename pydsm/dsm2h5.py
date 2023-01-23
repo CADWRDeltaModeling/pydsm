@@ -30,19 +30,27 @@ _MODEL_TO_DATA_PATHS_MAP = {
     ['/output/'+s
         for s in ['channel avg concentration',
                   'channel concentration',
-                  'reservoir concentration']]
+                  'reservoir concentration']],
+
+    'gtm':
+    ['/output'+s for s in ['cell concentration',
+                           'constituent_names',
+                           'reservoir concentration',
+                           'reservoir_names']]
 }
 
 
 def get_model(h5f):
     """
     returns one of "hydro" or "qual"
-    """    
-    if h5f.get('/hydro'): # hydro files have hydro at top level
+    """
+    if h5f.get('/hydro'):  # hydro files have hydro at top level
         return "hydro"
-    elif h5f.get('/output'): # qual files have output group not found in hydro
+    elif h5f.get('/output/cell concentration'):
+        return 'gtm'
+    elif h5f.get('/output'):  # qual files have output group not found in hydro
         return "qual"
-    else: 
+    else:
         return 'unknown'
 
 
@@ -153,11 +161,13 @@ def read_table_as_df(h5, tpath):
         result = result.astype(dtype={k: 'unicode' if x.dtype[k].name.startswith(
             'bytes') else x.dtype[k].name for k in x.dtype.fields})
     else:
-        result = pd.DataFrame([v.astype(str).strip() if x.dtype.name.startswith('bytes') else v for v in x])
+        result = pd.DataFrame(
+            [v.astype(str).strip() if x.dtype.name.startswith('bytes') else v for v in x])
         result = result.astype(
             dtype='unicode' if x.dtype.name.startswith('bytes') else x.dtype.name)
         result = strip(result)
     return result
+
 
 def read_table_as_array(filename, table_path, dtype=str):
     '''
