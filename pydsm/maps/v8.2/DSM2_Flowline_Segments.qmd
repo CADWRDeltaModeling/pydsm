@@ -1,0 +1,56 @@
+<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
+<qgis version="3.24.1-Tisler">
+  <identifier>flowline_segments</identifier>
+  <parentidentifier></parentidentifier>
+  <language>EN</language>
+  <type>dataset</type>
+  <title>flowline_segments</title>
+  <abstract>These are the lines representing the hydrographic "centerlines" of the channels in the Sacramento-SanJoaquin Delta that are representedin the DSM2 model. They have the same start points, end points, and flow direction as the dsm2_channels layer in the DSM2.gdb file geodatabsase.
+
+created to enable calcualtion of channel lengths for the DSM2 model
+
+Digitized using these references: (1) the Delta Hydro Centerlines feature class obtained from Joel Dudas (DWR FESSRO) in April 2010, (2) the National Hydrography Dataset flowlines. These imagery sets were also used: DWR Image Server\Delta2006, DWR Image Server\SFBay2006\DWR Image Server\SuisunMarsh2009.</abstract>
+  <keywords vocabulary="gmd:topicCategory">
+    <keyword>REQUIRED: Common-use word or phrase used to describe the subject of the data set.</keyword>
+  </keywords>
+  <contact>
+    <contactAddress>
+      <type>physical address</type>
+      <address>1416 9th St. Rm 252-1</address>
+      <city>Sacramento</city>
+      <administrativearea>CA</administrativearea>
+      <postalcode>95814</postalcode>
+      <country></country>
+    </contactAddress>
+    <name></name>
+    <organization></organization>
+    <position></position>
+    <voice>916-653-4441</voice>
+    <fax></fax>
+    <email>kramerj@water.ca.gov</email>
+    <role>Point of contact</role>
+  </contact>
+  <links>
+    <link url="file://\\BDOHY3-155\GIS\Projects\DSM2_2\DSM2.gdb" size="" type="Local Area Network" name="File Geodatabase Feature Class" description="" format="" mimeType=""/>
+  </links>
+  <fees></fees>
+  <constraints type="Access">REQUIRED: Restrictions and legal prerequisites for accessing the data set.</constraints>
+  <rights>REQUIRED: Restrictions and legal prerequisites for using the data set after access is granted.</rights>
+  <encoding></encoding>
+  <crs>
+    <spatialrefsys nativeFormat="Wkt">
+      <wkt></wkt>
+      <proj4></proj4>
+      <srsid>0</srsid>
+      <srid>0</srid>
+      <authid></authid>
+      <description></description>
+      <projectionacronym></projectionacronym>
+      <ellipsoidacronym></ellipsoidacronym>
+      <geographicflag>false</geographicflag>
+    </spatialrefsys>
+  </crs>
+  <extent>
+    <spatial dimensions="2" miny="4169953.32879999978467822" minz="0" minx="575720.97089999995660037" maxx="654340.51359999994747341" crs="EPSG:4326" maxz="0" maxy="4271936.67229999974370003"/>
+  </extent>
+</qgis>
