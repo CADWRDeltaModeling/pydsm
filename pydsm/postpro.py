@@ -106,7 +106,7 @@ class PostProCache:
         return fname.split('.dss')[0]+'_calib_postpro.%s' % ext
 
     def is_rts(df):
-        return df.index.freqstr is not None
+        return hasattr(df.index,'freqstr') and df.index.freqstr is not None
 
     def __init__(self, fname):
         '''Cache filename based on input DSS filename (i.e. ends in .dss)'''
@@ -114,6 +114,11 @@ class PostProCache:
 
     def store(self, df, units, bpart, cpart, epart, fpart):
         with pyhecdss.DSSFile(self.fname, create_new=True) as dh:
+            if df.empty:
+                print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+                print(f'Empty dataframe in pydsm.postpro.PostProCache.store({bpart}/{cpart}/{epart}/{fpart}) while trying to store data.')
+                print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+                return
             if PostProCache.is_rts(df):
                 dh.write_rts('/%s/%s/%s//%s/%s/' % (PostProCache.A_PART, bpart.upper(), cpart.upper(), epart.upper(), fpart.upper()),
                              df, units.upper(), 'INST-VAL')
@@ -129,19 +134,11 @@ class PostProCache:
         try:
             return_series = next(pyhecdss.get_ts(self.fname, dss_path))
         except StopIteration as e:
-            logging.exception('pydsm.postpro.PostProCache.load: no data found')
-            print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-            print('Exception in pydsm.postpro.PostProCache.load() while trying to load data.')
-            logging.exception('Exception in pydsm.postpro.PostProCache.load() while trying to load data.')
-            print('no data found for '+self.fname + ',' + dss_path)
-            logging.exception('no data found for '+self.fname + ',' + dss_path)
+            logging.exception('pydsm.postpro.PostProCache.load: no data found for '+self.fname + ',' + dss_path)
             if exists(self.fname):
-                print('DSS file found, but data not found in file. DSS File, DSS path='+self.fname+','+dss_path)
                 logging.exception('DSS file found, but data not found in file. DSS File, DSS path='+self.fname+','+dss_path)
             else:
-                print('DSS file not found:'+self.fname)
                 logging.exception('DSS file not found:'+self.fname)
-            print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
         return return_series
 
 
@@ -214,9 +211,10 @@ class PostProcessor:
                         print('****************************************************************************************************************')
                         print('Error in postpro._read_ts: dflist has len 0, after trying to read pathname: '+ pathname.upper())
                         print('****************************************************************************************************************')
-                    return_df = merge(dflist)
+                        return_df = None
+                    else:
+                        return_df = merge(dflist)
                 else:
-
                     return_df = next(dfgen).data
                     convert_index_to_timestamps(return_df)  # inplace change of index
         elif self.subtract or self.ratio:
@@ -271,7 +269,8 @@ class PostProcessor:
 
     def process(self):
         df = self._read_ts()
-
+        if df is None:
+            return
         if self.do_filling_in:
             df = fill_in(df, self.max_fillin_gap, self.fillin_method)
 
@@ -303,7 +302,17 @@ class PostProcessor:
         #     print('ERROR: location, vartype='+str(self.location)+','+str(self.vartype))
         return return_series
 
+    def __repr__(self):
+        return 'PostProCache(location=%s, vartype=%s, study=%s, cache=%s)' % \
+               (self.location, self.vartype, self.study, self.cache)
+    
+    def __str__(self):
+        return repr(self)
+
     def store_processed(self):
+        if not hasattr(self,'df'):
+            logging.warning('pydsm.postpro.PostProCache.store_processed: no data to store: '+str(self))
+            return
         self._store(self.df)
         self._store(self.gdf, '-GODIN')
         self._store(self.high, '-HIGH', PostProCache.IRR_E_PART)

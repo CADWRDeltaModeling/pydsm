@@ -5,10 +5,12 @@ channels:
   - defaults
   - conda-forge
 dependencies:
-  - python=3.7
-  - h5py=2.10 # because we use hdf5 v10 or below for DSM2 with szip from custom channel
+  - python #=3.
+  - ipykernel
+  - h5py #=2.10 # because we use hdf5 v10 or below for DSM2 with szip from custom channel
   - numpy
   - pandas
+  - pyarrow
   - geopandas
   # viz
   - geoviews
@@ -16,9 +18,11 @@ dependencies:
   - hvplot
   - datashader
   - networkx
-  - ipyleaflet
-  - ipywidgets
+  - panel
+  #- ipyleaflet
+  #- ipywidgets
   # custom channels
   - pyhecdss
   - vtools3
+  - autopep8
 

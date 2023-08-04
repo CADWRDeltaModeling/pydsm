@@ -1,23 +1,40 @@
 name: dev_pydsm
 channels:
-  - cadwr-dms
-  - pyviz
-  - defaults
   - conda-forge
+  - pyviz
+  - cadwr-dms
+  - nodefaults
 dependencies:
-  - python=3.7
-  - h5py=2.10
-  - numpy
+  - python
+  - ipykernel
+  - h5py #=2.10 #=2.10
+  - hdf5 #=1.10.4
+  - numpy #=1.23.5
   - pandas
-  - geopandas
-  # viz
+  - pyarrow
+  - cartopy
+  - click-plugins
+  - cligj
+  - munch
+  - pyproj
+  - pyshp
+  - shapely
+  # pip install these geo dependencies see at bottom
+  - pip
   - geoviews
+  - geopandas
+  - fiona
+  #- pip:
+  #  - geopandas
+  #  - geoviews
+  #  - fiona
+  #
   - matplotlib
   - hvplot
   - datashader
   - networkx
-  - ipyleaflet
-  - ipywidgets
+  - panel
+  - jupyter_bokeh
   # custom channels
   - pyhecdss
   - vtools3
@@ -30,4 +47,6 @@ dependencies:
   - pandoc
   - coverage
   - pytest-cov
-
+# pip install Pillow
+# pip install fiona
+# pip install jupyter_bokeh
