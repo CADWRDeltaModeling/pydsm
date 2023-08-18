@@ -1,52 +1,36 @@
-name: dev_pydsm
+name: pydsm
 channels:
-  - conda-forge
-  - pyviz
   - cadwr-dms
+  - conda-forge
   - nodefaults
 dependencies:
-  - python
+  - python #=3.
+  - pip
   - ipykernel
-  - h5py #=2.10 #=2.10
-  - hdf5 #=1.10.4
-  - numpy #=1.23.5
+  - hdf5=1.14.0 # https://github.com/conda-forge/hdf5-feedstock/issues/207
+  - h5py #=2.10 # because we use hdf5 v10 or below for DSM2 with szip from custom channel
+  - numpy
   - pandas
   - pyarrow
-  - cartopy
-  - click-plugins
-  - cligj
-  - munch
-  - pyproj
-  - pyshp
-  - shapely
-  # pip install these geo dependencies see at bottom
-  - pip
-  - geoviews
   - geopandas
-  - fiona
-  #- pip:
-  #  - geopandas
-  #  - geoviews
-  #  - fiona
-  #
+  # viz
+  - geoviews
   - matplotlib
   - hvplot
   - datashader
   - networkx
   - panel
-  - jupyter_bokeh
+  #- ipyleaflet
+  #- ipywidgets
   # custom channels
   - pyhecdss
   - vtools3
-  # dev stuff
+  - black
+  - pytest
+  - pytest-cov
   - pytest-runner
-  - autopep8
-  - click
   - nbsphinx
   - sphinx-autobuild
   - pandoc
   - coverage
   - pytest-cov
-# pip install Pillow
-# pip install fiona
-# pip install jupyter_bokeh
