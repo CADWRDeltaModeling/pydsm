@@ -173,4 +173,4 @@ class TestHydroH5:
         channels=['1','331','441']
         df = hydro.get_channel_bottom(channels)
         assert len(df) == 3
-        assert pytest.approx(3.502402, df.loc['1','upstream'])
+        assert 3.502402 == pytest.approx(df.loc['1','upstream'])
