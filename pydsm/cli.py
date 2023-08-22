@@ -97,6 +97,12 @@ def extend_repeating(datafile, cpart, end_year):
 def repeating():
     pass
 
+@click.command()
+@click.argument('from_file', type=click.Path(exists=True))
+@click.argument('to_file', type=click.Path(exists=False))
+def copy_all_dss(from_file, to_file):
+    dssutils.copy_all(from_file, to_file)
+
 # Add the commands to the group repeating
 repeating.add_command(create_repeating)
 repeating.add_command(extend_repeating)
@@ -104,6 +110,7 @@ repeating.add_command(extend_repeating)
 main.add_command(repeating)
 main.add_command(extract_dss)
 main.add_command(compare_dss)
+main.add_command(copy_all_dss)
 main.add_command(ptm_animate)
 main.add_command(slice_hydro)
 main.add_command(update_hydro_tidefile_with_inp)

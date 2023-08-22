@@ -100,6 +100,17 @@ def _build_column(columns, cpart_append, epart_replace=None):
         return '/'.join(parts)
     return [append_cpart(name) for name in columns]
 
+def copy_all(from_file,to_file):
+    '''
+    Copy all pathnames from one DSS file to another
+    '''
+    with pyhecdss.DSSFile(to_file, create_new=True) as dhout:
+        with pyhecdss.DSSFile(from_file) as dhin:
+            plist=dhin.get_pathnames(dhin.read_catalog())
+            for p in plist:
+                df,units,period_type=dhin.read_rts(p)
+                dhout.write_rts(p,df,units,period_type)
+
 def extract_dss(dssfile, outfile, cpart, godin_filter, daily_average, daily_max, daily_min, monthly_average):
     '''
     Extract data from DSS file, optionally filtering it and writing to a pickle for quick future loads
