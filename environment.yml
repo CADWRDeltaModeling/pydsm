@@ -4,25 +4,25 @@ channels:
   - conda-forge
   - nodefaults
 dependencies:
-  - python #=3.
+  - python
   - pip
   - ipykernel
-  - hdf5=1.14.0 # https://github.com/conda-forge/hdf5-feedstock/issues/207
-  - h5py #=2.10 # because we use hdf5 v10 or below for DSM2 with szip from custom channel
-  - numpy
+  - decorator
+  - hdf5=1.14.0  # https://github.com/conda-forge/hdf5-feedstock/issues/207
+  - h5py
   - pandas
+  - xarray
   - pyarrow
   - geopandas
+  - networkx
   # viz
-  - geoviews
   - matplotlib
+  - holoviews
+  - geoviews
   - hvplot
   - datashader
-  - networkx
   - panel
-  #- ipyleaflet
-  #- ipywidgets
-  # custom channels
+  # custom packages
   - pyhecdss
   - vtools3
   - pip:
