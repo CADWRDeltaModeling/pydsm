@@ -45,7 +45,7 @@ class TestQualH5:
     def test_get_reservoirs(self, qual):
         reservoirs = qual.get_reservoirs()
         assert not reservoirs.empty
-        assert reservoirs.iloc[0][0] == 'bethel'
+        assert reservoirs.iloc[0].iloc[0] == 'bethel'
 
     def test_read_attributes(self, qual):
         tflow = qual.h5.get('/output/channel concentration')

@@ -23,7 +23,7 @@ def get_smoothed_resampled(df, cutoff_period='2H', resample_period='1T', interpo
 
         DataFrame: smoothed and resampled dataframe indexed by datetime
     """
-    dfb = df.resample(resample_period).fillna(method='backfill')
+    dfb = df.resample(resample_period).bfill()
     df = df.resample(resample_period).interpolate(method=interpolate_method)
     df[dfb.iloc[:, 0].isna()] = np.nan
     return cosine_lanczos(df, cutoff_period)
