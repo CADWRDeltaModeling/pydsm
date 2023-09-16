@@ -8,7 +8,7 @@ dependencies:
   - pip
   - ipykernel
   - decorator
-  - hdf5=1.14.0  # https://github.com/conda-forge/hdf5-feedstock/issues/207
+  - hdf5
   - h5py
   - pandas
   - xarray
