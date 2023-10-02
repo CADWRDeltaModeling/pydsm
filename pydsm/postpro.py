@@ -447,7 +447,7 @@ def run_processor(processor, store=True, clear=True):
 @click.command()
 @click.argument('dssfile', type=click.Path(exists=True))
 @click.argument('locationfile', type=click.Path(exists=True))
-@click.option('--vartype', type=click.STRING, help='Name of variable type, e.g. FLOW, STAGE, EC')
+@click.option('--vartype', type=click.STRING, help='Name of variable type, e.g. FLOW, STAGE, EC, TEMP')
 @click.option('--units', type=click.STRING, help='Units for variable type, e.g. cfs, feet, mmhos/cm')
 @click.option('--study_name', type=click.STRING, help='study name, also used for F-part of post processed dssfile')
 @click.option('--observed', is_flag=True, default=False, help='if dss file is observed data (resampling, merging, filling, scaling may be needed)')
