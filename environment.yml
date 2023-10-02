@@ -1,24 +1,29 @@
 name: pydsm
 channels:
   - cadwr-dms
-  - pyviz
-  - defaults
   - conda-forge
+  - nodefaults
 dependencies:
-  - python=3.7
-  - h5py=2.10 # because we use hdf5 v10 or below for DSM2 with szip from custom channel
-  - numpy
+  - python
+  - pip
+  - ipykernel
+  - decorator
+  - hdf5
+  - h5py
   - pandas
+  - xarray
+  - pyarrow
   - geopandas
+  - networkx
   # viz
-  - geoviews
   - matplotlib
+  - holoviews
+  - geoviews
   - hvplot
   - datashader
-  - networkx
-  - ipyleaflet
-  - ipywidgets
-  # custom channels
+  - panel
+  # custom packages
   - pyhecdss
   - vtools3
-
+  - pip:
+      - -e git+https://github.com/CADWRDeltaModeling/pydsm#egg=pydsm

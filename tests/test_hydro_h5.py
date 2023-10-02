@@ -55,7 +55,7 @@ class TestHydroH5:
     def test_get_reservoirs(self, hydro):
         reservoirs = hydro.get_reservoirs()
         assert not reservoirs.empty
-        assert reservoirs.iloc[0][0] == 'bethel'
+        assert reservoirs.iloc[0].iloc[0] == 'bethel'
         assert hydro.reservoir_node_connections['res_name'][0].strip(
         ) == 'bethel'
 
@@ -80,17 +80,17 @@ class TestHydroH5:
 
     def test_get_channel_flow_441(self, hydro):
         f441 = hydro.get_channel_flow('441', 'upstream')
-        assert f441.count()[0] == 1393
+        assert f441.count().iloc[0] == 1393
 
     def test_get_channel_flow(self, hydro):
         flow4up = hydro.get_channel_flow('4', 'upstream')
         flow4down = hydro.get_channel_flow('4', 'downstream')
-        assert flow4down.count()[0] == 1393
-        assert flow4down.mean()[0] == pytest.approx(1248.9728)
+        assert flow4down.count().iloc[0] == 1393
+        assert flow4down.mean().iloc[0] == pytest.approx(1248.9728)
         flow4_5up = hydro.get_channel_flow(['4', '5'], 'upstream')
         assert len(flow4_5up.columns) == 2
-        assert flow4_5up.mean()[0] == pytest.approx(1244.4728)
-        assert flow4_5up.mean()[1] == pytest.approx(1248.0035)
+        assert flow4_5up.mean().iloc[0] == pytest.approx(1244.4728)
+        assert flow4_5up.mean().iloc[1] == pytest.approx(1248.0035)
         # --- regression saves for compare
         # flow4up.to_pickle('flow4up.pkl')
         # return
@@ -173,4 +173,4 @@ class TestHydroH5:
         channels=['1','331','441']
         df = hydro.get_channel_bottom(channels)
         assert len(df) == 3
-        assert pytest.approx(3.502402, df.loc['1','upstream'])
+        assert 3.502402 == pytest.approx(df.loc['1','upstream'])

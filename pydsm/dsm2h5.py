@@ -255,7 +255,7 @@ def strip(df):
     '''
     returns a striped copy of the str types of DataFrame
     '''
-    return df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
+    return df.map(lambda x: x.strip() if isinstance(x, str) else x)
 
 
 def is_sequence_like(obj):

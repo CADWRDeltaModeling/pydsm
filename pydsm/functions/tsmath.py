@@ -94,9 +94,9 @@ def nash_sutcliffe(series1, series2):
         Nash Sutcliffe Efficiency
     """
 
-    num = 1-mse(series1, series2)
+    num = mse(series1, series2)
     den = mse(series2, series2.mean())
-    return np.divide(num,den)
+    return 1-np.divide(num,den)
 
 
 def percent_bias(series1, series2):

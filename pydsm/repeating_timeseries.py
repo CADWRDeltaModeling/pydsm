@@ -10,7 +10,7 @@ def create_repeating_timeseries(df_template_year, start_year, end_year):
     # create a dataframe from start_year to end_year with values from the template year dataframe
     df_repeating = pd.DataFrame()
     for year in range(start_year, end_year + 1):
-        df_repeating = df_repeating.append(df_template_year)
+        df_repeating = pd.concat([df_repeating,df_template_year])
     df_repeating.index = pd.period_range(start=f'{start_year}-01-01', end=f'{end_year}-12-31', freq=freq)
     return df_repeating
 
@@ -36,7 +36,7 @@ def extend_repeating_timeseries(df_repeating, end_year):
     # repeat last 12 months of data till end_year
     df_extended = df_repeating.copy()
     for year in range(last_year, end_year):
-        df_extended = df_extended.append(df_last_12)
+        df_extended = pd.concat([df_extended,df_last_12])
     # if data frame index is period, then create period range
     if isinstance(df_extended.index, pd.PeriodIndex):
         df_extended.index = pd.period_range(start=df_extended.index[0], periods=len(df_extended), freq=freq)

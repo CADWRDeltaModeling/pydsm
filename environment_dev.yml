@@ -1,33 +1,38 @@
 name: dev_pydsm
 channels:
   - cadwr-dms
-  - pyviz
-  - defaults
   - conda-forge
+  - nodefaults
 dependencies:
-  - python=3.7
-  - h5py=2.10
-  - numpy
+  - python
+  - pip
+  - ipykernel
+  - decorator
+  - hdf5
+  - h5py
   - pandas
+  - xarray
+  - pyarrow
   - geopandas
+  - networkx
   # viz
-  - geoviews
   - matplotlib
+  - holoviews
+  - geoviews
   - hvplot
   - datashader
-  - networkx
-  - ipyleaflet
-  - ipywidgets
-  # custom channels
+  - panel
+  # custom packages
   - pyhecdss
   - vtools3
-  # dev stuff
+  # dev tools
+  - black
+  - pytest
+  - pytest-cov
   - pytest-runner
-  - autopep8
-  - click
   - nbsphinx
   - sphinx-autobuild
   - pandoc
   - coverage
   - pytest-cov
-
+  # pip install -e . this package

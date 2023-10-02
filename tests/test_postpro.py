@@ -7,7 +7,7 @@ import pandas as pd
 
 def test_postprocessor():
     study = postpro.Study('observed', 'data/sample_obs_small.dss')
-    loc=postpro.Location('GrantLineCanal','GLC','Grant Line Canal in South Delta')
+    loc=postpro.Location('GrantLineCanal','GLC','Grant Line Canal in South Delta',time_window_exclusion_list=None, threshold_value=0)
     vtype=postpro.VarType('ec','mmhos/cm')
     p=postpro.PostProcessor(study,loc,vtype)
     p.process()
