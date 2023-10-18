@@ -19,20 +19,21 @@ build:
 
 requirements:
   build:
-    - python
+    - python {{ python }}
     - setuptools
-    - pandas >=0.23
-    - click >=6.0
-    - pytest-runner >=5.0
+    {% for dep in data['setup_requires'] %}
+    - {{ dep.lower() }}
+    {% endfor %}
+    # dependencies are defined in setup.py
+    {% for dep in data['install_requires'] %}
+    - {{ dep.lower() }}
+    {% endfor %}
   run:
-    - python
-    - numpy  >=1.11
-    - pandas >=0.23
-    - click >=6.0
-    - h5py >=2.10,<2.11.0a0
-    - networkx >=2.4
-    - pyhecdss >=0.4
-    - vtools3 >=0.3
+    - {{ pin_compatible('python', lower_bound='3.5', upper_bound='4.0') }}
+    # dependencies are defined in setup.py
+    {% for dep in data['install_requires'] %}
+    - {{ dep.lower() }}
+    {% endfor %}
   test:
     imports:
       - pydsm
