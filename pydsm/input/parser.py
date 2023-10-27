@@ -87,7 +87,7 @@ def write(output, tables):
     '''
     for name in tables.keys():
         df=tables[name]
-        output.write(name+'\n')
-        tables[name].to_csv(output,index=None,sep=' ')
+        output.writelines(name+'\n')
+        tables[name].to_csv(output,index=None,sep=' ',line_terminator='\n')
         output.write('\nEND\n')
 #
