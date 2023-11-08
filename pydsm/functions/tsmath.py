@@ -98,6 +98,33 @@ def nash_sutcliffe(series1, series2):
     den = mse(series2, series2.mean())
     return 1-np.divide(num,den)
 
+def kling_gupta_efficiency(series1, series2):
+    """https://hess.copernicus.org/articles/23/4323/2019/
+       The Kling–Gupta efficiency (KGE; Eq. 2, Gupta et al., 2009) is based on a 
+       decomposition of NSE into its constitutive components (correlation, 
+       variability bias and mean bias), addresses several perceived shortcomings 
+       in NSE (although there are still opportunities to improve the KGE metric 
+       and to explore alternative ways to quantify model performance) and is 
+       increasingly used for model calibration and evaluation.
+
+        Args:
+
+        series1 (Series): Can be considered as model in the URL above
+        series2 (Series): Can be considered the observed in the URL above
+
+    Returns:
+
+        Kling-Gupta Efficiency
+    """
+    slope, intercep, rval, pval, std = stats.linregress(series1, series2)
+    stdev1 = stats.tstd(series1)
+    stdev2 = stats.tstd(series2)
+    mean1 = series1.mean()
+    mean2 = series2.mean()
+    kge = 1.0 - np.sqrt((rval-1.0)*(rval-1.0) + 
+                      (stdev1/stdev2-1.0)*(stdev1/stdev2-1.0) + 
+                      (mean1/mean2-1.0)*(mean1/mean2-1.0))
+    return kge
 
 def percent_bias(series1, series2):
     """Percent bias (PBIAS) measures the average tendency 
