@@ -4,7 +4,7 @@ import numba
 from vtools.functions.filter import cosine_lanczos
 
 
-def get_smoothed_resampled(df, cutoff_period='2H', resample_period='1T', interpolate_method='pchip'):
+def get_smoothed_resampled(df, cutoff_period='2h', resample_period='1min', interpolate_method='pchip'):
     """Resample the dataframe (indexed by time) to the regular period of resample_period using the interpolate method
 
     Furthermore the cosine lanczos filter is used with a cutoff_period to smooth the signal to remove high frequency noise
@@ -13,9 +13,9 @@ def get_smoothed_resampled(df, cutoff_period='2H', resample_period='1T', interpo
 
         df (DataFrame): A single column dataframe indexed by datetime
 
-        cutoff_period (str, optional): cutoff period for cosine lanczos filter. Defaults to '2H'.
+        cutoff_period (str, optional): cutoff period for cosine lanczos filter. Defaults to '2h'.
 
-        resample_period (str, optional): Resample to regular period. Defaults to '1T'.
+        resample_period (str, optional): Resample to regular period. Defaults to '1min'.
 
         interpolate_method (str, optional): interpolation for resampling. Defaults to 'pchip'.
 
@@ -68,14 +68,14 @@ def periods_per_window(moving_window_size: str, period_str: str) -> int:
     return int(pd.Timedelta(moving_window_size)/pd.to_timedelta(pd.tseries.frequencies.to_offset(period_str)))
 
 
-def tidal_highs(df, moving_window_size='7H'):
+def tidal_highs(df, moving_window_size='7h'):
     """Tidal highs (could be upto two highs in a 25 hr period)
 
     Args:
 
         df (DataFrame): a time series with a regular frequency
 
-        moving_window_size (str, optional): moving window size to look for highs within. Defaults to '7H'.
+        moving_window_size (str, optional): moving window size to look for highs within. Defaults to '7h'.
 
     Returns:
 
@@ -90,14 +90,14 @@ def tidal_highs(df, moving_window_size='7H'):
     return dfmax
 
 
-def tidal_lows(df, moving_window_size='7H'):
+def tidal_lows(df, moving_window_size='7h'):
     """Tidal lows (could be upto two lows in a 25 hr period)
 
     Args:
 
         df (DataFrame): a time series with a regular frequency
 
-        moving_window_size (str, optional): moving window size to look for lows within. Defaults to '7H'.
+        moving_window_size (str, optional): moving window size to look for lows within. Defaults to '7h'.
 
     Returns:
 
@@ -112,20 +112,20 @@ def tidal_lows(df, moving_window_size='7H'):
     return dfmin
 
 
-def get_tidal_hl(df, cutoff_period='2H', resample_period='1T', interpolate_method='pchip', moving_window_size='7H'):
+def get_tidal_hl(df, cutoff_period='2h', resample_period='1min', interpolate_method='pchip', moving_window_size='7h'):
     """Get Tidal highs and lows
 
     Args:
 
         df (DataFrame): A single column dataframe indexed by datetime
 
-        cutoff_period (str, optional): cutoff period for cosine lanczos filter. Defaults to '2H'.
+        cutoff_period (str, optional): cutoff period for cosine lanczos filter. Defaults to '2h'.
 
-        resample_period (str, optional): Resample to regular period. Defaults to '1T'.
+        resample_period (str, optional): Resample to regular period. Defaults to '1min'.
 
         interpolate_method (str, optional): interpolation for resampling. Defaults to 'pchip'.
 
-        moving_window_size (str, optional): moving window size to look for lows within. Defaults to '7H'.
+        moving_window_size (str, optional): moving window size to look for lows within. Defaults to '7h'.
 
     Returns:
 
@@ -190,7 +190,7 @@ def get_tidal_amplitude_diff(dfamp1, dfamp2, percent_diff=False):
     """
     dfamp = pd.concat([dfamp1, dfamp2], axis=1).dropna(how='all')
     dfamp.columns = ['2', '1']
-    tdelta = '4H'
+    tdelta = '4h'
     sliceamp = [slice(t-pd.to_timedelta(tdelta), t+pd.to_timedelta(tdelta)) for t in dfamp.index]
     ampdiff = [get_value_diff(dfamp[sl], percent_diff) for sl in sliceamp]
     return pd.DataFrame(ampdiff, index=dfamp.index)
@@ -234,7 +234,7 @@ def get_tidal_phase_diff(dfh2, dfl2, dfh1, dfl1):
     """
     '''
     '''
-    tdelta = '4H'
+    tdelta = '4h'
     sliceh1 = [slice(t-pd.to_timedelta(tdelta), t+pd.to_timedelta(tdelta)) for t in dfh1.index]
     slicel1 = [slice(t-pd.to_timedelta(tdelta), t+pd.to_timedelta(tdelta)) for t in dfl1.index]
     dfh21 = pd.concat([dfh2, dfh1], axis=1)
@@ -248,7 +248,7 @@ def get_tidal_phase_diff(dfh2, dfl2, dfh1, dfl1):
     return merged_diff.iloc[:, 0].fillna(merged_diff.iloc[:, 1])
 
 
-def get_tidal_hl_zerocrossing(df, round_to='1T'):
+def get_tidal_hl_zerocrossing(df, round_to='1min'):
     '''
     Finds the tidal high and low times using zero crossings of the first derivative. 
 
