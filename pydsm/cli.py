@@ -7,6 +7,7 @@ from pydsm.postpro import load_location_file, load_location_table
 from pydsm.functions import tsmath
 from pydsm import dssutils
 from pydsm import repeating_timeseries
+from pydsm import create_cd_inp
 
 import pandas as pd
 import pyhecdss as dss
@@ -92,6 +93,14 @@ def extend_repeating(datafile, cpart, end_year):
             pathname = df.columns[0]
             dh.write_rts(pathname, df_extended, u, t)
 
+# Command to create a DSM2 .inp file for a consumptive use DSS file
+@click.command()
+@click.argument("dss_filename", type=click.Path(dir_okay=False, exists=True, readable=True))
+@click.argument("dsm2_input_filename")
+@click.argument("file_field_string")
+def create_dsm2_input_for_cd(dss_filename, dsm2_input_filename, file_field_string):
+   create_cd_inp.create_cd_inp(dss_filename, dsm2_input_filename, file_field_string) 
+
 # Create a group for the commands
 @click.group(help="Commands to create and extend repeating time series")
 def repeating():
@@ -114,6 +123,7 @@ main.add_command(copy_all_dss)
 main.add_command(ptm_animate)
 main.add_command(slice_hydro)
 main.add_command(update_hydro_tidefile_with_inp)
+main.add_command(create_dsm2_input_for_cd)
 
 if __name__ == "__main__":
     sys.exit(main())
