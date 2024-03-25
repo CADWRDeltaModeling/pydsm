@@ -31,9 +31,7 @@ def create_cd_inp(dss_filename, dsm2_input_filename, file_field_string):
             # fout.write(line)
             fout.write("%-15s %4s %5s %-7s %-18s /%s/%s/%s/%s/%s/\n" % 
                        (name, node, sign, fillin, file_field_string, row[1]['A'], row[1]['B'], row[1]['C'], row[1]['E'], row[1]['F']))
-        d.close()
     fout.write("END\n")
-    fout.close()
 
 ######################
 # example output file
