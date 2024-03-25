@@ -29,7 +29,7 @@ def create_cd_inp(dss_filename, dsm2_input_filename, file_field_string):
             s = '/'
             # line = name+'\t'+node+'\t'+sign+'\t'+fillin+'\t'+file_field_string+'\t'+s+row[1]['A']+s+row[1]['B']+s+row[1]['C']+s+s+row[1]['E']+s+row[1]['F'].strip()+s+'\n'
             # fout.write(line)
-            fout.write("%-15s %4s %5s %-7s %-18s /%s/%s/%s/%s/%s/\n" % 
+            fout.write("%-15s %4s %5s %-7s %-18s /%s/%s/%s/%s//%s/\n" % 
                        (name, node, sign, fillin, file_field_string, row[1]['A'], row[1]['B'], row[1]['C'], row[1]['E'], row[1]['F']))
     fout.write("END\n")
 
