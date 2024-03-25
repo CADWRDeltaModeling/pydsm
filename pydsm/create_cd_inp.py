@@ -1,6 +1,6 @@
 import pyhecdss
 
-def create_dsm2_input_for_cd(dss_filename, dsm2_input_filename, file_field_string):
+def create_cd_inp(dss_filename, dsm2_input_filename, file_field_string):
     fout = open(dsm2_input_filename, 'w')
     with pyhecdss.DSSFile(dss_filename) as d:
         catdf = d.read_catalog()
@@ -54,7 +54,7 @@ def main():
     dss_filename = r'e:/full_calibration_8_3/delta/dsm2_studies/timeseries/dcd_dsm2_mss1.dss'
     dsm2_input_filename='e:/full_calibration_8_3/delta/dsm2_studies/timeseries/test.inp'
     file_field_string = '${DICUFILE}'
-    create_dsm2_input_for_cd(dss_filename, dsm2_input_filename, file_field_string)
+    create_cd_inp(dss_filename, dsm2_input_filename, file_field_string)
 
 if __name__ == "__main__":
     main()
