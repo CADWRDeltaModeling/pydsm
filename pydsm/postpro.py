@@ -17,8 +17,9 @@ import pyhecdss
 from pandas.core.frame import DataFrame
 from vtools.functions.filter import godin
 from pydsm.functions import tidalhl
+import os
 from os.path import exists
-
+import diskcache
 
 Study = collections.namedtuple("Study", ["name", "dssfile"])
 # time_window_exclusion_list is a comma separated list of timewindows
@@ -95,6 +96,18 @@ def fill_in(df: DataFrame, max_fillin_gap: int, fillin_method: str) -> DataFrame
     return df.interpolate(method=fillin_method, axis=0, limit=max_fillin_gap)
 
 
+def get_dirname(fname):
+    return os.path.dirname(os.path.normpath(fname))
+
+
+def get_filename(fname):
+    return os.path.basename(os.path.normpath(fname))
+
+
+def get_cache_dir(fname):
+    return os.path.join(get_dirname(fname), ".cache-postpro-" + get_filename(fname))
+
+
 # ------------ METRICS CALCULATOR FUNCTIONS ---------#
 
 
@@ -103,27 +116,17 @@ def fill_in(df: DataFrame, max_fillin_gap: int, fillin_method: str) -> DataFrame
 
 
 class PostProCache:
-    """Post process cache: For loading and storing to a HEC-DSS cache filename
-    The cache filename is determined by adding "_calib_postpro" to the filename"""
+    """Post process cache: For loading and storing using diskcache"""
 
-    A_PART = "POSTPRO"  # The apart to be used when storing to DSS format
     IRR_E_PART = "IR-MONTH"  # The epart to use for irregular time series
 
     def __init__(self, fname):
         """Cache filename based on input DSS filename (i.e. ends in .dss)"""
-        self.fname = PostProCache.postpro_filename(fname)
-        self.dssh = pyhecdss.DSSFile(self.fname)
-        self.dss_catalog = self.dssh.read_catalog()
-        self.dss_catalog["Path"] = self.dss_catalog.apply(
-            lambda r: f'{r["B"]}/{r["C"]}', axis=1
-        )
+        self.fname = fname
+        self.cache = diskcache.Cache(get_cache_dir(fname), size_limit=1e11)
 
-    def __del__(self):
-        self.dssh.close()
-
-    def postpro_filename(fname: str, ext="dss") -> str:
-        """Returns the name of the postpro cache filename based on this filename"""
-        return fname.split(".dss")[0] + "_calib_postpro.%s" % ext
+    def clear(self):
+        self.cache.clear()
 
     def is_rts(df):
         return hasattr(df.index, "freqstr") and df.index.freqstr is not None
@@ -131,82 +134,18 @@ class PostProCache:
     def store(self, df, units, bpart, cpart, epart, fpart):
         with pyhecdss.DSSFile(self.fname, create_new=True) as dh:
             if df.empty:
-                print(
-                    "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-                )
-                print(
-                    f"Empty dataframe in pydsm.postpro.PostProCache.store({bpart}/{cpart}/{epart}/{fpart}) while trying to store data."
-                )
-                print(
-                    "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-                )
                 return
-            if PostProCache.is_rts(df):
-                dh.write_rts(
-                    "/%s/%s/%s//%s/%s/"
-                    % (
-                        PostProCache.A_PART,
-                        bpart.upper(),
-                        cpart.upper(),
-                        epart.upper(),
-                        fpart.upper(),
-                    ),
-                    df,
-                    units.upper(),
-                    "INST-VAL",
-                )
-            else:
-                dh.write_its(
-                    "/%s/%s/%s//%s/%s/"
-                    % (
-                        PostProCache.A_PART,
-                        bpart.upper(),
-                        cpart.upper(),
-                        PostProCache.IRR_E_PART,
-                        fpart.upper(),
-                    ),
-                    df,
-                    units.upper(),
-                    "INST-VAL",
-                )
+            key = f"/{bpart.upper()}/{cpart.upper()}/{epart.upper()}/{fpart.upper()}/"
+            self.cache[key] = (df, units.upper(), "INST-VAL")
 
-    def load(self, bpart, cpart, dpart):
-        return_series = None
-        dss_path = "/%s/%s/%s/%s///" % (
-            PostProCache.A_PART,
-            bpart.upper(),
-            cpart.upper(),
-            dpart.upper(),
-        )
-        try:
-            # return_series = next(pyhecdss.get_ts(self.fname, dss_path))
-            matching = self.dss_catalog[
-                self.dss_catalog["Path"] == f"{bpart.upper()}/{cpart.upper()}"
-            ]
-            if len(matching) == 0:
-                raise StopIteration
-            pathname = self.dssh.get_pathnames(matching)[0]
-            if pathname.split("/")[5].startswith("IR-"):
-                return_series = self.dssh.read_its(pathname)
-            else:
-                return_series = self.dssh.read_rts(pathname)
-        except StopIteration as e:
-            logging.exception(
-                "pydsm.postpro.PostProCache.load: no data found for "
-                + self.fname
-                + ","
-                + dss_path
-            )
-            if exists(self.fname):
-                logging.exception(
-                    "DSS file found, but data not found in file. DSS File, DSS path="
-                    + self.fname
-                    + ","
-                    + dss_path
-                )
-            else:
-                logging.exception("DSS file not found:" + self.fname)
-        return return_series
+    def load(self, bpart, cpart, epart, fpart):
+        df = None
+        units = ""
+        ptype = ""
+        key = f"/{bpart.upper()}/{cpart.upper()}/{epart.upper()}/{fpart.upper()}/"
+        if key in self.cache:
+            df, units, ptype = self.cache[key]
+        return df, units, ptype
 
 
 class PostProcessor:
@@ -396,18 +335,25 @@ class PostProcessor:
             self.study.name,
         )
 
-    def _load(self, cpart_suffix="", timewindow=""):
+    def _load(self, cpart_suffix="", epart=TIME_INTERVAL, timewindow=""):
         return_series = None
         try:
-            series = self.cache.load(
-                self.location.name, self.vartype.name + cpart_suffix, timewindow
+            series, _, _ = self.cache.load(
+                self.location.name,
+                self.vartype.name + cpart_suffix,
+                epart,
+                self.study.name,
             )
             if series is not None:
-                return_series = series.data
+                if timewindow != "":
+                    start, end = timewindow.split("-")
+                    start = pd.Timestamp(start)
+                    end = pd.Timestamp(end)
+                    return_series = series.loc[start:end]
+                else:
+                    return_series = series
         except StopIteration as e:
             logging.exception("pydsm.postpro.PostProCache.load: no data found")
-        # except AttributeError as e:
-        #     print('ERROR: location, vartype='+str(self.location)+','+str(self.vartype))
         return return_series
 
     def __repr__(self):
@@ -437,9 +383,15 @@ class PostProcessor:
     def load_processed(self, timewindow=""):
         self.df = self._load(cpart_suffix="", timewindow=timewindow)
         self.gdf = self._load(cpart_suffix="-GODIN", timewindow=timewindow)
-        self.high = self._load(cpart_suffix="-HIGH", timewindow=timewindow)
-        self.low = self._load(cpart_suffix="-LOW", timewindow=timewindow)
-        self.amp = self._load(cpart_suffix="-AMP", timewindow=timewindow)
+        self.high = self._load(
+            cpart_suffix="-HIGH", epart=PostProCache.IRR_E_PART, timewindow=timewindow
+        )
+        self.low = self._load(
+            cpart_suffix="-LOW", epart=PostProCache.IRR_E_PART, timewindow=timewindow
+        )
+        self.amp = self._load(
+            cpart_suffix="-AMP", epart=PostProCache.IRR_E_PART, timewindow=timewindow
+        )
         success = False
         if (
             self.df is not None
@@ -471,9 +423,11 @@ class PostProcessor:
         self._store(self.phase_diff, "-PHASE-DIFF", PostProCache.IRR_E_PART)
 
     def load_diff(self, timewindow=""):
-        self.amp_diff = self._load("-AMP-DIFF", timewindow)
-        self.amp_diff_pct = self._load("-AMP-DIFF-PCT", timewindow)
-        self.phase_diff = self._load("-PHASE-DIFF", timewindow)
+        self.amp_diff = self._load("-AMP-DIFF", PostProCache.IRR_E_PART, timewindow)
+        self.amp_diff_pct = self._load(
+            "-AMP-DIFF-PCT", PostProCache.IRR_E_PART, timewindow
+        )
+        self.phase_diff = self._load("-PHASE-DIFF", PostProCache.IRR_E_PART, timewindow)
 
 
 def load_location_table(loc_name_file: str):
