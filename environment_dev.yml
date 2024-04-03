@@ -15,7 +15,10 @@ dependencies:
   - pyarrow
   - geopandas
   - networkx
+  - dask
+  - diskcache
   # viz
+  - bokeh
   - matplotlib
   - holoviews
   - geoviews

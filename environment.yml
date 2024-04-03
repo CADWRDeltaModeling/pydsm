@@ -1,7 +1,7 @@
 name: pydsm
 channels:
-  - cadwr-dms
   - conda-forge
+  - cadwr-dms
   - nodefaults
 dependencies:
   - python
@@ -15,7 +15,10 @@ dependencies:
   - pyarrow
   - geopandas
   - networkx
+  - dask
+  - diskcache
   # viz
+  - bokeh
   - matplotlib
   - holoviews
   - geoviews
