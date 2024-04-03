@@ -109,16 +109,24 @@ class PostProCache:
     A_PART = "POSTPRO"  # The apart to be used when storing to DSS format
     IRR_E_PART = "IR-MONTH"  # The epart to use for irregular time series
 
+    def __init__(self, fname):
+        """Cache filename based on input DSS filename (i.e. ends in .dss)"""
+        self.fname = PostProCache.postpro_filename(fname)
+        self.dssh = pyhecdss.DSSFile(self.fname)
+        self.dss_catalog = self.dssh.read_catalog()
+        self.dss_catalog["Path"] = self.dss_catalog.apply(
+            lambda r: f'{r["B"]}/{r["C"]}', axis=1
+        )
+
+    def __del__(self):
+        self.dssh.close()
+
     def postpro_filename(fname: str, ext="dss") -> str:
         """Returns the name of the postpro cache filename based on this filename"""
         return fname.split(".dss")[0] + "_calib_postpro.%s" % ext
 
     def is_rts(df):
         return hasattr(df.index, "freqstr") and df.index.freqstr is not None
-
-    def __init__(self, fname):
-        """Cache filename based on input DSS filename (i.e. ends in .dss)"""
-        self.fname = PostProCache.postpro_filename(fname)
 
     def store(self, df, units, bpart, cpart, epart, fpart):
         with pyhecdss.DSSFile(self.fname, create_new=True) as dh:
@@ -171,7 +179,17 @@ class PostProCache:
             dpart.upper(),
         )
         try:
-            return_series = next(pyhecdss.get_ts(self.fname, dss_path))
+            # return_series = next(pyhecdss.get_ts(self.fname, dss_path))
+            matching = self.dss_catalog[
+                self.dss_catalog["Path"] == f"{bpart.upper()}/{cpart.upper()}"
+            ]
+            if len(matching) == 0:
+                raise StopIteration
+            pathname = self.dssh.get_pathnames(matching)[0]
+            if pathname.split("/")[5].startswith("IR-"):
+                return_series = self.dssh.read_its(pathname)
+            else:
+                return_series = self.dssh.read_rts(pathname)
         except StopIteration as e:
             logging.exception(
                 "pydsm.postpro.PostProCache.load: no data found for "
