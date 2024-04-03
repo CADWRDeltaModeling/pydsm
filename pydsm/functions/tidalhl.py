@@ -165,26 +165,7 @@ def get_tidal_amplitude(dfh, dfl):
     return pd.DataFrame(dfamp["max"] - dfamp["min"], columns=["amplitude"])
 
 
-def get_value_diff(df, percent_diff=False):
-    """
-    Get the difference of values of each element in the dataframe
-    The times in the dataframe may or may not coincide as this is a slice of irregularly sampled time series
-    On any error, the returned value is np.nan
-    """
-    try:
-        arr = [df[c].dropna() for c in df.columns]
-        if percent_diff:
-            value_diff = (
-                100.0 * (arr[0].values[0] - arr[1].values[0]) / arr[1].values[0]
-            )
-        else:
-            value_diff = arr[0].values[0] - arr[1].values[0]
-        return value_diff
-    except:
-        return np.nan
-
-
-def get_tidal_amplitude_diff(dfamp1, dfamp2, percent_diff=False):
+def get_tidal_amplitude_diff(dfamp1, dfamp2, percent_diff=False, tolerance="4h"):
     """Get the difference of values within +/- 4H of values in the two amplitude arrays
 
     Args:
@@ -199,33 +180,36 @@ def get_tidal_amplitude_diff(dfamp1, dfamp2, percent_diff=False):
 
         DataFrame: Difference dfamp1-dfamp2 or % Difference (dfamp1-dfamp2)/dfamp2*100  for values within +/- 4H of each other
     """
-    dfamp = pd.concat([dfamp1, dfamp2], axis=1).dropna(how="all")
-    dfamp.columns = ["2", "1"]
-    tdelta = "4h"
-    sliceamp = [
-        slice(t - pd.to_timedelta(tdelta), t + pd.to_timedelta(tdelta))
-        for t in dfamp.index
-    ]
-    ampdiff = [get_value_diff(dfamp[sl], percent_diff) for sl in sliceamp]
-    return pd.DataFrame(ampdiff, index=dfamp.index)
+    dfamp = pd.merge_asof(
+        dfamp1,
+        dfamp2,
+        left_index=True,
+        right_index=True,
+        direction="nearest",
+        tolerance=pd.Timedelta(tolerance),
+    )
+    if percent_diff:
+        dfdiff = 100.0 * (dfamp.iloc[:, 0] - dfamp.iloc[:, 1]) / dfamp.iloc[:, 1]
+    else:
+        dfdiff = dfamp.iloc[:, 0] - dfamp.iloc[:, 1]
+    return dfdiff
 
 
-def get_index_diff(df):
-    """
-    Get the difference of index values of each element in the dataframe
-    The times in the dataframe may or may not coincide
-    The difference is in Timedelta and is converted to minutes
-    On any error, the returned value is np.nan
-    """
-    try:
-        arr = [df[c].dropna() for c in df.columns]
-        tidal_phase_diff = (arr[0].index[0] - arr[1].index[0]).total_seconds() / 60.0
-        return tidal_phase_diff
-    except:
-        return np.nan
+def get_tidal_phase_diff(df1, df2, tolerance="4h"):
+    df1["time"] = df1.index
+    df2["time"] = df2.index
+    df21 = pd.merge_asof(
+        df2,
+        df1,
+        left_index=True,
+        right_index=True,
+        direction="nearest",
+        tolerance=pd.Timedelta(tolerance),
+    )
+    return (df21["time_x"] - df21["time_y"]).apply(lambda x: x.total_seconds() / 60)
 
 
-def get_tidal_phase_diff(dfh2, dfl2, dfh1, dfl1):
+def get_tidal_phase_diff(dfh2, dfl2, dfh1, dfl1, tolerance="4h"):
     """Calculates the phase difference between df2 and df1 tidal highs and lows
 
     Scans +/- 4 hours in df1 to get the highs and lows in that windows for df2 to
@@ -246,24 +230,8 @@ def get_tidal_phase_diff(dfh2, dfl2, dfh1, dfl1):
 
         DataFrame: Phase difference (dfh2-dfh1) and (dfl2-dfl1) in minutes
     """
-    """
-    """
-    tdelta = "4h"
-    sliceh1 = [
-        slice(t - pd.to_timedelta(tdelta), t + pd.to_timedelta(tdelta))
-        for t in dfh1.index
-    ]
-    slicel1 = [
-        slice(t - pd.to_timedelta(tdelta), t + pd.to_timedelta(tdelta))
-        for t in dfl1.index
-    ]
-    dfh21 = pd.concat([dfh2, dfh1], axis=1)
-    dfh21.columns = ["2", "1"]
-    dfl21 = pd.concat([dfl2, dfl1], axis=1)
-    dfl21.columns = ["2", "1"]
-    high_phase_diff, low_phase_diff = [get_index_diff(dfh21[sl]) for sl in sliceh1], [
-        get_index_diff(dfl21[sl]) for sl in slicel1
-    ]
+    high_phase_diff = get_tidal_phase_diff(dfh2, dfh1, tolerance)
+    low_phase_diff = get_tidal_phase_diff(dfl2, dfl1, tolerance)
     merged_diff = pd.merge(
         pd.DataFrame(high_phase_diff, index=dfh1.index),
         pd.DataFrame(low_phase_diff, index=dfl1.index),

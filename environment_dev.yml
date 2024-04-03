@@ -1,7 +1,7 @@
 name: dev_pydsm
 channels:
-  - cadwr-dms
   - conda-forge
+  - cadwr-dms
   - nodefaults
 dependencies:
   - python
