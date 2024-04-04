@@ -192,10 +192,10 @@ def get_tidal_amplitude_diff(dfamp1, dfamp2, percent_diff=False, tolerance="4h")
         dfdiff = 100.0 * (dfamp.iloc[:, 0] - dfamp.iloc[:, 1]) / dfamp.iloc[:, 1]
     else:
         dfdiff = dfamp.iloc[:, 0] - dfamp.iloc[:, 1]
-    return dfdiff
+    return pd.DataFrame(dfdiff, columns=["amplitude_diff"])
 
 
-def get_tidal_phase_diff(df1, df2, tolerance="4h"):
+def get_phase_diff(df1, df2, tolerance="4h"):
     df1["time"] = df1.index
     df2["time"] = df2.index
     df21 = pd.merge_asof(
@@ -230,8 +230,8 @@ def get_tidal_phase_diff(dfh2, dfl2, dfh1, dfl1, tolerance="4h"):
 
         DataFrame: Phase difference (dfh2-dfh1) and (dfl2-dfl1) in minutes
     """
-    high_phase_diff = get_tidal_phase_diff(dfh2, dfh1, tolerance)
-    low_phase_diff = get_tidal_phase_diff(dfl2, dfl1, tolerance)
+    high_phase_diff = get_phase_diff(dfh2, dfh1, tolerance)
+    low_phase_diff = get_phase_diff(dfl2, dfl1, tolerance)
     merged_diff = pd.merge(
         pd.DataFrame(high_phase_diff, index=dfh1.index),
         pd.DataFrame(low_phase_diff, index=dfl1.index),
