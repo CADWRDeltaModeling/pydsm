@@ -30,7 +30,7 @@ def copy_attrs_table(fromtbl, totbl):
         totbl.attrs[a] = fromtbl.attrs[a]
 
 
-def mins_since_origin(dstr, origin_date='1899-12-30'):
+def mins_since_origin(dstr, origin_date='1900-01-01'):
     '''
     origin date default is HEC convention.
     '''
