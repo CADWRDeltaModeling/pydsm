@@ -139,6 +139,7 @@ class PostProCache:
             self.cache[key] = (df, units.upper(), "INST-VAL")
 
     def load(self, bpart, cpart, epart, fpart):
+        print('postpro.PostProCache.load: bpart, cpart, epart, fpart='+bpart+','+cpart+','+epart+','+fpart)
         df = None
         units = ""
         ptype = ""
@@ -433,7 +434,7 @@ class PostProcessor:
 def load_location_table(loc_name_file: str):
     """Loads locations from the table.
 
-    DSM2 ID,CDEC ID,Station Name,Elevation,Latitude,Longitude,...
+    dsm2_id,obs_station_id,station_name,Elevation,lat,lon,...
     SSS,SSS,Steamboat Slough,10,38.285,-121.587,...
 
     Args:
@@ -444,7 +445,7 @@ def load_location_table(loc_name_file: str):
     """
     dfnames = pd.read_csv(loc_name_file, comment="#", skiprows=0, encoding="latin1")
     dfnames = dfnames.fillna("")
-    dfnames.index = dfnames["DSM2 ID"]
+    dfnames.index = dfnames["dsm2_id"]
     dfnames.columns = dfnames.columns.str.strip()
     return dfnames
 
@@ -453,15 +454,15 @@ def load_location_file(locationfile, gate_data=False):
     # def load_location_file(locationfile):
     df = load_location_table(locationfile)
     columns_to_keep = [
-        "DSM2 ID",
-        "CDEC ID",
-        "Station Name",
+        "dsm2_id",
+        "obs_station_id",
+        "station_name",
         "subtract",
         "time_window_exclusion_list",
         "threshold_value",
         "ratio",
-        "Latitude",
-        "Longitude",
+        "lat",
+        "lon",
     ]
     new_column_names = [
         "Name",
@@ -475,7 +476,7 @@ def load_location_file(locationfile, gate_data=False):
         "Longitude",
     ]
     if gate_data:
-        columns_to_keep = ["DSM2 ID", "CDEC ID", "Station Name"]
+        columns_to_keep = ["dsm2_id", "obs_station_id", "station_name"]
         new_column_names = ["Name", "BPart", "Description"]
     # optionally allow overriding of VARTYPE, by specifying a vartype for each dataset in the calibration_<constituent>_stations.csv file.
     # This is needed for DSM2 rim flow input files, which have cparts such as FLOW-DIVERSION and FLOW-EXPORT
