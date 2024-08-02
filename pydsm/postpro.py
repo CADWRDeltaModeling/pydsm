@@ -139,7 +139,7 @@ class PostProCache:
             self.cache[key] = (df, units.upper(), "INST-VAL")
 
     def load(self, bpart, cpart, epart, fpart):
-        print('postpro.PostProCache.load: bpart, cpart, epart, fpart='+bpart+','+cpart+','+epart+','+fpart)
+        # print('postpro.PostProCache.load: bpart, cpart, epart, fpart='+bpart+','+cpart+','+epart+','+fpart)
         df = None
         units = ""
         ptype = ""
@@ -381,7 +381,11 @@ class PostProcessor:
         self._store(self.low, "-LOW", PostProCache.IRR_E_PART)
         self._store(self.amp, "-AMP", PostProCache.IRR_E_PART)
 
-    def load_processed(self, timewindow=""):
+    def load_processed(self, timewindow="", invert_series=False):
+        '''
+        invert_series (bool): if true, all data will be multiplied by -1. This is needed 
+          when observed data and model use opposite sign conventions.
+        '''
         self.df = self._load(cpart_suffix="", timewindow=timewindow)
         self.gdf = self._load(cpart_suffix="-GODIN", timewindow=timewindow)
         self.high = self._load(
@@ -407,6 +411,13 @@ class PostProcessor:
             and len(self.amp) > 0
         ):
             success = True
+            if invert_series:
+                self.df = -self.df
+                self.gdf = -self.gdf
+                self.high = -self.high
+                self.low = -self.low
+                self.amp = -self.amp
+
         return success
 
     def process_diff(self, other):
@@ -633,6 +644,10 @@ def postpro(dssfile, locationfile, vartype, units, study_name, observed=False):
 
 
 def postpro_diff(study1, study2, locationfile, vartype, units):
+
+    print('postpro_diff: study1, study2='+study1+','+study2)
+
+
     dfloc = load_location_file(locationfile)
     for index, row in dfloc.iterrows():
         p1 = PostProcessor(
