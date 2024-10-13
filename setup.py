@@ -23,6 +23,7 @@ requirements = [
     "pandas",
     "numba",
     "diskcache",
+    "tabulate",
 ]
 
 setup_requirements = [
