@@ -48,12 +48,23 @@ def write_input(filepath, tables, append=True):
         write(f, tables)
 
 
-def pretty_print(filepath, table):
-    with open(filepath, "w") as f:
-        f.write(
+def pretty_print(filepath, table, tableName, append=True):
+    with open(filepath, "a" if append else "w") as f:
+        f.write(tableName + "\n")
+        try:
+            f.write(
+                tabulate(
+                    table,
+                    tablefmt="plain",
+                    headers=table.columns,
+                    showindex=False,
+                    colalign=("left",),
+                )
+            )
+        except Exception as ex:  # colalign fails if no rows or for some other reason...
             tabulate(table, tablefmt="plain", headers=table.columns, showindex=False)
-        )
-    f.write("END\n")
+        f.write("\n")
+        f.write("END\n")
 
 
 def parse(data):
