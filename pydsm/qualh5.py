@@ -35,9 +35,11 @@ class QualH5:
         self.filename = filename
         self.h5 = h5py.File(filename, "r+")
         if not dsm2h5.get_model(self.h5) == "qual":
-            raise f"{filename} is not a qual tidefile: Could be " + dsm2h5.get_model(
-                self.h5
-            ) + " ?"
+            raise ValueError(
+                f"{filename} is not a qual tidefile: Could be "
+                + dsm2h5.get_model(self.h5)
+                + " ?"
+            )
         # initialization of tables needed
         self.get_constituents()
         self.get_channels()
@@ -50,6 +52,12 @@ class QualH5:
         closes file as cleanup
         """
         self.h5.close()
+
+    def get_start_end_dates(self):
+        """
+        return the start and end dates of the simulation
+        """
+        return dsm2h5.get_start_end_dates(self, scalar_table="/input/scalar")
 
     def get_input_tables(self):
         return dsm2h5.get_paths_for_group_path(self.h5, "/input")
@@ -123,7 +131,23 @@ class QualH5:
         chan_cat = pd.concat(
             [
                 dsm2h5.create_catalog_entry(
-                    self.filename, dfc, r["constituent_names"], "mg/L"
+                    self.filename,
+                    dfc,
+                    r["constituent_names"],
+                    "mg/L",
+                )
+                for _, r in dfcon.iterrows()
+            ]
+        )
+        chan_avg_cat = pd.concat(
+            [
+                dsm2h5.create_catalog_entry(
+                    self.filename,
+                    dfc,
+                    r["constituent_names"],
+                    "mg/L",
+                    updown=False,
+                    prefix="CHAN_",
                 )
                 for _, r in dfcon.iterrows()
             ]
@@ -135,13 +159,44 @@ class QualH5:
                     dfr,
                     r["constituent_names"],
                     "mg/L",
+                    updown=False,
                     prefix="RES_",
                     id_column="name",
                 )
                 for _, r in dfcon.iterrows()
             ]
         )
-        return pd.concat([chan_cat, res_chat])
+        return pd.concat([chan_cat, chan_avg_cat, res_chat])
+
+    def get_data_for_catalog_entry(self, catalog_entry, time_window=None):
+        """
+        Get the data for a catalog entry
+        """
+        idfields = catalog_entry["id"].split("_")
+        objtype = idfields[0]
+        objid = idfields[1]
+        if len(idfields) > 2:
+            objlocid = idfields[2].lower() + "stream"
+        else:
+            objlocid = None
+        if objtype == "CHAN":
+            if objlocid is None:
+                return self.get_channel_avg_concentration(
+                    catalog_entry["variable"], objid, time_window
+                )
+            else:
+                return self.get_channel_concentration(
+                    catalog_entry["variable"],
+                    objid,
+                    objlocid,
+                    timewindow=time_window,
+                )
+        elif objtype == "RES":
+            return self.get_reservoir_concentration(
+                catalog_entry["variable"], objid, timewindow=time_window
+            )
+        else:
+            raise ValueError("Unknown type: " + catalog_entry["type"])
 
     def _names_to_constituent_indices(self, constituent_name):
         if isinstance(constituent_name, str):

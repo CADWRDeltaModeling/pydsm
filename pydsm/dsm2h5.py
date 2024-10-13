@@ -70,6 +70,21 @@ def get_model(h5f):
         return "unknown"
 
 
+def get_model_from_file(filename):
+    """
+    returns one of "hydro" or "qual"
+    """
+    with h5py.File(filename, "r") as f:
+        return get_model(f)
+
+
+def get_start_end_dates(tidef, scalar_table="/hydro/input/scalar"):
+    scalar = tidef.get_input_table(scalar_table)
+    sdate = scalar.loc[scalar["name"] == "run_start_date", "value"].values[0]
+    edate = scalar.loc[scalar["name"] == "run_end_date", "value"].values[0]
+    return sdate, edate
+
+
 def get_datapaths(modeltype="hydro"):
     """
     Returns expected paths in model type (hydro or qual)
@@ -328,7 +343,7 @@ def create_catalog_entry(
     catalog = dfc.copy()
     catalog = catalog.rename(columns={id_column: "id"})
     catalog["id"] = prefix + catalog["id"].astype(str)
-    catalog["variable"] = variable.upper()
+    catalog["variable"] = variable
     catalog["unit"] = unit
     catalog["filename"] = filename
     if updown:

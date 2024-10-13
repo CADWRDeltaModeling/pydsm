@@ -40,9 +40,11 @@ class HydroH5:
         self.filename = filename
         self.h5 = h5py.File(filename, "r+")
         if not dsm2h5.get_model(self.h5) == "hydro":
-            raise f"{filename} is not a hydro tidefile: Could be " + dsm2h5.get_model(
-                self.h5
-            ) + " ?"
+            raise ValueError(
+                f"{filename} is not a hydro tidefile: Could be "
+                + dsm2h5.get_model(self.h5)
+                + " ?"
+            )
         # -- initialization code -- FIXME: be more lazy
         self.get_channels()
         self.get_channel_locations()
@@ -54,6 +56,12 @@ class HydroH5:
         closes file as cleanup
         """
         self.h5.close()
+
+    def get_start_end_dates(self):
+        """
+        return the start and end dates of the simulation
+        """
+        return dsm2h5.get_start_end_dates(self)
 
     def get_input_tables(self):
         return dsm2h5.get_paths_for_group_path(self.h5, "/hydro/input")
@@ -147,9 +155,9 @@ class HydroH5:
         dfc = self.get_channels()
 
         cat_flow = dsm2h5.create_catalog_entry(self.filename, dfc, "flow", "ft/s")
-        cat_area = dsm2h5.create_catalog_entry(self.filename, dfc, "avg_area", "ft^2")
+        cat_area = dsm2h5.create_catalog_entry(self.filename, dfc, "area", "ft^2")
         cat_avg_area = dsm2h5.create_catalog_entry(
-            self.filename, dfc, "avg_area", "ft^2", updown=False
+            self.filename, dfc, "area", "ft^2", updown=False
         )
         cat_stage = dsm2h5.create_catalog_entry(self.filename, dfc, "stage", "ft")
         # %%
@@ -218,6 +226,62 @@ class HydroH5:
             ]
         )
         return catalog
+
+    def get_data_for_catalog_entry(self, catalog_entry, time_window=None):
+        """
+        Get the data for a catalog entry
+        """
+        variable = catalog_entry["variable"]
+        idfields = catalog_entry["id"].split("_")
+        objtype = idfields[0]
+        objid = idfields[1]
+        if len(idfields) > 2:
+            objlocid = idfields[2].lower() + "stream"
+        else:
+            objlocid = None
+        if objtype == "CHAN":
+            if variable == "AREA":
+                if objlocid is None:
+                    return self.get_channel_avg_area(objid, time_window)
+                else:
+                    return self.get_channel_area(objid, objlocid, time_window)
+            elif variable == "FLOW":
+                return self.get_channel_flow(objid, objlocid, time_window)
+            elif variable == "STAGE":
+                return self.get_channel_stage(objid, objlocid, time_window)
+            else:
+                raise ValueError(
+                    "Unknown variable: " + variable + " for type CHAN: " + catalog_entry
+                )
+        elif objtype == "RES":
+            if variable == "FLOW":
+                return self.get_reservoir_flow(objid, time_window)
+            elif variable == "HEIGHT":
+                return self.get_reservoir_height(objid, time_window)
+            else:
+                raise ValueError(
+                    "Unknown variable: " + variable + " for type RES: " + catalog_entry
+                )
+        elif objtype == "QEXT":
+            if variable == "FLOW":
+                qextid = "_".join(idfields[1:])
+                return self.get_qext_flow(qextid, time_window)
+            else:
+                raise ValueError(
+                    "Unknown variable: " + variable + " for type QEXT: " + catalog_entry
+                )
+        elif objtype == "TRANSFER":
+            if variable == "FLOW":
+                return self.get_transfer_flow(objid, time_window)
+            else:
+                raise ValueError(
+                    "Unknown variable: "
+                    + variable
+                    + " for type TRANSFER: "
+                    + catalog_entry
+                )
+        else:
+            raise ValueError("Unknown type: " + catalog_entry)
 
     def _channel_ids_to_sequence(self, channel_id_slice):
         """
