@@ -48,10 +48,17 @@ def write_input(filepath, tables, append=True):
         write(f, tables)
 
 
+def quote_if_space(value):
+    if isinstance(value, str) and " " in value:
+        return f'"{value}"'
+    return value
+
+
 def pretty_print(filepath, table, tableName, append=True):
     with open(filepath, "a" if append else "w") as f:
         f.write(tableName + "\n")
         try:
+            table = table.map(quote_if_space)
             f.write(
                 tabulate(
                     table,

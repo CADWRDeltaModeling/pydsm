@@ -67,9 +67,36 @@ def test_hydro_write():
     os.remove(fecho2)
 
 
+def test_hydro_read_pretty_print():
+    fecho = os.path.join(
+        os.path.dirname(__file__), "data", "hydro_echo_historical_v82.inp"
+    )
+    tables = read_input(fecho)
+    fecho2 = os.path.join(
+        os.path.dirname(__file__), "data", "hydro_echo_historical_v82.pp.inp"
+    )
+    if os.path.exists(fecho2):
+        os.remove(fecho2)
+    write_input(fecho2, tables)
+    assert os.path.exists(fecho2)
+    tables2 = read_input(fecho2)
+    assert len(tables2) == len(tables)
+    for name in tables.keys():
+        assert_frame_equal(tables[name], tables2[name])
+    os.remove(fecho2)
+
+
 def test_read_output_ec_100():
     """This read was failing for the output table"""
     fecho = os.path.join(os.path.dirname(__file__), "data", "output_stations_ec100.inp")
     tables = read_input(fecho)
     assert len(tables.keys()) == 1
     assert len(tables["OUTPUT_CHANNEL"]) > 100
+
+
+def test_read_oprules():
+    """This read was failing for the oprules because rules have to be within double quotes"""
+    fecho = os.path.join(os.path.dirname(__file__), "data", "oprule_inputs.inp")
+    tables = read_input(fecho)
+    assert len(tables.keys()) == 1
+    assert len(tables["OPERATING_RULE"]) > 10
