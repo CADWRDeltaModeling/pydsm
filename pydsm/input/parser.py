@@ -87,7 +87,7 @@ def parse(data):
     ---------
     dict of pandas DataFrame: with table name as the key
     """
-    data = re.sub(re.compile("#.*?\n"), "", data)
+    data = re.sub(re.compile("#.*?\n"), "\n", data)
     datatables = list(map(str.strip, re.split(r"END\s*\n", data)))
     tables = {}
     for table in datatables:
