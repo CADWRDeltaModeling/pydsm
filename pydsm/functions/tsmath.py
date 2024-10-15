@@ -1,43 +1,49 @@
-'''
+"""
 Timeseries operation
 Conform to HEC-convention.
-'''
+"""
+
 from scipy import stats
 import numpy as np
 import pandas as pd
 
 
-def resample_hec_style(df, interval='D'):
-    '''
+def resample_hec_style(df, interval="D"):
+    """
     Resampling of time series in DataFrame provided for the interval (see Pandas resample for codes)
     In addition to conform to HEC-conventions the resampling is done with closed="right"
     see pandas [resample documentation](https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#resampling) to understand these arguments
-    '''
-    return df.resample(interval, closed='right', kind='timestamp')
+    """
+    if not isinstance(df.index, pd.DatetimeIndex):
+        if isinstance(df.index, pd.PeriodIndex):
+            df.index = df.index.to_timestamp()
+        else:
+            df.index = pd.to_datetime(df.index)
+    return df.resample(interval, closed="right")
 
 
-def per_aver(df, interval='D'):
-    '''
+def per_aver(df, interval="D"):
+    """
     Period averages of the time series in DataFrame provided for the interval
     See for details :py:func:`resample_hec_style`
-    '''
-    return resample_hec_style(df, interval).mean().to_period()
+    """
+    return resample_hec_style(df, interval).mean()  # .to_period()
 
 
-def per_max(df, interval='D'):
-    '''
+def per_max(df, interval="D"):
+    """
     Period maximums of the time series in DataFrame provided for the interval
     See for details :py:func:`resample_hec_style`
-    '''
-    return resample_hec_style(df, interval).max().to_period()
+    """
+    return resample_hec_style(df, interval).max()  # .to_period()
 
 
-def per_min(df, interval='D'):
-    '''
+def per_min(df, interval="D"):
+    """
     Period minimums of the time series in DataFrame provided for the interval
     See for details :py:func:`resample_hec_style`
-    '''
-    return resample_hec_style(df, interval).min().to_period()
+    """
+    return resample_hec_style(df, interval).min()  # .to_period()
 
 
 def mse(series1: pd.Series, series2: pd.Series):
@@ -45,15 +51,15 @@ def mse(series1: pd.Series, series2: pd.Series):
 
     Args:
 
-        series1 (Series or single value): 
-        series2 (Series or single value): 
+        series1 (Series or single value):
+        series2 (Series or single value):
 
     Returns:
 
         Mean squared error
     """
-    diff = series1-series2
-    diff2 = diff*diff
+    diff = series1 - series2
+    diff2 = diff * diff
     return diff2.mean()
 
 
@@ -73,7 +79,7 @@ def nrmse(series1, series2):
 
 
 def mean_error(series1, series2):
-    return (series1-series2).mean()
+    return (series1 - series2).mean()
 
 
 def nmean_error(series1, series2):
@@ -96,15 +102,16 @@ def nash_sutcliffe(series1, series2):
 
     num = mse(series1, series2)
     den = mse(series2, series2.mean())
-    return 1-np.divide(num,den)
+    return 1 - np.divide(num, den)
+
 
 def kling_gupta_efficiency(series1, series2):
     """https://hess.copernicus.org/articles/23/4323/2019/
-       The Kling–Gupta efficiency (KGE; Eq. 2, Gupta et al., 2009) is based on a 
-       decomposition of NSE into its constitutive components (correlation, 
-       variability bias and mean bias), addresses several perceived shortcomings 
-       in NSE (although there are still opportunities to improve the KGE metric 
-       and to explore alternative ways to quantify model performance) and is 
+       The Kling–Gupta efficiency (KGE; Eq. 2, Gupta et al., 2009) is based on a
+       decomposition of NSE into its constitutive components (correlation,
+       variability bias and mean bias), addresses several perceived shortcomings
+       in NSE (although there are still opportunities to improve the KGE metric
+       and to explore alternative ways to quantify model performance) and is
        increasingly used for model calibration and evaluation.
 
         Args:
@@ -121,13 +128,16 @@ def kling_gupta_efficiency(series1, series2):
     stdev2 = stats.tstd(series2)
     mean1 = series1.mean()
     mean2 = series2.mean()
-    kge = 1.0 - np.sqrt((rval-1.0)*(rval-1.0) + 
-                      (stdev1/stdev2-1.0)*(stdev1/stdev2-1.0) + 
-                      (mean1/mean2-1.0)*(mean1/mean2-1.0))
+    kge = 1.0 - np.sqrt(
+        (rval - 1.0) * (rval - 1.0)
+        + (stdev1 / stdev2 - 1.0) * (stdev1 / stdev2 - 1.0)
+        + (mean1 / mean2 - 1.0) * (mean1 / mean2 - 1.0)
+    )
     return kge
 
+
 def percent_bias(series1, series2):
-    """Percent bias (PBIAS) measures the average tendency 
+    """Percent bias (PBIAS) measures the average tendency
     of the simulated values to be larger or smaller than their observed ones.
 
     https://rdrr.io/cran/hydroGOF/man/pbias.html#:~:text=Percent%20bias%20(PBIAS)%20measures%20the,values%20indicating%20accurate%20model%20simulation
@@ -141,7 +151,7 @@ def percent_bias(series1, series2):
 
         float : percent bias
     """
-    return 100*np.divide(series1.sum()-series2.sum(),series2.sum())
+    return 100 * np.divide(series1.sum() - series2.sum(), series2.sum())
 
 
 def linregress(xseries, yseries):
@@ -161,4 +171,4 @@ def rsr(series1, series2):
 
         float : RSR
     """
-    return np.divide(rmse(series1, series2) , stats.tstd(series2))
+    return np.divide(rmse(series1, series2), stats.tstd(series2))

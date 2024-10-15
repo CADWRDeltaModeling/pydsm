@@ -4,12 +4,13 @@ channels:
   - cadwr-dms
   - nodefaults
 dependencies:
-  - python
+  - python=3.11
   - pip
   - ipykernel
   - decorator
   - hdf5
   - h5py
+  - numpy<2
   - pandas
   - xarray
   - pyarrow
@@ -17,6 +18,7 @@ dependencies:
   - networkx
   - dask
   - diskcache
+  - tabulate
   # viz
   - bokeh
   - matplotlib

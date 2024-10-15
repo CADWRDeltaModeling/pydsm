@@ -258,10 +258,9 @@ def read_attributes_from_table(data):
     #
     interval_string = data.attrs["interval"][0].decode("UTF-8")
     # FIXME: these conversions are HECDSS. Move them to pyhecdss utility function
-    interval_string = interval_string.replace("min", "T")
-    interval_string = interval_string.replace("hour", "H")
+    interval_string = interval_string.replace("hour", "h")
     interval_string = interval_string.replace("day", "D")
-    interval_string = interval_string.replace("mon", "M")
+    interval_string = interval_string.replace("mon", "MS")
     model = data.attrs["model"][0].decode("UTF-8")
     model_version = data.attrs["model_version"][0].decode("UTF-8")
     start_time = pd.to_datetime(data.attrs["start_time"][0].decode("UTF-8"))
@@ -353,3 +352,12 @@ def create_catalog_entry(
         catalog_down["id"] = catalog_down["id"] + "_DOWN"
         catalog = pd.concat([catalog_up, catalog_down])
     return catalog.reset_index(drop=True)
+
+
+def decode_if_bytes(x):
+    if isinstance(x, bytes):
+        try:
+            return x.decode("utf-8")
+        except UnicodeDecodeError:
+            return x.decode("utf-8", errors="replace")
+    return x

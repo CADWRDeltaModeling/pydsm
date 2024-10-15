@@ -99,6 +99,7 @@ class QualH5:
         return pandas DataFrame of channel locations ( upstream or downstream)
         """
         self.channel_locs = pd.DataFrame(self.h5.get("/output/channel_location"))
+        self.channel_locs.iloc[:, 0] = self.channel_locs.iloc[:, 0].astype(object)
         self.channel_locs.iloc[:, 0] = self.channel_locs.iloc[:, 0].str.decode("utf-8")
         self.channel_location2number = self.channel_locs[0].to_dict()
         self.channel_location2index = {
@@ -113,6 +114,7 @@ class QualH5:
         self.reservoirs = pd.DataFrame(
             self.h5.get("/output/reservoir_names"), columns=["name"]
         )
+        self.reservoirs.iloc[:, 0] = self.reservoirs.iloc[:, 0].astype(object)
         self.reservoirs.iloc[:, 0] = self.reservoirs.iloc[:, 0].str.decode("utf-8")
         return self.reservoirs
 
