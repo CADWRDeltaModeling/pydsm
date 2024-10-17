@@ -112,10 +112,10 @@ class HydroH5:
         self.reservoirs = pd.DataFrame(
             self.h5.get(HydroH5._GEOM_PATH + "/reservoir_names"), columns=["name"]
         )
+        self.reservoirs.iloc[:, 0] = self.reservoirs.iloc[:, 0].astype(object)
         self.reservoirs.iloc[:, 0] = self.reservoirs.iloc[:, 0].apply(
             dsm2h5.decode_if_bytes
         )
-        self.reservoirs.iloc[:, 0] = self.reservoirs.iloc[:, 0].astype(str)
         self.reservoir_node_connections = dsm2h5.read_table_as_df(
             self.h5, HydroH5._GEOM_PATH + "/reservoir_node_connect"
         )
@@ -243,6 +243,8 @@ class HydroH5:
             objlocid = idfields[2].lower() + "stream"
         else:
             objlocid = None
+        objtype = objtype.upper()
+        variable = variable.upper()
         if objtype == "CHAN":
             if variable == "AREA":
                 if objlocid is None:

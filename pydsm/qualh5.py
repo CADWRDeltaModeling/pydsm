@@ -34,7 +34,10 @@ class QualH5:
         """
         self.filename = filename
         self.h5 = h5py.File(filename, "r+")
-        if not dsm2h5.get_model(self.h5) == "qual":
+        if (
+            not dsm2h5.get_model(self.h5) == "qual"
+            and not dsm2h5.get_model(self.h5) == "gtm"
+        ):
             raise ValueError(
                 f"{filename} is not a qual tidefile: Could be "
                 + dsm2h5.get_model(self.h5)
@@ -141,19 +144,20 @@ class QualH5:
                 for _, r in dfcon.iterrows()
             ]
         )
-        chan_avg_cat = pd.concat(
-            [
-                dsm2h5.create_catalog_entry(
-                    self.filename,
-                    dfc,
-                    r["constituent_names"],
-                    "mg/L",
-                    updown=False,
-                    prefix="CHAN_",
-                )
-                for _, r in dfcon.iterrows()
-            ]
-        )
+        if dsm2h5.get_model(self.h5) == "qual":  # no avg concentration for gtm
+            chan_avg_cat = pd.concat(
+                [
+                    dsm2h5.create_catalog_entry(
+                        self.filename,
+                        dfc,
+                        r["constituent_names"],
+                        "mg/L",
+                        updown=False,
+                        prefix="CHAN_",
+                    )
+                    for _, r in dfcon.iterrows()
+                ]
+            )
         res_chat = pd.concat(
             [
                 dsm2h5.create_catalog_entry(
@@ -168,7 +172,10 @@ class QualH5:
                 for _, r in dfcon.iterrows()
             ]
         )
-        return pd.concat([chan_cat, chan_avg_cat, res_chat])
+        if dsm2h5.get_model(self.h5) == "qual":
+            return pd.concat([chan_cat, chan_avg_cat, res_chat])
+        else:
+            return pd.concat([chan_cat, res_chat])
 
     def get_data_for_catalog_entry(self, catalog_entry, time_window=None):
         """

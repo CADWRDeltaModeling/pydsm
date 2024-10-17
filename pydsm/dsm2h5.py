@@ -62,7 +62,7 @@ def get_model(h5f):
     """
     if h5f.get("/hydro"):  # hydro files have hydro at top level
         return "hydro"
-    elif h5f.get("/output/cell concentration"):
+    elif h5f.get("/output/channel concentration"):
         return "gtm"
     elif h5f.get("/output"):  # qual files have output group not found in hydro
         return "qual"
@@ -256,14 +256,17 @@ def convert_time_to_table_slice(
 
 def read_attributes_from_table(data):
     #
-    interval_string = data.attrs["interval"][0].decode("UTF-8")
+    interval_string = decode_if_bytes(data.attrs["interval"][0])
     # FIXME: these conversions are HECDSS. Move them to pyhecdss utility function
     interval_string = interval_string.replace("hour", "h")
     interval_string = interval_string.replace("day", "D")
     interval_string = interval_string.replace("mon", "MS")
-    model = data.attrs["model"][0].decode("UTF-8")
-    model_version = data.attrs["model_version"][0].decode("UTF-8")
-    start_time = pd.to_datetime(data.attrs["start_time"][0].decode("UTF-8"))
+    model = decode_if_bytes(data.attrs["model"][0])
+    model_version = decode_if_bytes(data.attrs["model_version"][0])
+    if isinstance(data.attrs["start_time"], np.ndarray):
+        start_time = pd.to_datetime(decode_if_bytes(data.attrs["start_time"][0]))
+    else:
+        start_time = pd.to_datetime(decode_if_bytes(data.attrs["start_time"]))
     return {
         "interval": interval_string,
         "model": model,
