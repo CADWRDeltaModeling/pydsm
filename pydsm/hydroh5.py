@@ -97,8 +97,9 @@ class HydroH5:
         self.channel_locs = pd.DataFrame(
             self.h5.get(HydroH5._GEOM_PATH + "/channel_location")
         )
-        self.channel_locs.iloc[:, 0] = self.channel_locs.iloc[:, 0].astype(object)
-        self.channel_locs.iloc[:, 0] = self.channel_locs.iloc[:, 0].str.decode("utf-8")
+        self.channel_locs = pd.DataFrame(
+            self.channel_locs.iloc[:, 0].str.decode("utf-8")
+        )
         self.channel_location2number = self.channel_locs[0].to_dict()
         self.channel_location2index = {
             value: key for key, value in self.channel_location2number.items()
@@ -112,9 +113,8 @@ class HydroH5:
         self.reservoirs = pd.DataFrame(
             self.h5.get(HydroH5._GEOM_PATH + "/reservoir_names"), columns=["name"]
         )
-        self.reservoirs.iloc[:, 0] = self.reservoirs.iloc[:, 0].astype(object)
-        self.reservoirs.iloc[:, 0] = self.reservoirs.iloc[:, 0].apply(
-            dsm2h5.decode_if_bytes
+        self.reservoirs = pd.DataFrame(
+            self.reservoirs.iloc[:, 0].apply(dsm2h5.decode_if_bytes), columns=["name"]
         )
         self.reservoir_node_connections = dsm2h5.read_table_as_df(
             self.h5, HydroH5._GEOM_PATH + "/reservoir_node_connect"

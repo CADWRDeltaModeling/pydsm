@@ -62,10 +62,14 @@ def get_model(h5f):
     """
     if h5f.get("/hydro"):  # hydro files have hydro at top level
         return "hydro"
-    elif h5f.get("/output/channel concentration"):
-        return "gtm"
-    elif h5f.get("/output"):  # qual files have output group not found in hydro
+    elif h5f.get(
+        "/output/channel avg concentration"
+    ):  # only qual h5 files have the avg concentration
         return "qual"
+    elif h5f.get(
+        "/output/channel concentration"
+    ):  # qual and gtm files have output group not found in hydro
+        return "gtm"
     else:
         return "unknown"
 
