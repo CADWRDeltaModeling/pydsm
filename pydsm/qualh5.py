@@ -28,12 +28,12 @@ class QualH5:
 
     """
 
-    def __init__(self, filename):
+    def __init__(self, filename, filemode="r"):
         """
         opens a handle to the filename in read mode
         """
         self.filename = filename
-        self.h5 = h5py.File(filename, "r+")
+        self.h5 = h5py.File(filename, filemode)
         if (
             not dsm2h5.get_model(self.h5) == "qual"
             and not dsm2h5.get_model(self.h5) == "gtm"

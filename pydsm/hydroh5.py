@@ -33,12 +33,12 @@ class HydroH5:
         "transfer flow",
     ]
 
-    def __init__(self, filename):
+    def __init__(self, filename, filemode="r"):
         """
         opens the file and initializes variables for subsequent requests
         """
         self.filename = filename
-        self.h5 = h5py.File(filename, "r+")
+        self.h5 = h5py.File(filename, filemode)
         if not dsm2h5.get_model(self.h5) == "hydro":
             raise ValueError(
                 f"{filename} is not a hydro tidefile: Could be "

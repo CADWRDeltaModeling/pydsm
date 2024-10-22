@@ -26,11 +26,11 @@ class QualH5:
 
     '''
 
-    def __init__(self, filename):
+    def __init__(self, filename, filemode='r'):
         '''
         opens a handle to the filename in read mode
         '''
-        self.h5 = h5py.File(filename, 'r+')
+        self.h5 = h5py.File(filename, filemode)
         if not dsm2h5.get_model(self.h5) == 'gtm':
             raise f'{filename} is not a gtm tidefile: Could be '+dsm2h5.get_model(self.h5)+' ?'
         # initialization of tables needed
