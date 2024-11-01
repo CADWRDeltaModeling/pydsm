@@ -8,6 +8,8 @@ from pydsm.functions import tsmath
 from pydsm import dssutils
 from pydsm import repeating_timeseries
 from pydsm import create_cd_inp
+from pydsm import extend_dss_ts
+
 
 import pandas as pd
 import pyhecdss as dss
@@ -278,6 +280,7 @@ main.add_command(slice_hydro)
 main.add_command(update_hydro_tidefile_with_inp)
 main.add_command(create_dsm2_input_for_cd)
 main.add_command(pretty_print_input)
-
+#
+main.add_command(extend_dss_ts.extend_dss_ts)
 if __name__ == "__main__":
     sys.exit(main())
