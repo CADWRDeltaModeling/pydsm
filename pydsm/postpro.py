@@ -423,13 +423,17 @@ class PostProcessor:
         return success
 
     def process_diff(self, other):
-        self.amp_diff = tidalhl.get_tidal_amplitude_diff(self.amp, other.amp)
-        self.amp_diff_pct = tidalhl.get_tidal_amplitude_diff(
-            self.amp, other.amp, percent_diff=True
-        )
-        self.phase_diff = tidalhl.get_tidal_phase_diff(
-            self.high, self.low, other.high, other.low
-        )
+        if self.amp is None or other.amp is None:
+            self.amp_diff = None
+            self.amp_diff_pct = None
+        else:
+            self.amp_diff = tidalhl.get_tidal_amplitude_diff(self.amp, other.amp)
+            self.amp_diff_pct = tidalhl.get_tidal_amplitude_diff(
+                self.amp, other.amp, percent_diff=True
+            )
+            self.phase_diff = tidalhl.get_tidal_phase_diff(
+                self.high, self.low, other.high, other.low
+            )
 
     def store_diff(self):
         self._store(self.amp_diff, "-AMP-DIFF", PostProCache.IRR_E_PART)
@@ -510,10 +514,12 @@ def load_location_file(locationfile, gate_data=False):
         dfloc = df[columns_to_keep]
         dfloc.columns = new_column_names
     except:
+        print('****************************************************************************************************')
         print(
             "error in pydsm.postpro.load_location_file: location file must have the following fields:"
         )
         print(str(columns_to_keep))
+        print('****************************************************************************************************')
     return dfloc
 
 
