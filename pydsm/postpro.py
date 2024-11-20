@@ -131,19 +131,22 @@ class PostProCache:
     def is_rts(df):
         return hasattr(df.index, "freqstr") and df.index.freqstr is not None
 
-    def store(self, df, units, bpart, cpart, epart, fpart):
+    def get_cache_key(self, bpart, cpart, epart):
+        return f"/{bpart.upper()}/{cpart.upper()}/{epart.upper()}/"
+
+    def store(self, df, units, bpart, cpart, epart):
         with pyhecdss.DSSFile(self.fname, create_new=True) as dh:
             if df.empty:
                 return
-            key = f"/{bpart.upper()}/{cpart.upper()}/{epart.upper()}/{fpart.upper()}/"
+            key = self.get_cache_key(bpart, cpart, epart)
             self.cache[key] = (df, units.upper(), "INST-VAL")
 
-    def load(self, bpart, cpart, epart, fpart):
+    def load(self, bpart, cpart, epart):
         # print('postpro.PostProCache.load: bpart, cpart, epart, fpart='+bpart+','+cpart+','+epart+','+fpart)
         df = None
         units = ""
         ptype = ""
-        key = f"/{bpart.upper()}/{cpart.upper()}/{epart.upper()}/{fpart.upper()}/"
+        key = self.get_cache_key(bpart, cpart, epart)
         if key in self.cache:
             df, units, ptype = self.cache[key]
         return df, units, ptype
@@ -333,7 +336,6 @@ class PostProcessor:
             self.location.name,
             self.vartype.name + cpart_suffix,
             epart,
-            self.study.name,
         )
 
     def _load(self, cpart_suffix="", epart=TIME_INTERVAL, timewindow=""):
@@ -343,7 +345,6 @@ class PostProcessor:
                 self.location.name,
                 self.vartype.name + cpart_suffix,
                 epart,
-                self.study.name,
             )
             if series is not None:
                 if timewindow != "":
@@ -374,18 +375,19 @@ class PostProcessor:
                 "pydsm.postpro.PostProCache.store_processed: no data to store: "
                 + str(self)
             )
-            return
+            return False
         self._store(self.df)
         self._store(self.gdf, "-GODIN")
         self._store(self.high, "-HIGH", PostProCache.IRR_E_PART)
         self._store(self.low, "-LOW", PostProCache.IRR_E_PART)
         self._store(self.amp, "-AMP", PostProCache.IRR_E_PART)
+        return True
 
     def load_processed(self, timewindow="", invert_series=False):
-        '''
-        invert_series (bool): if true, all data will be multiplied by -1. This is needed 
+        """
+        invert_series (bool): if true, all data will be multiplied by -1. This is needed
           when observed data and model use opposite sign conventions.
-        '''
+        """
         self.df = self._load(cpart_suffix="", timewindow=timewindow)
         self.gdf = self._load(cpart_suffix="-GODIN", timewindow=timewindow)
         self.high = self._load(
@@ -645,8 +647,7 @@ def postpro(dssfile, locationfile, vartype, units, study_name, observed=False):
 
 def postpro_diff(study1, study2, locationfile, vartype, units):
 
-    print('postpro_diff: study1, study2='+study1+','+study2)
-
+    print("postpro_diff: study1, study2=" + study1 + "," + study2)
 
     dfloc = load_location_file(locationfile)
     for index, row in dfloc.iterrows():
