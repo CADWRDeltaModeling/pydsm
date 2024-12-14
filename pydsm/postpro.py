@@ -224,6 +224,12 @@ class PostProcessor:
         if yes, then subtract the two time series and return the result. 
         returns dataframe
         """
+        if not os.path.exists(self.study.dssfile) and not os.path.isfile(self.study.dssfile):
+            # These messages are needed by the calibration post-processor in pydelmod, which uses
+            # a try/except block when creating plots/metrics layouts. 
+            print('-----------------------------------------------------------------------------------')
+            print('Error in postpro._read_ts: DSS file not found: '+self.study.dssfile)
+            print('-----------------------------------------------------------------------------------')
         pathname = "//%s/%s////" % (self.location.bpart, self.vartype.name)
         return_df = None
         if not self.subtract and not self.ratio:
