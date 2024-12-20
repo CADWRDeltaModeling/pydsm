@@ -135,14 +135,17 @@ class PostProCache:
         return f"/{bpart.upper()}/{cpart.upper()}/{epart.upper()}/"
 
     def store(self, df, units, bpart, cpart, epart):
-        with pyhecdss.DSSFile(self.fname, create_new=True) as dh:
+        if type(df) is str:
+            key = self.get_cache_key(bpart, cpart, epart)
+            self.cache[key] = (df, units.upper(), "ERROR")
+        else:
             if df.empty:
                 return
             key = self.get_cache_key(bpart, cpart, epart)
             self.cache[key] = (df, units.upper(), "INST-VAL")
 
     def load(self, bpart, cpart, epart):
-        # print('postpro.PostProCache.load: bpart, cpart, epart, fpart='+bpart+','+cpart+','+epart+','+fpart)
+        # logging.info('postpro.PostProCache.load: bpart, cpart, epart, fpart='+bpart+','+cpart+','+epart+','+fpart)
         df = None
         units = ""
         ptype = ""
@@ -222,14 +225,15 @@ class PostProcessor:
         If data type is flow, and if pathname not found in file, check to see if there is a minus sign. \
         if there is, split the b part on the minus sign, and see if pathnames with each part exist. \
         if yes, then subtract the two time series and return the result. 
-        returns dataframe
+        returns dataframe or the error message if the file is not found.
         """
-        if not os.path.exists(self.study.dssfile) and not os.path.isfile(self.study.dssfile):
-            # These messages are needed by the calibration post-processor in pydelmod, which uses
-            # a try/except block when creating plots/metrics layouts. 
-            print('-----------------------------------------------------------------------------------')
-            print('Error in postpro._read_ts: DSS file not found: '+self.study.dssfile)
-            print('-----------------------------------------------------------------------------------')
+        if not os.path.exists(self.study.dssfile) and not os.path.isfile(
+            self.study.dssfile
+        ):
+            error_message = (
+                "Error in postpro._read_ts: DSS file not found: " + self.study.dssfile
+            )
+            return error_message
         pathname = "//%s/%s////" % (self.location.bpart, self.vartype.name)
         return_df = None
         if not self.subtract and not self.ratio:
@@ -241,17 +245,11 @@ class PostProcessor:
                         for df in dfgen
                     ]
                     if len(dflist) <= 0:
-                        print(
-                            "****************************************************************************************************************"
-                        )
-                        print(
+                        error_message = (
                             "Error in postpro._read_ts: dflist has len 0, after trying to read pathname: "
                             + pathname.upper()
                         )
-                        print(
-                            "****************************************************************************************************************"
-                        )
-                        return_df = None
+                        return error_message
                     else:
                         return_df = merge(dflist)
                 else:
@@ -273,7 +271,6 @@ class PostProcessor:
             ):
                 parts = pathname.upper().split("/")
                 bpart_parts = parts[2].split(bpart_separator.upper())
-                print("bpart_parts=" + str(bpart_parts))
 
                 new_dss_path = None
                 for bp in bpart_parts:
@@ -300,24 +297,18 @@ class PostProcessor:
                             if self.subtract:
                                 return_df = return_df.subtract(new_df)
                             elif self.ratio:
-                                # this is not the place to do this, because we need godin
-                                # first remove all rows if either value is nan
-                                # ratio_df = return_df.merge(new_df, how='inner')
-                                # print('ratio_df='+str(ratio_df.head()))
-                                # ratio_df = ratio_df[ratio_df.notna()]
-                                # numerator_col_name = ratio_df.columns[0]
-                                # denominator_col_name = ratio_df.columns[1]
-                                # ratio_df['ratio'] = ratio_df[numerator_col_name] / ratio_df[denominator_col_name]
-                                # # return_df = return_df.divide(new_df)
-                                # return_df = ratio_df[denominator_col_name]
-                                # do nothing for now.
-                                return_df = None
+                                error_message = "Error in postpro._read_ts: ratio not implemented yet"
+                                return error_message
                     df_index += 1
                 return_df.columns = [new_dss_path]
         return return_df
 
     def process(self):
         df = self._read_ts()
+        if isinstance(df, str):
+            logging.info("Error in postpro.process: " + df)
+            self.error_message = df
+            return
         if df is None:
             return
         if self.do_filling_in:
@@ -352,14 +343,16 @@ class PostProcessor:
                 self.vartype.name + cpart_suffix,
                 epart,
             )
-            if series is not None:
+            if isinstance(series, str):
+                return_series = series
+            elif series is not None:
                 if timewindow != "":
                     start, end = timewindow.split("-")
                     start = pd.Timestamp(start)
                     end = pd.Timestamp(end)
                     return_series = series.loc[start:end]
-                else:
-                    return_series = series
+            else:
+                return_series = series
         except StopIteration as e:
             logging.exception("pydsm.postpro.PostProCache.load: no data found")
         return return_series
@@ -377,11 +370,14 @@ class PostProcessor:
 
     def store_processed(self):
         if not hasattr(self, "df"):
+            self._store(self.error_message, "-ERROR")
             logging.warning(
                 "pydsm.postpro.PostProCache.store_processed: no data to store: "
                 + str(self)
             )
-            return False
+            return True
+        else:
+            self._store("", "-ERROR")
         self._store(self.df)
         self._store(self.gdf, "-GODIN")
         self._store(self.high, "-HIGH", PostProCache.IRR_E_PART)
@@ -394,6 +390,11 @@ class PostProcessor:
         invert_series (bool): if true, all data will be multiplied by -1. This is needed
           when observed data and model use opposite sign conventions.
         """
+        self.error_message = self._load("-ERROR")
+        if self.error_message is None:
+            return False  # legacy to load older cache data, FIXME: remove this later
+        if len(self.error_message) > 0:
+            return True
         self.df = self._load(cpart_suffix="", timewindow=timewindow)
         self.gdf = self._load(cpart_suffix="-GODIN", timewindow=timewindow)
         self.high = self._load(
@@ -520,12 +521,16 @@ def load_location_file(locationfile, gate_data=False):
         dfloc = df[columns_to_keep]
         dfloc.columns = new_column_names
     except:
-        print('****************************************************************************************************')
-        print(
+        logging.info(
+            "****************************************************************************************************"
+        )
+        logging.info(
             "error in pydsm.postpro.load_location_file: location file must have the following fields:"
         )
-        print(str(columns_to_keep))
-        print('****************************************************************************************************')
+        logging.info(str(columns_to_keep))
+        logging.info(
+            "****************************************************************************************************"
+        )
     return dfloc
 
 
@@ -582,13 +587,12 @@ def build_processors(dssfile, locationfile, vartype, units, study_name, observed
 
 def run_processor(processor, store=True, clear=True):
     logging.info("Running %s/%s" % (processor.location.name, processor.vartype.name))
-    print("Running %s/%s" % (processor.location.name, processor.vartype.name))
     processed = False
     try:
         processor.process()
         processed = True
     except Exception as ex:
-        print("exception caught in run_processor: " + str(ex))
+        logging.info("exception caught in run_processor: " + str(ex))
         logging.exception(
             f"Failed to process {processor.location.name}/{processor.vartype.name}: "
         )
@@ -659,7 +663,7 @@ def postpro(dssfile, locationfile, vartype, units, study_name, observed=False):
 
 def postpro_diff(study1, study2, locationfile, vartype, units):
 
-    print("postpro_diff: study1, study2=" + study1 + "," + study2)
+    logging.info("postpro_diff: study1, study2=" + study1 + "," + study2)
 
     dfloc = load_location_file(locationfile)
     for index, row in dfloc.iterrows():
