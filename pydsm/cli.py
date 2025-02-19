@@ -1,7 +1,6 @@
 import click
 import sys
 
-from pydsm.ptm_animator import ptm_animate
 from pydsm.hydro_slicer import slice_hydro
 from pydsm.postpro import load_location_file, load_location_table
 from pydsm.functions import tsmath
@@ -275,7 +274,6 @@ main.add_command(repeating)
 main.add_command(extract_dss)
 main.add_command(compare_dss)
 main.add_command(copy_all_dss)
-main.add_command(ptm_animate)
 main.add_command(slice_hydro)
 main.add_command(update_hydro_tidefile_with_inp)
 main.add_command(create_dsm2_input_for_cd)
