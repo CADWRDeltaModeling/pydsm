@@ -38,7 +38,7 @@ def lmax(arr):
     if idx == len(arr) / 2:
         return arr[idx]
     else:
-        return np.NaN
+        return np.nan
 
 
 @numba.jit(nopython=True)
@@ -48,7 +48,7 @@ def lmin(arr):
     if idx == len(arr) / 2:
         return arr[idx]
     else:
-        return np.NaN
+        return np.nan
 
 
 def periods_per_window(moving_window_size: str, period_str: str) -> int:
