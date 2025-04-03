@@ -47,8 +47,15 @@ class TestHydroH5:
 
     def test_channels(self, hydro):
         channels = hydro.get_channels()
-        assert channels[0][0] == "1"
-        assert hydro.channel_number2index["441"] == 420
+        assert channels.iloc[0].iloc[0] == "1"
+        assert hydro.get_channel_indices(channels, ["441"])[0] == 420
+
+    def test_get_channel_names(self, hydro):
+        channels = hydro.get_channels()
+        assert not channels.empty
+        assert channels.iloc[0].iloc[0] == "1"
+        assert hydro._channel_ids_to_indicies("1") == 0
+        assert hydro._channel_ids_to_indicies("441") == 420
 
     def test_channel_locations(self, hydro):
         channel_locs = hydro.get_channel_locations()
@@ -122,7 +129,7 @@ class TestHydroH5:
     def test_get_channel_stage(self, hydro):
         stage4up = hydro.get_channel_stage("4", "upstream")
         # --- regression saves for compare
-        # stage4up.to_pickle('stage4up.pkl')
+        # stage4up.to_pickle("stage4up.pkl")
         # return
         fname = os.path.join(os.path.dirname(__file__), "data", "stage4up.pkl")
         cstage4up = pd.read_pickle(fname)
@@ -138,11 +145,21 @@ class TestHydroH5:
         """
         stage4up = hydro.get_channel_stage(4, "upstream")
         # --- regression saves for compare
-        # stage4up.to_pickle('stage4up.pkl')
+        # stage4up.to_pickle("stage4up.pkl")
         # return
         fname = os.path.join(os.path.dirname(__file__), "data", "stage4up.pkl")
         cstage4up = pd.read_pickle(fname)
         pd.testing.assert_frame_equal(cstage4up, stage4up)
+
+    def test_channel_stage_291(self, hydro):
+        """Test channel stage for POST-108"""
+        stage291 = hydro.get_channel_stage("291", "upstream")
+        # --- regression saves for compare
+        # stage291.to_pickle("stage291.pkl")
+        # return
+        fname = os.path.join(os.path.dirname(__file__), "data", "stage291.pkl")
+        cstage291 = pd.read_pickle(fname)
+        pd.testing.assert_frame_equal(cstage291, stage291)
 
     def test_get_channel_avg_area(self, hydro):
         area441 = hydro.get_channel_avg_area("441")

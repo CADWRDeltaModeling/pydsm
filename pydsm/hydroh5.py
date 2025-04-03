@@ -1,13 +1,13 @@
 """
-Hydro H5 reader. 
+Hydro H5 reader.
 
 check to make sure it has hydro data
-get list of channels 
+get list of channels
 get list of reservoirs
-get time series data as pandas DataFrame 
+get time series data as pandas DataFrame
 
-    for given list of channels 
-    for given list of reservoirs  
+    for given list of channels
+    for given list of reservoirs
 
 """
 
@@ -77,7 +77,7 @@ class HydroH5:
     def get_geometry_table(self, table_path):
         return dsm2h5.read_table_as_df(self.h5, table_path)
 
-    def get_channels(self):
+    def get_channels_internal_to_external_numbers(self):
         """
         return pandas DataFrame of channel ids as indexed
         """
@@ -89,6 +89,24 @@ class HydroH5:
             value: key for key, value in self.channel_index2number.items()
         }
         return channels
+
+    def get_channels(self):
+        """
+        return pandas Dataframe as read from the input table
+        """
+        channels = dsm2h5.read_table_as_df(self.h5, HydroH5._INPUT_PATH + "/channel")
+        channels = channels.astype({"chan_no": str})
+        return channels
+
+    def get_channel_indices(self, df, chan_no_list):
+        """
+        Returns the indices of rows in the DataFrame where the chan_no column matches any value in the given list.
+
+        :param df: pandas DataFrame containing a 'chan_no' column
+        :param chan_no_list: List of chan_no values to match
+        :return: List of indices of matching rows
+        """
+        return df[df["chan_no"].isin(chan_no_list)].index.tolist()
 
     def get_channel_locations(self):
         """
@@ -110,11 +128,8 @@ class HydroH5:
         """
         return pandas DataFrame of reservoirs
         """
-        self.reservoirs = pd.DataFrame(
-            self.h5.get(HydroH5._GEOM_PATH + "/reservoir_names"), columns=["name"]
-        )
-        self.reservoirs = pd.DataFrame(
-            self.reservoirs.iloc[:, 0].apply(dsm2h5.decode_if_bytes), columns=["name"]
+        self.reservoirs = dsm2h5.read_table_as_df(
+            self.h5, HydroH5._INPUT_PATH + "/reservoir"
         )
         self.reservoir_node_connections = dsm2h5.read_table_as_df(
             self.h5, HydroH5._GEOM_PATH + "/reservoir_node_connect"
@@ -301,13 +316,32 @@ class HydroH5:
     def _channel_ids_to_indicies(self, channel_id_slice):
         """
         convert a slice of channel ids to a slice of channel indices into data table
+        :param channel_id_slice: string, sequence of strings or slice
+        :return: list of indices of matching rows, if channel_id_slice is a string or int it returns a single index else it returns a list of indices
         """
+        channels = self.get_channels()
         if isinstance(channel_id_slice, str):
-            return self.channel_number2index[channel_id_slice]
+            return self.get_channel_indices(channels, [channel_id_slice])[0]
+        elif isinstance(channel_id_slice, int):
+            return self.get_channel_indices(channels, str(channel_id_slice))[0]
         elif dsm2h5.is_sequence_like(channel_id_slice):
-            return [self.channel_number2index[id] for id in channel_id_slice]
+            return self.get_channel_indices(
+                channels, [str(id) for id in channel_id_slice]
+            )
         elif isinstance(channel_id_slice, slice):
-            return channel_id_slice
+            return (
+                [
+                    str(id)
+                    for id in self.get_channel_indices(
+                        channels,
+                        range(
+                            channel_id_slice.start,
+                            channel_id_slice.stop,
+                            channel_id_slice.step,
+                        ),
+                    )
+                ],
+            )
         else:
             raise RuntimeError(
                 "Channel id should be string, sequence of strings or slice: Called with : "
@@ -399,6 +433,12 @@ class HydroH5:
         df.columns = list(qext_norm)
         return df
 
+    def get_channel_bottoms(self):
+        """Get the channel bottom for a given channel ID."""
+        return dsm2h5.read_table_as_df(
+            self.get_geometry_table(HydroH5._GEOM_PATH + "/channel_bottom")
+        )
+
     def get_channel_flow(self, channel_id, location_id="upstream", timewindow=None):
         return self._get_channel_ts(
             "/hydro/data/channel flow", channel_id, location_id, timewindow
@@ -410,9 +450,20 @@ class HydroH5:
         )
 
     def get_channel_stage(self, channel_id, location_id="upstream", timewindow=None):
-        return self._get_channel_ts(
+        channel_depth = self._get_channel_ts(
             "/hydro/data/channel stage", channel_id, location_id, timewindow
         )
+        # FIXME: See issue DSM2-164 (stage is really depth!!!). Fix this when we fix that issue.
+        if isinstance(channel_id, list):
+            channel_id = [str(c) for c in channel_id]
+        else:
+            channel_id = str(channel_id)
+        channel_indices = self._channel_ids_to_indicies(channel_id)
+        location_indices = self._channel_locations_to_indicies(location_id)
+        channel_bottom = self.get_geometry_table(HydroH5._GEOM_PATH + "/channel_bottom")
+        channel_bottom = channel_bottom.iloc[location_indices, channel_indices]
+        channel_stage = channel_depth + channel_bottom
+        return channel_stage
 
     def get_channel_avg_area(self, channel_id, timewindow=None):
         return self._get_channel_ts(
