@@ -347,7 +347,11 @@ def create_catalog_entry(
     filename, dfc, variable, unit, updown=True, prefix="CHAN_", id_column=0
 ):
     catalog = dfc.copy()
-    catalog = catalog.rename(columns={id_column: "id"})
+    if isinstance(id_column, int):
+        id_column_name = catalog.columns[id_column]
+    else:
+        id_column_name = id_column
+    catalog = catalog.rename(columns={id_column_name: "id"})
     catalog["id"] = prefix + catalog["id"].astype(str)
     catalog["variable"] = variable
     catalog["unit"] = unit
