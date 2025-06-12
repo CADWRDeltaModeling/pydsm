@@ -6,7 +6,6 @@ from vtools.functions import filter
 import pandas as pd
 import numpy as np
 
-from pydsm.ptm_animator import ptm_animate
 from pydsm.hydro_slicer import slice_hydro
 from pydsm.postpro import load_location_file, load_location_table
 from pydsm.functions import tsmath

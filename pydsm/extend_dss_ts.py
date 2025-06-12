@@ -53,14 +53,11 @@ def extend_dss_ts(dss_filename, dss_ext_filename, days=366, pathfilter="///////"
 
     Parameters
     ----------
-    dss_filename : str
-        DSS filename to read the time series data from
-    dss_ext_filename : str
-        DSS filename to write the extended time series data to
-    days : int, optional
-        number of days to extend the time series, by default 366
-    pathfilter : str, optional
-        HECDSS path filter, by default "///////"
+    
+    dss_filename : DSS filename to read the time series data from
+    dss_ext_filename : DSS filename to write the extended time series data to
+    days : optional, number of days to extend the time series, by default 366
+    pathfilter : optional, HECDSS path filter, by default "///////"
     """
     with dss.DSSFile(dss_ext_filename, create_new=True) as dhout:
         for df, units, ptype in dss.get_matching_ts(dss_filename, pathfilter):
