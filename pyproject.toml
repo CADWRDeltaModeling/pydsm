@@ -1,0 +1,74 @@
+[build-system]
+requires = ["setuptools>=42", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pydsm"
+description = "For loading data from DSM2 hdf5 files into pandas DataFrame"
+readme = "README.rst"
+authors = [
+    {name = "Nicky Sandhu", email = "psandhu@water.ca.gov"},
+]
+requires-python = ">=3.7"
+license = {text = "MIT license"}
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3.7",
+]
+keywords = ["pydsm"]
+dependencies = [
+    "Click",
+    "networkx",
+    "h5py",
+    "pyhecdss",
+    "vtools3",
+    "pandas",
+    "numba",
+    "diskcache",
+    "tabulate",
+]
+dynamic = ["version"]
+
+[project.scripts]
+pydsm = "pydsm.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/CADWRDeltaModeling/pydsm"
+Issues = "https://github.com/CADWRDeltaModeling/pydsm/issues"
+
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
+
+[tool.setuptools.packages.find]
+include = ["pydsm", "pydsm.*"]
+
+[tool.pytest]
+testpaths = ["tests"]
+
+[tool.setuptools_scm]
+write_to = "pydsm/_version.py"
+
+[tool.setuptools.package-data]
+"*" = ["*.rst", "*.txt"]
+
+[tool.setuptools.exclude-package-data]
+"*" = ["*.pyc", "*.pyo", "*.pyd", "__pycache__/*"]
+
+[project.optional-dependencies]
+dev = [
+    "pip>=18.1",
+    "wheel>=0.32.1",
+    "watchdog>=0.9.0",
+    "flake8>=3.5.0",
+    "tox>=3.5.2",
+    "coverage>=4.5.1",
+    "Sphinx>=1.8.1",
+    "twine>=1.12.1",
+    "pytest>=3.8.2",
+    "pytest-runner>=4.2",
+    "setuptools_scm>=6.2",
+]
