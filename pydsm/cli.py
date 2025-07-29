@@ -265,6 +265,38 @@ def pretty_print_input(input_file, output_file=None):
         pretty_print(output_file, tables[table], tableName=table, append=append)
         append = True
 
+@click.command()
+@click.argument("csv_file", type=click.Path(exists=True))
+@click.argument("dss_file", type=click.Path(exists=False))
+@click.option("--index_col", default=0, help="Column to use as index")
+@click.option("--bpart", default="F", help="B part of the DSS path")
+@click.option("--fpart", default="F", help="F part of the DSS path")
+@click.option("--unit", default="UNK", help="Unit of the data")
+@click.option(
+    "--period_type", default="INST-VAL", help="Period type for the time series"
+)
+@click.option(
+    "--multiplier",
+    default=1.0,
+    type=float,
+    help="Multiplier to apply to the data values",
+)
+def csv_to_dss(
+    csv_file,
+    dss_file,
+    index_col=0,
+    bpart="F",
+    fpart="F",
+    unit="UNK",
+    period_type="INST-VAL",
+    multiplier=1.0,
+):
+    """
+    Convert a CSV file to a DSS file.
+    """
+    dssutils.csv_to_dss(
+        csv_file, dss_file, index_col, bpart, fpart, unit, period_type, multiplier
+    )
 
 # Add the commands to the group repeating
 repeating.add_command(create_repeating)
@@ -274,6 +306,7 @@ main.add_command(repeating)
 main.add_command(extract_dss)
 main.add_command(compare_dss)
 main.add_command(copy_all_dss)
+main.add_command(csv_to_dss)
 main.add_command(slice_hydro)
 main.add_command(update_hydro_tidefile_with_inp)
 main.add_command(create_dsm2_input_for_cd)

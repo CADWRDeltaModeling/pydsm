@@ -5,6 +5,7 @@ import pyhecdss
 from vtools.functions import filter
 import pandas as pd
 import numpy as np
+import tqdm
 
 from pydsm.hydro_slicer import slice_hydro
 from pydsm.postpro import load_location_file, load_location_table
@@ -261,3 +262,37 @@ def do_catalog_with_lock(dssfile):
     '''
     with pyhecdss.DSSFile(dssfile) as dssh:
         dssh.do_catalog()
+
+
+def csv_to_dss(
+    csv_file,
+    dss_file,
+    index_col=0,
+    apart="A",
+    cpart="C",
+    fpart="F",
+    unit="UNK",
+    period_type="INST-VAL",
+    multiplier=1.0,
+):
+    df = pd.read_csv(csv_file, index_col=index_col, parse_dates=True)
+    df = df * multiplier
+    freq = pd.infer_freq(df.index)
+    if freq is not None:
+        df = df.asfreq(freq)
+    else:
+        print("Cannot infer frequency from the index.")
+        print(df.head())
+        raise ValueError(
+            "Unable to infer frequency from the index. See file " + csv_file
+        )
+    for c in df.columns:
+        with pyhecdss.DSSFile(dss_file, create_new=True) as f:
+            for c in tqdm.tqdm(df.columns):
+                bpart = c
+                ts = df[c]
+                epart = ts.index.freqstr
+                pathname = f"/{apart}/{bpart}/{cpart}///{fpart}/"
+                print("Writing to ", pathname)
+                f.write_rts(pathname, ts, unit, period_type)
+    print("Done")
