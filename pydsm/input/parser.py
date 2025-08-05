@@ -54,24 +54,59 @@ def quote_if_space(value):
     return value
 
 
-def pretty_print(filepath, table, tableName, append=True):
-    with open(filepath, "a" if append else "w") as f:
-        f.write(tableName + "\n")
-        try:
-            table = table.map(quote_if_space)
-            f.write(
-                tabulate(
-                    table,
-                    tablefmt="plain",
-                    headers=table.columns,
-                    showindex=False,
-                    colalign=("left",),
-                )
+def pretty_print_to_handle(file_handle, table, tableName):
+    """
+    Write a formatted table to an open file handle.
+
+    Parameters
+    ----------
+    file_handle : file object
+        An open file handle to write to
+    table : pandas DataFrame
+        The table to be written
+    tableName : str
+        The name of the table
+    """
+    file_handle.write(tableName + "\n")
+    try:
+        table = table.map(quote_if_space)
+        file_handle.write(
+            tabulate(
+                table,
+                tablefmt="plain",
+                headers=table.columns,
+                showindex=False,
+                colalign=("left",),
             )
-        except Exception as ex:  # colalign fails if no rows or for some other reason...
+        )
+    except Exception as ex:  # colalign fails if no rows or for some other reason...
+        file_handle.write(
             tabulate(table, tablefmt="plain", headers=table.columns, showindex=False)
-        f.write("\n")
-        f.write("END\n")
+        )
+    file_handle.write("\n")
+    file_handle.write("END\n")
+
+
+def pretty_print(filepath, table, tableName, append=True):
+    """
+    Write a formatted table to a file.
+
+    This function maintains backward compatibility. For more flexibility,
+    use pretty_print_to_handle with an open file handle.
+
+    Parameters
+    ----------
+    filepath : str
+        Path to the file to write to
+    table : pandas DataFrame
+        The table to be written
+    tableName : str
+        The name of the table
+    append : bool, default True
+        Whether to append to the file or overwrite it
+    """
+    with open(filepath, "a" if append else "w") as f:
+        pretty_print_to_handle(f, table, tableName)
 
 
 def parse(data):
@@ -104,6 +139,7 @@ def parse(data):
                 continue
             try:
                 df = pd.read_csv(file, sep=r"\s+", comment="#", skip_blank_lines=True)
+                df = df.dropna()  # fix if last row is just END with nans
                 tables[name] = df
             except Exception as ex:
                 print(
@@ -116,15 +152,18 @@ def parse(data):
     return tables
 
 
-def write(output, tables):
+def write(output, tables, pretty=True):
     """
     write to output handle (file or io.StringIO) the tables dictionary containing the names as keys and dataframes as values
     """
     for name in tables.keys():
         df = tables[name]
-        output.writelines(name + "\n")
-        tables[name].to_csv(output, index=None, sep=" ", lineterminator="\n")
-        output.write("\nEND\n")
+        if pretty:
+            pretty_print_to_handle(output, df, name)
+        else:
+            output.writelines(name + "\n")
+            tables[name].to_csv(output, index=None, sep=" ", lineterminator="\n")
+            output.write("\nEND\n")
 
 
 #

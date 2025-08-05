@@ -265,10 +265,12 @@ def pretty_print_input(input_file, output_file=None):
         pretty_print(output_file, tables[table], tableName=table, append=append)
         append = True
 
+
 @click.command()
 @click.argument("csv_file", type=click.Path(exists=True))
 @click.argument("dss_file", type=click.Path(exists=False))
 @click.option("--index_col", default=0, help="Column to use as index")
+@click.option("--apart", default="A", help="A part of the DSS path")
 @click.option("--bpart", default="F", help="B part of the DSS path")
 @click.option("--fpart", default="F", help="F part of the DSS path")
 @click.option("--unit", default="UNK", help="Unit of the data")
@@ -281,22 +283,39 @@ def pretty_print_input(input_file, output_file=None):
     type=float,
     help="Multiplier to apply to the data values",
 )
+@click.option(
+    "--resample_to",
+    default="15T",
+    help="Resample frequency for the time series (e.g., '15T' for 15 minutes)",
+)
 def csv_to_dss(
     csv_file,
     dss_file,
     index_col=0,
+    apart="A",
     bpart="F",
     fpart="F",
     unit="UNK",
     period_type="INST-VAL",
     multiplier=1.0,
+    resample_to="15T",
 ):
     """
     Convert a CSV file to a DSS file.
     """
     dssutils.csv_to_dss(
-        csv_file, dss_file, index_col, bpart, fpart, unit, period_type, multiplier
+        csv_file,
+        dss_file,
+        index_col,
+        apart,
+        bpart,
+        fpart,
+        unit,
+        period_type,
+        multiplier,
+        resample_to,
     )
+
 
 # Add the commands to the group repeating
 repeating.add_command(create_repeating)
