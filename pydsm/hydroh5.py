@@ -179,8 +179,6 @@ class HydroH5:
             self.filename, dfc, "area", "ft^2", updown=False
         )
         cat_stage = dsm2h5.create_catalog_entry(self.filename, dfc, "stage", "ft")
-        # %%
-        # %%
         dfr = self.get_reservoirs()
         cat_res_height = dsm2h5.create_catalog_entry(
             self.filename,
@@ -191,7 +189,6 @@ class HydroH5:
             prefix="RES_",
             id_column="name",
         )
-        # %%
         dfrn = self.get_reservoir_node_connections()
         self.get_input_table("/hydro/input/reservoir_connection")
         dfrn["id"] = (
@@ -220,7 +217,6 @@ class HydroH5:
             prefix="QEXT_",
             id_column="name",
         )
-        # %%
         dft = self.get_transfer_names()
         cat_transfer_flow = dsm2h5.create_catalog_entry(
             self.filename,
@@ -231,7 +227,7 @@ class HydroH5:
             id_column=0,
             prefix="TRANSFER_",
         )
-        # %%
+
         catalog = pd.concat(
             [
                 cat_flow,

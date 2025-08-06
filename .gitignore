@@ -1,3 +1,4 @@
+pydsm/_version.py # ignore auto generated file
 #DSS Files and catalogs
 **/*.ds[cdk]
 
