@@ -3,8 +3,7 @@
 """Top-level package for pydsm."""
 
 __author__ = """Nicky Sandhu"""
-__email__ = 'psandhu@water.ca.gov'
-__all__=[]
+__email__ = "psandhu@water.ca.gov"
+__all__ = []
 
-from . import _version
-__version__ = _version.__version__
+from ._version import __version__

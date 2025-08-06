@@ -1,9 +1,10 @@
 {% set name = "pydsm" %}
-{% set data = load_setup_py_data() %}
+{% set pyproject = load_file_data('../pyproject.toml', from_recipe_dir=True) %}
+{% set project = pyproject['project'] %}
 
 package:
   name:           "{{ name|lower }}"
-  version:        "{{ data['version'] }}"
+  version: {{ SETUPTOOLS_SCM_PRETEND_VERSION }}
 
 source:
   #git_url: https://github.com/CADWRDeltaModeling/pydsm.git
@@ -12,28 +13,29 @@ source:
 build:
   number: 0
   noarch: python
-  script: python setup.py install --single-version-externally-managed --record=record.txt
+  script_env:
+   - SETUPTOOLS_SCM_PRETEND_VERSION
+  script: {{ PYTHON }} -m pip install --no-build-isolation --no-deps --ignore-installed -vv .
+  noarch: python
+  number: 0
   entry_points:
-    - pydsm = pydsm.cli:main
+    {% for name, reference in project['scripts'].items() %}
+    - {{ name }} = {{ reference }}
+    {% endfor %}
   #skip:           true
 
 requirements:
-  build:
-    - python {{ python }}
-    - setuptools
-    {% for dep in data['setup_requires'] %}
-    - {{ dep.lower() }}
-    {% endfor %}
-    # dependencies are defined in setup.py
-    {% for dep in data['install_requires'] %}
+  host:
+    - python {{ project['requires-python'] }}
+    - pip
+    {% for dep in pyproject['build-system']['requires'] %}
     - {{ dep.lower() }}
     {% endfor %}
   run:
     - {{ pin_compatible('python', lower_bound='3.5', upper_bound='4.0') }}
-    # dependencies are defined in setup.py
-    {% for dep in data['install_requires'] %}
+    {% for dep in project.get('dependencies', []) %}
     - {{ dep.lower() }}
-    {% endfor %}
+    {% endfor %}  
   test:
     imports:
       - pydsm
@@ -42,6 +44,9 @@ requirements:
     requires:
       - pytest
       - pytest-cov
+    {% for dep in project.get("optional-dependencies", {}).get('test', []) %}
+    - {{ dep.lower() }}
+    {% endfor %}
     commands:
       - (setlocal && cd tests && pytest && endlocal) # [win]
       - (cd tests; pytest) # [unix]
