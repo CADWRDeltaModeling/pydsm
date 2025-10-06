@@ -1,5 +1,5 @@
 """
-Qual H5 reader. 
+Qual H5 reader.
 
 """
 
@@ -56,11 +56,45 @@ class QualH5:
         """
         self.h5.close()
 
+    def is_gtm(self):
+        return dsm2h5.get_model(self.h5) == "gtm"
+
     def get_start_end_dates(self):
         """
         return the start and end dates of the simulation
         """
         return dsm2h5.get_start_end_dates(self, scalar_table="/input/scalar")
+
+    def get_output_interval(self):
+        attr = dsm2h5.read_attributes_from_table(
+            self.h5.get("/output/channel concentration")
+        )
+        return attr["interval"]
+
+    def get_output_timedelta(self):
+        """
+        Return the output interval as pandas.Timedelta
+        """
+        raw = self.get_output_interval()
+        try:
+            return pd.to_timedelta(raw)
+        except ValueError:
+            # fallback simple normalization (e.g. '60MIN', '1HOUR', etc.)
+            norm = (
+                raw.lower()
+                .replace("hours", "h")
+                .replace("hour", "h")
+                .replace("mins", "min")
+                .replace("minutes", "min")
+                .replace("minute", "min")
+            )
+            return pd.to_timedelta(norm)
+
+    def get_output_freq(self):
+        """
+        Return a pandas offset/frequency object usable for date_range
+        """
+        return pd.tseries.frequencies.to_offset(self.get_output_timedelta())
 
     def get_input_tables(self):
         return dsm2h5.get_paths_for_group_path(self.h5, "/input")

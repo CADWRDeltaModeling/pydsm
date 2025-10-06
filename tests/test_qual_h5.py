@@ -62,6 +62,19 @@ class TestQualH5:
             "start_time": pd.to_datetime("04JAN1990 0000"),
         }
 
+    def test_get_start_end_dates(self, qual):
+        start, end = qual.get_start_end_dates()
+        assert pd.to_datetime(start) == pd.to_datetime("03JAN1990 0000")
+        assert pd.to_datetime(end) == pd.to_datetime("31JAN1990 0000")
+
+    def test_get_output_interval(self, qual):
+        interval = qual.get_output_interval()
+        assert interval == "60min"
+
+    def test_get_output_freq(self, qual):
+        freq = qual.get_output_freq()
+        assert freq == pd.tseries.frequencies.to_offset("60min")
+
     def test_is_sequence_like(self):
         assert dsm2h5.is_sequence_like([])
         assert dsm2h5.is_sequence_like(np.array(5))

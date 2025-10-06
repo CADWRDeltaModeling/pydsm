@@ -8,6 +8,7 @@ from pydsm import dssutils
 from pydsm import repeating_timeseries
 from pydsm import create_cd_inp
 from pydsm import extend_dss_ts
+from pydsm import write_gtm_restart
 
 
 import pandas as pd
@@ -317,6 +318,28 @@ def csv_to_dss(
     )
 
 
+@click.command(name="create-gtm-restart")
+@click.argument("tidefile", type=click.Path(exists=True))
+@click.argument("target_time", type=str)
+@click.argument("outfile", type=click.Path())
+@click.option(
+    "-c",
+    "--constituent",
+    default="ec",
+    show_default=True,
+    help="Constituent to export (e.g. ec)",
+)
+def create_gtm_restart_cmd(tidefile, target_time, outfile, constituent):
+    """Create a GTM restart file from a GTM/Qual tide HDF5 file.
+
+    TIDEFILE: Path to HDF5 tide file.
+    TARGET_TIME: Desired time (e.g. '05FEB2020 0300'). Nearest model output time will be used.
+    OUTFILE: Destination restart file name.
+    """
+    path = write_gtm_restart(tidefile, target_time, outfile, constituent=constituent)
+    click.echo(f"Wrote restart file: {path}")
+
+
 # Add the commands to the group repeating
 repeating.add_command(create_repeating)
 repeating.add_command(extend_repeating)
@@ -330,6 +353,8 @@ main.add_command(slice_hydro)
 main.add_command(update_hydro_tidefile_with_inp)
 main.add_command(create_dsm2_input_for_cd)
 main.add_command(pretty_print_input)
+# GTM restart creation
+main.add_command(create_gtm_restart_cmd)
 #
 main.add_command(extend_dss_ts.extend_dss_ts)
 if __name__ == "__main__":

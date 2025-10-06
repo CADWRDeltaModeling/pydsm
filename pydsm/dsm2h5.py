@@ -153,7 +153,7 @@ def read_table_attrs_as_df(filename, table_path):
     """
     with h5py.File(filename, "r") as f:
         bf = f[table_path]
-        a = pd.DataFrame(bf.attrs.items(), columns=["Name", "Value"], dtype=np.str)
+        a = pd.DataFrame(bf.attrs.items(), columns=["Name", "Value"], dtype=np.str_)
         a = a.append(
             pd.DataFrame([("shape", str(bf.shape))], columns=["Name", "Value"]),
             ignore_index=True,
