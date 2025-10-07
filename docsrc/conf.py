@@ -72,7 +72,19 @@ release = pydsm.__version__
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = "en"
+
+# nbsphinx configuration (allow CI override with environment variable)
+nbsphinx_allow_errors = os.environ.get("NBSPHINX_ALLOW_ERRORS", "0") in {
+    "1",
+    "true",
+    "True",
+    "YES",
+    "yes",
+}
+nbsphinx_execute = "auto"
+nbsphinx_timeout = 300  # seconds per cell
+nbsphinx_kernel_name = "python3"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
