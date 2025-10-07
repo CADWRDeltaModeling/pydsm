@@ -22,38 +22,40 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        shell: bash -el {0}
+        shell: bash
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Set up micromamba
-        uses: mamba-org/setup-micromamba@v2
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v4
         with:
-          environment-file: environment-docs.yml
-          cache-environment: true
-          cache-downloads: true
-          create-args: >-
-            python=3.13
-          init-shell: bash
-          condarc: |
-            channels:
-              - conda-forge
-              - cadwr-dms
-              - nodefaults
-            channel_priority: flexible
+          python-version: '3.13'
 
-      - name: Show environment details
+      - name: Add conda to system path
         run: |
-          micromamba info
-          micromamba list
+          echo "Using CONDA root at $CONDA"
+          echo "$CONDA/bin" >> $GITHUB_PATH
+          conda --version
+
+      - name: Create docs env from environment-docs.yml
+        run: |
+          # Create env (will be named as in file)
+          conda env create -f environment-docs.yml || { echo "Env create failed (maybe exists), attempting update"; conda env update -f environment-docs.yml --prune; }
+          source $CONDA/etc/profile.d/conda.sh
+          conda activate pydsm-docs
           python --version
+          conda list | head -40
           which python
+          pip install -e .
           which sphinx-build || true
+          sphinx-build --version
 
       - name: Verify docs tooling imports
         run: |
+          source $CONDA/etc/profile.d/conda.sh
+          conda activate pydsm-docs
           python -c "import importlib, sphinx, nbsphinx; print('sphinx', sphinx.__version__); print('nbsphinx', nbsphinx.__version__); [importlib.import_module(m) for m in ['pydsm','networkx','pandas','h5py']]; print('Imports OK')"
 
       - name: Build HTML docs
@@ -61,6 +63,8 @@ jobs:
         env:
           NBSPHINX_ALLOW_ERRORS: "0"
         run: |
+          source $CONDA/etc/profile.d/conda.sh
+          conda activate pydsm-docs
           sphinx-build -b html -W --keep-going . _build/html
           echo "Built docs size:" && du -sh _build/html || true
 
