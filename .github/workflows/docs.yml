@@ -39,10 +39,15 @@ jobs:
           echo "$CONDA/bin" >> $GITHUB_PATH
           conda --version
 
+      - name: Remove existing docs env if present
+        run: |
+          source $CONDA/etc/profile.d/conda.sh
+          conda deactivate || true
+          conda env remove -n pydsm-docs || true
+
       - name: Create docs env from environment-docs.yml
         run: |
-          # Create env (will be named as in file)
-          conda env create -f environment-docs.yml || { echo "Env create failed (maybe exists), attempting update"; conda env update -f environment-docs.yml --prune; }
+          conda env create -f environment-docs.yml
           source $CONDA/etc/profile.d/conda.sh
           conda activate pydsm-docs
           python --version
