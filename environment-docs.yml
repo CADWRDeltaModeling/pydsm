@@ -1,9 +1,10 @@
-name: pydsm
+name: pydsm-docs
 channels:
   - conda-forge
   - cadwr-dms
   - nodefaults
 dependencies:
+  # Core runtime (mirrors environment.yml)
   - python=3.13
   - pip
   - ipykernel
@@ -19,7 +20,7 @@ dependencies:
   - dask
   - diskcache
   - tabulate
-  # viz
+  # Visualization stack
   - bokeh
   - matplotlib
   - holoviews
@@ -27,8 +28,17 @@ dependencies:
   - hvplot
   - datashader
   - panel
-  # custom packages
+  # Custom packages from channel(s)
   - pyhecdss
   - vtools3
+  # Documentation specific additions
+  - sphinx
+  - nbsphinx
+  - sphinx-rtd-theme
+  - jupyter
+  - nbconvert
+  - pandoc
+  # Optional speed / compilation helpers (leave commented for now)
+  # - numba
   - pip:
-      - -e git+https://github.com/CADWRDeltaModeling/pydsm#egg=pydsm
+      - .

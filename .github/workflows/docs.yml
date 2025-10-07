@@ -22,27 +22,39 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        shell: bash
+        shell: bash -el {0}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Set up Miniconda
-        uses: conda-incubator/setup-miniconda@v3
+      - name: Set up micromamba
+        uses: mamba-org/setup-micromamba@v2
         with:
-          activate-environment: docs
-          auto-update-conda: true
-          python-version: 3.11
-          channels: conda-forge,defaults
+          environment-file: environment-docs.yml
+          cache-environment: true
+          cache-downloads: true
+          create-args: >-
+            python=3.13
+          init-shell: bash
+          condarc: |
+            channels:
+              - conda-forge
+              - cadwr-dms
+              - nodefaults
+            channel_priority: flexible
 
-      - name: Install docs dependencies
+      - name: Show environment details
         run: |
-          conda install -y sphinx nbsphinx ipykernel jupyter nbconvert pandoc sphinx-rtd-theme \
-            click networkx h5py pandas numba diskcache tabulate
-          pip install -e .
-          python -m pip list
+          micromamba info
+          micromamba list
+          python --version
+          which python
+          which sphinx-build || true
+
+      - name: Verify docs tooling imports
+        run: |
+          python -c "import importlib, sphinx, nbsphinx; print('sphinx', sphinx.__version__); print('nbsphinx', nbsphinx.__version__); [importlib.import_module(m) for m in ['pydsm','networkx','pandas','h5py']]; print('Imports OK')"
 
       - name: Build HTML docs
         working-directory: docsrc
