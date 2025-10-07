@@ -1,0 +1,91 @@
+name: Docs
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  actions: read
+
+concurrency:
+  group: docs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: docs
+          auto-update-conda: true
+          python-version: 3.11
+          channels: conda-forge,defaults
+
+      - name: Install docs dependencies
+        run: |
+          conda install -y sphinx nbsphinx ipykernel jupyter nbconvert pandoc sphinx-rtd-theme \
+            click networkx h5py pandas numba diskcache tabulate
+          pip install -e .
+          python -m pip list
+
+      - name: Build HTML docs
+        working-directory: docsrc
+        env:
+          NBSPHINX_ALLOW_ERRORS: "0"
+        run: |
+          sphinx-build -b html -W --keep-going . _build/html
+          echo "Built docs size:" && du -sh _build/html || true
+
+      - name: Upload docs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-html
+          path: docsrc/_build/html
+          if-no-files-found: error
+          retention-days: 7
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs: build-docs
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download built docs
+        uses: actions/download-artifact@v4
+        with:
+          name: docs-html
+          path: ./site
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
