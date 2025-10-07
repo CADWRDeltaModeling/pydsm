@@ -5,7 +5,7 @@ channels:
   - nodefaults
 dependencies:
   # Core runtime (mirrors environment.yml)
-  - python=3.13
+  - python=3.11
   - pip
   - ipykernel
   - decorator
