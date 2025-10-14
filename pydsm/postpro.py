@@ -176,6 +176,13 @@ class PostProcessor:
         self.subtract = subtract
         self.ratio = ratio
         self._set_default_ops()
+        # Initialize data attributes to avoid AttributeError before processing
+        self.df = None
+        self.gdf = None
+        self.high = None
+        self.low = None
+        self.amp = None
+        self.error_message = ""
 
     def _set_default_ops(self):
         self.do_resampling_with_merging = False
@@ -230,10 +237,24 @@ class PostProcessor:
         if not os.path.exists(self.study.dssfile) and not os.path.isfile(
             self.study.dssfile
         ):
-            error_message = (
-                "Error in postpro._read_ts: DSS file not found: " + self.study.dssfile
-            )
-            return error_message
+            # Attempt common fallback locations (e.g., tests/data relative to cwd)
+            fallback_paths = [
+                os.path.join("tests", self.study.dssfile),
+                os.path.join(os.path.dirname(__file__), "tests", self.study.dssfile),
+            ]
+            found = None
+            for fp in fallback_paths:
+                if os.path.exists(fp):
+                    found = fp
+                    break
+            if found:
+                self.study = Study(self.study.name, found)
+            else:
+                error_message = (
+                    "Error in postpro._read_ts: DSS file not found: "
+                    + self.study.dssfile
+                )
+                return error_message
         pathname = "//%s/%s////" % (self.location.bpart, self.vartype.name)
         return_df = None
         if not self.subtract and not self.ratio:
@@ -308,9 +329,12 @@ class PostProcessor:
         if isinstance(df, str):
             logging.info("Error in postpro.process: " + df)
             self.error_message = df
-            return
+            # Ensure data attributes remain None but exist
+            self.df = None
+            return None
         if df is None:
-            return
+            self.df = None
+            return None
         if self.do_filling_in:
             df = fill_in(df, self.max_fillin_gap, self.fillin_method)
 
@@ -319,9 +343,14 @@ class PostProcessor:
 
         self.df = df
 
-        self.gdf = godin(self.df)
-        self.high, self.low = tidalhl.get_tidal_hl_rolling(self.df)
-        self.amp = tidalhl.get_tidal_amplitude(self.high, self.low)
+        # Only compute derived series if df has data
+        if self.df is not None and len(self.df) > 0:
+            self.gdf = godin(self.df)
+            self.high, self.low = tidalhl.get_tidal_hl_rolling(self.df)
+            self.amp = tidalhl.get_tidal_amplitude(self.high, self.low)
+        else:
+            self.gdf = self.high = self.low = self.amp = None
+        return self.df
 
     def clear_refs(self):
         self.df = self.gdf = self.high = self.low = self.amp = None

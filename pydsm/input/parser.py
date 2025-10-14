@@ -12,6 +12,69 @@ import re
 import csv
 from tabulate import tabulate
 
+# ---------------------------------------------------------------------------
+# Deterministic dtype handling
+# ---------------------------------------------------------------------------
+# Pandas infers dtypes from the textual representation. When we pretty-print and
+# re-read, integer-looking floats (e.g. 360.0000 -> 360) may be inferred as int
+# on a subsequent parse, leading to test failures when comparing DataFrames
+# across a read->write->read cycle. To make behavior stable, we supply a
+# canonical mapping of column names to desired dtypes. Only columns listed here
+# are coerced; others keep pandas inference.
+# NOTE: We intentionally choose float for numeric columns that can appear with
+# or without decimals in source inputs to prevent int/float flip-flopping.
+
+_COLUMN_DTYPE_MAP = {
+    # CHANNEL table
+    "CHAN_NO": "int64",
+    "LENGTH": "float64",  # allow decimals & keep stable
+    "MANNING": "float64",
+    "DISPERSION": "float64",
+    "UPNODE": "int64",
+    "DOWNNODE": "int64",
+    # RESERVOIR like tables
+    "RESERVOIR_NO": "int64",
+    "RESERVOIR": "int64",
+    "INITIAL_STAGE": "float64",
+    # Boundary/specification style columns
+    "FLOW": "float64",
+    "STAGE": "float64",
+    "SOURCE": "float64",
+    # Generic geometry / coefficient style names
+    "COEFF": "float64",
+    "COEF_IN": "float64",
+    "COEF_OUT": "float64",
+    "WIDTH": "float64",
+    "ROUGHNESS": "float64",
+    "ELEV": "float64",
+    "ELEVATION": "float64",
+    "HEIGHT": "float64",
+    "X": "float64",
+    "Y": "float64",
+    "Z": "float64",
+    "VOLUME": "float64",
+    "AREA": "float64",
+}
+
+
+def _enforce_column_dtypes(df: pd.DataFrame) -> pd.DataFrame:
+    """Return a copy of df with enforced dtypes where configured.
+
+    Columns listed in _COLUMN_DTYPE_MAP are cast to the specified dtype if they
+    exist. Casting is done in a safe manner: if conversion fails (e.g., due to
+    unexpected non-numeric tokens), we leave the column unchanged and proceed.
+    """
+    for col, dtype in _COLUMN_DTYPE_MAP.items():
+        if col in df.columns:
+            # Only coerce if not already the target dtype
+            if str(df[col].dtype) != dtype:
+                try:
+                    df[col] = df[col].astype(dtype)
+                except Exception:
+                    # Best-effort; skip silently (could log if logging added)
+                    pass
+    return df
+
 
 def read_input(filepath):
     """
@@ -140,6 +203,7 @@ def parse(data):
             try:
                 df = pd.read_csv(file, sep=r"\s+", comment="#", skip_blank_lines=True)
                 df = df.dropna()  # fix if last row is just END with nans
+                df = _enforce_column_dtypes(df)
                 tables[name] = df
             except Exception as ex:
                 print(
