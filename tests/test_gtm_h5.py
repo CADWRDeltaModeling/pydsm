@@ -76,6 +76,16 @@ class TestGTMH5:
         dfr = pd.read_pickle(fname)
         pd.testing.assert_frame_equal(dfr, df)
 
+    def test_get_channel_concentration_all(self, gtm):
+        df = gtm.get_channel_concentration("ec", "all", "upstream")
+        assert len(df) > 100
+        fname = os.path.join(os.path.dirname(__file__), "data", "gtm_ec_all_up.pkl")
+        # --- regression saves for compare
+        df.to_pickle(fname)
+        return
+        dfr = pd.read_pickle(fname)
+        pd.testing.assert_frame_equal(dfr, df)
+
     def xtest_get_channel_avg_concentration(self, gtm):
         df = gtm.get_channel_avg_concentration("ec", "441")
         assert len(df) > 100

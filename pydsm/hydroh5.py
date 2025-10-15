@@ -340,10 +340,7 @@ class HydroH5:
             )
         else:
             raise RuntimeError(
-                "Channel id should be string, sequence of strings or slice: Called with : "
-                + channel_id_slice
-                + " of type "
-                + type(channel_id_slice)
+                f"Channel id should be string, sequence of strings or slice: Called with: {channel_id_slice!r} of type {type(channel_id_slice)}"
             )
 
     def _channel_locations_to_indicies(self, channel_location_slice):
@@ -352,16 +349,13 @@ class HydroH5:
         """
         if isinstance(channel_location_slice, str):
             return self.channel_location2index[channel_location_slice]
-        elif self._is_sequence_like(channel_location_slice):
+        elif dsm2h5.is_sequence_like(channel_location_slice):
             return [self.channel_location2index[id] for id in channel_location_slice]
         elif isinstance(channel_location_slice, slice):
             return channel_location_slice
         else:
             raise RuntimeError(
-                "Channel location should be string, sequence of strings or slice: Called with : "
-                + channel_location_slice
-                + " of type "
-                + type(channel_location_slice)
+                f"Channel location should be string, sequence of strings or slice: Called with: {channel_location_slice!r} of type {type(channel_location_slice)}"
             )
 
     def _get_channel_ts(
@@ -372,11 +366,36 @@ class HydroH5:
             list of channels
             channel_location ('upstream' or 'downstream')
             timewindow in the format of <<start time str>> - <<end time str>>, e.g. 01JAN1990 - 05JUL1992
+
+        Parameters
+        ----------
+        table_path : str
+            HDF5 dataset path.
+        channels : str | list[str]
+            Channel identifier(s). May be a single channel number, a list of
+            channel numbers, or the special keyword "all" (case-insensitive)
+            which expands to every channel in input order.
+        location : str | None, default "upstream"
+            Either "upstream" or "downstream"; ignored (pass None) for tables
+            without a location dimension (e.g. avg area).
+        timewindow : str | None
+            Optional DSM2 style time window "START-END". If provided the
+            returned DataFrame will be subset to this interval.
+
+        Returns
+        -------
+        pandas.DataFrame
+            Time-indexed data with one column per requested channel (and
+            location suffix when applicable, e.g. CHANID-upstream).
         """
         if isinstance(channels, list):
             channels = [str(c) for c in channels]
         else:
             channels = str(channels)
+        # Expand special keyword 'all' to every channel (ordered as in input table)
+        if isinstance(channels, str) and channels.lower() == "all":
+            all_df = self.get_channels()
+            channels = list(all_df["chan_no"].astype(str).values)
         channel_indices = self._channel_ids_to_indicies(channels)
         if location:
             location_indices = self._channel_locations_to_indicies(location)
@@ -436,16 +455,45 @@ class HydroH5:
         )
 
     def get_channel_flow(self, channel_id, location_id="upstream", timewindow=None):
+        """Return channel flow time series.
+
+        Parameters
+        ----------
+        channel_id : str | int | list[str|int]
+            Channel identifier(s). May be a single id, a list of ids, or the
+            special keyword "all" (case-insensitive) to include every channel
+            in input order.
+        location_id : str, default "upstream"
+            Channel end: "upstream" or "downstream".
+        timewindow : str | None
+            Optional DSM2 style window "START-END" (e.g. "05JAN1990 - 07JAN1990").
+
+        Returns
+        -------
+        pandas.DataFrame
+            Time-indexed flow with one column per channel (column names
+            include the location suffix when applicable).
+        """
         return self._get_channel_ts(
             "/hydro/data/channel flow", channel_id, location_id, timewindow
         )
 
     def get_channel_area(self, channel_id, location_id="upstream", timewindow=None):
+        """Return channel area time series.
+
+        Supports the same channel selection and timewindow semantics as
+        `get_channel_flow` (including the "all" keyword).
+        """
         return self._get_channel_ts(
             "/hydro/data/channel area", channel_id, location_id, timewindow
         )
 
     def get_channel_stage(self, channel_id, location_id="upstream", timewindow=None):
+        """Return channel stage time series (computed from depth + bottom).
+
+        Parameters mirror `get_channel_flow`. The "all" channel keyword and
+        upstream/downstream `location_id` are supported.
+        """
         channel_depth = self._get_channel_ts(
             "/hydro/data/channel stage", channel_id, location_id, timewindow
         )
@@ -462,6 +510,15 @@ class HydroH5:
         return channel_stage
 
     def get_channel_avg_area(self, channel_id, timewindow=None):
+        """Return channel average area time series (no location dimension).
+
+        Parameters
+        ----------
+        channel_id : str | int | list[str|int]
+            Channel identifier(s) or "all".
+        timewindow : str | None
+            Optional DSM2 style window "START-END".
+        """
         return self._get_channel_ts(
             "/hydro/data/channel avg area",
             channel_id,

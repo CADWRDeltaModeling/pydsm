@@ -251,10 +251,7 @@ class QualH5:
             return [self.constituents[id] for id in constituent_name]
         else:
             raise RuntimeError(
-                "constituent_name should be string, sequence of strings:"
-                + constituent_name
-                + " of type "
-                + type(constituent_name)
+                f"constituent_name should be string or sequence of strings: Called with {constituent_name!r} of type {type(constituent_name)}"
             )
 
     def _channel_ids_to_sequence(self, channel_id_slice):
@@ -270,7 +267,12 @@ class QualH5:
         """
         convert a slice of channel ids to a slice of channel indices into data table
         """
+        # Support special keyword 'all' to select all channels
         if isinstance(channel_id_slice, str):
+            if channel_id_slice.lower() == "all":
+                # Return all indices in order
+                # channel_index2number maps index->number; keys are indices
+                return list(self.channel_index2number.keys())
             return self.channel_number2index[channel_id_slice]
         elif dsm2h5.is_sequence_like(channel_id_slice):
             return [self.channel_number2index[id] for id in channel_id_slice]
@@ -278,10 +280,7 @@ class QualH5:
             return channel_id_slice
         else:
             raise RuntimeError(
-                "Channel id should be string, sequence of strings or slice: Called with : "
-                + channel_id_slice
-                + " of type "
-                + type(channel_id_slice)
+                f"Channel id should be string, sequence of strings or slice: Called with: {channel_id_slice!r} of type {type(channel_id_slice)}"
             )
 
     def _channel_locations_to_indicies(self, channel_location_slice):
@@ -290,16 +289,13 @@ class QualH5:
         """
         if isinstance(channel_location_slice, str):
             return self.channel_location2index[channel_location_slice]
-        elif self._is_sequence_like(channel_location_slice):
+        elif dsm2h5.is_sequence_like(channel_location_slice):
             return [self.channel_location2index[id] for id in channel_location_slice]
         elif isinstance(channel_location_slice, slice):
             return channel_location_slice
         else:
             raise RuntimeError(
-                "Channel location should be string, sequence of strings or slice: Called with : "
-                + channel_location_slice
-                + " of type "
-                + type(channel_location_slice)
+                f"Channel location should be string, sequence of strings or slice: Called with: {channel_location_slice!r} of type {type(channel_location_slice)}"
             )
 
     def _get_channel_ts(
@@ -316,12 +312,42 @@ class QualH5:
             list of channels
             channel_location ('upstream' or 'downstream')
             timewindow in the format of <<start time str>> - <<end time str>>, e.g. 01JAN1990 - 05JUL1992
+
+        Parameters
+        ----------
+        table_path : str
+            HDF5 dataset path.
+        constituent_names : str | list[str]
+            Constituent(s) whose concentrations are requested.
+        channels : str | list[str]
+            Channel identifier(s). May be a single channel number, a list of
+            numbers, or the special keyword "all" (case-insensitive) which
+            expands to every channel in the tide file in index order.
+        location : str | None, default "upstream"
+            Either "upstream" or "downstream"; ignored (pass None) for
+            datasets without the location dimension (e.g. avg concentration).
+        timewindow : str | None
+            Optional DSM2 style time window "START-END". If provided the
+            result is limited to that interval.
+
+        Returns
+        -------
+        pandas.DataFrame
+            Time-indexed data with one column per requested channel (and
+            location suffix when applicable).
         """
         constituent_indices = self._names_to_constituent_indices(constituent_names)
         if isinstance(channels, list):
             channels = [str(c) for c in channels]
         else:
             channels = str(channels)
+        # Expand 'all' into the full ordered channel list for proper column naming
+        if isinstance(channels, str) and channels.lower() == "all":
+            # Reconstruct ordered list of channel numbers by index order
+            channels = [
+                self.channel_index2number[i]
+                for i in sorted(self.channel_index2number.keys())
+            ]
         channel_indices = self._channel_ids_to_indicies(channels)
         if location:
             location_indices = self._channel_locations_to_indicies(location)
@@ -360,8 +386,25 @@ class QualH5:
     def get_channel_concentration(
         self, constituent_name, channel_id, location_id="upstream", timewindow=None
     ):
-        """
-        get channel concentration table
+        """Return channel concentration time series for a constituent.
+
+        Parameters
+        ----------
+        constituent_name : str
+            Constituent identifier (e.g. 'ec').
+        channel_id : str | int | list[str|int]
+            Channel identifier(s) or the special keyword "all" for every
+            channel. Lists can mix ints/strings.
+        location_id : str, default "upstream"
+            Channel end: "upstream" or "downstream".
+        timewindow : str | None
+            Optional DSM2 style window "START-END" (e.g. "15JAN2020 - 31JAN2020").
+
+        Returns
+        -------
+        pandas.DataFrame
+            Time-indexed concentrations with one column per requested channel
+            (location suffix included when applicable).
         """
         return self._get_channel_ts(
             "/output/channel concentration",
@@ -374,8 +417,16 @@ class QualH5:
     def get_channel_avg_concentration(
         self, constituent_name, channel_id, timewindow=None
     ):
-        """
-        get channel average concentration table
+        """Return channel average concentration time series (no location dimension).
+
+        Parameters
+        ----------
+        constituent_name : str
+            Constituent identifier.
+        channel_id : str | int | list[str|int]
+            Channel identifier(s) or "all".
+        timewindow : str | None
+            Optional DSM2 style window.
         """
         return self._get_channel_ts(
             "/output/channel avg concentration",
