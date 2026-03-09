@@ -1,43 +1,38 @@
-name: dev_pydsm
+# Developer environment — core runtime + viz + test extras.
+# Corresponds to pyproject.toml [project.dependencies]
+#   + [project.optional-dependencies.viz]
+#   + [project.optional-dependencies.test]
+#
+# Create:  conda env create -f environment_dev.yml
+# Update:  conda env update -f environment_dev.yml --prune
+name: pydsm-dev
 channels:
   - conda-forge
   - cadwr-dms
   - nodefaults
 dependencies:
-  - python=3.11
+  - python>=3.10,<3.14
   - pip
-  - ipykernel
-  - decorator
-  - hdf5
-  - h5py
-  - numpy<2
-  - pandas
-  - xarray
-  - pyarrow
-  - geopandas
+  # --- core runtime (mirrors pyproject.toml [project.dependencies]) ---
+  - click
   - networkx
-  - dask
+  - h5py
+  - pandas
+  - numpy
+  - numba
   - diskcache
   - tabulate
-  # viz
-  - bokeh
-  - matplotlib
-  - holoviews
-  - geoviews
-  - hvplot
-  - datashader
-  - panel
-  # custom packages
   - pyhecdss
   - vtools3
-  # dev tools
+  # --- viz extras (pyproject.toml [project.optional-dependencies.viz]) ---
+  - geopandas
+  - shapely
+  # --- test extras (pyproject.toml [project.optional-dependencies.test]) ---
+  - pytest>=7
+  - pytest-cov
+  - pyarrow
+  # --- code quality ---
   - black
-  - pytest
-  - pytest-cov
-  - pytest-runner
-  - nbsphinx
-  - sphinx-autobuild
-  - pandoc
-  - coverage
-  - pytest-cov
-  # pip install -e . this package
+  - flake8
+  - pip:
+      - -e .        # installs pydsm itself in editable mode

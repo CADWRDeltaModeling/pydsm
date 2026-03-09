@@ -1,34 +1,30 @@
+# User environment — core runtime + viz extras.
+# Corresponds to pyproject.toml [project.dependencies] + [project.optional-dependencies.viz]
+#
+# Create:  conda env create -f environment.yml
+# Update:  conda env update -f environment.yml --prune
 name: pydsm
 channels:
   - conda-forge
   - cadwr-dms
   - nodefaults
 dependencies:
-  - python=3.11
+  - python>=3.10,<3.14
   - pip
-  - ipykernel
-  - decorator
-  - hdf5
-  - h5py
-  - numpy<2
-  - pandas
-  - xarray
-  - pyarrow
-  - geopandas
+  # --- core runtime (mirrors pyproject.toml [project.dependencies]) ---
+  - click
   - networkx
-  - dask
+  - h5py
+  - pandas
+  - numpy
+  - numba
   - diskcache
   - tabulate
-  # viz
-  - bokeh
-  - matplotlib
-  - holoviews
-  - geoviews
-  - hvplot
-  - datashader
-  - panel
-  # custom packages
+  # --- viz extras (pyproject.toml [project.optional-dependencies.viz]) ---
+  - geopandas
+  - shapely
+  # --- conda-only / custom-channel packages ---
   - pyhecdss
   - vtools3
   - pip:
-      - -e git+https://github.com/CADWRDeltaModeling/pydsm#egg=pydsm
+      - -e .        # installs pydsm itself in editable mode

@@ -1,44 +1,46 @@
+# Full environment — core runtime + viz + test + docs extras.
+# Use for documentation builds, notebook execution, and CI.
+# Corresponds to pyproject.toml [project.dependencies]
+#   + [project.optional-dependencies.viz]
+#   + [project.optional-dependencies.test]
+#   + [project.optional-dependencies.docs]
+#
+# Create:  conda env create -f environment-docs.yml
+# Update:  conda env update -f environment-docs.yml --prune
 name: pydsm-docs
 channels:
   - conda-forge
   - cadwr-dms
   - nodefaults
 dependencies:
-  # Core runtime (mirrors environment.yml)
   - python=3.11
   - pip
-  - ipykernel
-  - decorator
-  - hdf5
-  - h5py
-  - numpy<2
-  - pandas
-  - xarray
-  - pyarrow
-  - geopandas
+  # --- core runtime (mirrors pyproject.toml [project.dependencies]) ---
+  - click
   - networkx
-  - dask
+  - h5py
+  - pandas
+  - numpy
+  - numba
   - diskcache
   - tabulate
-  # Visualization stack
-  - bokeh
-  - matplotlib
-  - holoviews
-  - geoviews
-  - hvplot
-  - datashader
-  - panel
-  # Custom packages from channel(s)
   - pyhecdss
   - vtools3
-  # Documentation specific additions
+  # --- viz extras (pyproject.toml [project.optional-dependencies.viz]) ---
+  - geopandas
+  - shapely
+  # --- test extras (pyproject.toml [project.optional-dependencies.test]) ---
+  - pytest>=7
+  - pytest-cov
+  - pyarrow
+  # --- docs extras (pyproject.toml [project.optional-dependencies.docs]) ---
   - sphinx
   - nbsphinx
   - sphinx-rtd-theme
+  - sphinx-autobuild
   - jupyter
   - nbconvert
   - pandoc
-  # Optional speed / compilation helpers (leave commented for now)
-  # - numba
+  - ipykernel
   - pip:
-      - .
+      - .           # installs pydsm (non-editable) for docs build
