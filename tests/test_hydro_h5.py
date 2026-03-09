@@ -1,7 +1,7 @@
 import os
 import pytest
-from pydsm import dsm2h5
-from pydsm.hydroh5 import HydroH5
+from pydsm.output import dsm2h5
+from pydsm.output.hydroh5 import HydroH5
 import numpy as np
 import pandas as pd
 
@@ -93,7 +93,7 @@ class TestHydroH5:
         f441 = hydro.get_channel_flow("441", "upstream")
         assert f441.count().iloc[0] == 1393
 
-    def test_get_channel_flow(self, hydro):
+    def test_get_channel_flow(self, hydro, assert_frame_fixture):
         flow4up = hydro.get_channel_flow("4", "upstream")
         flow4down = hydro.get_channel_flow("4", "downstream")
         assert flow4down.count().iloc[0] == 1393
@@ -102,12 +102,7 @@ class TestHydroH5:
         assert len(flow4_5up.columns) == 2
         assert flow4_5up.mean().iloc[0] == pytest.approx(1244.4728)
         assert flow4_5up.mean().iloc[1] == pytest.approx(1248.0035)
-        # --- regression saves for compare
-        # flow4up.to_pickle('flow4up.pkl')
-        # return
-        fname = os.path.join(os.path.dirname(__file__), "data", "flow4up.pkl")
-        cflow4up = pd.read_pickle(fname)
-        pd.testing.assert_frame_equal(cflow4up, flow4up)
+        assert_frame_fixture(flow4up, "flow4up")
         # --- get with time window
         flow4uptw = hydro.get_channel_flow("4", "upstream", "05JAN1990 - 07JAN1990")
         assert flow4uptw.index[0] == pd.to_datetime("05JAN1990")
@@ -117,25 +112,15 @@ class TestHydroH5:
             == flow4uptw.loc["05JAN1990 2300"].iloc[0]
         )
 
-    def test_get_channel_area(self, hydro):
+    def test_get_channel_area(self, hydro, assert_frame_fixture):
         area4up = hydro.get_channel_area("4", "upstream")
-        # --- regression saves for compare
-        # area4up.to_pickle('area4up.pkl')
-        # return
-        fname = os.path.join(os.path.dirname(__file__), "data", "area4up.pkl")
-        carea4up = pd.read_pickle(fname)
-        pd.testing.assert_frame_equal(carea4up, area4up)
+        assert_frame_fixture(area4up, "area4up")
 
-    def test_get_channel_stage(self, hydro):
+    def test_get_channel_stage(self, hydro, assert_frame_fixture):
         stage4up = hydro.get_channel_stage("4", "upstream")
-        # --- regression saves for compare
-        # stage4up.to_pickle("stage4up.pkl")
-        # return
-        fname = os.path.join(os.path.dirname(__file__), "data", "stage4up.pkl")
-        cstage4up = pd.read_pickle(fname)
-        pd.testing.assert_frame_equal(cstage4up, stage4up)
+        assert_frame_fixture(stage4up, "stage4up")
 
-    def test_get_channel_stage_asint(self, hydro):
+    def test_get_channel_stage_asint(self, hydro, assert_frame_fixture):
         """For makeing sure integer channel ids are supported.
 
         Parameters
@@ -144,31 +129,16 @@ class TestHydroH5:
             [description]
         """
         stage4up = hydro.get_channel_stage(4, "upstream")
-        # --- regression saves for compare
-        # stage4up.to_pickle("stage4up.pkl")
-        # return
-        fname = os.path.join(os.path.dirname(__file__), "data", "stage4up.pkl")
-        cstage4up = pd.read_pickle(fname)
-        pd.testing.assert_frame_equal(cstage4up, stage4up)
+        assert_frame_fixture(stage4up, "stage4up")
 
-    def test_channel_stage_291(self, hydro):
+    def test_channel_stage_291(self, hydro, assert_frame_fixture):
         """Test channel stage for POST-108"""
         stage291 = hydro.get_channel_stage("291", "upstream")
-        # --- regression saves for compare
-        # stage291.to_pickle("stage291.pkl")
-        # return
-        fname = os.path.join(os.path.dirname(__file__), "data", "stage291.pkl")
-        cstage291 = pd.read_pickle(fname)
-        pd.testing.assert_frame_equal(cstage291, stage291)
+        assert_frame_fixture(stage291, "stage291")
 
-    def test_get_channel_avg_area(self, hydro):
+    def test_get_channel_avg_area(self, hydro, assert_frame_fixture):
         area441 = hydro.get_channel_avg_area("441")
-        fname = os.path.join(os.path.dirname(__file__), "data", "area441.pkl")
-        # --- regression saves for compare
-        # area441.to_pickle(fname)
-        # return
-        carea441 = pd.read_pickle(fname)
-        pd.testing.assert_frame_equal(carea441, area441)
+        assert_frame_fixture(area441, "area441")
 
     def test_get_reservoir_flow(self, hydro):
         rflow = hydro.get_reservoir_flow("franks_tract")

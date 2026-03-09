@@ -1,7 +1,7 @@
 import os
 import pytest
 import pandas as pd
-from pydsm.hydroh5 import HydroH5
+from pydsm.output.hydroh5 import HydroH5
 
 
 @pytest.fixture(scope="module")

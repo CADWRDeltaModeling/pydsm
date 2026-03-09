@@ -1,7 +1,7 @@
 import os
 import pytest
 import pandas as pd
-from pydsm.qualh5 import QualH5
+from pydsm.output.qualh5 import QualH5
 
 
 @pytest.fixture(scope="module")

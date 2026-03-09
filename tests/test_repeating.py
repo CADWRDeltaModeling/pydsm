@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from pydsm.repeating_timeseries import (
+from pydsm.input.repeating_timeseries import (
     create_repeating_timeseries,
     extend_repeating_timeseries,
 )

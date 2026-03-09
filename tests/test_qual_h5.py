@@ -1,6 +1,6 @@
 import os
 import pytest
-from pydsm.qualh5 import QualH5, dsm2h5
+from pydsm.output.qualh5 import QualH5, dsm2h5
 import numpy as np
 import pandas as pd
 
@@ -79,25 +79,15 @@ class TestQualH5:
         assert dsm2h5.is_sequence_like([])
         assert dsm2h5.is_sequence_like(np.array(5))
 
-    def test_get_channel_concentration_441(self, qual):
+    def test_get_channel_concentration_441(self, qual, assert_frame_fixture):
         df = qual.get_channel_concentration("ec", "441", "upstream")
         assert len(df) > 100
-        fname = os.path.join(os.path.dirname(__file__), "data", "ec_441_up.pkl")
-        # --- regression saves for compare
-        # df.to_pickle(fname)
-        # return
-        dfr = pd.read_pickle(fname)
-        pd.testing.assert_frame_equal(dfr, df)
+        assert_frame_fixture(df, "ec_441_up")
 
-    def test_get_channel_avg_concentration(self, qual):
+    def test_get_channel_avg_concentration(self, qual, assert_frame_fixture):
         df = qual.get_channel_avg_concentration("ec", "441")
         assert len(df) > 100
-        fname = os.path.join(os.path.dirname(__file__), "data", "ec_avg_441.pkl")
-        # --- regression saves for compare
-        # df.to_pickle(fname)
-        # return
-        dfr = pd.read_pickle(fname)
-        pd.testing.assert_frame_equal(dfr, df)
+        assert_frame_fixture(df, "ec_avg_441")
 
     def test_get_channel_avg_concentration_tw(self, qual):
         df = qual.get_channel_avg_concentration("ec", "441", "05JAN1990 - 11JAN1990")
@@ -107,15 +97,10 @@ class TestQualH5:
         )
         assert len(df) > 10
 
-    def test_get_reservoir_concentration(self, qual):
+    def test_get_reservoir_concentration(self, qual, assert_frame_fixture):
         df = qual.get_reservoir_concentration("ec", "liberty")
         assert df is not None
-        fname = os.path.join(os.path.dirname(__file__), "data", "ec_liberty.pkl")
-        # --- regression saves for compare
-        # df.to_pickle(fname)
-        # return
-        dfr = pd.read_pickle(fname)
-        pd.testing.assert_frame_equal(dfr, df)
+        assert_frame_fixture(df, "ec_liberty")
 
     def test_get_reservoir_concentration_tw(self, qual):
         df = qual.get_reservoir_concentration("ec", "bethel", "11JAN1990 - 23JAN1990")

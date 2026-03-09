@@ -1,6 +1,6 @@
 import os
 import pytest
-from pydsm.qualh5 import QualH5, dsm2h5
+from pydsm.output.qualh5 import QualH5, dsm2h5
 import numpy as np
 import pandas as pd
 
@@ -66,25 +66,15 @@ class TestGTMH5:
         assert dsm2h5.is_sequence_like([])
         assert dsm2h5.is_sequence_like(np.array(5))
 
-    def test_get_channel_concentration_441(self, gtm):
+    def test_get_channel_concentration_441(self, gtm, assert_frame_fixture):
         df = gtm.get_channel_concentration("ec", "441", "upstream")
         assert len(df) > 100
-        fname = os.path.join(os.path.dirname(__file__), "data", "gtm_ec_441_up.pkl")
-        # --- regression saves for compare
-        df.to_pickle(fname)
-        return
-        dfr = pd.read_pickle(fname)
-        pd.testing.assert_frame_equal(dfr, df)
+        assert_frame_fixture(df, "gtm_ec_441_up")
 
-    def test_get_channel_concentration_all(self, gtm):
+    def test_get_channel_concentration_all(self, gtm, assert_frame_fixture):
         df = gtm.get_channel_concentration("ec", "all", "upstream")
         assert len(df) > 100
-        fname = os.path.join(os.path.dirname(__file__), "data", "gtm_ec_all_up.pkl")
-        # --- regression saves for compare
-        df.to_pickle(fname)
-        return
-        dfr = pd.read_pickle(fname)
-        pd.testing.assert_frame_equal(dfr, df)
+        assert_frame_fixture(df, "gtm_ec_all_up")
 
     def xtest_get_channel_avg_concentration(self, gtm):
         df = gtm.get_channel_avg_concentration("ec", "441")
@@ -104,15 +94,10 @@ class TestGTMH5:
         )
         assert len(df) > 10
 
-    def test_get_reservoir_concentration(self, gtm):
+    def test_get_reservoir_concentration(self, gtm, assert_frame_fixture):
         df = gtm.get_reservoir_concentration("ec", "liberty")
         assert df is not None
-        fname = os.path.join(os.path.dirname(__file__), "data", "gtm_ec_liberty.pkl")
-        # --- regression saves for compare
-        df.to_pickle(fname)
-        return
-        dfr = pd.read_pickle(fname)
-        pd.testing.assert_frame_equal(dfr, df)
+        assert_frame_fixture(df, "gtm_ec_liberty")
 
     def test_get_reservoir_concentration_tw(self, gtm):
         df = gtm.get_reservoir_concentration("ec", "liberty", "15JAN2020 - 31JAN2020")

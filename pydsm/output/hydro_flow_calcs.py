@@ -1,10 +1,9 @@
 import os
-import pydsm
 from pydsm.input import parser
 import warnings
 import pandas as pd
 import logging
-import pydsm.hydroh5
+from pydsm.output import hydroh5 as _hydroh5_module
 from vtools.functions.filter import cosine_lanczos
 import pyhecdss
 pyhecdss.set_message_level(0)
@@ -187,7 +186,7 @@ def get_tidal_outflow(h5file, channel_id):
     DataFrame
         Tidally filtered daily averaged flow at channel_id downstream
     """
-    hydro = pydsm.hydroh5.HydroH5(h5file)
+    hydro = _hydroh5_module.HydroH5(h5file)
     cflow = hydro.get_channel_flow(channel_id, 'downstream')
     tcflow = cosine_lanczos(cflow, cutoff_period='40h')
     tcflowd = tcflow.resample('D').mean()

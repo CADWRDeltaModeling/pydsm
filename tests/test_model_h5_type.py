@@ -1,6 +1,6 @@
 import h5py
 import os
-from pydsm import dsm2h5
+from pydsm.output import dsm2h5
 
 
 def test_model_type():

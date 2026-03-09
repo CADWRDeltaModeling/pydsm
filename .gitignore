@@ -120,3 +120,4 @@ docsrc/modules.rst
 docsrc/pydsm.functions.rst
 docsrc/pydsm.input.rst
 docsrc/pydsm.rst
+pydsm/_version.py

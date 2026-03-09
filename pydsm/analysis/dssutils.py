@@ -7,11 +7,11 @@ import pandas as pd
 import numpy as np
 import tqdm
 
-from pydsm.hydro_slicer import slice_hydro
-from pydsm.postpro import load_location_file, load_location_table
+from pydsm.output.hydro_slicer import slice_hydro
+from .postpro import load_location_file, load_location_table
 from pydsm.functions import tsmath
 
-from pydsm import lockutil
+from . import lockutil
 
 import hvplot.pandas
 import holoviews as hv

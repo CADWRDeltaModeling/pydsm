@@ -2,14 +2,14 @@ import os
 import pytest
 import pandas as pd
 from datetime import datetime
-from pydsm.gtmh5 import (
+from pydsm.output.gtmh5 import (
     _nearest_time,
     _format_time,
     _parse_dsm2_time,
     build_timewindow_for_time,
     get_interpolated_cell_concentrations,
 )
-from pydsm.qualh5 import QualH5
+from pydsm.output.qualh5 import QualH5
 
 
 @pytest.fixture(scope="module")

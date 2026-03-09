@@ -1,0 +1,162 @@
+OUTPUT_CHANNEL
+NAME               CHAN_NO  DISTANCE VARIABLE INTERVAL    PERIOD_OP FILE
+HLL                    117       293 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 204.6               
+SDC                    421      8657 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 161.1               
+DSJ                    274      8331 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 58.5                
+SJG                     14      3070 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 122.3     
+BAC                    106      1487 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 291.3               
+WDCUT                  243      2411 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 184.0               
+JER                     83      3579 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 405.8               
+PPT                     41      5982 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 556.2               
+CSE                    436      3771 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 1894.6              
+FRP                    273      3468 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 76.1                
+VOL                    461     10040 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 269.1               
+CYG                    474      3796 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 87.7                
+GLC                    213      2303 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 80.5                
+VIC                    135       925 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 116.8               
+RVB                    430      8310 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 1094.3              
+RIV                    430      8204 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 553.0               
+GES                    423      1838 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 140.8               
+MDM                    144       882 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 208.7               
+CM72                   392     22904 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 258.5               
+SUT                    379       500 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 38.8                
+CLL                    436      3771 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 1894.6              
+SUS                    385      1621 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 72.4                
+SUR                    184      7381 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 89.1                
+PCT                    438      9116 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 1154.9              
+BLP                     49      9521 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 357.3               
+DLC                    365      1650 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 165.2               
+BLL                    503      9307 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 31.5                
+LPS                    324      4365 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 175.1               
+CONFL                  291      4205 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 613.9               
+HWB                    388      7918 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 43.3                
+C3A                    417      2741 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 249.6               
+UNI                    59          0 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 6177.2              
+BET                    268      4594 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 252.0               
+CM66                   394     11405 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 185.1               
+DWS                    397      5894 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 170.0               
+CM62                   395     14462 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 238.1               
+MOK                    349      3524 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 378.9               
+MUP                    135       786 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 144.2               
+STI                    345       256 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 259.2               
+FPT                    414     11614 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 265.4               
+SNC                    476      8725 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 6.6                 
+PTS                    437      1458 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 1131.5              
+LIB                    404      1287 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 943.6               
+TMS                    309      6882 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 49.7                
+SAL                     45      5790 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 1020.4              
+BDT                     11        81 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 86.3                
+OBD                     80      1573 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 47.1                
+GCT                    207       114 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 65.3                
+MHR                    129       208 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 71.0                
+SMR                    337      1209 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 33.5                
+MHO                    128      8341 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 2044.6              
+SSS                    383      8827 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 106.9               
+FCT                    280      6928 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 261.6               
+BDL                    517      7644 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 207.7               
+HON                    574      7238 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 202.4               
+USC                    402      7025 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 207.7               
+HOL                    117      3581 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 302.2               
+HUN                    522     22617 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 158.1               
+SSI                    434      7548 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 955.7               
+RSL                    247      1597 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 1.6                 
+IBS                    469      4896 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 36.2                
+OH4                     90      2081 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 88.6                
+LBTOE                  395     11904 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 1006.6   
+GOD                    465      2849 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 91.9                
+RSD                    246       631 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 69.8                
+RYI                    398      6863 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 552.7               
+MTB                    133      3380 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 36.5                
+OAD                     79      3401 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 199.3               
+RYF                    398     14962 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 243.7               
+RYC                    434      7548 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 955.7               
+EMM2                   434       157 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 1331.2              
+MAL                    437     10998 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 1118.2              
+SRV                    430     12381 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 515.6               
+TRN                    172      1578 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 71.0                
+LCUT                   399      2615 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 114.1               
+OSJ                    124      1077 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 7585.7              
+VER                     17      5287 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 25.2                
+NSL                    513     13398 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 116.9               
+MSL                    512      5955 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 134.8               
+GZL                    572      5908 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 104.5               
+BENBR                  441       580 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 2083.5              
+ORQ                    119      4554 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 175.6               
+PRI                     42      1591 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 162.4               
+GZB                    573      5404 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 2153.2              
+MDMZQ                  143      3281 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 15.1                
+SR3                    310      1137 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 262.5               
+OLD                     71      2042 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 26.5                
+FAL                    279      5607 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 267.4               
+TWI                     47      7922 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 276.0               
+GSS                    366       847 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 87.0                
+GYS                    501       184 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 38.5                
+TWA                     71      5637 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 40.3                
+SWE                    422      4237 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 144.5               
+ANH                     51      9751 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 524.3               
+EMM                    434       157 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 1331.2              
+DGL                    205      2173 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 123.5               
+ANC                     51      9751 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 524.3               
+SJR                     17      5287 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 25.2                
+HLT                    155       492 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 174.8               
+SDI                    433     10008 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 933.8               
+VCU                    229      1312 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 269.9               
+SJL                      8      1521 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 88.7                
+SHAG                   401      4084 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 52.2                
+SJJ                     83      3554 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 399.7               
+MKN                    357       539 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # 42.0        
+#BOR                     70         0 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PDC                     203     5941 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+ORX                      60     4564 ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+MRZ                     441     length  ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+FLT                     451     length  ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+TPS	                194	length	ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+TPI	                194	0	ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+TPSI	                194     3500    ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+ORI                      82     1905    ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+DMC                     224     0       ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+#OBRD                    76      2843    ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # removing side channel obs
+OLRD                    74      902     ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+OTBD                    70      length  ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PCCD                    63      2570    ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+OTWW                    62      0       ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PCCU                    65      1338    ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PDUP                    202     632     ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PDC_203_0               203     length  ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PDC_203_0_1	            203     4789    ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PDC_203_0_2	            203     2789    ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PDC_203_0_3	            203     789     ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PDC_203_1	            203     0       ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PDC_202_0_1	            202     length  ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PDC_202_0_2	            202     3808    ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PDC_202_0_3	            202     1808    ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PDC_202_1	            202     0       ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PDC_201_0_1	            201     length  ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PDC_201_0_2	            201     5438    ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PDC_201_0_3	            201     3438    ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PDC_201_0_4	            201     1438    ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PDC_201_1	            201     0       ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PDC_198_0_0	            198     length  ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PDC_198_0_1	            198     5039    ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PDC_198_0_2	            198     3039    ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PDC_198_0_3	            198     1039    ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PDC_198_1	            198     0       ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PCNB                    198     6582    ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+PCSB                    201     3178  ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+SUR0                    184     0       ec    ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+WCI                    232       541  ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+MSD                      6      3184  ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+GLE	               206	1558  ec       ${FINE_OUT} inst      ${QUALOUTDSSFILE}
+OH1	                54	353	ec    ${FINE_OUT} inst	    ${QUALOUTDSSFILE}
+MRX                    134         0   ec     ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+DVI                     5          0   ec     ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+MRU	               126	2688   ec     ${FINE_OUT} inst      ${QUALOUTDSSFILE}
+TPP                    185         0   ec     ${FINE_OUT} inst      ${QUALOUTDSSFILE}
+SJD                      8      10261  ec     ${FINE_OUT} inst      ${QUALOUTDSSFILE}
+ORM	                77	1285   ec     ${FINE_OUT} inst      ${QUALOUTDSSFILE}
+TPPA                   189      1841   ec     ${FINE_OUT} inst      ${QUALOUTDSSFILE}
+SGA	                183	662	ec    ${FINE_OUT} inst	    ${QUALOUTDSSFILE}
+OAAD                    76       544   ec     ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+ORFU                    74      1678   ec     ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+GLW                    212      2378   ec     ${FINE_OUT} inst      ${QUALOUTDSSFILE}  # mannually added
+END

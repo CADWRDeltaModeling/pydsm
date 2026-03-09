@@ -1,5 +1,4 @@
-import pydsm
-from pydsm import hydroh5
+from pydsm.output import hydroh5
 from pydsm.input import read_input, write_input
 import h5py
 

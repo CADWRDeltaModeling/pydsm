@@ -2,7 +2,7 @@
 Test function for lockutil
 '''
 import os
-from pydsm import lockutil
+from pydsm.analysis import lockutil
 
 def test_lock():
 

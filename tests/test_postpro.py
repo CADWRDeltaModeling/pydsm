@@ -1,5 +1,4 @@
-import pydsm
-from pydsm import postpro
+from pydsm.analysis import postpro
 import pytest
 import numpy as np
 import pandas as pd

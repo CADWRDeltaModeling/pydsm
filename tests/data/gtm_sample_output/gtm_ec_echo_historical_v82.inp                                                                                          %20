@@ -1,0 +1,633 @@
+
+# ====================== Files used in simulation ========================
+
+# Entry file (top priority):  ./historical_gtm.inp
+# Other files, increasing priority: 
+# 1    configuration_historical.inp
+# 2    ./common_input/node_concentration_delta_historical_qual_20220124.inp
+# 3    ./common_input/node_concentration_dicu_ec_20200722.inp
+# 4    ./common_input/reservoir_concentration_dicu_ec_20090715.inp
+# 5    ./common_input/node_concentration_jones_qual_20090715.inp
+# 6    ./common_input/node_concentration_smcd_ec.inp
+# 7    ./common_input/node_concentration_potws.inp
+# 8    ./output_stations_ec100.inp
+
+
+
+#===================      Simulation input data    =====================
+
+ENVVAR
+NAME  VALUE  
+BNDRYINPUT                          ./timeseries/hist20220124.dss    
+CLIMATE                             ./timeseries/climate-5years.dss    
+DICUFILE                            ./timeseries/delta_DCD_Sep2022_Lch5_20220104_mod_obs_1.4r_2.0.dss    
+DICUFILE-ECS                        ./timeseries/dicuwq_20220124.dss    
+DICUFILE_ECE                        ./timeseries/dicuwq_20220124.dss    
+DSM2AGENCY                          dwr    
+DSM2INPUTDIR                        ./common_input    
+DSM2MODIFIER                        historical_v82    
+DSM2OUTPUTDIR                       ./output    
+END_DATE                            31DEC2021    
+END_TIME                            0000    
+EVENTSINPUT                         ./timeseries/events-20220124.dss    
+FINE_OUT                            15MIN    
+FINE_OUT_DAY                        1DAY    
+FLOWPATTERN                         ./output/FLOWPATTERN.dss    
+GATEFILE                            ./timeseries/gates-20220606.dss    
+GATEOUTPUTFILE                      ./output/historical_v82.dss    
+GTMMODIFIER                         historical_v82_gtm    
+GTM_END_DATE                        31DEC2021    
+GTM_START_DATE                      15Jan2016    
+HISTFLOWVERSION                     DWR-DMS-201707    
+HISTQUALVERSION                     DWR-DMS-201707    
+HISTSTAGEVERSION                    DWR-DMS-201707    
+HYDROOUTDSSFILE                     ./output/historical_v82_hydro.dss    
+HYDROOUTFILE                        ./output/historical_v82.hof    
+HYDRORSTFILE                        ./output/historical_v82.hrf    
+HYDROTIDEFILE                       ./output/historical_v82.h5    
+NULLZONEINPUT                       ./timeseries/nullzone-20220606.dss    
+OUTPUTFILE                          ./output/historical_v82.dss    
+POTWSINPUT                          ./timeseries/potw_ds.dss    
+PTMOUTFILE                          ./output/historical_v82.pof    
+PTMOUTPUTFILE                       ./output/ptmout.dss    
+PTM_START_DATE                      01Jan2016    
+QUALBNDINP                          ./timeseries/hist20220124.dss    
+QUALOUTDSSFILE                      ./output/historical_v82_qual.dss    
+QUALOUTFILE                         ./output/historical_v82_gtm.qof    
+QUALRSTFILE                         ./output/historical_v82_gtm.qrf    
+QUALTIDEFILE                        ./output/historical_v82_gtm_ec.h5    
+QUAL_START_DATE                     15Jan2016    
+SMCDFILEEC                          ./timeseries/SMCD_hist_wq_ec_20220124.dss    
+SOURCE_EC                           ./timeseries/pdaf_sources_added.dss    
+SSCDFILE                            ./timeseries/SMCD_pond_Sep2022.dss    
+START_DATE                          01JAN2016    
+START_TIME                          0000    
+STOCKTON_EFF_FLOW                   0.0    
+STOCKTON_FLOW_FILE                  constant    
+STUDYDIR                            .    
+TEMPDIR                             ./temp    
+TSINPUTDIR                          ./timeseries    
+VERSIONDATE                         201707    
+WWTP_FLOW_FILE                      ./timeseries/WWTP1992_2015.dss    
+END
+
+SCALAR
+NAME  VALUE  
+binary_output                       false    
+checkdata                           false    
+cont_bad                            false    
+cont_missing                        false    
+cont_question                       false    
+cont_unchecked                      true    
+dispersion                          true    
+display_intvl                       1day    
+dss_direct                          true    
+flush_output                        20day    
+gtm_dx                              1000.0    
+gtm_time_step                       5min    
+hdf_out                             channel    
+init_conc                           0.0    
+printlevel                          1    
+run_end_date                        31DEC2021    
+run_end_time                        0000    
+run_start_date                      15Jan2016    
+run_start_time                      0000    
+temp_dir                            ./temp    
+warn_missing                        false    
+warn_question                       false    
+warn_unchecked                      false    
+END
+
+IO_FILE
+MODEL  TYPE  IO  INTERVAL  FILE  
+gtm         echo        out         none          ./output/gtm_ec_echo_historical_v82.inp    
+gtm         hdf5        out         1hour         ./output/historical_gtm.h5    
+gtm         output      out         none          ./output/historical_gtm.dss    
+gtm         restart     out         1mon          ./output/restart_gtm.qrf    
+END
+
+TIDEFILE
+START_DATE  END_DATE  FILE  
+runtime             length              ./output/historical_v82.h5    
+END
+
+NODE_CONCENTRATION
+NAME  NODE_NO  VARIABLE  FILLIN  FILE  PATH  
+DEUEL               162      ec                  last            ./timeseries/potw_ds.dss    /DELTA/DEUEL_VOCATIONAL/EC//1DAY/POTW/                
+calaveras           21       ec                  last            constant    125                                                   
+cosumnes            446      ec                  last            constant    125                                                   
+dicu_drain_1        1        ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/1/DRAIN-EC//1MON/DWR-BDO/             
+dicu_drain_10       10       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/10/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_100      100      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/100/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_104      104      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/104/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_105      105      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/105/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_106      106      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/106/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_107      107      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/107/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_108      108      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/108/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_109      109      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/109/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_11       11       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/11/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_110      110      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/110/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_111      111      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/111/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_112      112      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/112/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_113      113      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/113/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_114      114      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/114/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_115      115      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/115/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_116      116      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/116/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_117      117      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/117/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_118      118      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/118/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_119      119      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/119/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_12       12       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/12/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_121      121      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/121/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_122      122      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/122/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_124      124      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/124/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_125      125      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/125/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_126      126      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/126/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_127      127      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/127/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_128      128      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/128/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_13       13       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/13/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_130      130      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/130/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_133      133      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/133/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_135      135      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/135/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_136      136      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/136/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_137      137      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/137/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_138      138      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/138/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_139      139      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/139/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_14       14       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/14/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_140      140      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/140/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_141      141      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/141/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_142      142      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/142/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_143      143      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/143/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_144      144      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/144/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_145      145      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/145/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_146      146      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/146/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_147      147      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/147/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_148      148      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/148/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_149      149      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/149/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_15       15       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/15/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_150      150      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/150/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_151      151      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/151/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_152      152      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/152/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_153      153      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/153/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_155      155      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/155/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_156      156      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/156/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_158      158      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/158/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_159      159      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/159/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_16       16       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/16/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_162      162      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/162/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_163      163      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/163/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_164      164      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/164/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_167      167      ec                  last            constant    3000                                                  
+dicu_drain_168      168      ec                  last            constant    3000                                                  
+dicu_drain_169      168      ec                  last            constant    3000                                                  
+dicu_drain_170      170      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/170/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_171      171      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/171/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_172      172      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/172/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_173      173      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/173/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_174      174      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/174/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_175      175      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/175/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_176      176      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/176/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_177      177      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/177/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_178      178      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/178/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_179      179      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/179/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_18       18       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/18/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_182      182      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/182/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_183      183      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/183/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_187      187      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/187/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_188      188      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/188/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_189      189      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/189/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_19       19       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/19/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_190      190      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/190/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_191      191      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/191/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_192      192      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/192/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_194      194      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/194/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_195      195      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/195/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_196      196      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/196/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_197      197      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/197/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_198      198      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/198/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_199      199      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/199/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_20       20       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/20/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_200      200      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/200/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_201      201      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/201/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_202      202      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/202/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_203      203      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/203/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_204      204      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/204/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_205      205      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/205/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_206      206      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/206/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_209      209      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/209/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_21       21       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/21/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_210      210      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/210/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_211      211      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/211/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_212      212      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/212/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_213      213      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/213/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_215      215      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/215/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_216      216      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/216/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_22       22       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/22/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_222      222      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/222/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_223      223      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/223/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_224      224      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/224/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_226      226      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/226/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_227      227      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/227/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_228      228      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/228/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_23       23       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/23/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_232      232      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/232/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_238      238      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/238/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_24       24       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/24/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_240      240      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/240/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_241      241      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/241/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_242      242      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/242/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_243      243      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/243/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_245      245      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/245/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_246      246      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/246/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_247      247      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/247/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_25       25       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/25/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_250      250      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/250/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_251      251      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/251/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_253      253      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/253/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_255      255      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/255/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_256      256      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/256/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_257      257      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/257/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_26       26       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/26/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_260      260      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/260/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_262      262      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/262/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_264      264      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/264/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_266      266      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/266/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_268      268      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/268/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_269      269      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/269/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_271      271      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/271/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_274      274      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/274/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_276      276      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/276/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_278      278      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/278/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_280      280      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/280/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_282      282      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/282/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_284      284      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/284/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_286      286      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/286/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_288      288      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/288/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_29       29       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/29/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_290      290      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/290/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_292      292      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/292/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_294      294      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/294/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_296      296      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/296/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_297      297      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/297/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_298      298      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/298/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_299      299      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/299/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_3        3        ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/3/DRAIN-EC//1MON/DWR-BDO/             
+dicu_drain_30       30       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/30/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_301      301      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/301/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_302      302      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/302/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_303      303      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/303/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_304      304      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/304/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_305      305      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/305/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_306      306      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/306/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_307      307      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/307/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_308      308      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/308/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_310      310      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/310/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_311      311      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/311/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_312      312      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/312/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_314      314      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/314/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_315      315      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/315/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_316      316      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/316/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_317      317      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/317/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_318      318      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/318/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_319      319      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/319/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_32       32       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/32/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_320      320      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/320/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_321      321      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/321/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_326      326      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/326/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_327      327      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/327/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_328      328      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/328/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_329      329      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/329/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_330      330      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/330/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_331      331      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/331/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_332      332      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/332/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_333      333      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/333/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_334      334      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/334/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_335      335      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/335/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_336      336      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/336/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_337      337      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/337/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_338      338      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/338/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_339      339      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/339/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_340      340      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/340/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_341      341      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/341/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_342      342      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/342/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_343      343      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/343/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_344      344      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/344/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_346      346      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/346/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_347      347      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/347/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_348      348      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/348/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_35       35       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/35/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_350      350      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/350/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_351      351      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/351/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_352      352      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/352/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_353      353      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/353/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_354      354      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/354/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_355      355      ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/355/DRAIN-EC//1MON/DWR-BDO/           
+dicu_drain_356      356      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/356/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_357      357      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/357/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_358      358      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/358/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_359      359      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/359/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_360      360      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/360/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_362      362      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/362/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_363      363      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/363/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_364      364      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/364/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_365      365      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/365/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_366      366      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/366/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_367      367      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/367/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_368      368      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/368/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_371      371      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/371/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_372      372      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/372/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_373      373      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/373/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_374      374      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/374/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_375      375      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/375/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_376      376      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/376/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_377      377      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/377/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_378      378      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/378/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_379      379      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/379/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_38       38       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/38/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_380      380      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/380/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_381      381      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/381/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_382      382      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/382/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_384      384      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/384/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_385      385      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/385/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_386      386      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/386/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_387      387      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/387/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_388      388      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/388/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_389      389      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/389/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_39       39       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/39/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_390      390      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/390/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_391      391      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/391/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_392      392      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/392/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_393      393      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/393/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_394      394      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/394/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_395      395      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/395/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_396      396      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/396/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_398      398      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/398/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_399      399      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/399/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_4        4        ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/4/DRAIN-EC//1MON/DWR-BDO/             
+dicu_drain_40       40       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/40/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_400      400      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/400/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_403      403      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/403/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_404      404      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/404/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_405      405      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/405/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_406      406      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/406/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_408      408      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/408/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_409      409      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/409/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_41       41       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/41/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_410      410      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/410/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_412      412      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/412/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_413      413      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/413/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_417      417      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/417/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_418      418      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/418/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_42       42       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/42/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_420      420      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/420/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_421      421      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/421/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_422      422      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/422/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_425      425      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/425/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_428      428      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/428/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_43       43       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/43/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_432      432      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/432/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_433      433      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/433/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_434      434      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/434/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_436      436      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/436/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_44       44       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/44/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_440      440      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/440/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_442      442      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/442/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_443      443      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/443/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_444      444      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/444/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_445      445      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/445/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_45       45       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/45/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_46       46       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/46/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_463      463      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/463/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_464      464      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/464/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_465      465      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/465/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_466      466      ec                  last            ./timeseries/SMCD_hist_wq_ec_20220124.dss    /DCD_DSM2NODE/466/DRAIN-EC//1DAY/DWR-BDO/             
+dicu_drain_47       47       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/47/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_48       48       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/48/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_49       49       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/49/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_5        5        ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/5/DRAIN-EC//1MON/DWR-BDO/             
+dicu_drain_50       50       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/50/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_51       51       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/51/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_52       52       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/52/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_53       53       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/53/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_54       54       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/54/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_55       55       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/55/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_56       56       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/56/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_58       58       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/58/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_59       59       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/59/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_6        6        ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/6/DRAIN-EC//1MON/DWR-BDO/             
+dicu_drain_60       60       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/60/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_61       61       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/61/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_62       62       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/62/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_63       63       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/63/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_64       64       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/64/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_65       65       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/65/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_66       66       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/66/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_67       67       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/67/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_68       68       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/68/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_7        7        ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/7/DRAIN-EC//1MON/DWR-BDO/             
+dicu_drain_70       70       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/70/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_71       71       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/71/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_72       72       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/72/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_73       73       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/73/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_74       74       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/74/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_75       75       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/75/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_77       77       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/77/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_78       78       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/78/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_79       79       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/79/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_8        8        ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/8/DRAIN-EC//1MON/DWR-BDO/             
+dicu_drain_80       80       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/80/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_81       81       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/81/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_82       82       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/82/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_84       84       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/84/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_85       85       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/85/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_86       86       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/86/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_89       89       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/89/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_9        9        ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/9/DRAIN-EC//1MON/DWR-BDO/             
+dicu_drain_91       91       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/91/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_92       92       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/92/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_93       93       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/93/DRAIN-EC//1MON/DWR-BDO/            
+dicu_drain_98       98       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+NODE/98/DRAIN-EC//1MON/DWR-BDO/            
+jones_out           118      ec                  last            ./timeseries/events-20220124.dss    /HIST+CHAN/JONES/EC//1DAY/DWR-DMS/                    
+jones_pumpout       121      ec                  last            ./timeseries/events-20220124.dss    /HIST+CHAN/JONES/EC//1DAY/DWR-DMS/                    
+manteca             6        ec                  last            ./timeseries/potw_ds.dss    /DELTA/MANTECA/EC//1DAY/POTW/                         
+moke                447      ec                  last            constant    125                                                   
+mtn_house           67       ec                  last            ./timeseries/potw_ds.dss    /DELTA/MTN_HOUSE/EC//1DAY/POTW/                       
+mtz                 361      ec                  last            ./timeseries/hist20220124.dss    /FILL+CHAN/RSAC054/EC//1HOUR/DWR-DMS-201707_CORRECTED/    
+reg_san             335      ec                  last            ./timeseries/potw_ds.dss    /DELTA/SAC_REGIONAL/EC//1DAY/POTW/                    
+sac                 330      ec                  last            ./timeseries/hist20220124.dss    /FILL+CHAN/RSAC139/EC//1DAY/DWR-DMS-201707/           
+tracy               55       ec                  last            ./timeseries/potw_ds.dss    /DELTA/TRACY_01/EC//1DAY/POTW/                        
+vernalis            17       ec                  last            ./timeseries/hist20220124.dss    /FILL+CHAN/RSAN112/EC//1DAY/DWR-DMS-201707/           
+yolo                316      ec                  last            ./timeseries/hist20220124.dss    /FILL+CHAN/RSAC317/EC//1DAY/DWR-DMS-201707/           
+END
+
+RESERVOIR_CONCENTRATION
+NAME  RES_NAME  VARIABLE  FILLIN  FILE  PATH  
+dicu_drain_bbid     clifton_court       ec                  last            ./timeseries/dicuwq_20220124.dss    /DICU-HIST+RSVR/BBID/DRAIN-EC//1MON/DWR-BDO/          
+END
+
+INPUT_TIME_SERIES
+GROUP_NAME  VARIABLE  FILLIN  FILE  PATH  
+END
+
+INPUT_CLIMATE
+NAME  VARIABLE  FILLIN  FILE  PATH  
+END
+
+GROUP
+NAME  
+END
+
+GROUP_MEMBER
+GROUP_NAME  MEMBER_TYPE  PATTERN  
+END
+
+GROUP_VARIABLE
+GROUP_NAME  CONSTITUENT  VARIABLE  VALUE  
+END
+
+GROUP_VARIABLE_SED
+GROUP_NAME  SED_ZONE  SED_LAYER  VARIABLE  VALUE  
+END
+
+OUTPUT_CHANNEL
+NAME  CHAN_NO  DISTANCE  VARIABLE  INTERVAL  PERIOD_OP  FILE  
+ANC                 51       9751            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+ANH                 51       9751            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+BAC                 106      1487            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+BDL                 517      7644            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+BDT                 11       81              ec              15MIN         inst          ./output/historical_v82_qual.dss    
+BENBR               441      580             ec              15MIN         inst          ./output/historical_v82_qual.dss    
+BET                 268      4594            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+BLL                 503      9307            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+BLP                 49       9521            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+C3A                 417      2741            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+CLL                 436      3771            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+CM62                395      14462           ec              15MIN         inst          ./output/historical_v82_qual.dss    
+CM66                394      11405           ec              15MIN         inst          ./output/historical_v82_qual.dss    
+CM72                392      22904           ec              15MIN         inst          ./output/historical_v82_qual.dss    
+CONFL               291      4205            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+CSE                 436      3771            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+CYG                 474      3796            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+DGL                 205      2173            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+DLC                 365      1650            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+DMC                 224      0               ec              15MIN         inst          ./output/historical_v82_qual.dss    
+DSJ                 274      8331            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+DWS                 397      5894            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+EMM                 434      157             ec              15MIN         inst          ./output/historical_v82_qual.dss    
+EMM2                434      157             ec              15MIN         inst          ./output/historical_v82_qual.dss    
+FAL                 279      5607            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+FCT                 280      6928            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+FLT                 451      length          ec              15MIN         inst          ./output/historical_v82_qual.dss    
+FPT                 414      11614           ec              15MIN         inst          ./output/historical_v82_qual.dss    
+FRP                 273      3468            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+GCT                 207      114             ec              15MIN         inst          ./output/historical_v82_qual.dss    
+GES                 423      1838            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+GLC                 213      2303            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+GOD                 465      2849            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+GSS                 366      847             ec              15MIN         inst          ./output/historical_v82_qual.dss    
+GYS                 501      184             ec              15MIN         inst          ./output/historical_v82_qual.dss    
+GZB                 573      5404            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+GZL                 572      5908            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+HLL                 117      293             ec              15MIN         inst          ./output/historical_v82_qual.dss    
+HLT                 155      492             ec              15MIN         inst          ./output/historical_v82_qual.dss    
+HOL                 117      3581            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+HON                 574      7238            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+HUN                 522      22617           ec              15MIN         inst          ./output/historical_v82_qual.dss    
+HWB                 388      7918            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+IBS                 469      4896            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+JER                 83       3579            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+LBTOE               395      11904           ec              15MIN         inst          ./output/historical_v82_qual.dss    
+LCUT                399      2615            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+LIB                 404      1287            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+LPS                 324      4365            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+MAL                 437      10998           ec              15MIN         inst          ./output/historical_v82_qual.dss    
+MDM                 144      882             ec              15MIN         inst          ./output/historical_v82_qual.dss    
+MDMZQ               143      3281            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+MHO                 128      5071            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+MHR                 129      208             ec              15MIN         inst          ./output/historical_v82_qual.dss    
+MKN                 357      539             ec              15MIN         inst          ./output/historical_v82_qual.dss    
+MOK                 349      3524            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+MRZ                 441      length          ec              15MIN         inst          ./output/historical_v82_qual.dss    
+MSL                 512      5955            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+MTB                 133      3380            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+MUP                 135      786             ec              15MIN         inst          ./output/historical_v82_qual.dss    
+NSL                 513      13398           ec              15MIN         inst          ./output/historical_v82_qual.dss    
+OAD                 79       3401            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+OBD                 80       1573            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+OH4                 90       2081            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+OLD                 71       3030            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+ORI                 82       1905            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+ORM                 77       400             ec              15MIN         inst          ./output/historical_v82_qual.dss    
+ORQ                 119      4554            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+ORX                 60       1390            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+OSJ                 124      1077            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+PCT                 438      9116            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+PDC                 203      1820            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+PPT                 41       5982            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+PRI                 42       1591            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+PTS                 437      1458            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+RIV                 430      8204            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+RSD                 246      631             ec              15MIN         inst          ./output/historical_v82_qual.dss    
+RSL                 247      1597            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+RVB                 430      8310            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+RYC                 434      7548            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+RYF                 398      14962           ec              15MIN         inst          ./output/historical_v82_qual.dss    
+RYI                 398      6863            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+SAL                 45       5790            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+SDC                 421      8657            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+SDI                 433      10008           ec              15MIN         inst          ./output/historical_v82_qual.dss    
+SHAG                401      4084            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+SJG                 14       3070            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+SJJ                 83       3554            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+SJL                 8        1521            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+SJR                 17       5287            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+SMR                 337      1209            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+SNC                 476      8725            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+SR3                 310      1137            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+SRV                 430      12381           ec              15MIN         inst          ./output/historical_v82_qual.dss    
+SSI                 434      7548            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+SSS                 383      8827            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+STI                 345      256             ec              15MIN         inst          ./output/historical_v82_qual.dss    
+SUR                 184      7381            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+SUS                 385      1621            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+SUT                 379      500             ec              15MIN         inst          ./output/historical_v82_qual.dss    
+SWE                 422      4237            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+TMS                 309      6882            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+TPI                 194      0               ec              15MIN         inst          ./output/historical_v82_qual.dss    
+TPS                 194      length          ec              15MIN         inst          ./output/historical_v82_qual.dss    
+TPSI                194      3500            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+TRN                 172      1578            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+TWA                 71       5637            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+TWI                 47       7922            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+UNI                 59       0               ec              15MIN         inst          ./output/historical_v82_qual.dss    
+USC                 402      7025            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+VCU                 229      1312            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+VER                 17       5287            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+VIC                 135      925             ec              15MIN         inst          ./output/historical_v82_qual.dss    
+VOL                 461      10040           ec              15MIN         inst          ./output/historical_v82_qual.dss    
+WDCUT               243      2411            ec              15MIN         inst          ./output/historical_v82_qual.dss    
+END
+
+OUTPUT_RESERVOIR
+NAME  RES_NAME  NODE  VARIABLE  INTERVAL  PERIOD_OP  FILE  
+END
+
+OUTPUT_CHANNEL_SOURCE_TRACK
+NAME  CHAN_NO  DISTANCE  VARIABLE  SOURCE_GROUP  INTERVAL  PERIOD_OP  FILE  
+END
+
+OUTPUT_RESERVOIR_SOURCE_TRACK
+NAME  RES_NAME  VARIABLE  SOURCE_GROUP  INTERVAL  PERIOD_OP  FILE  
+END
+
+SUSPENDED_SEDIMENT_TYPE
+COMPOSITION  
+END
+
+SUSPENDED_SEDIMENT_BOUNDARY
+NAME  COMPOSITION  PERCENT  
+END
+
+GROUP_VARIABLE_SED
+GROUP_NAME  SED_ZONE  SED_LAYER  VARIABLE  VALUE  
+END
+

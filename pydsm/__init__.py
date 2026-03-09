@@ -13,5 +13,7 @@ __all__ = [
 ]
 
 from ._version import __version__
-from .gtmh5 import build_timewindow_for_time, get_interpolated_cell_concentrations
-from .create_gtm_restart import write_gtm_restart
+from .output.gtmh5 import build_timewindow_for_time, get_interpolated_cell_concentrations
+from .output.create_gtm_restart import write_gtm_restart
+
+

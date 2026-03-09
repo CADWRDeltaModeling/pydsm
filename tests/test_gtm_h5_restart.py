@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from pydsm.gtmh5 import (
+from pydsm.output.gtmh5 import (
     build_timewindow_for_time,
     get_interpolated_cell_concentrations,
     _DSM2_TIME_FORMAT,

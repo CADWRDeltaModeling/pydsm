@@ -1,14 +1,14 @@
 import click
 import sys
 
-from pydsm.hydro_slicer import slice_hydro
-from pydsm.postpro import load_location_file, load_location_table
+from pydsm.output.hydro_slicer import slice_hydro
+from pydsm.analysis.postpro import load_location_file, load_location_table
 from pydsm.functions import tsmath
-from pydsm import dssutils
-from pydsm import repeating_timeseries
-from pydsm import create_cd_inp
-from pydsm import extend_dss_ts
-from pydsm import write_gtm_restart
+from pydsm.analysis import dssutils
+from pydsm.input import repeating_timeseries
+from pydsm.input import create_cd_inp
+from pydsm.input import extend_dss_ts
+from pydsm.output.create_gtm_restart import write_gtm_restart
 
 
 import pandas as pd

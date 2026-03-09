@@ -2,7 +2,7 @@
 Test function that does time slicing
 """
 
-from pydsm.hydroh5 import HydroH5, dsm2h5
+from pydsm.output.hydroh5 import HydroH5, dsm2h5
 
 
 def test_slice():
