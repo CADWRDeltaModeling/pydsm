@@ -1,0 +1,379 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pydsm.output.create_gtm_restart &mdash; pydsm 2025.7.30.dev19+g6c322c2f8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=a3636c1b"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pydsm
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">pydsm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#conda-recommended">Conda (recommended)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#pip">pip</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#credits">Credits</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#stable-release">Stable release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#from-sources">From sources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../usage.html#command-line">Command Line</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#compare-dss">Compare DSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#extract-dss">Extract DSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#ptm-animate">PTM Animate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#slice-hydro">Slice Hydro</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">pydsm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../pydsm.html">pydsm package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../pydsm.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pydsm.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pydsm.html#module-pydsm">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/notebooks.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../notebooks/dsm2.html">DSM2 Input/Output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_input.html">Reading/writing echo files into/from Pandas DataFrame</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_input.html#Visualizing-input-data">Visualizing input data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_input.html#Writing-input-to-file">Writing input to file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_hydro_h5.html">Reading hydro h5 output files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_qual_h5.html">Reading Qual h5 output</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html">DSM2 as a network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Read-in-input-file">Read in input file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Convert-to-a-graph-network">Convert to a graph network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Drawing-graph-networks">Drawing graph networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Utilizing-graph-information">Utilizing graph information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html">Time stamps, Periods HEC convention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html#Time-formats-(standards-and-military-conventions)">Time formats (standards and military conventions)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html#Period-and-Instantaneous-data-types">Period and Instantaneous data types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html#Period-operations">Period operations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#deploying">Deploying</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../authors.html#development-lead">Development Lead</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../authors.html#contributors">Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#unreleased-since-2025-07-29">Unreleased (since 2025.07.29)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">2021.12.13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id2">2021.11.14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#x-2020-12-24">0.3.x (2020-12-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id3">0.2.7 (2020-12-01)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id4">0.2.6 (2020-10-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id5">0.2.5 (2020-04-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id6">0.2.4 (2020-04-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id7">0.2.3 (2020-04-05)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id8">0.2.0 (2020-03-17)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id9">0.1.9 (2019-11-11)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id10">0.1.8 (2019-10-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id11">0.1.7 (2019-09-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id12">0.1.6 (2019-09-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id13">0.1.5 (2019-09-19)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id14">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id15">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id16">0.1.0 (2019-08-21)</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pydsm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pydsm.output.create_gtm_restart</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pydsm.output.create_gtm_restart</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Create a GTM restart file from a tide (Qual/GTM HDF5) file.</span>
+
+<span class="sd">Generates a restart file containing:</span>
+<span class="sd"> - Cell concentrations (interpolated per cell from channel end concentrations)</span>
+<span class="sd"> - Reservoir concentrations</span>
+<span class="sd">for a requested model time.</span>
+
+<span class="sd">Example</span>
+<span class="sd">-------</span>
+<span class="sd">&gt;&gt;&gt; write_gtm_restart(</span>
+<span class="sd">...    tidefile=&quot;tests/data/hist_v82_mss2_extran_gtm.h5&quot;,</span>
+<span class="sd">...    target_time=&quot;05FEB2020 0300&quot;,</span>
+<span class="sd">...    outfile=&quot;restart_created.qrf&quot;,</span>
+<span class="sd">...    constituent=&quot;ec&quot;,</span>
+<span class="sd">... )</span>
+
+<span class="sd">Output file format (illustrative):</span>
+<span class="sd">30DEC2024 2400/time</span>
+<span class="sd">   65744640 /julmin</span>
+<span class="sd">         1 /n_column</span>
+<span class="sd">      4279 /n_cell</span>
+<span class="sd">                   cell_no                ec</span>
+<span class="sd">                        1            685.4853218050435544</span>
+<span class="sd">... (cells) ...</span>
+<span class="sd">         9 /n_resv</span>
+<span class="sd">              reservoir_name                ec</span>
+<span class="sd">clifton_court                               416.6467054602688336</span>
+<span class="sd">... (reservoirs) ...</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.gtmh5</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">build_timewindow_for_time</span><span class="p">,</span>
+    <span class="n">get_interpolated_cell_concentrations</span><span class="p">,</span>
+    <span class="n">_format_time</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.qualh5</span><span class="w"> </span><span class="kn">import</span> <span class="n">QualH5</span>
+
+<span class="n">_EPOCH_JULMIN</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">1899</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Excel-like epoch (matches sample)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_time_label_with_2400</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Format time similar to DSM2/expected restart label.</span>
+
+<span class="sd">    If the time is exactly on midnight (00:00) we represent it as previous day 2400.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">dt</span><span class="o">.</span><span class="n">hour</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">dt</span><span class="o">.</span><span class="n">minute</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">prev</span> <span class="o">=</span> <span class="n">dt</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">prev</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">%b%Y&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; 2400&quot;</span>
+    <span class="k">return</span> <span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">%b%Y %H%M&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_compute_julmin</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute julian minutes relative to the _EPOCH_JULMIN baseline.</span>
+
+<span class="sd">    This matches the magnitude of values seen in existing restart samples.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="n">dt</span> <span class="o">-</span> <span class="n">_EPOCH_JULMIN</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">//</span> <span class="mi">60</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_format_cell_header</span><span class="p">(</span><span class="n">constituent</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;cell_no&#39;</span><span class="si">:</span><span class="s2">&gt;29</span><span class="si">}{</span><span class="n">constituent</span><span class="si">:</span><span class="s2">&gt;20</span><span class="si">}</span><span class="s2">              &quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_format_res_header</span><span class="p">(</span><span class="n">constituent</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;reservoir_name&#39;</span><span class="si">:</span><span class="s2">&gt;29</span><span class="si">}{</span><span class="n">constituent</span><span class="si">:</span><span class="s2">&gt;20</span><span class="si">}</span><span class="s2">              &quot;</span>
+
+
+<div class="viewcode-block" id="write_gtm_restart">
+<a class="viewcode-back" href="../../../pydsm.output.create_gtm_restart.html#pydsm.write_gtm_restart">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">write_gtm_restart</span><span class="p">(</span>
+    <span class="n">tidefile</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+    <span class="n">target_time</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">datetime</span><span class="p">,</span>
+    <span class="n">outfile</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+    <span class="n">constituent</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ec&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write a GTM restart file at the requested time.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tidefile : str | Path</span>
+<span class="sd">       Path to GTM/Qual HDF5 file (tide file).</span>
+<span class="sd">    target_time : str | datetime</span>
+<span class="sd">       Desired time (will snap to nearest output time).</span>
+<span class="sd">    outfile : str | Path</span>
+<span class="sd">       Destination restart file path.</span>
+<span class="sd">    constituent : str, default &#39;ec&#39;</span>
+<span class="sd">       Constituent to export.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Path to the written restart file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tidefile</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tidefile</span><span class="p">)</span>
+    <span class="n">outfile</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">outfile</span><span class="p">)</span>
+    <span class="n">qualt</span> <span class="o">=</span> <span class="n">QualH5</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tidefile</span><span class="p">))</span>
+
+    <span class="c1"># Determine timewindow and chosen model time</span>
+    <span class="n">timewindow</span><span class="p">,</span> <span class="n">model_time</span> <span class="o">=</span> <span class="n">build_timewindow_for_time</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tidefile</span><span class="p">),</span> <span class="n">target_time</span><span class="p">)</span>
+
+    <span class="c1"># End of interval (label uses interval end so that 2400 formatting matches sample)</span>
+    <span class="n">output_freq</span> <span class="o">=</span> <span class="n">qualt</span><span class="o">.</span><span class="n">get_output_freq</span><span class="p">()</span>
+    <span class="n">interval_end</span> <span class="o">=</span> <span class="n">model_time</span> <span class="o">+</span> <span class="n">output_freq</span>
+
+    <span class="c1"># Gather cell concentrations</span>
+    <span class="n">cell_conc</span> <span class="o">=</span> <span class="n">get_interpolated_cell_concentrations</span><span class="p">(</span>
+        <span class="nb">str</span><span class="p">(</span><span class="n">tidefile</span><span class="p">),</span> <span class="n">timewindow</span><span class="p">,</span> <span class="n">constituent</span><span class="o">=</span><span class="n">constituent</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">n_cells</span> <span class="o">=</span> <span class="n">cell_conc</span><span class="o">.</span><span class="n">size</span>
+
+    <span class="c1"># Gather reservoir concentrations</span>
+    <span class="n">res_df</span> <span class="o">=</span> <span class="n">qualt</span><span class="o">.</span><span class="n">get_reservoirs</span><span class="p">()</span>
+    <span class="n">res_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">res_df</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">res_names</span><span class="p">:</span>
+        <span class="n">res_conc_df</span> <span class="o">=</span> <span class="n">qualt</span><span class="o">.</span><span class="n">get_reservoir_concentration</span><span class="p">(</span>
+            <span class="n">constituent</span><span class="p">,</span> <span class="n">res_names</span><span class="p">,</span> <span class="n">timewindow</span><span class="o">=</span><span class="n">timewindow</span>
+        <span class="p">)</span>
+        <span class="c1"># Single row expected</span>
+        <span class="n">res_conc</span> <span class="o">=</span> <span class="n">res_conc_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># pragma: no cover - unlikely empty dataset</span>
+        <span class="n">res_conc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+    <span class="n">n_res</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">res_conc</span><span class="p">)</span>
+
+    <span class="c1"># Compose header</span>
+    <span class="n">time_label</span> <span class="o">=</span> <span class="n">_time_label_with_2400</span><span class="p">(</span><span class="n">interval_end</span><span class="p">)</span>
+    <span class="n">julmin</span> <span class="o">=</span> <span class="n">_compute_julmin</span><span class="p">(</span><span class="n">interval_end</span><span class="p">)</span>
+
+    <span class="n">lines</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time_label</span><span class="si">}</span><span class="s2">/time&quot;</span><span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">julmin</span><span class="si">:</span><span class="s2">12d</span><span class="si">}</span><span class="s2"> /julmin&quot;</span><span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="mi">1</span><span class="si">:</span><span class="s2">12d</span><span class="si">}</span><span class="s2"> /n_column&quot;</span><span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_cells</span><span class="si">:</span><span class="s2">12d</span><span class="si">}</span><span class="s2"> /n_cell&quot;</span><span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_format_cell_header</span><span class="p">(</span><span class="n">constituent</span><span class="p">))</span>
+
+    <span class="c1"># Cell data lines: id (1-based) and value</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cell_conc</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># Align cell number under &#39;cell_no&#39; and value under constituent header</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">32d</span><span class="si">}{</span><span class="n">val</span><span class="si">:</span><span class="s2">32.16f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_res</span><span class="si">:</span><span class="s2">12d</span><span class="si">}</span><span class="s2"> /n_resv&quot;</span><span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_format_res_header</span><span class="p">(</span><span class="n">constituent</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">res_names</span><span class="p">,</span> <span class="n">res_conc</span><span class="p">):</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">&lt;32</span><span class="si">}{</span><span class="n">val</span><span class="si">:</span><span class="s2">&gt;32.16f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">outfile</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">outfile</span></div>
+
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;write_gtm_restart&quot;</span><span class="p">]</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>  <span class="c1"># rudimentary CLI usage</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Create GTM restart file&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;tidefile&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to GTM/Qual tide HDF5 file&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;target_time&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Target time (e.g. &#39;05FEB2020 0300&#39;)&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;outfile&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output restart file path&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-c&quot;</span><span class="p">,</span> <span class="s2">&quot;--constituent&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;ec&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Constituent name (default ec)&quot;</span>
+    <span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="n">path</span> <span class="o">=</span> <span class="n">write_gtm_restart</span><span class="p">(</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">tidefile</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">target_time</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">outfile</span><span class="p">,</span> <span class="n">constituent</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">constituent</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wrote restart file: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, Nicky Sandhu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

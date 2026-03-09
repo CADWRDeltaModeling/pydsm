@@ -1,0 +1,710 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pydsm.output.qualh5 &mdash; pydsm 2025.7.30.dev19+g6c322c2f8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=a3636c1b"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pydsm
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">pydsm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#conda-recommended">Conda (recommended)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#pip">pip</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#credits">Credits</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#stable-release">Stable release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#from-sources">From sources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../usage.html#command-line">Command Line</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#compare-dss">Compare DSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#extract-dss">Extract DSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#ptm-animate">PTM Animate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#slice-hydro">Slice Hydro</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">pydsm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../pydsm.html">pydsm package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../pydsm.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pydsm.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pydsm.html#module-pydsm">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/notebooks.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../notebooks/dsm2.html">DSM2 Input/Output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_input.html">Reading/writing echo files into/from Pandas DataFrame</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_input.html#Visualizing-input-data">Visualizing input data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_input.html#Writing-input-to-file">Writing input to file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_hydro_h5.html">Reading hydro h5 output files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_qual_h5.html">Reading Qual h5 output</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html">DSM2 as a network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Read-in-input-file">Read in input file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Convert-to-a-graph-network">Convert to a graph network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Drawing-graph-networks">Drawing graph networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Utilizing-graph-information">Utilizing graph information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html">Time stamps, Periods HEC convention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html#Time-formats-(standards-and-military-conventions)">Time formats (standards and military conventions)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html#Period-and-Instantaneous-data-types">Period and Instantaneous data types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html#Period-operations">Period operations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#deploying">Deploying</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../authors.html#development-lead">Development Lead</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../authors.html#contributors">Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#unreleased-since-2025-07-29">Unreleased (since 2025.07.29)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">2021.12.13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id2">2021.11.14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#x-2020-12-24">0.3.x (2020-12-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id3">0.2.7 (2020-12-01)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id4">0.2.6 (2020-10-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id5">0.2.5 (2020-04-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id6">0.2.4 (2020-04-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id7">0.2.3 (2020-04-05)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id8">0.2.0 (2020-03-17)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id9">0.1.9 (2019-11-11)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id10">0.1.8 (2019-10-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id11">0.1.7 (2019-09-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id12">0.1.6 (2019-09-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id13">0.1.5 (2019-09-19)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id14">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id15">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id16">0.1.0 (2019-08-21)</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pydsm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pydsm.output.qualh5</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pydsm.output.qualh5</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Qual H5 reader.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">h5py</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">dsm2h5</span>
+
+
+<div class="viewcode-block" id="QualH5">
+<a class="viewcode-back" href="../../../pydsm.output.qualh5.html#pydsm.output.qualh5.QualH5">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">QualH5</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    DSM2 Qual HDF5</span>
+<span class="sd">    ---------------</span>
+<span class="sd">    DSM2 outputs water quality constituents in HDF5 format.</span>
+
+<span class="sd">    The outputs are at:</span>
+
+<span class="sd">    - output:</span>
+
+<span class="sd">     - /constiuent_names</span>
+<span class="sd">     - /channel concentration (channel id, upstream/downstream)</span>
+<span class="sd">     - /channel avg concentration  (channel id)</span>
+<span class="sd">     - /reservoir concentration (reservoir name)</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">filemode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        opens a handle to the filename in read mode</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h5</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">filemode</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="ow">not</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h5</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;qual&quot;</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h5</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;gtm&quot;</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2"> is not a qual tidefile: Could be &quot;</span>
+                <span class="o">+</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h5</span><span class="p">)</span>
+                <span class="o">+</span> <span class="s2">&quot; ?&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># initialization of tables needed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_constituents</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_channels</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_channel_numbers</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_channel_locations</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_reservoirs</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        closes file as cleanup</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h5</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<div class="viewcode-block" id="QualH5.is_gtm">
+<a class="viewcode-back" href="../../../pydsm.output.qualh5.html#pydsm.output.qualh5.QualH5.is_gtm">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_gtm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h5</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;gtm&quot;</span></div>
+
+
+<div class="viewcode-block" id="QualH5.get_start_end_dates">
+<a class="viewcode-back" href="../../../pydsm.output.qualh5.html#pydsm.output.qualh5.QualH5.get_start_end_dates">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_start_end_dates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        return the start and end dates of the simulation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">get_start_end_dates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar_table</span><span class="o">=</span><span class="s2">&quot;/input/scalar&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="QualH5.get_output_interval">
+<a class="viewcode-back" href="../../../pydsm.output.qualh5.html#pydsm.output.qualh5.QualH5.get_output_interval">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_output_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">attr</span> <span class="o">=</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">read_attributes_from_table</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">h5</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/output/channel concentration&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">attr</span><span class="p">[</span><span class="s2">&quot;interval&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="QualH5.get_output_timedelta">
+<a class="viewcode-back" href="../../../pydsm.output.qualh5.html#pydsm.output.qualh5.QualH5.get_output_timedelta">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_output_timedelta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the output interval as pandas.Timedelta</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_output_interval</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="c1"># fallback simple normalization (e.g. &#39;60MIN&#39;, &#39;1HOUR&#39;, etc.)</span>
+            <span class="n">norm</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">raw</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;hours&quot;</span><span class="p">,</span> <span class="s2">&quot;h&quot;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;hour&quot;</span><span class="p">,</span> <span class="s2">&quot;h&quot;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;mins&quot;</span><span class="p">,</span> <span class="s2">&quot;min&quot;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;minutes&quot;</span><span class="p">,</span> <span class="s2">&quot;min&quot;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;minute&quot;</span><span class="p">,</span> <span class="s2">&quot;min&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">norm</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="QualH5.get_output_freq">
+<a class="viewcode-back" href="../../../pydsm.output.qualh5.html#pydsm.output.qualh5.QualH5.get_output_freq">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_output_freq</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a pandas offset/frequency object usable for date_range</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">tseries</span><span class="o">.</span><span class="n">frequencies</span><span class="o">.</span><span class="n">to_offset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_output_timedelta</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="QualH5.get_input_tables">
+<a class="viewcode-back" href="../../../pydsm.output.qualh5.html#pydsm.output.qualh5.QualH5.get_input_tables">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_input_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">get_paths_for_group_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h5</span><span class="p">,</span> <span class="s2">&quot;/input&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="QualH5.get_input_table">
+<a class="viewcode-back" href="../../../pydsm.output.qualh5.html#pydsm.output.qualh5.QualH5.get_input_table">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_input_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;See get_input_tables for a list of table paths</span>
+<span class="sd">        Returns a dataframe for the contents of the table at the path&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">read_table_as_df</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h5</span><span class="p">,</span> <span class="n">table_path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="QualH5.get_data_tables">
+<a class="viewcode-back" href="../../../pydsm.output.qualh5.html#pydsm.output.qualh5.QualH5.get_data_tables">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_data_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="s2">&quot;channel avg concentration&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;channel concentration&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;reservoir concentration&quot;</span><span class="p">,</span>
+        <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="QualH5.get_constituents">
+<a class="viewcode-back" href="../../../pydsm.output.qualh5.html#pydsm.output.qualh5.QualH5.get_constituents">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_constituents</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get list of constituents</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">read_table_as_df</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h5</span><span class="p">,</span> <span class="s2">&quot;output/constituent_names&quot;</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;constituent_names&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constituents</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;constituent_names&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="QualH5.get_channels">
+<a class="viewcode-back" href="../../../pydsm.output.qualh5.html#pydsm.output.qualh5.QualH5.get_channels">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_channels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        return pandas DataFrame of channel ids as indexed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">channels</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h5</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/output/channel_number&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">channel_index2number</span> <span class="o">=</span> <span class="n">channels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">channel_number2index</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">value</span><span class="p">:</span> <span class="n">key</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_index2number</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">channels</span></div>
+
+
+<div class="viewcode-block" id="QualH5.get_channel_locations">
+<a class="viewcode-back" href="../../../pydsm.output.qualh5.html#pydsm.output.qualh5.QualH5.get_channel_locations">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_channel_locations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        return pandas DataFrame of channel locations ( upstream or downstream)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">channel_locs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h5</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/output/channel_location&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">channel_locs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">channel_locs</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">channel_location2number</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_locs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">channel_location2index</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">value</span><span class="p">:</span> <span class="n">key</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_location2number</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_locs</span></div>
+
+
+<div class="viewcode-block" id="QualH5.get_reservoirs">
+<a class="viewcode-back" href="../../../pydsm.output.qualh5.html#pydsm.output.qualh5.QualH5.get_reservoirs">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_reservoirs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        return pandas DataFrame of reservoirs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reservoirs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">h5</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/output/reservoir_names&quot;</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="c1"># Before the assignment, convert the values to the correct dtype</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reservoirs</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reservoirs</span></div>
+
+
+<div class="viewcode-block" id="QualH5.get_channel_numbers">
+<a class="viewcode-back" href="../../../pydsm.output.qualh5.html#pydsm.output.qualh5.QualH5.get_channel_numbers">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_channel_numbers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get index to channel number table</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h5</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;output/channel_number&quot;</span><span class="p">))</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;channel_number&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="QualH5.create_catalog">
+<a class="viewcode-back" href="../../../pydsm.output.qualh5.html#pydsm.output.qualh5.QualH5.create_catalog">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_catalog</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dfc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_channels</span><span class="p">()</span>
+        <span class="n">dfr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_reservoirs</span><span class="p">()</span>
+        <span class="n">dfcon</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_constituents</span><span class="p">()</span>
+        <span class="n">chan_cat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">dsm2h5</span><span class="o">.</span><span class="n">create_catalog_entry</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span>
+                    <span class="n">dfc</span><span class="p">,</span>
+                    <span class="n">r</span><span class="p">[</span><span class="s2">&quot;constituent_names&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;mg/L&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">dfcon</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h5</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;qual&quot;</span><span class="p">:</span>  <span class="c1"># no avg concentration for gtm</span>
+            <span class="n">chan_avg_cat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">dsm2h5</span><span class="o">.</span><span class="n">create_catalog_entry</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span>
+                        <span class="n">dfc</span><span class="p">,</span>
+                        <span class="n">r</span><span class="p">[</span><span class="s2">&quot;constituent_names&quot;</span><span class="p">],</span>
+                        <span class="s2">&quot;mg/L&quot;</span><span class="p">,</span>
+                        <span class="n">updown</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;CHAN_&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">dfcon</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+        <span class="n">res_chat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">dsm2h5</span><span class="o">.</span><span class="n">create_catalog_entry</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span>
+                    <span class="n">dfr</span><span class="p">,</span>
+                    <span class="n">r</span><span class="p">[</span><span class="s2">&quot;constituent_names&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;mg/L&quot;</span><span class="p">,</span>
+                    <span class="n">updown</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;RES_&quot;</span><span class="p">,</span>
+                    <span class="n">id_column</span><span class="o">=</span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">dfcon</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h5</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;qual&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">chan_cat</span><span class="p">,</span> <span class="n">chan_avg_cat</span><span class="p">,</span> <span class="n">res_chat</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">chan_cat</span><span class="p">,</span> <span class="n">res_chat</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="QualH5.get_data_for_catalog_entry">
+<a class="viewcode-back" href="../../../pydsm.output.qualh5.html#pydsm.output.qualh5.QualH5.get_data_for_catalog_entry">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_data_for_catalog_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">catalog_entry</span><span class="p">,</span> <span class="n">time_window</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the data for a catalog entry</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">idfields</span> <span class="o">=</span> <span class="n">catalog_entry</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+        <span class="n">objtype</span> <span class="o">=</span> <span class="n">idfields</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">objid</span> <span class="o">=</span> <span class="n">idfields</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">idfields</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">objlocid</span> <span class="o">=</span> <span class="n">idfields</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;stream&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">objlocid</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">objtype</span> <span class="o">==</span> <span class="s2">&quot;CHAN&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">objlocid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_channel_avg_concentration</span><span class="p">(</span>
+                    <span class="n">catalog_entry</span><span class="p">[</span><span class="s2">&quot;variable&quot;</span><span class="p">],</span> <span class="n">objid</span><span class="p">,</span> <span class="n">time_window</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_channel_concentration</span><span class="p">(</span>
+                    <span class="n">catalog_entry</span><span class="p">[</span><span class="s2">&quot;variable&quot;</span><span class="p">],</span>
+                    <span class="n">objid</span><span class="p">,</span>
+                    <span class="n">objlocid</span><span class="p">,</span>
+                    <span class="n">timewindow</span><span class="o">=</span><span class="n">time_window</span><span class="p">,</span>
+                <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">objtype</span> <span class="o">==</span> <span class="s2">&quot;RES&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_reservoir_concentration</span><span class="p">(</span>
+                <span class="n">catalog_entry</span><span class="p">[</span><span class="s2">&quot;variable&quot;</span><span class="p">],</span> <span class="n">objid</span><span class="p">,</span> <span class="n">timewindow</span><span class="o">=</span><span class="n">time_window</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unknown type: &quot;</span> <span class="o">+</span> <span class="n">catalog_entry</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">])</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_names_to_constituent_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constituent_name</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">constituent_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">constituents</span><span class="p">[</span><span class="n">constituent_name</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">is_sequence_like</span><span class="p">(</span><span class="n">constituent_name</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">constituents</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">constituent_name</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;constituent_name should be string or sequence of strings: Called with </span><span class="si">{</span><span class="n">constituent_name</span><span class="si">!r}</span><span class="s2"> of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">constituent_name</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_channel_ids_to_sequence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_id_slice</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        convert a slice of channel ids to a slice of channel indices into data table</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">channel_id_slice</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">channel_id_slice</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">channel_id_slice</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_channel_ids_to_indicies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_id_slice</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        convert a slice of channel ids to a slice of channel indices into data table</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Support special keyword &#39;all&#39; to select all channels</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">channel_id_slice</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">channel_id_slice</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+                <span class="c1"># Return all indices in order</span>
+                <span class="c1"># channel_index2number maps index-&gt;number; keys are indices</span>
+                <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channel_index2number</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_number2index</span><span class="p">[</span><span class="n">channel_id_slice</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">is_sequence_like</span><span class="p">(</span><span class="n">channel_id_slice</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">channel_number2index</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">channel_id_slice</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">channel_id_slice</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">channel_id_slice</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Channel id should be string, sequence of strings or slice: Called with: </span><span class="si">{</span><span class="n">channel_id_slice</span><span class="si">!r}</span><span class="s2"> of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">channel_id_slice</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_channel_locations_to_indicies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_location_slice</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        convert a slice of channel ids to a slice of channel indices into data table</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">channel_location_slice</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_location2index</span><span class="p">[</span><span class="n">channel_location_slice</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">is_sequence_like</span><span class="p">(</span><span class="n">channel_location_slice</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">channel_location2index</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">channel_location_slice</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">channel_location_slice</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">channel_location_slice</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Channel location should be string, sequence of strings or slice: Called with: </span><span class="si">{</span><span class="n">channel_location_slice</span><span class="si">!r}</span><span class="s2"> of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">channel_location_slice</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_channel_ts</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">table_path</span><span class="p">,</span>
+        <span class="n">constituent_names</span><span class="p">,</span>
+        <span class="n">channels</span><span class="p">,</span>
+        <span class="n">location</span><span class="o">=</span><span class="s2">&quot;upstream&quot;</span><span class="p">,</span>
+        <span class="n">timewindow</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        return a pandas DataFrame of time series from the table for the given</span>
+<span class="sd">            constituent name(s)</span>
+<span class="sd">            list of channels</span>
+<span class="sd">            channel_location (&#39;upstream&#39; or &#39;downstream&#39;)</span>
+<span class="sd">            timewindow in the format of &lt;&lt;start time str&gt;&gt; - &lt;&lt;end time str&gt;&gt;, e.g. 01JAN1990 - 05JUL1992</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        table_path : str</span>
+<span class="sd">            HDF5 dataset path.</span>
+<span class="sd">        constituent_names : str | list[str]</span>
+<span class="sd">            Constituent(s) whose concentrations are requested.</span>
+<span class="sd">        channels : str | list[str]</span>
+<span class="sd">            Channel identifier(s). May be a single channel number, a list of</span>
+<span class="sd">            numbers, or the special keyword &quot;all&quot; (case-insensitive) which</span>
+<span class="sd">            expands to every channel in the tide file in index order.</span>
+<span class="sd">        location : str | None, default &quot;upstream&quot;</span>
+<span class="sd">            Either &quot;upstream&quot; or &quot;downstream&quot;; ignored (pass None) for</span>
+<span class="sd">            datasets without the location dimension (e.g. avg concentration).</span>
+<span class="sd">        timewindow : str | None</span>
+<span class="sd">            Optional DSM2 style time window &quot;START-END&quot;. If provided the</span>
+<span class="sd">            result is limited to that interval.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pandas.DataFrame</span>
+<span class="sd">            Time-indexed data with one column per requested channel (and</span>
+<span class="sd">            location suffix when applicable).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">constituent_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names_to_constituent_indices</span><span class="p">(</span><span class="n">constituent_names</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">channels</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">channels</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">channels</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">channels</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">channels</span><span class="p">)</span>
+        <span class="c1"># Expand &#39;all&#39; into the full ordered channel list for proper column naming</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">channels</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">channels</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+            <span class="c1"># Reconstruct ordered list of channel numbers by index order</span>
+            <span class="n">channels</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">channel_index2number</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channel_index2number</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="p">]</span>
+        <span class="n">channel_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_channel_ids_to_indicies</span><span class="p">(</span><span class="n">channels</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">location</span><span class="p">:</span>
+            <span class="n">location_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_channel_locations_to_indicies</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">read_time_indexed_table</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">h5</span><span class="p">,</span>
+                <span class="n">table_path</span><span class="p">,</span>
+                <span class="n">timewindow</span><span class="p">,</span>
+                <span class="n">constituent_indices</span><span class="p">,</span>
+                <span class="n">channel_indices</span><span class="p">,</span>
+                <span class="n">location_indices</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">location</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_channel_ids_to_sequence</span><span class="p">(</span><span class="n">channels</span><span class="p">)</span>
+            <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">read_time_indexed_table</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">h5</span><span class="p">,</span> <span class="n">table_path</span><span class="p">,</span> <span class="n">timewindow</span><span class="p">,</span> <span class="n">constituent_indices</span><span class="p">,</span> <span class="n">channel_indices</span>
+            <span class="p">)</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_channel_ids_to_sequence</span><span class="p">(</span><span class="n">channels</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">df</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_reservoir_ts</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">table_path</span><span class="p">,</span> <span class="n">constituent_names</span><span class="p">,</span> <span class="n">reservoirs_names</span><span class="p">,</span> <span class="n">timewindow</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+        <span class="n">constituent_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names_to_constituent_indices</span><span class="p">(</span><span class="n">constituent_names</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_reservoirs</span><span class="p">()</span>
+        <span class="n">res_names</span> <span class="o">=</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">normalize_to_slice</span><span class="p">(</span><span class="n">reservoirs_names</span><span class="p">)</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="n">res</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">res_names</span><span class="p">)]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">read_time_indexed_table</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">h5</span><span class="p">,</span> <span class="n">table_path</span><span class="p">,</span> <span class="n">timewindow</span><span class="p">,</span> <span class="n">constituent_indices</span><span class="p">,</span> <span class="n">indices</span>
+        <span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">res_names</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span>
+
+<div class="viewcode-block" id="QualH5.get_channel_concentration">
+<a class="viewcode-back" href="../../../pydsm.output.qualh5.html#pydsm.output.qualh5.QualH5.get_channel_concentration">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_channel_concentration</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">constituent_name</span><span class="p">,</span> <span class="n">channel_id</span><span class="p">,</span> <span class="n">location_id</span><span class="o">=</span><span class="s2">&quot;upstream&quot;</span><span class="p">,</span> <span class="n">timewindow</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return channel concentration time series for a constituent.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        constituent_name : str</span>
+<span class="sd">            Constituent identifier (e.g. &#39;ec&#39;).</span>
+<span class="sd">        channel_id : str | int | list[str|int]</span>
+<span class="sd">            Channel identifier(s) or the special keyword &quot;all&quot; for every</span>
+<span class="sd">            channel. Lists can mix ints/strings.</span>
+<span class="sd">        location_id : str, default &quot;upstream&quot;</span>
+<span class="sd">            Channel end: &quot;upstream&quot; or &quot;downstream&quot;.</span>
+<span class="sd">        timewindow : str | None</span>
+<span class="sd">            Optional DSM2 style window &quot;START-END&quot; (e.g. &quot;15JAN2020 - 31JAN2020&quot;).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pandas.DataFrame</span>
+<span class="sd">            Time-indexed concentrations with one column per requested channel</span>
+<span class="sd">            (location suffix included when applicable).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_channel_ts</span><span class="p">(</span>
+            <span class="s2">&quot;/output/channel concentration&quot;</span><span class="p">,</span>
+            <span class="n">constituent_name</span><span class="p">,</span>
+            <span class="n">channel_id</span><span class="p">,</span>
+            <span class="n">location_id</span><span class="p">,</span>
+            <span class="n">timewindow</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="QualH5.get_channel_avg_concentration">
+<a class="viewcode-back" href="../../../pydsm.output.qualh5.html#pydsm.output.qualh5.QualH5.get_channel_avg_concentration">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_channel_avg_concentration</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">constituent_name</span><span class="p">,</span> <span class="n">channel_id</span><span class="p">,</span> <span class="n">timewindow</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return channel average concentration time series (no location dimension).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        constituent_name : str</span>
+<span class="sd">            Constituent identifier.</span>
+<span class="sd">        channel_id : str | int | list[str|int]</span>
+<span class="sd">            Channel identifier(s) or &quot;all&quot;.</span>
+<span class="sd">        timewindow : str | None</span>
+<span class="sd">            Optional DSM2 style window.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_channel_ts</span><span class="p">(</span>
+            <span class="s2">&quot;/output/channel avg concentration&quot;</span><span class="p">,</span>
+            <span class="n">constituent_name</span><span class="p">,</span>
+            <span class="n">channel_id</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
+            <span class="n">timewindow</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="QualH5.get_reservoir_concentration">
+<a class="viewcode-back" href="../../../pydsm.output.qualh5.html#pydsm.output.qualh5.QualH5.get_reservoir_concentration">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_reservoir_concentration</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">constituent_name</span><span class="p">,</span> <span class="n">reservoir_name</span><span class="p">,</span> <span class="n">timewindow</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get reservoir concentration</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_reservoir_ts</span><span class="p">(</span>
+            <span class="s2">&quot;/output/reservoir concentration&quot;</span><span class="p">,</span>
+            <span class="n">constituent_name</span><span class="p">,</span>
+            <span class="n">reservoir_name</span><span class="p">,</span>
+            <span class="n">timewindow</span><span class="p">,</span>
+        <span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, Nicky Sandhu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

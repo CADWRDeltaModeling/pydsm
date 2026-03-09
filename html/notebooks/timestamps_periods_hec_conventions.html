@@ -1,304 +1,188 @@
 
+
 <!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Time stamps, Periods HEC convention &mdash; pydsm 2025.7.30.dev19+g6c322c2f8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
 
-    <title>Time stamps, Periods HEC convention &#8212; pydsm 2021.12.20+15.g880ce94.dirty documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=a3636c1b"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Contributing" href="../contributing.html" />
-    <link rel="prev" title="DSM2 as a network" href="dsm2_input_network.html" />
-   
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+    <link rel="prev" title="DSM2 as a network" href="dsm2_input_network.html" /> 
+</head>
 
-  </head><body>
-  
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
           
+          
+          <a href="../index.html" class="icon icon-home">
+            pydsm
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">pydsm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../readme.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../readme.html#conda-recommended">Conda (recommended)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../readme.html#pip">pip</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#credits">Credits</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#stable-release">Stable release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#from-sources">From sources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usage.html#command-line">Command Line</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../usage.html#compare-dss">Compare DSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage.html#extract-dss">Extract DSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage.html#ptm-animate">PTM Animate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage.html#slice-hydro">Slice Hydro</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">pydsm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pydsm.html">pydsm package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pydsm.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pydsm.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pydsm.html#module-pydsm">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="notebooks.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dsm2.html">DSM2 Input/Output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dsm2_read_input.html">Reading/writing echo files into/from Pandas DataFrame</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dsm2_read_input.html#Visualizing-input-data">Visualizing input data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dsm2_read_input.html#Writing-input-to-file">Writing input to file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dsm2_read_hydro_h5.html">Reading hydro h5 output files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dsm2_read_qual_h5.html">Reading Qual h5 output</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dsm2_input_network.html">DSM2 as a network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dsm2_input_network.html#Read-in-input-file">Read in input file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dsm2_input_network.html#Convert-to-a-graph-network">Convert to a graph network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dsm2_input_network.html#Drawing-graph-networks">Drawing graph networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dsm2_input_network.html#Utilizing-graph-information">Utilizing graph information</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Time stamps, Periods HEC convention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Time-formats-(standards-and-military-conventions)">Time formats (standards and military conventions)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Period-and-Instantaneous-data-types">Period and Instantaneous data types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Period-operations">Period operations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#deploying">Deploying</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../authors.html#development-lead">Development Lead</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../authors.html#contributors">Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#unreleased-since-2025-07-29">Unreleased (since 2025.07.29)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id1">2021.12.13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id2">2021.11.14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#x-2020-12-24">0.3.x (2020-12-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id3">0.2.7 (2020-12-01)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id4">0.2.6 (2020-10-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id5">0.2.5 (2020-04-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id6">0.2.4 (2020-04-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id7">0.2.3 (2020-04-05)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id8">0.2.0 (2020-03-17)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id9">0.1.9 (2019-11-11)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id10">0.1.8 (2019-10-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id11">0.1.7 (2019-09-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id12">0.1.6 (2019-09-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id13">0.1.5 (2019-09-19)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id14">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id15">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id16">0.1.0 (2019-08-21)</a></li>
+</ul>
+</li>
+</ul>
 
-          <div class="body" role="main">
-            
-  
-<style>
-/* CSS for nbsphinx extension */
+        </div>
+      </div>
+    </nav>
 
-/* remove conflicting styling from Sphinx themes */
-div.nbinput.container div.prompt *,
-div.nboutput.container div.prompt *,
-div.nbinput.container div.input_area pre,
-div.nboutput.container div.output_area pre,
-div.nbinput.container div.input_area .highlight,
-div.nboutput.container div.output_area .highlight {
-    border: none;
-    padding: 0;
-    margin: 0;
-    box-shadow: none;
-}
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pydsm</a>
+      </nav>
 
-div.nbinput.container > div[class*=highlight],
-div.nboutput.container > div[class*=highlight] {
-    margin: 0;
-}
-
-div.nbinput.container div.prompt *,
-div.nboutput.container div.prompt * {
-    background: none;
-}
-
-div.nboutput.container div.output_area .highlight,
-div.nboutput.container div.output_area pre {
-    background: unset;
-}
-
-div.nboutput.container div.output_area div.highlight {
-    color: unset;  /* override Pygments text color */
-}
-
-/* avoid gaps between output lines */
-div.nboutput.container div[class*=highlight] pre {
-    line-height: normal;
-}
-
-/* input/output containers */
-div.nbinput.container,
-div.nboutput.container {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-    width: 100%;
-}
-@media (max-width: 540px) {
-    div.nbinput.container,
-    div.nboutput.container {
-        flex-direction: column;
-    }
-}
-
-/* input container */
-div.nbinput.container {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast.container {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput.container div.prompt pre {
-    color: #307FC1;
-}
-
-/* output prompt */
-div.nboutput.container div.prompt pre {
-    color: #BF5B3D;
-}
-
-/* all prompts */
-div.nbinput.container div.prompt,
-div.nboutput.container div.prompt {
-    width: 4.5ex;
-    padding-top: 5px;
-    position: relative;
-    user-select: none;
-}
-
-div.nbinput.container div.prompt > div,
-div.nboutput.container div.prompt > div {
-    position: absolute;
-    right: 0;
-    margin-right: 0.3ex;
-}
-
-@media (max-width: 540px) {
-    div.nbinput.container div.prompt,
-    div.nboutput.container div.prompt {
-        width: unset;
-        text-align: left;
-        padding: 0.4em;
-    }
-    div.nboutput.container div.prompt.empty {
-        padding: 0;
-    }
-
-    div.nbinput.container div.prompt > div,
-    div.nboutput.container div.prompt > div {
-        position: unset;
-    }
-}
-
-/* disable scrollbars on prompts */
-div.nbinput.container div.prompt pre,
-div.nboutput.container div.prompt pre {
-    overflow: hidden;
-}
-
-/* input/output area */
-div.nbinput.container div.input_area,
-div.nboutput.container div.output_area {
-    -webkit-flex: 1;
-    flex: 1;
-    overflow: auto;
-}
-@media (max-width: 540px) {
-    div.nbinput.container div.input_area,
-    div.nboutput.container div.output_area {
-        width: 100%;
-    }
-}
-
-/* input area */
-div.nbinput.container div.input_area {
-    border: 1px solid #e0e0e0;
-    border-radius: 2px;
-    /*background: #f5f5f5;*/
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput.container div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.imgmath center alignment in output cells */
-div.nboutput.container div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput.container div.output_area.stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansi-black-fg { color: #3E424D; }
-.ansi-black-bg { background-color: #3E424D; }
-.ansi-black-intense-fg { color: #282C36; }
-.ansi-black-intense-bg { background-color: #282C36; }
-.ansi-red-fg { color: #E75C58; }
-.ansi-red-bg { background-color: #E75C58; }
-.ansi-red-intense-fg { color: #B22B31; }
-.ansi-red-intense-bg { background-color: #B22B31; }
-.ansi-green-fg { color: #00A250; }
-.ansi-green-bg { background-color: #00A250; }
-.ansi-green-intense-fg { color: #007427; }
-.ansi-green-intense-bg { background-color: #007427; }
-.ansi-yellow-fg { color: #DDB62B; }
-.ansi-yellow-bg { background-color: #DDB62B; }
-.ansi-yellow-intense-fg { color: #B27D12; }
-.ansi-yellow-intense-bg { background-color: #B27D12; }
-.ansi-blue-fg { color: #208FFB; }
-.ansi-blue-bg { background-color: #208FFB; }
-.ansi-blue-intense-fg { color: #0065CA; }
-.ansi-blue-intense-bg { background-color: #0065CA; }
-.ansi-magenta-fg { color: #D160C4; }
-.ansi-magenta-bg { background-color: #D160C4; }
-.ansi-magenta-intense-fg { color: #A03196; }
-.ansi-magenta-intense-bg { background-color: #A03196; }
-.ansi-cyan-fg { color: #60C6C8; }
-.ansi-cyan-bg { background-color: #60C6C8; }
-.ansi-cyan-intense-fg { color: #258F8F; }
-.ansi-cyan-intense-bg { background-color: #258F8F; }
-.ansi-white-fg { color: #C5C1B4; }
-.ansi-white-bg { background-color: #C5C1B4; }
-.ansi-white-intense-fg { color: #A1A6B2; }
-.ansi-white-intense-bg { background-color: #A1A6B2; }
-
-.ansi-default-inverse-fg { color: #FFFFFF; }
-.ansi-default-inverse-bg { background-color: #000000; }
-
-.ansi-bold { font-weight: bold; }
-.ansi-underline { text-decoration: underline; }
-
-
-div.nbinput.container div.input_area div[class*=highlight] > pre,
-div.nboutput.container div.output_area div[class*=highlight] > pre,
-div.nboutput.container div.output_area div[class*=highlight].math,
-div.nboutput.container div.output_area.rendered_html,
-div.nboutput.container div.output_area > div.output_javascript,
-div.nboutput.container div.output_area:not(.rendered_html) > img{
-    padding: 5px;
-    margin: 0;
-}
-
-/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
-div.nbinput.container div.input_area > div[class^='highlight'],
-div.nboutput.container div.output_area > div[class^='highlight']{
-    overflow-y: hidden;
-}
-
-/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
-.prompt .copybtn {
-    display: none;
-}
-
-/* Some additional styling taken form the Jupyter notebook CSS */
-.jp-RenderedHTMLCommon table,
-div.rendered_html table {
-  border: none;
-  border-collapse: collapse;
-  border-spacing: 0;
-  color: black;
-  font-size: 12px;
-  table-layout: fixed;
-}
-.jp-RenderedHTMLCommon thead,
-div.rendered_html thead {
-  border-bottom: 1px solid black;
-  vertical-align: bottom;
-}
-.jp-RenderedHTMLCommon tr,
-.jp-RenderedHTMLCommon th,
-.jp-RenderedHTMLCommon td,
-div.rendered_html tr,
-div.rendered_html th,
-div.rendered_html td {
-  text-align: right;
-  vertical-align: middle;
-  padding: 0.5em 0.5em;
-  line-height: normal;
-  white-space: normal;
-  max-width: none;
-  border: none;
-}
-.jp-RenderedHTMLCommon th,
-div.rendered_html th {
-  font-weight: bold;
-}
-.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
-div.rendered_html tbody tr:nth-child(odd) {
-  background: #f5f5f5;
-}
-.jp-RenderedHTMLCommon tbody tr:hover,
-div.rendered_html tbody tr:hover {
-  background: rgba(66, 165, 245, 0.2);
-}
-</style>
-<section id="Time-stamps,-Periods-HEC-convention">
-<h1>Time stamps, Periods HEC convention<a class="headerlink" href="#Time-stamps,-Periods-HEC-convention" title="Permalink to this heading">¶</a></h1>
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="notebooks.html">Examples</a></li>
+      <li class="breadcrumb-item active">Time stamps, Periods HEC convention</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notebooks/timestamps_periods_hec_conventions.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Time-stamps,-Periods-HEC-convention">
+<h1>Time stamps, Periods HEC convention<a class="headerlink" href="#Time-stamps,-Periods-HEC-convention" title="Link to this heading"></a></h1>
 <p>HEC (and perhaps others) timestamp the data to the next time to indicate time from the start to end (including the end)</p>
 <p>In pandas, this is handled by differentiating between time stamp ( a point in time ) to time period ( a period of time). Furthermore, in pandas the period of time is closed at the start by default as opposed to end as it is in HEC</p>
 <section id="Time-formats-(standards-and-military-conventions)">
-<h2>Time formats (standards and military conventions)<a class="headerlink" href="#Time-formats-(standards-and-military-conventions)" title="Permalink to this heading">¶</a></h2>
+<h2>Time formats (standards and military conventions)<a class="headerlink" href="#Time-formats-(standards-and-military-conventions)" title="Link to this heading"></a></h2>
 <p>ISO 8601 is a standard for date and times. Read this for <a class="reference external" href="https://en.wikipedia.org/wiki/ISO_8601#Durations">duration</a> and <a class="reference external" href="https://en.wikipedia.org/wiki/ISO_8601#Time_intervals">time interval</a></p>
 <p>An important distinction is that there is 2400 for HHmm (hour/minutes) representation in the <a class="reference external" href="https://en.wikipedia.org/wiki/ISO_8601#Times">ISO 8601 standards</a> however HEC-DSS stores the midnight with a 2400 designation and that is reflected in their libraries ability to parse that timestamp to the midnight of the next day. In summary 2400 is interpreted as midnight (0000) of the next day.</p>
 <p>Infact that is now explicitly disallowed</p>
@@ -309,74 +193,74 @@ but this is explicitly disallowed by the 2019 revision.
 <p>Military time allows for 2400 and this is interpreted as 0000 of the next day. See this <a class="reference external" href="https://en.wikipedia.org/wiki/24-hour_clock#Midnight_00:00_and_24:00">wikipedia reference</a></p>
 </section>
 <section id="Period-and-Instantaneous-data-types">
-<h2>Period and Instantaneous data types<a class="headerlink" href="#Period-and-Instantaneous-data-types" title="Permalink to this heading">¶</a></h2>
+<h2>Period and Instantaneous data types<a class="headerlink" href="#Period-and-Instantaneous-data-types" title="Link to this heading"></a></h2>
 <p>HEC-DSS reads the data, its units and a string representing the interval type as either starting with “INST” for instantaneous or “PER” for period data.</p>
 <p>For regularly sampled time series in HEC is either INST-VAL (timestamped) or PER-AVER (or just PER- prefixed) to designated period data.</p>
 <p>pyhecdss reads the “INST” data as is into a timestamp indexed data.</p>
-<p>However for “PER” data, the time stamp is moved to the left ( backwards ) by the length of the period and the data returned is period indexed. E.g. 31JAN1991 2400 for monthly data is interpreted as 01JAN1991 by first moving the 31JAN1991 2400 timestamp to 31DEC1990 2400 (i.e. 1 month) and then interpreted as the timestamp which is 01JAN1991 0000 and then converted to a period with 1 month interval which is the period 01JAN1991 The reverse is applied to period data on writes.</p>
+<p>However for “PER” data, the time stamp is moved to the left ( backwards ) by the length of the period and the data returned is period indexed. E.g. 31JAN1991 2400 for monthly data is interpreted as 01JAN1991 by first moving the 31JAN1991 2400 timestamp to 31DEC1990 2400 (i.e. 1 month) and then interpreted as the timestamp which is 01JAN1991 0000 and then converted to a period with 1 month interval which is the period 01JAN1991 The reverse is applied to period data on writes.</p>
 </section>
 <section id="Period-operations">
-<h2>Period operations<a class="headerlink" href="#Period-operations" title="Permalink to this heading">¶</a></h2>
-<p>If you use the default conventions (pandas), the timestamps for a particular period include the start and not the end. For HEC style (or end of timestamp data), you should use the closed=“right” when <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#resampling">resampling (pandas function)</a> the data</p>
-<p>One catch is to use kind=“timestamp” and the convert back with to_period() (pandas function).</p>
+<h2>Period operations<a class="headerlink" href="#Period-operations" title="Link to this heading"></a></h2>
+<p>If you use the default conventions (pandas), the timestamps for a particular period include the start and not the end. For HEC style (or end of timestamp data), you should use the closed=”right” when <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#resampling">resampling (pandas function)</a> the data</p>
+<p>One catch is to use kind=”timestamp” and the convert back with to_period() (pandas function).</p>
 <p><strong>TLDR; just use the pydsm.functions tsmath module which has functions for per_aver, per_max, per_min</strong></p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyhecdss</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pydsm</span>
-<span class="kn">from</span> <span class="nn">pydsm.functions</span> <span class="kn">import</span> <span class="n">tsmath</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pyhecdss</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pydsm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydsm.functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">tsmath</span>
 </pre></div>
 </div>
 </div>
 <p>A function to generate a simple increasing time series from 0 -&gt; 99 with timestamps regularly placed at 1 hour intervals</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s1">&#39;01JAN1999 0100&#39;</span><span class="p">,</span><span class="n">periods</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;15T&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s1">&#39;01JAN1999 0100&#39;</span><span class="p">,</span><span class="n">periods</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;15min&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 DatetimeIndex([&#39;1999-01-01 01:00:00&#39;, &#39;1999-01-01 01:15:00&#39;,
                &#39;1999-01-01 01:30:00&#39;, &#39;1999-01-01 01:45:00&#39;],
-              dtype=&#39;datetime64[ns]&#39;, freq=&#39;15T&#39;)
+              dtype=&#39;datetime64[us]&#39;, freq=&#39;15min&#39;)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">period_range</span><span class="p">(</span><span class="s1">&#39;01JAN1999 0100&#39;</span><span class="p">,</span><span class="n">periods</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;15T&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">period_range</span><span class="p">(</span><span class="s1">&#39;01JAN1999 0100&#39;</span><span class="p">,</span><span class="n">periods</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;15min&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 PeriodIndex([&#39;1999-01-01 01:00&#39;, &#39;1999-01-01 01:15&#39;, &#39;1999-01-01 01:30&#39;,
              &#39;1999-01-01 01:45&#39;],
-            dtype=&#39;period[15T]&#39;)
+            dtype=&#39;period[15min]&#39;)
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">linear_timeseries</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">linear_timeseries</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    A simple increasing time series to use for averaging functions</span>
 <span class="sd">    ```</span>
 <span class="sd">    01JAN2000 0100 - 0</span>
@@ -388,12 +272,12 @@ PeriodIndex([&#39;1999-01-01 01:00&#39;, &#39;1999-01-01 01:15&#39;, &#39;1999-0
 <span class="sd">    ```</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">nvals</span><span class="o">=</span><span class="mi">100</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">nvals</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;values&#39;</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="s1">&#39;01JAN2000 0100&#39;</span><span class="p">,</span><span class="n">periods</span><span class="o">=</span><span class="n">nvals</span><span class="p">,</span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;H&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">nvals</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;values&#39;</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="s1">&#39;01JAN2000 0100&#39;</span><span class="p">,</span><span class="n">periods</span><span class="o">=</span><span class="n">nvals</span><span class="p">,</span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">))</span>
 <br/></pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">=</span><span class="n">linear_timeseries</span><span class="p">()</span>
@@ -402,7 +286,7 @@ PeriodIndex([&#39;1999-01-01 01:00&#39;, &#39;1999-01-01 01:15&#39;, &#39;1999-0
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -530,7 +414,7 @@ PeriodIndex([&#39;1999-01-01 01:00&#39;, &#39;1999-01-01 01:15&#39;, &#39;1999-0
 </div>
 <p>Use the tsmath modules per_aver, per_max or per_min functions to get the average, max and min respectively in the HEC convention The interval is passed to pandas <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#resampling">resample</a> and should be DateOffset, Timedelta or str</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dfall</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">tsmath</span><span class="o">.</span><span class="n">per_aver</span><span class="p">(</span><span class="n">ts</span><span class="o">.</span><span class="n">to_period</span><span class="p">(),</span> <span class="n">interval</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">),</span>
@@ -542,7 +426,7 @@ PeriodIndex([&#39;1999-01-01 01:00&#39;, &#39;1999-01-01 01:15&#39;, &#39;1999-0
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -571,34 +455,40 @@ PeriodIndex([&#39;1999-01-01 01:00&#39;, &#39;1999-01-01 01:15&#39;, &#39;1999-0
   </thead>
   <tbody>
     <tr>
+      <th>1999-12-31</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
       <th>2000-01-01</th>
       <td>11.5</td>
-      <td>23</td>
-      <td>0</td>
+      <td>23.0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>2000-01-02</th>
       <td>35.5</td>
-      <td>47</td>
-      <td>24</td>
+      <td>47.0</td>
+      <td>24.0</td>
     </tr>
     <tr>
       <th>2000-01-03</th>
       <td>59.5</td>
-      <td>71</td>
-      <td>48</td>
+      <td>71.0</td>
+      <td>48.0</td>
     </tr>
     <tr>
       <th>2000-01-04</th>
       <td>83.5</td>
-      <td>95</td>
-      <td>72</td>
+      <td>95.0</td>
+      <td>72.0</td>
     </tr>
     <tr>
       <th>2000-01-05</th>
       <td>97.5</td>
-      <td>99</td>
-      <td>96</td>
+      <td>99.0</td>
+      <td>96.0</td>
     </tr>
   </tbody>
 </table>
@@ -607,42 +497,26 @@ PeriodIndex([&#39;1999-01-01 01:00&#39;, &#39;1999-01-01 01:15&#39;, &#39;1999-0
 <p>Storing these time series in DSS and retrieving this is demoed below</p>
 <p>HECDSS api only supported for double type so convert to doubles first</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">=</span><span class="n">ts</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;double&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;hecavg.dss&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;hecavg.dss&#39;</span><span class="p">):</span> <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;hecavg.dss&#39;</span><span class="p">)</span>
 <span class="k">with</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">DSSFile</span><span class="p">(</span><span class="s1">&#39;hecavg.dss&#39;</span><span class="p">,</span><span class="n">create_new</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">d</span><span class="p">:</span>
     <span class="n">d</span><span class="o">.</span><span class="n">write_rts</span><span class="p">(</span><span class="s1">&#39;/AVG/TS/C//1HOUR/F/&#39;</span><span class="p">,</span><span class="n">ts</span><span class="p">,</span><span class="s1">&#39;unk&#39;</span><span class="p">,</span><span class="s1">&#39;INST-VAL&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">PermissionError</span>                           Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">~\AppData\Local\Temp/ipykernel_24220/607455423.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-fg">      1</span> <span class="ansi-green-intense-fg ansi-bold">import</span> os
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 2</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>os<span class="ansi-yellow-intense-fg ansi-bold">.</span>remove<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;hecavg.dss&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">      3</span> <span class="ansi-green-intense-fg ansi-bold">with</span> pyhecdss<span class="ansi-yellow-intense-fg ansi-bold">.</span>DSSFile<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;hecavg.dss&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span>create_new<span class="ansi-yellow-intense-fg ansi-bold">=</span><span class="ansi-green-intense-fg ansi-bold">True</span><span class="ansi-yellow-intense-fg ansi-bold">)</span> <span class="ansi-green-intense-fg ansi-bold">as</span> d<span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-fg">      4</span>     d<span class="ansi-yellow-intense-fg ansi-bold">.</span>write_rts<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;/AVG/TS/C//1HOUR/F/&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span>ts<span class="ansi-yellow-intense-fg ansi-bold">,</span><span class="ansi-blue-intense-fg ansi-bold">&#39;unk&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span><span class="ansi-blue-intense-fg ansi-bold">&#39;INST-VAL&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-
-<span class="ansi-red-intense-fg ansi-bold">PermissionError</span>: [WinError 32] The process cannot access the file because it is being used by another process: &#39;hecavg.dss&#39;
-</pre></div></div>
-</div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_avg</span> <span class="o">=</span> <span class="n">tsmath</span><span class="o">.</span><span class="n">per_aver</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="s1">&#39;1D&#39;</span><span class="p">)</span>
@@ -652,7 +526,7 @@ PeriodIndex([&#39;1999-01-01 01:00&#39;, &#39;1999-01-01 01:15&#39;, &#39;1999-0
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">DSSFile</span><span class="p">(</span><span class="s1">&#39;hecavg.dss&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">d</span><span class="p">:</span>
@@ -663,7 +537,7 @@ PeriodIndex([&#39;1999-01-01 01:00&#39;, &#39;1999-01-01 01:15&#39;, &#39;1999-0
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">matching</span> <span class="o">=</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">get_ts</span><span class="p">(</span><span class="s1">&#39;hecavg.dss&#39;</span><span class="p">,</span><span class="s1">&#39;/AVG/TS/C-PER-AVER//1DAY/F/&#39;</span><span class="p">)</span>
@@ -682,7 +556,7 @@ Units:  unk  | Period Type:  PER-AVER
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -704,28 +578,28 @@ Units:  unk  | Period Type:  PER-AVER
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>/AVG/TS/C-PER-AVER/01JAN2000 - 01JAN2000/1DAY/F/</th>
+      <th>/AVG/TS/C-PER-AVER/01JAN1999 - 01JAN2000/1DAY/F/</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>2000-01-01</th>
+      <th>1999-12-31</th>
       <td>11.5</td>
     </tr>
     <tr>
-      <th>2000-01-02</th>
+      <th>2000-01-01</th>
       <td>35.5</td>
     </tr>
     <tr>
-      <th>2000-01-03</th>
+      <th>2000-01-02</th>
       <td>59.5</td>
     </tr>
     <tr>
-      <th>2000-01-04</th>
+      <th>2000-01-03</th>
       <td>83.5</td>
     </tr>
     <tr>
-      <th>2000-01-05</th>
+      <th>2000-01-04</th>
       <td>97.5</td>
     </tr>
   </tbody>
@@ -733,7 +607,7 @@ Units:  unk  | Period Type:  PER-AVER
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">ts_avg</span><span class="p">,</span><span class="n">ts_avg_read</span><span class="o">.</span><span class="n">data</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -741,7 +615,7 @@ Units:  unk  | Period Type:  PER-AVER
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -764,33 +638,63 @@ Units:  unk  | Period Type:  PER-AVER
     <tr style="text-align: right;">
       <th></th>
       <th>values</th>
-      <th>/AVG/TS/C-PER-AVER/01JAN2000 - 01JAN2000/1DAY/F/</th>
+      <th>/AVG/TS/C-PER-AVER/01JAN1999 - 01JAN2000/1DAY/F/</th>
     </tr>
   </thead>
   <tbody>
     <tr>
+      <th>1999-12-31 00:00:00</th>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 00:00:00</th>
+      <td>11.5</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2000-01-02 00:00:00</th>
+      <td>35.5</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2000-01-03 00:00:00</th>
+      <td>59.5</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2000-01-04 00:00:00</th>
+      <td>83.5</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2000-01-05 00:00:00</th>
+      <td>97.5</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1999-12-31</th>
+      <td>NaN</td>
+      <td>11.5</td>
+    </tr>
+    <tr>
       <th>2000-01-01</th>
-      <td>11.5</td>
-      <td>11.5</td>
+      <td>NaN</td>
+      <td>35.5</td>
     </tr>
     <tr>
       <th>2000-01-02</th>
-      <td>35.5</td>
-      <td>35.5</td>
+      <td>NaN</td>
+      <td>59.5</td>
     </tr>
     <tr>
       <th>2000-01-03</th>
-      <td>59.5</td>
-      <td>59.5</td>
+      <td>NaN</td>
+      <td>83.5</td>
     </tr>
     <tr>
       <th>2000-01-04</th>
-      <td>83.5</td>
-      <td>83.5</td>
-    </tr>
-    <tr>
-      <th>2000-01-05</th>
-      <td>97.5</td>
+      <td>NaN</td>
       <td>97.5</td>
     </tr>
   </tbody>
@@ -800,16 +704,16 @@ Units:  unk  | Period Type:  PER-AVER
 <p>A slightly more detailed explanation is below The <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#resampling">resample</a> function is used with particular options to conform to the HEC convention.</p>
 <p>For example below you can use the other grouping functions with resample to do other operations with these conventions The resample_hec_style() function is a convenience for call resample with the hec conventions</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;1D&#39;</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;timestamp&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">to_period</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;1D&#39;</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">to_period</span><span class="p">()</span>
 <span class="n">tsmath</span><span class="o">.</span><span class="n">resample_hec_style</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="s1">&#39;1D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">to_period</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -835,6 +739,10 @@ Units:  unk  | Period Type:  PER-AVER
     </tr>
   </thead>
   <tbody>
+    <tr>
+      <th>1999-12-31</th>
+      <td>0.0</td>
+    </tr>
     <tr>
       <th>2000-01-01</th>
       <td>276.0</td>
@@ -860,15 +768,15 @@ Units:  unk  | Period Type:  PER-AVER
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tsmath</span><span class="o">.</span><span class="n">resample_hec_style</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="s1">&#39;4H&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">to_period</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tsmath</span><span class="o">.</span><span class="n">resample_hec_style</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="s1">&#39;4h&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">to_period</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -999,7 +907,7 @@ Units:  unk  | Period Type:  PER-AVER
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span>
@@ -1007,7 +915,7 @@ Units:  unk  | Period Type:  PER-AVER
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1094,86 +1002,34 @@ Units:  unk  | Period Type:  PER-AVER
 </section>
 
 
+           </div>
           </div>
-          
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dsm2_input_network.html" class="btn btn-neutral float-left" title="DSM2 as a network" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../contributing.html" class="btn btn-neutral float-right" title="Contributing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, Nicky Sandhu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../index.html">pydsm</a></h1>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
 
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../readme.html">pydsm</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../modules.html">pydsm</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="notebooks.html">Examples</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="dsm2.html">DSM2 Input/Output</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dsm2_input_network.html">DSM2 as a network</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Time stamps, Periods HEC convention</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-  <li><a href="notebooks.html">Examples</a><ul>
-      <li>Previous: <a href="dsm2_input_network.html" title="previous chapter">DSM2 as a network</a></li>
-      <li>Next: <a href="../contributing.html" title="next chapter">Contributing</a></li>
-  </ul></li>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>document.getElementById('searchbox').style.display = "block"</script>
-
-
-
-
-
-
-
-
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2019, Nicky Sandhu.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
-      
-      |
-      <a href="../_sources/notebooks/timestamps_periods_hec_conventions.ipynb.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
-    
-
-    
-  </body>
+</body>
 </html>

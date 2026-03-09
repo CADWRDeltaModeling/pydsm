@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pydsm.output.gtm_grid module &mdash; pydsm 2025.7.30.dev19+g6c322c2f8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=a3636c1b"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pydsm.output.gtmh5 module" href="pydsm.output.gtmh5.html" />
+    <link rel="prev" title="pydsm.output.extract_output module" href="pydsm.output.extract_output.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pydsm
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">pydsm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#conda-recommended">Conda (recommended)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#pip">pip</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#credits">Credits</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#stable-release">Stable release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#from-sources">From sources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#command-line">Command Line</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#compare-dss">Compare DSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#extract-dss">Extract DSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#ptm-animate">PTM Animate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#slice-hydro">Slice Hydro</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">pydsm</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pydsm.html">pydsm package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="pydsm.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.html#module-pydsm">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/notebooks.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/dsm2.html">DSM2 Input/Output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_read_input.html">Reading/writing echo files into/from Pandas DataFrame</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_read_input.html#Visualizing-input-data">Visualizing input data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_read_input.html#Writing-input-to-file">Writing input to file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_read_hydro_h5.html">Reading hydro h5 output files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_read_qual_h5.html">Reading Qual h5 output</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/dsm2_input_network.html">DSM2 as a network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_input_network.html#Read-in-input-file">Read in input file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_input_network.html#Convert-to-a-graph-network">Convert to a graph network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_input_network.html#Drawing-graph-networks">Drawing graph networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_input_network.html#Utilizing-graph-information">Utilizing graph information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/timestamps_periods_hec_conventions.html">Time stamps, Periods HEC convention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/timestamps_periods_hec_conventions.html#Time-formats-(standards-and-military-conventions)">Time formats (standards and military conventions)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/timestamps_periods_hec_conventions.html#Period-and-Instantaneous-data-types">Period and Instantaneous data types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/timestamps_periods_hec_conventions.html#Period-operations">Period operations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#deploying">Deploying</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="authors.html#development-lead">Development Lead</a></li>
+<li class="toctree-l2"><a class="reference internal" href="authors.html#contributors">Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="history.html#unreleased-since-2025-07-29">Unreleased (since 2025.07.29)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id1">2021.12.13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id2">2021.11.14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#x-2020-12-24">0.3.x (2020-12-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id3">0.2.7 (2020-12-01)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id4">0.2.6 (2020-10-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id5">0.2.5 (2020-04-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id6">0.2.4 (2020-04-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id7">0.2.3 (2020-04-05)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id8">0.2.0 (2020-03-17)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id9">0.1.9 (2019-11-11)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id10">0.1.8 (2019-10-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id11">0.1.7 (2019-09-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id12">0.1.6 (2019-09-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id13">0.1.5 (2019-09-19)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id14">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id15">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id16">0.1.0 (2019-08-21)</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pydsm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">pydsm</a></li>
+          <li class="breadcrumb-item"><a href="pydsm.html">pydsm package</a></li>
+          <li class="breadcrumb-item"><a href="pydsm.output.html">pydsm.output package</a></li>
+      <li class="breadcrumb-item active">pydsm.output.gtm_grid module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pydsm.output.gtm_grid.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-pydsm.output.gtm_grid">
+<span id="pydsm-output-gtm-grid-module"></span><h1>pydsm.output.gtm_grid module<a class="headerlink" href="#module-pydsm.output.gtm_grid" title="Link to this heading"></a></h1>
+<p>cells, segments, nodes and channels connections.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pydsm.output.gtm_grid.gtm_grid">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydsm.output.gtm_grid.</span></span><span class="sig-name descname"><span class="pre">gtm_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hdf_fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hydro_echo_fn</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/gtm_grid.html#gtm_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.gtm_grid.gtm_grid" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydsm.output.gtm_grid.gtm_grid.cell_dataframe">
+<span class="sig-name descname"><span class="pre">cell_dataframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/gtm_grid.html#gtm_grid.cell_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.gtm_grid.gtm_grid.cell_dataframe" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pydsm.output.gtm_grid.gtm_grid.cell_node">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cell_node</span></span><a class="headerlink" href="#pydsm.output.gtm_grid.gtm_grid.cell_node" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pydsm.output.gtm_grid.gtm_grid.cells">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cells</span></span><a class="headerlink" href="#pydsm.output.gtm_grid.gtm_grid.cells" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydsm.output.gtm_grid.gtm_grid.channel_to_cell">
+<span class="sig-name descname"><span class="pre">channel_to_cell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chan_no</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/gtm_grid.html#gtm_grid.channel_to_cell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.gtm_grid.gtm_grid.channel_to_cell" title="Link to this definition"></a></dt>
+<dd><p>convert from chan_no, distance pair to cell number
+distance could be a numeric value indicating distance
+or a string ‘length’ indicate the maximum length.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydsm.output.gtm_grid.gtm_grid.channel_to_cell_arr">
+<span class="sig-name descname"><span class="pre">channel_to_cell_arr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chan_no_arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance_arr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/gtm_grid.html#gtm_grid.channel_to_cell_arr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.gtm_grid.gtm_grid.channel_to_cell_arr" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pydsm.output.gtm_grid.gtm_grid.channels">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">channels</span></span><a class="headerlink" href="#pydsm.output.gtm_grid.gtm_grid.channels" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydsm.output.gtm_grid.gtm_grid.get_cell_node">
+<span class="sig-name descname"><span class="pre">get_cell_node</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/gtm_grid.html#gtm_grid.get_cell_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.gtm_grid.gtm_grid.get_cell_node" title="Link to this definition"></a></dt>
+<dd><p>Create a cell table with upnodes and downnodes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydsm.output.gtm_grid.gtm_grid.get_node_cell">
+<span class="sig-name descname"><span class="pre">get_node_cell</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/gtm_grid.html#gtm_grid.get_node_cell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.gtm_grid.gtm_grid.get_node_cell" title="Link to this definition"></a></dt>
+<dd><p>Create a node table with upcell and downcell.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydsm.output.gtm_grid.gtm_grid.get_node_rc">
+<span class="sig-name descname"><span class="pre">get_node_rc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/gtm_grid.html#gtm_grid.get_node_rc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.gtm_grid.gtm_grid.get_node_rc" title="Link to this definition"></a></dt>
+<dd><p>Create a table to map nodes to reservior
+set channel as upnodes and reservior as downnodes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydsm.output.gtm_grid.gtm_grid.get_obs_nodes">
+<span class="sig-name descname"><span class="pre">get_obs_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obs_fn</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/gtm_grid.html#gtm_grid.get_obs_nodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.gtm_grid.gtm_grid.get_obs_nodes" title="Link to this definition"></a></dt>
+<dd><p>Create an obs table with upnodes and downnodes</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pydsm.output.gtm_grid.gtm_grid.ncell">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ncell</span></span><a class="headerlink" href="#pydsm.output.gtm_grid.gtm_grid.ncell" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pydsm.output.gtm_grid.gtm_grid.node_cell">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">node_cell</span></span><a class="headerlink" href="#pydsm.output.gtm_grid.gtm_grid.node_cell" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pydsm.output.gtm_grid.gtm_grid.node_rc">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">node_rc</span></span><a class="headerlink" href="#pydsm.output.gtm_grid.gtm_grid.node_rc" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pydsm.output.gtm_grid.gtm_grid.nres">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nres</span></span><a class="headerlink" href="#pydsm.output.gtm_grid.gtm_grid.nres" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydsm.output.gtm_grid.gtm_grid.obs_cells">
+<span class="sig-name descname"><span class="pre">obs_cells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/gtm_grid.html#gtm_grid.obs_cells"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.gtm_grid.gtm_grid.obs_cells" title="Link to this definition"></a></dt>
+<dd><p>Read observational channel input file and find the cells corresponding
+to the channel number and distance pairs</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pydsm.output.gtm_grid.gtm_grid.rc">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rc</span></span><a class="headerlink" href="#pydsm.output.gtm_grid.gtm_grid.rc" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydsm.output.gtm_grid.gtm_grid.read_gtm_h5">
+<span class="sig-name descname"><span class="pre">read_gtm_h5</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/gtm_grid.html#gtm_grid.read_gtm_h5"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.gtm_grid.gtm_grid.read_gtm_h5" title="Link to this definition"></a></dt>
+<dd><p>Read a gtm output hdf5 file (any file)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydsm.output.gtm_grid.gtm_grid.read_hydro_echo">
+<span class="sig-name descname"><span class="pre">read_hydro_echo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/gtm_grid.html#gtm_grid.read_hydro_echo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.gtm_grid.gtm_grid.read_hydro_echo" title="Link to this definition"></a></dt>
+<dd><p>A function to read hydro_echo.inp file and generate a channal dataframe</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pydsm.output.gtm_grid.gtm_grid.res_name">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">res_name</span></span><a class="headerlink" href="#pydsm.output.gtm_grid.gtm_grid.res_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pydsm.output.gtm_grid.gtm_grid.segments">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">segments</span></span><a class="headerlink" href="#pydsm.output.gtm_grid.gtm_grid.segments" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pydsm.output.extract_output.html" class="btn btn-neutral float-left" title="pydsm.output.extract_output module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pydsm.output.gtmh5.html" class="btn btn-neutral float-right" title="pydsm.output.gtmh5 module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, Nicky Sandhu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

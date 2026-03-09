@@ -1,0 +1,18 @@
+pydsm.viz package
+=================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   pydsm.viz.maputils
+
+Module contents
+---------------
+
+.. automodule:: pydsm.viz
+   :members:
+   :show-inheritance:
+   :undoc-members:

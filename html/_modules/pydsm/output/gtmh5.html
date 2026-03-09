@@ -1,0 +1,412 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pydsm.output.gtmh5 &mdash; pydsm 2025.7.30.dev19+g6c322c2f8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=a3636c1b"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pydsm
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">pydsm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#conda-recommended">Conda (recommended)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#pip">pip</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#credits">Credits</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#stable-release">Stable release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#from-sources">From sources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../usage.html#command-line">Command Line</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#compare-dss">Compare DSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#extract-dss">Extract DSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#ptm-animate">PTM Animate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#slice-hydro">Slice Hydro</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">pydsm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../pydsm.html">pydsm package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../pydsm.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pydsm.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pydsm.html#module-pydsm">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/notebooks.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../notebooks/dsm2.html">DSM2 Input/Output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_input.html">Reading/writing echo files into/from Pandas DataFrame</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_input.html#Visualizing-input-data">Visualizing input data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_input.html#Writing-input-to-file">Writing input to file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_hydro_h5.html">Reading hydro h5 output files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_qual_h5.html">Reading Qual h5 output</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html">DSM2 as a network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Read-in-input-file">Read in input file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Convert-to-a-graph-network">Convert to a graph network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Drawing-graph-networks">Drawing graph networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Utilizing-graph-information">Utilizing graph information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html">Time stamps, Periods HEC convention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html#Time-formats-(standards-and-military-conventions)">Time formats (standards and military conventions)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html#Period-and-Instantaneous-data-types">Period and Instantaneous data types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html#Period-operations">Period operations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#deploying">Deploying</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../authors.html#development-lead">Development Lead</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../authors.html#contributors">Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#unreleased-since-2025-07-29">Unreleased (since 2025.07.29)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">2021.12.13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id2">2021.11.14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#x-2020-12-24">0.3.x (2020-12-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id3">0.2.7 (2020-12-01)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id4">0.2.6 (2020-10-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id5">0.2.5 (2020-04-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id6">0.2.4 (2020-04-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id7">0.2.3 (2020-04-05)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id8">0.2.0 (2020-03-17)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id9">0.1.9 (2019-11-11)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id10">0.1.8 (2019-10-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id11">0.1.7 (2019-09-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id12">0.1.6 (2019-09-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id13">0.1.5 (2019-09-19)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id14">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id15">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id16">0.1.0 (2019-08-21)</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pydsm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pydsm.output.gtmh5</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pydsm.output.gtmh5</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Utility functions for working with GTM/Qual HDF5 outputs.</span>
+
+<span class="sd">This module centralizes helper functions that were previously defined inside</span>
+<span class="sd">`tests/ex_gtmh5_restart.py` so that they can be reused across the codebase</span>
+<span class="sd">and by users.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">qualh5</span>
+
+<span class="n">_DSM2_TIME_FORMAT</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">%b%Y %H%M&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_parse_dsm2_time</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse a DSM2 time string (DDMMMYYYY HHMM) to a naive ``datetime``.</span>
+
+<span class="sd">    Tries explicit DSM2 format first, then falls back to ``pandas.to_datetime``.</span>
+<span class="sd">    Accepts existing ``datetime`` / ``Timestamp`` objects and returns a</span>
+<span class="sd">    built-in ``datetime`` (naive) for consistency.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">datetime</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">_DSM2_TIME_FORMAT</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_format_time</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Format a datetime or parseable string into DSM2 style: ``DDMMMYYYY HHMM``.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; _format_time(&quot;1990-01-01 01:00&quot;)</span>
+<span class="sd">    &#39;01JAN1990 0100&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="n">_DSM2_TIME_FORMAT</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="n">ts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ts</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">_DSM2_TIME_FORMAT</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_nearest_time</span><span class="p">(</span>
+    <span class="n">target_time</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">start_time</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">end_time</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">output_freq</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the model output timestamp nearest to ``target_time``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    target_time : datetime | str</span>
+<span class="sd">        Desired target time.</span>
+<span class="sd">    start_time, end_time : datetime | str</span>
+<span class="sd">        Inclusive simulation time span.</span>
+<span class="sd">    output_freq : pandas offset / frequency or string parseable by ``to_timedelta``</span>
+<span class="sd">        Regular interval of outputs (e.g. &#39;60min&#39;).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    datetime</span>
+<span class="sd">        The nearest output timestamp clamped within [start_time, end_time].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">target_time</span><span class="p">)</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">start_time</span><span class="p">)</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">end_time</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">target</span> <span class="o">&lt;=</span> <span class="n">start</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">start</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">target</span> <span class="o">&gt;=</span> <span class="n">end</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">end</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">freq_td</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">output_freq</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c1"># pragma: no cover - defensive</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported frequency </span><span class="si">{</span><span class="n">output_freq</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">freq_td</span> <span class="o">&lt;=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span>  <span class="c1"># pragma: no cover - sanity check</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Non-positive frequency interval&quot;</span><span class="p">)</span>
+
+    <span class="n">elapsed</span> <span class="o">=</span> <span class="n">target</span> <span class="o">-</span> <span class="n">start</span>
+    <span class="n">steps_floor</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">elapsed</span> <span class="o">//</span> <span class="n">freq_td</span><span class="p">)</span>
+    <span class="n">cand1</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">steps_floor</span> <span class="o">*</span> <span class="n">freq_td</span>
+    <span class="n">cand2</span> <span class="o">=</span> <span class="n">cand1</span> <span class="o">+</span> <span class="n">freq_td</span>
+
+    <span class="k">if</span> <span class="n">cand2</span> <span class="o">&gt;</span> <span class="n">end</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">cand1</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">cand1</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">target</span> <span class="o">-</span> <span class="n">cand1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">cand2</span> <span class="o">-</span> <span class="n">target</span><span class="p">)</span>
+        <span class="k">else</span> <span class="n">cand2</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="build_timewindow_for_time">
+<a class="viewcode-back" href="../../../pydsm.output.gtmh5.html#pydsm.build_timewindow_for_time">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_timewindow_for_time</span><span class="p">(</span>
+    <span class="n">tidefile</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">time</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Determine nearest model time and build a single-interval timewindow.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tidefile : str</span>
+<span class="sd">        Path to GTM/Qual HDF5 file.</span>
+<span class="sd">    time : datetime | str</span>
+<span class="sd">        Requested (approximate) time.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    (timewindow, model_time)</span>
+<span class="sd">        timewindow is &#39;START-END&#39; using DSM2 format; model_time is datetime.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">qualt</span> <span class="o">=</span> <span class="n">qualh5</span><span class="o">.</span><span class="n">QualH5</span><span class="p">(</span><span class="n">tidefile</span><span class="p">)</span>
+    <span class="n">output_freq</span> <span class="o">=</span> <span class="n">qualt</span><span class="o">.</span><span class="n">get_output_freq</span><span class="p">()</span>
+    <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span> <span class="o">=</span> <span class="n">qualt</span><span class="o">.</span><span class="n">get_start_end_dates</span><span class="p">()</span>
+
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">_parse_dsm2_time</span><span class="p">(</span><span class="n">start_date</span><span class="p">)</span>
+    <span class="n">end_time</span> <span class="o">=</span> <span class="n">_parse_dsm2_time</span><span class="p">(</span><span class="n">end_date</span><span class="p">)</span>
+
+    <span class="n">model_time</span> <span class="o">=</span> <span class="n">_nearest_time</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">,</span> <span class="n">output_freq</span><span class="p">)</span>
+    <span class="n">interval_end</span> <span class="o">=</span> <span class="n">model_time</span> <span class="o">+</span> <span class="n">output_freq</span>
+
+    <span class="n">timewindow</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_format_time</span><span class="p">(</span><span class="n">model_time</span><span class="p">)</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">_format_time</span><span class="p">(</span><span class="n">interval_end</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">return</span> <span class="n">timewindow</span><span class="p">,</span> <span class="n">model_time</span></div>
+
+
+
+<div class="viewcode-block" id="get_interpolated_cell_concentrations">
+<a class="viewcode-back" href="../../../pydsm.output.gtmh5.html#pydsm.get_interpolated_cell_concentrations">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_interpolated_cell_concentrations</span><span class="p">(</span>
+    <span class="n">tidefile</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">timewindow</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">constituent</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ec&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute per-cell interpolated concentrations for a provided timewindow.</span>
+
+<span class="sd">    Produces an array shape (1, total_cells) combining upstream and downstream</span>
+<span class="sd">    concentrations with linear interpolation across channel cells.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">qualt</span> <span class="o">=</span> <span class="n">qualh5</span><span class="o">.</span><span class="n">QualH5</span><span class="p">(</span><span class="n">tidefile</span><span class="p">)</span>
+    <span class="n">ct</span> <span class="o">=</span> <span class="n">qualt</span><span class="o">.</span><span class="n">get_input_table</span><span class="p">(</span><span class="s2">&quot;/geometry/channel&quot;</span><span class="p">)</span>
+    <span class="n">channel_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">qualt</span><span class="o">.</span><span class="n">get_channel_numbers</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+
+    <span class="n">upconc</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">qualt</span><span class="o">.</span><span class="n">get_channel_concentration</span><span class="p">(</span>
+            <span class="n">constituent</span><span class="p">,</span> <span class="n">channel_ids</span><span class="p">,</span> <span class="s2">&quot;upstream&quot;</span><span class="p">,</span> <span class="n">timewindow</span>
+        <span class="p">)</span>
+        <span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">dnconc</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">qualt</span><span class="o">.</span><span class="n">get_channel_concentration</span><span class="p">(</span>
+            <span class="n">constituent</span><span class="p">,</span> <span class="n">channel_ids</span><span class="p">,</span> <span class="s2">&quot;downstream&quot;</span><span class="p">,</span> <span class="n">timewindow</span>
+        <span class="p">)</span>
+        <span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">num_channels</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">channel_ids</span><span class="p">)</span>
+    <span class="n">num_cells</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ct</span><span class="p">[</span><span class="s2">&quot;end_cell&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+
+    <span class="n">channel_cell_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_channels</span><span class="p">,</span> <span class="n">num_cells</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">interp_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_channels</span><span class="p">,</span> <span class="n">num_cells</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">ct</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">ch_num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;channel_num&quot;</span><span class="p">])</span>
+        <span class="n">ch_index</span> <span class="o">=</span> <span class="n">channel_ids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">ch_num</span><span class="p">)</span>
+        <span class="n">start_cell</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;start_cell&quot;</span><span class="p">])</span>
+        <span class="n">end_cell</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;end_cell&quot;</span><span class="p">])</span>
+        <span class="n">ncells</span> <span class="o">=</span> <span class="n">end_cell</span> <span class="o">-</span> <span class="n">start_cell</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">ncells</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">interp_weights</span><span class="p">[</span><span class="n">ch_index</span><span class="p">,</span> <span class="n">start_cell</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">end_cell</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
+            <span class="n">factor</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">ncells</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+        <span class="n">channel_cell_mask</span><span class="p">[</span><span class="n">ch_index</span><span class="p">,</span> <span class="n">start_cell</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">end_cell</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="n">conc_matrix</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">upconc</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">channel_cell_mask</span>
+        <span class="o">+</span> <span class="p">(</span><span class="n">dnconc</span> <span class="o">-</span> <span class="n">upconc</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">interp_weights</span>
+    <span class="p">)</span>
+    <span class="n">single_row</span> <span class="o">=</span> <span class="n">conc_matrix</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">single_row</span></div>
+
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;_DSM2_TIME_FORMAT&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;_parse_dsm2_time&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;_format_time&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;_nearest_time&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;build_timewindow_for_time&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_interpolated_cell_concentrations&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, Nicky Sandhu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

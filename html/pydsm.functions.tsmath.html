@@ -1,0 +1,362 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pydsm.functions.tsmath module &mdash; pydsm 2025.7.30.dev19+g6c322c2f8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=a3636c1b"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pydsm.input package" href="pydsm.input.html" />
+    <link rel="prev" title="pydsm.functions.tidalhl module" href="pydsm.functions.tidalhl.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pydsm
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">pydsm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#conda-recommended">Conda (recommended)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#pip">pip</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#credits">Credits</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#stable-release">Stable release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#from-sources">From sources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#command-line">Command Line</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#compare-dss">Compare DSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#extract-dss">Extract DSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#ptm-animate">PTM Animate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#slice-hydro">Slice Hydro</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">pydsm</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pydsm.html">pydsm package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="pydsm.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.html#module-pydsm">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/notebooks.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/dsm2.html">DSM2 Input/Output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_read_input.html">Reading/writing echo files into/from Pandas DataFrame</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_read_input.html#Visualizing-input-data">Visualizing input data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_read_input.html#Writing-input-to-file">Writing input to file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_read_hydro_h5.html">Reading hydro h5 output files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_read_qual_h5.html">Reading Qual h5 output</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/dsm2_input_network.html">DSM2 as a network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_input_network.html#Read-in-input-file">Read in input file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_input_network.html#Convert-to-a-graph-network">Convert to a graph network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_input_network.html#Drawing-graph-networks">Drawing graph networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_input_network.html#Utilizing-graph-information">Utilizing graph information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/timestamps_periods_hec_conventions.html">Time stamps, Periods HEC convention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/timestamps_periods_hec_conventions.html#Time-formats-(standards-and-military-conventions)">Time formats (standards and military conventions)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/timestamps_periods_hec_conventions.html#Period-and-Instantaneous-data-types">Period and Instantaneous data types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/timestamps_periods_hec_conventions.html#Period-operations">Period operations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#deploying">Deploying</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="authors.html#development-lead">Development Lead</a></li>
+<li class="toctree-l2"><a class="reference internal" href="authors.html#contributors">Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="history.html#unreleased-since-2025-07-29">Unreleased (since 2025.07.29)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id1">2021.12.13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id2">2021.11.14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#x-2020-12-24">0.3.x (2020-12-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id3">0.2.7 (2020-12-01)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id4">0.2.6 (2020-10-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id5">0.2.5 (2020-04-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id6">0.2.4 (2020-04-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id7">0.2.3 (2020-04-05)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id8">0.2.0 (2020-03-17)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id9">0.1.9 (2019-11-11)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id10">0.1.8 (2019-10-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id11">0.1.7 (2019-09-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id12">0.1.6 (2019-09-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id13">0.1.5 (2019-09-19)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id14">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id15">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id16">0.1.0 (2019-08-21)</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pydsm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">pydsm</a></li>
+          <li class="breadcrumb-item"><a href="pydsm.html">pydsm package</a></li>
+          <li class="breadcrumb-item"><a href="pydsm.functions.html">pydsm.functions package</a></li>
+      <li class="breadcrumb-item active">pydsm.functions.tsmath module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pydsm.functions.tsmath.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-pydsm.functions.tsmath">
+<span id="pydsm-functions-tsmath-module"></span><h1>pydsm.functions.tsmath module<a class="headerlink" href="#module-pydsm.functions.tsmath" title="Link to this heading"></a></h1>
+<p>Timeseries operation
+Conform to HEC-convention.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.functions.tsmath.kling_gupta_efficiency">
+<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tsmath.</span></span><span class="sig-name descname"><span class="pre">kling_gupta_efficiency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">series2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tsmath.html#kling_gupta_efficiency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tsmath.kling_gupta_efficiency" title="Link to this definition"></a></dt>
+<dd><dl>
+<dt><a class="reference external" href="https://hess.copernicus.org/articles/23/4323/2019/">https://hess.copernicus.org/articles/23/4323/2019/</a></dt><dd><p>The Kling–Gupta efficiency (KGE; Eq. 2, Gupta et al., 2009) is based on a
+decomposition of NSE into its constitutive components (correlation,
+variability bias and mean bias), addresses several perceived shortcomings
+in NSE (although there are still opportunities to improve the KGE metric
+and to explore alternative ways to quantify model performance) and is
+increasingly used for model calibration and evaluation.</p>
+<blockquote>
+<div><p>Args:</p>
+<p>series1 (Series): Can be considered as model in the URL above
+series2 (Series): Can be considered the observed in the URL above</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>Returns:</p>
+<blockquote>
+<div><p>Kling-Gupta Efficiency</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.functions.tsmath.linregress">
+<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tsmath.</span></span><span class="sig-name descname"><span class="pre">linregress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xseries</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yseries</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tsmath.html#linregress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tsmath.linregress" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.functions.tsmath.mean_error">
+<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tsmath.</span></span><span class="sig-name descname"><span class="pre">mean_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">series2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tsmath.html#mean_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tsmath.mean_error" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.functions.tsmath.mse">
+<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tsmath.</span></span><span class="sig-name descname"><span class="pre">mse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">series2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tsmath.html#mse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tsmath.mse" title="Link to this definition"></a></dt>
+<dd><p>Mean Squared Error (MSE)</p>
+<p>Args:</p>
+<blockquote>
+<div><p>series1 (Series or single value):
+series2 (Series or single value):</p>
+</div></blockquote>
+<p>Returns:</p>
+<blockquote>
+<div><p>Mean squared error</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.functions.tsmath.nash_sutcliffe">
+<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tsmath.</span></span><span class="sig-name descname"><span class="pre">nash_sutcliffe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">series2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tsmath.html#nash_sutcliffe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tsmath.nash_sutcliffe" title="Link to this definition"></a></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Nash%E2%80%93Sutcliffe_model_efficiency_coefficient">https://en.wikipedia.org/wiki/Nash%E2%80%93Sutcliffe_model_efficiency_coefficient</a></p>
+<p>Args:</p>
+<blockquote>
+<div><p>series1 (Series): Can be considered as model in the URL above
+series2 (Series): Can be considered the observed in the URL above</p>
+</div></blockquote>
+<p>Returns:</p>
+<blockquote>
+<div><p>Nash Sutcliffe Efficiency</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.functions.tsmath.nmean_error">
+<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tsmath.</span></span><span class="sig-name descname"><span class="pre">nmean_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">series2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tsmath.html#nmean_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tsmath.nmean_error" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.functions.tsmath.nmse">
+<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tsmath.</span></span><span class="sig-name descname"><span class="pre">nmse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">series2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tsmath.html#nmse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tsmath.nmse" title="Link to this definition"></a></dt>
+<dd><p>Normalized Mean Squared Error (NMSE)
+Normalizes (i.e. divides) by the mean value of series2 (considered the target or observed values)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.functions.tsmath.nrmse">
+<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tsmath.</span></span><span class="sig-name descname"><span class="pre">nrmse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">series2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tsmath.html#nrmse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tsmath.nrmse" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.functions.tsmath.per_aver">
+<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tsmath.</span></span><span class="sig-name descname"><span class="pre">per_aver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'D'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tsmath.html#per_aver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tsmath.per_aver" title="Link to this definition"></a></dt>
+<dd><p>Period averages of the time series in DataFrame provided for the interval
+See for details <a class="reference internal" href="#pydsm.functions.tsmath.resample_hec_style" title="pydsm.functions.tsmath.resample_hec_style"><code class="xref py py-func docutils literal notranslate"><span class="pre">resample_hec_style()</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.functions.tsmath.per_max">
+<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tsmath.</span></span><span class="sig-name descname"><span class="pre">per_max</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'D'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tsmath.html#per_max"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tsmath.per_max" title="Link to this definition"></a></dt>
+<dd><p>Period maximums of the time series in DataFrame provided for the interval
+See for details <a class="reference internal" href="#pydsm.functions.tsmath.resample_hec_style" title="pydsm.functions.tsmath.resample_hec_style"><code class="xref py py-func docutils literal notranslate"><span class="pre">resample_hec_style()</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.functions.tsmath.per_min">
+<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tsmath.</span></span><span class="sig-name descname"><span class="pre">per_min</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'D'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tsmath.html#per_min"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tsmath.per_min" title="Link to this definition"></a></dt>
+<dd><p>Period minimums of the time series in DataFrame provided for the interval
+See for details <a class="reference internal" href="#pydsm.functions.tsmath.resample_hec_style" title="pydsm.functions.tsmath.resample_hec_style"><code class="xref py py-func docutils literal notranslate"><span class="pre">resample_hec_style()</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.functions.tsmath.percent_bias">
+<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tsmath.</span></span><span class="sig-name descname"><span class="pre">percent_bias</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">series2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tsmath.html#percent_bias"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tsmath.percent_bias" title="Link to this definition"></a></dt>
+<dd><p>Percent bias (PBIAS) measures the average tendency
+of the simulated values to be larger or smaller than their observed ones.</p>
+<p><a class="reference external" href="https://rdrr.io/cran/hydroGOF/man/pbias.html#:~:text=Percent%20bias%20(PBIAS)%20measures%20the,values%20indicating%20accurate%20model%20simulation">https://rdrr.io/cran/hydroGOF/man/pbias.html#:~:text=Percent%20bias%20(PBIAS)%20measures%20the,values%20indicating%20accurate%20model%20simulation</a></p>
+<p>Args:</p>
+<blockquote>
+<div><p>series1 (Series): can be considered as model
+series2 (Series): can be considered as observed or target</p>
+</div></blockquote>
+<p>Returns:</p>
+<blockquote>
+<div><p>float : percent bias</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.functions.tsmath.resample_hec_style">
+<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tsmath.</span></span><span class="sig-name descname"><span class="pre">resample_hec_style</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'D'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tsmath.html#resample_hec_style"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tsmath.resample_hec_style" title="Link to this definition"></a></dt>
+<dd><p>Resampling of time series in DataFrame provided for the interval (see Pandas resample for codes)
+In addition to conform to HEC-conventions the resampling is done with closed=”right”
+see pandas [resample documentation](<a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#resampling">https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#resampling</a>) to understand these arguments</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.functions.tsmath.rmse">
+<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tsmath.</span></span><span class="sig-name descname"><span class="pre">rmse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">series2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tsmath.html#rmse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tsmath.rmse" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.functions.tsmath.rsr">
+<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tsmath.</span></span><span class="sig-name descname"><span class="pre">rsr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">series2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tsmath.html#rsr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tsmath.rsr" title="Link to this definition"></a></dt>
+<dd><p>Ratio of the RMSE to the standard deviation of the observed time series</p>
+<p>Args:</p>
+<blockquote>
+<div><p>series1 (Series): can be considered as model
+series2 (Series): can be considered as observed or target</p>
+</div></blockquote>
+<p>Returns:</p>
+<blockquote>
+<div><p>float : RSR</p>
+</div></blockquote>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pydsm.functions.tidalhl.html" class="btn btn-neutral float-left" title="pydsm.functions.tidalhl module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pydsm.input.html" class="btn btn-neutral float-right" title="pydsm.input package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, Nicky Sandhu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
