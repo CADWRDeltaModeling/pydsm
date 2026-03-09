@@ -63,6 +63,9 @@ write_to = "pydsm/_version.py"
 viz = [
     "geopandas",
     "shapely",
+    "hvplot",
+    "panel",
+    "param",
 ]
 # Install test extras with:  pip install "pydsm[test]"
 test = [

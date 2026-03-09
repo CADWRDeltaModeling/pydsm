@@ -27,6 +27,9 @@ dependencies:
   # --- viz extras (pyproject.toml [project.optional-dependencies.viz]) ---
   - geopandas
   - shapely
+  - hvplot
+  - panel
+  - param
   # --- test extras (pyproject.toml [project.optional-dependencies.test]) ---
   - pytest>=7
   - pytest-cov

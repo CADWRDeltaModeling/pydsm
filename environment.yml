@@ -23,6 +23,9 @@ dependencies:
   # --- viz extras (pyproject.toml [project.optional-dependencies.viz]) ---
   - geopandas
   - shapely
+  - hvplot
+  - panel
+  - param
   # --- conda-only / custom-channel packages ---
   - pyhecdss
   - vtools3
