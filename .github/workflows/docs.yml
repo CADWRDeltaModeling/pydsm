@@ -1,0 +1,83 @@
+name: Build and Deploy Docs
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Miniconda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          auto-update-conda: true
+          python-version: "3.11"
+          channels: conda-forge,cadwr-dms,nodefaults
+          channel-priority: strict
+
+      - name: Create docs environment
+        shell: bash -el {0}
+        run: |
+          conda env create -f environment-docs.yml
+          conda run -n pydsm-docs pip install myst-parser sphinx-rtd-theme
+
+      - name: Install pydsm
+        shell: bash -el {0}
+        run: |
+          conda run -n pydsm-docs pip install --no-deps -e .
+
+      - name: Generate sphinx-apidoc stubs
+        shell: bash -el {0}
+        run: |
+          conda run -n pydsm-docs sphinx-apidoc -o docsrc pydsm --separate --force -q
+
+      - name: Pre-execute notebooks
+        shell: bash -el {0}
+        env:
+          MPLBACKEND: Agg
+        run: |
+          for nb in docsrc/notebooks/*.ipynb; do
+            echo "Executing $nb"
+            conda run -n pydsm-docs \
+              jupyter nbconvert --to notebook --execute --inplace \
+                --ExecutePreprocessor.timeout=300 \
+                --ExecutePreprocessor.kernel_name=python3 \
+                "$nb"
+          done
+
+      - name: Build HTML docs
+        shell: bash -el {0}
+        env:
+          MPLBACKEND: Agg
+          NBSPHINX_ALLOW_ERRORS: "0"
+        run: |
+          conda run -n pydsm-docs \
+            python -msphinx -M html docsrc docsrc/_build
+
+      - name: Add .nojekyll and root redirect
+        run: |
+          touch docsrc/_build/.nojekyll
+          echo '<meta http-equiv="refresh" content="0; url=./html/index.html" />' \
+            > docsrc/_build/index.html
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docsrc/_build
+          publish_branch: gh-pages
+          keep_files: false
