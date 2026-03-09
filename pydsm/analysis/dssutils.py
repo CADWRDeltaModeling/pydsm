@@ -362,3 +362,132 @@ def csv_to_dss(
                 print("Writing to ", pathname)
                 f.write_rts(pathname, ts, unit, period_type)
     print("Done")
+
+
+def get_dss_data(
+    primary_pathname_part_dss_filename_dict,
+    primary_pathname_part,
+    primary_part_c_part_dict=None,
+    primary_part_e_part_dict=None,
+    primary_part_f_part_dict=None,
+    daily_avg=True,
+    filter_b_part_numeric=False,
+):
+    """
+    Read each dss time series from specified b part, c part, e part, and filename, and return a
+    dataframe containing all time series as individual columns.
+
+    primary_pathname_part (str):
+        The 'primary pathname part' is the pathname part for which we will be extracting one or more
+        time series. For example:
+        1) if we want data for a specific list of stations, then 'b_part' will
+           be the primary pathname part.
+        2) If we want all div-flow, seep-flow, or drain-flow data, then 'c_part' will be the primary
+           pathname part.
+    primary_pathname_part_dss_filename_dict (dict): key=primary part value, value=DSS filename
+    primary_part_c_part_dict (dict): key=primary part, value=c_part to use for filtering
+    primary_part_e_part_dict (dict): key=primary part, value=e_part to use for filtering
+    primary_part_f_part_dict (dict): key=primary part, value=f_part to use for filtering
+    daily_avg (bool, optional): if true and data are not daily, only daily averaged data will be returned
+    filter_b_part_numeric (bool, optional): if true, remove any columns for which b part in dss path header is not numeric
+    """
+    print("==============================================================")
+    return_df = None
+    for pp in primary_pathname_part_dss_filename_dict:
+        dss_filename = primary_pathname_part_dss_filename_dict[pp]
+        b_part = None
+        c_part = None
+        e_part = None
+        f_part = None
+        if primary_pathname_part == "b_part":
+            b_part = pp
+            c_part = (
+                primary_part_c_part_dict[pp]
+                if primary_part_c_part_dict is not None
+                else None
+            )
+            e_part = (
+                primary_part_e_part_dict[pp]
+                if primary_part_e_part_dict is not None
+                else None
+            )
+            f_part = (
+                primary_part_f_part_dict[pp]
+                if (
+                    primary_part_f_part_dict is not None
+                    and b_part in primary_part_f_part_dict
+                )
+                else None
+            )
+            print(
+                "bcef="
+                + str(b_part)
+                + ","
+                + str(c_part)
+                + ","
+                + str(e_part)
+                + ","
+                + str(f_part)
+            )
+        elif primary_pathname_part == "c_part":
+            c_part = pp
+        else:
+            raise ValueError(
+                f"primary_pathname_part must be 'b_part' or 'c_part', got: {primary_pathname_part!r}"
+            )
+
+        with pyhecdss.DSSFile(dss_filename) as d:
+            catdf = d.read_catalog()
+            filtered_df = None
+            if b_part is not None:
+                filtered_df = (
+                    filtered_df[catdf.B == b_part]
+                    if filtered_df is not None
+                    else catdf[catdf.B == b_part]
+                )
+            if c_part is not None:
+                filtered_df = (
+                    filtered_df[catdf.C == c_part]
+                    if filtered_df is not None
+                    else catdf[catdf.C == c_part]
+                )
+            if e_part is not None:
+                filtered_df = (
+                    filtered_df[catdf.E == e_part]
+                    if filtered_df is not None
+                    else catdf[catdf.E == e_part]
+                )
+            if f_part is not None:
+                filtered_df = (
+                    filtered_df[catdf.F == f_part]
+                    if filtered_df is not None
+                    else catdf[catdf.F == f_part]
+                )
+            if filter_b_part_numeric:
+                filtered_df = filtered_df[catdf.B.str.isnumeric()]
+            path_list = d.get_pathnames(filtered_df)
+            for p in path_list:
+                df = None
+                if d.parse_pathname_epart(p).startswith("IR-"):
+                    df, units, ptype = d.read_its(p)
+                else:
+                    df, units, ptype = d.read_rts(p)
+                time_interval_str = p.split("/")[5]
+                if daily_avg and "1DAY" not in time_interval_str:
+                    print("daily averaging")
+                    df = tsmath.per_aver(df, "1D")
+                if isinstance(df.index, pd.core.indexes.datetimes.DatetimeIndex):
+                    df.index = df.index.to_period()
+                if primary_pathname_part == "b_part":
+                    df.columns = [pp]
+                print("path=" + p)
+                return_df = (
+                    df
+                    if return_df is None
+                    else pd.merge(
+                        return_df, df, how="left", left_index=True, right_index=True
+                    )
+                )
+        print("==============================================================")
+
+    return return_df
