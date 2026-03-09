@@ -47,21 +47,3 @@ pip install "pydsm[dev]"   # test + docs tools
 ```
 
 ---
-
-## Known Issues
-
-`conda install h5py` lacks szip/zlib support
-([upstream issue](https://github.com/ContinuumIO/anaconda-issues/issues/11382)).
-Workaround:
-
-```bash
-conda uninstall h5py
-pip install h5py
-```
-
----
-
-## Credits
-
-This package was created with [Cookiecutter](https://github.com/audreyr/cookiecutter)
-and the [audreyr/cookiecutter-pypackage](https://github.com/audreyr/cookiecutter-pypackage) project template.

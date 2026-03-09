@@ -16,8 +16,6 @@ build:
   script_env:
    - SETUPTOOLS_SCM_PRETEND_VERSION
   script: {{ PYTHON }} -m pip install --no-build-isolation --no-deps --ignore-installed -vv .
-  noarch: python
-  number: 0
   entry_points:
     {% for name, reference in project['scripts'].items() %}
     - {{ name }} = {{ reference }}
@@ -42,11 +40,9 @@ requirements:
     source_files:
       - tests
     requires:
-      - pytest
-      - pytest-cov
-    {% for dep in project.get("optional-dependencies", {}).get('test', []) %}
-    - {{ dep.lower() }}
-    {% endfor %}
+      {% for dep in project.get("optional-dependencies", {}).get('test', []) %}
+      - {{ dep.lower() }}
+      {% endfor %}
     commands:
       - (setlocal && cd tests && pytest && endlocal) # [win]
       - (cd tests; pytest) # [unix]

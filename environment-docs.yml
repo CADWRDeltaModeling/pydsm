@@ -13,7 +13,7 @@ channels:
   - cadwr-dms
   - nodefaults
 dependencies:
-  - python=3.11
+  - python=3.13
   - pip
   # --- core runtime (mirrors pyproject.toml [project.dependencies]) ---
   - click

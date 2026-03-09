@@ -2,6 +2,26 @@
 History
 =======
 
+Unreleased (since 2025.07.29)
+------------------------------
+* Massive refactor: reorganised package into ``pydsm.input``, ``pydsm.output``,
+  ``pydsm.analysis``, and ``pydsm.viz`` sub-packages
+* Replaced stale ``.pkl`` test fixtures with Parquet files (via pyarrow);
+  added ``--regen-fixtures`` pytest option
+* Added ``pydsm.input.xsection`` module for adjusting channel cross-section
+  properties (bottom elevation, wetted perimeter, width)
+* Added ``pydsm.output.create_gtm_restart`` for GTM restart file creation
+* Enhanced ``csv_to_dss`` CLI command with additional options
+* Parser: deterministic dtype handling; postprocessor error-handling improvements
+* Added ``README.md`` (converted from RST), ``README-dev.md`` developer guide
+* Added GitHub Actions workflow for building and deploying Sphinx docs to
+  ``gh-pages``; docs now use nbsphinx with pre-executed notebooks
+* Updated ``environment.yml`` (core + viz), ``environment_dev.yml``
+  (core + viz + test), ``environment-docs.yml`` (full) to align with
+  ``pyproject.toml`` optional-dependency groups
+* Added ``myst-parser`` support so Sphinx can include Markdown source files
+* Fixed pandas 2.x / numpy 2.x compatibility in notebooks and test fixtures
+
 2021.12.13
 ----------
 Added major functionality for hydro and qual .h5 reading
