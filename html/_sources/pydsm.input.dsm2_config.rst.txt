@@ -1,0 +1,7 @@
+pydsm.input.dsm2\_config module
+===============================
+
+.. automodule:: pydsm.input.dsm2_config
+   :members:
+   :show-inheritance:
+   :undoc-members:

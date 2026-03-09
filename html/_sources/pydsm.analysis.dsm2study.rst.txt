@@ -1,0 +1,7 @@
+pydsm.analysis.dsm2study module
+===============================
+
+.. automodule:: pydsm.analysis.dsm2study
+   :members:
+   :show-inheritance:
+   :undoc-members:

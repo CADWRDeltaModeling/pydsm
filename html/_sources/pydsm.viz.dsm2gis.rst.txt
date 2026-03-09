@@ -1,0 +1,7 @@
+pydsm.viz.dsm2gis module
+========================
+
+.. automodule:: pydsm.viz.dsm2gis
+   :members:
+   :show-inheritance:
+   :undoc-members:

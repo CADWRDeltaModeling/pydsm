@@ -1,0 +1,384 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pydsm.viz.dsm2gis &mdash; pydsm 2025.7.30.dev20+g2760a7620 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6a680cf5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pydsm
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">pydsm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#conda-recommended">Conda (recommended)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#pip">pip</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#credits">Credits</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#stable-release">Stable release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#from-sources">From sources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../usage.html#command-line">Command Line</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#compare-dss">Compare DSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#extract-dss">Extract DSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#ptm-animate">PTM Animate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#slice-hydro">Slice Hydro</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">pydsm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../pydsm.html">pydsm package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../pydsm.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pydsm.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pydsm.html#module-pydsm">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/notebooks.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../notebooks/dsm2.html">DSM2 Input/Output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_input.html">Reading/writing echo files into/from Pandas DataFrame</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_input.html#Visualizing-input-data">Visualizing input data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_input.html#Writing-input-to-file">Writing input to file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_hydro_h5.html">Reading hydro h5 output files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_qual_h5.html">Reading Qual h5 output</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html">DSM2 as a network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Read-in-input-file">Read in input file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Convert-to-a-graph-network">Convert to a graph network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Drawing-graph-networks">Drawing graph networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Utilizing-graph-information">Utilizing graph information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html">Time stamps, Periods HEC convention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html#Time-formats-(standards-and-military-conventions)">Time formats (standards and military conventions)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html#Period-and-Instantaneous-data-types">Period and Instantaneous data types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html#Period-operations">Period operations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#deploying">Deploying</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../authors.html#development-lead">Development Lead</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../authors.html#contributors">Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#unreleased-since-2025-07-29">Unreleased (since 2025.07.29)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">2021.12.13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id2">2021.11.14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#x-2020-12-24">0.3.x (2020-12-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id3">0.2.7 (2020-12-01)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id4">0.2.6 (2020-10-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id5">0.2.5 (2020-04-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id6">0.2.4 (2020-04-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id7">0.2.3 (2020-04-05)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id8">0.2.0 (2020-03-17)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id9">0.1.9 (2019-11-11)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id10">0.1.8 (2019-10-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id11">0.1.7 (2019-09-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id12">0.1.6 (2019-09-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id13">0.1.5 (2019-09-19)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id14">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id15">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id16">0.1.0 (2019-08-21)</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pydsm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pydsm.viz.dsm2gis</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pydsm.viz.dsm2gis</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Functions to help with DSM2 and GIS related tasks</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">click</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shapely</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">shapely.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">Point</span><span class="p">,</span> <span class="n">MultiLineString</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">shapely.ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">nearest_points</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydsm.input</span><span class="w"> </span><span class="kn">import</span> <span class="n">parser</span>
+
+
+<div class="viewcode-block" id="find_closest_line_and_distance">
+<a class="viewcode-back" href="../../../pydsm.viz.dsm2gis.html#pydsm.viz.dsm2gis.find_closest_line_and_distance">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_closest_line_and_distance</span><span class="p">(</span><span class="n">point</span><span class="p">:</span> <span class="n">Point</span><span class="p">,</span> <span class="n">gdf</span><span class="p">):</span>
+    <span class="n">min_distance</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+    <span class="n">closest_multiline</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="c1"># For each MultiLineString, find the closest point to the specified point</span>
+        <span class="n">closest_point</span> <span class="o">=</span> <span class="n">nearest_points</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">],</span> <span class="n">point</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># Calculate the distance from the point to this closest point</span>
+        <span class="n">distance</span> <span class="o">=</span> <span class="n">point</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">closest_point</span><span class="p">)</span>
+        <span class="c1"># Update minimum distance and closest MultiLineString if this is the closest so far</span>
+        <span class="k">if</span> <span class="n">distance</span> <span class="o">&lt;</span> <span class="n">min_distance</span><span class="p">:</span>
+            <span class="n">min_distance</span> <span class="o">=</span> <span class="n">distance</span>
+            <span class="n">closest_multiline</span> <span class="o">=</span> <span class="n">row</span>
+    <span class="k">return</span> <span class="n">closest_multiline</span><span class="p">,</span> <span class="n">min_distance</span></div>
+
+
+
+<div class="viewcode-block" id="get_distance_from_start">
+<a class="viewcode-back" href="../../../pydsm.viz.dsm2gis.html#pydsm.viz.dsm2gis.get_distance_from_start">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_distance_from_start</span><span class="p">(</span><span class="n">point</span><span class="p">:</span> <span class="n">Point</span><span class="p">,</span> <span class="n">closest_line</span><span class="p">:</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">):</span>
+    <span class="n">point_on_line</span> <span class="o">=</span> <span class="n">nearest_points</span><span class="p">(</span><span class="n">closest_line</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">],</span> <span class="n">point</span><span class="p">)</span>
+    <span class="n">distance_from_start</span> <span class="o">=</span> <span class="n">closest_line</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">project</span><span class="p">(</span><span class="n">point_on_line</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">distance_from_start</span></div>
+
+
+
+<div class="viewcode-block" id="read_stations">
+<a class="viewcode-back" href="../../../pydsm.viz.dsm2gis.html#pydsm.viz.dsm2gis.read_stations">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_stations</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+    <span class="c1"># Read the CSV file</span>
+    <span class="n">stations</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;lat&quot;</span> <span class="ow">in</span> <span class="n">stations</span><span class="o">.</span><span class="n">columns</span> <span class="ow">and</span> <span class="s2">&quot;lon&quot;</span> <span class="ow">in</span> <span class="n">stations</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="c1"># Create GeoDataFrame with Point geometry and set the CRS to WGS84 (EPSG:4326)</span>
+        <span class="n">stations</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span>
+            <span class="n">stations</span><span class="p">,</span>
+            <span class="n">geometry</span><span class="o">=</span><span class="p">[</span><span class="n">Point</span><span class="p">(</span><span class="n">xy</span><span class="p">)</span> <span class="k">for</span> <span class="n">xy</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">stations</span><span class="o">.</span><span class="n">lon</span><span class="p">,</span> <span class="n">stations</span><span class="o">.</span><span class="n">lat</span><span class="p">)],</span>
+            <span class="n">crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>  <span class="c1"># Define CRS during GeoDataFrame creation</span>
+        <span class="p">)</span>
+        <span class="n">stations</span><span class="o">.</span><span class="n">set_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">stations_utm</span> <span class="o">=</span> <span class="n">stations</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">26910</span><span class="p">)</span>
+        <span class="n">stations</span><span class="o">.</span><span class="n">set_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Set CRS again to avoid warning</span>
+    <span class="k">elif</span> <span class="s2">&quot;x&quot;</span> <span class="ow">in</span> <span class="n">stations</span><span class="o">.</span><span class="n">columns</span> <span class="ow">and</span> <span class="s2">&quot;y&quot;</span> <span class="ow">in</span> <span class="n">stations</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="c1"># Create GeoDataFrame with Point geometry and set the CRS to UTM Zone 10N (EPSG:26910)</span>
+        <span class="n">stations</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span>
+            <span class="n">stations</span><span class="p">,</span>
+            <span class="n">geometry</span><span class="o">=</span><span class="p">[</span><span class="n">Point</span><span class="p">(</span><span class="n">xy</span><span class="p">)</span> <span class="k">for</span> <span class="n">xy</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">stations</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">stations</span><span class="o">.</span><span class="n">y</span><span class="p">)],</span>
+            <span class="n">crs</span><span class="o">=</span><span class="s2">&quot;EPSG:26910&quot;</span><span class="p">,</span>  <span class="c1"># Define CRS during GeoDataFrame creation</span>
+        <span class="p">)</span>
+        <span class="n">stations</span><span class="o">.</span><span class="n">set_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">26910</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">stations</span><span class="o">.</span><span class="n">set_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">26910</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">stations_utm</span> <span class="o">=</span> <span class="n">stations</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Input file must contain &#39;lat&#39; and &#39;lon&#39; columns or &#39;x&#39; and &#39;y&#39; columns&quot;</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">stations_utm</span></div>
+
+
+
+<div class="viewcode-block" id="get_id_and_distance_from_start">
+<a class="viewcode-back" href="../../../pydsm.viz.dsm2gis.html#pydsm.viz.dsm2gis.get_id_and_distance_from_start">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_id_and_distance_from_start</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">gdf</span><span class="p">):</span>
+    <span class="n">closest_line</span><span class="p">,</span> <span class="n">dist_from_line</span> <span class="o">=</span> <span class="n">find_closest_line_and_distance</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">gdf</span><span class="p">)</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">get_distance_from_start</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">closest_line</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">closest_line</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="s2">&quot;LENGTH&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">closest_line</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">dist_from_line</span></div>
+
+
+
+<div class="viewcode-block" id="create_stations_output_file">
+<a class="viewcode-back" href="../../../pydsm.viz.dsm2gis.html#pydsm.viz.dsm2gis.create_stations_output_file">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_stations_output_file</span><span class="p">(</span>
+    <span class="n">stations_file</span><span class="p">,</span> <span class="n">centerlines_file</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">distance_tolerance</span><span class="o">=</span><span class="mi">100</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create DSM2 channels output compatible file for given stations info (station_id, lat lon)</span>
+<span class="sd">    and centerlines geojson file (DSM2 channels centerlines) and writing out output_file</span>
+
+<span class="sd">    The distance_tolerance is the maximum distance from a line that a station can be to be considered on that line</span>
+
+<span class="sd">    The output file can be used to then create the channels file for DSM2 for these stations.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    stations_file : str</span>
+<span class="sd">        Path to the stations file</span>
+<span class="sd">    centerlines_file : str</span>
+<span class="sd">        Path to the centerlines file</span>
+<span class="sd">    output_file : str</span>
+<span class="sd">        Path to the output file</span>
+<span class="sd">    distance_tolerance : int</span>
+<span class="sd">        Maximum distance from a line that a station can be to be considered on that line</span>
+<span class="sd">        default is 100 (feet, but depends if geojson file units are in feet or meters)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">centerlines</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">centerlines_file</span><span class="p">)</span>
+    <span class="n">stations</span> <span class="o">=</span> <span class="n">read_stations</span><span class="p">(</span><span class="n">stations_file</span><span class="p">)</span>
+    <span class="n">station_dist_tuple</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">stations</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="nb">id</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">dist_from_line</span> <span class="o">=</span> <span class="n">get_id_and_distance_from_start</span><span class="p">(</span>
+            <span class="n">station</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">],</span> <span class="n">centerlines</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">dist_from_line</span> <span class="o">&gt;</span> <span class="n">distance_tolerance</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Station </span><span class="si">{</span><span class="n">station</span><span class="p">[</span><span class="s1">&#39;station_id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> is not close enough to a line. Distance: </span><span class="si">{</span><span class="n">dist_from_line</span><span class="si">}</span><span class="s2">, Closest line: </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Station </span><span class="si">{</span><span class="n">station</span><span class="p">[</span><span class="s1">&#39;station_id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> is on line </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2"> at distance </span><span class="si">{</span><span class="n">dist</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">station_dist_tuple</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">station</span><span class="p">[</span><span class="s2">&quot;station_id&quot;</span><span class="p">],</span> <span class="nb">id</span><span class="p">,</span> <span class="n">dist</span><span class="p">))</span>
+    <span class="n">dfstation_dist</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="n">station_dist_tuple</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;NAME&quot;</span><span class="p">,</span> <span class="s2">&quot;CHAN_NO&quot;</span><span class="p">,</span> <span class="s2">&quot;DISTANCE&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Writing to hydro compatible format: &quot;</span><span class="p">,</span> <span class="n">output_file</span><span class="p">)</span>
+    <span class="n">dfstation_dist</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span></div>
+
+
+
+<span class="nd">@click</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s2">&quot;dsm2_echo_file&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">readable</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s2">&quot;centerlines_geojson_file&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">readable</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s2">&quot;output_geojson_file&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">())</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">geolocate_output_locations</span><span class="p">(</span>
+    <span class="n">dsm2_echo_file</span><span class="p">,</span> <span class="n">centerlines_geojson_file</span><span class="p">,</span> <span class="n">output_geojson_file</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create stations output file from DSM2 echo file and the centerlines for the channels</span>
+<span class="sd">    and writing out output_file</span>
+
+<span class="sd">    The output file is a geojson file with the names of the stations and their locations</span>
+
+<span class="sd">    Returns the GeoDataFrame of the output stations</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dsm2_echo_file : str</span>
+<span class="sd">        Path to the DSM2 file</span>
+<span class="sd">    centerlines_geojson_file : str</span>
+<span class="sd">        Path to the centerlines file</span>
+<span class="sd">    output_geojson_file : str</span>
+<span class="sd">        Path to the output file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tables</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">read_input</span><span class="p">(</span><span class="n">dsm2_echo_file</span><span class="p">)</span>
+    <span class="n">channels_table</span> <span class="o">=</span> <span class="n">tables</span><span class="p">[</span><span class="s2">&quot;CHANNEL&quot;</span><span class="p">]</span>
+    <span class="n">output_table</span> <span class="o">=</span> <span class="n">tables</span><span class="p">[</span><span class="s2">&quot;OUTPUT_CHANNEL&quot;</span><span class="p">]</span>
+    <span class="n">centerlines</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">centerlines_geojson_file</span><span class="p">)</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">26910</span><span class="p">)</span>
+    <span class="n">geometry</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">output_table</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">cline</span> <span class="o">=</span> <span class="n">centerlines</span><span class="p">[</span><span class="n">centerlines</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;CHAN_NO&quot;</span><span class="p">]]</span>
+        <span class="n">channel</span> <span class="o">=</span> <span class="n">channels_table</span><span class="p">[</span><span class="n">channels_table</span><span class="p">[</span><span class="s2">&quot;CHAN_NO&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;CHAN_NO&quot;</span><span class="p">]]</span>
+        <span class="n">channel_length</span> <span class="o">=</span> <span class="n">channel</span><span class="p">[</span><span class="s2">&quot;LENGTH&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;DISTANCE&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;LENGTH&quot;</span><span class="p">:</span>
+            <span class="n">distance</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">distance</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;DISTANCE&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="n">channel_length</span>
+        <span class="n">multi_line</span> <span class="o">=</span> <span class="n">cline</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">point</span> <span class="o">=</span> <span class="n">multi_line</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="n">normalized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">geometry</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+    <span class="n">dsm2_output_stations</span> <span class="o">=</span> <span class="n">output_table</span><span class="p">[[</span><span class="s2">&quot;NAME&quot;</span><span class="p">,</span> <span class="s2">&quot;CHAN_NO&quot;</span><span class="p">,</span> <span class="s2">&quot;DISTANCE&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">dsm2_output_stations</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span>
+        <span class="n">dsm2_output_stations</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="n">geometry</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s2">&quot;EPSG:26910&quot;</span>
+    <span class="p">)</span>
+    <span class="n">dsm2_output_stations</span> <span class="o">=</span> <span class="n">dsm2_output_stations</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span>
+        <span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;NAME&quot;</span><span class="p">]</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">dsm2_output_stations</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">output_geojson_file</span><span class="p">,</span> <span class="n">driver</span><span class="o">=</span><span class="s2">&quot;GeoJSON&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Writing to geojson format: &quot;</span><span class="p">,</span> <span class="n">output_geojson_file</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dsm2_output_stations</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, Nicky Sandhu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

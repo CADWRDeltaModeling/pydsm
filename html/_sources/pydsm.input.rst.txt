@@ -9,6 +9,7 @@ Submodules
 
    pydsm.input.create_cd_inp
    pydsm.input.dcd_calcs
+   pydsm.input.dsm2_config
    pydsm.input.extend_dss_ts
    pydsm.input.network
    pydsm.input.parser

@@ -1,0 +1,7 @@
+pydsm.analysis.dsm2\_ec module
+==============================
+
+.. automodule:: pydsm.analysis.dsm2_ec
+   :members:
+   :show-inheritance:
+   :undoc-members:
