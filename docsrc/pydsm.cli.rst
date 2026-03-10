@@ -1,7 +1,6 @@
-pydsm.cli module
-================
+pydsm.cli — Command-line interface
+===================================
 
-.. automodule:: pydsm.cli
-   :members:
-   :show-inheritance:
-   :undoc-members:
+.. click:: pydsm.cli:main
+   :prog: pydsm
+   :nested: full

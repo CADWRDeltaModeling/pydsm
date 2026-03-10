@@ -47,3 +47,4 @@ dependencies:
   - ipykernel
   - pip:
       - .           # installs pydsm (non-editable) for docs build
+      - sphinx-click

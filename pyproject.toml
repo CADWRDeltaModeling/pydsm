@@ -82,6 +82,7 @@ docs = [
     "nbconvert",
     "pandoc",
     "sphinx-autobuild",
+    "sphinx-click",
 ]
 # Install all dev extras with:  pip install "pydsm[dev]"
 dev = [

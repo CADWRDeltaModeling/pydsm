@@ -39,6 +39,7 @@ extensions = [
     "nbsphinx",
     "sphinx.ext.mathjax",
     "myst_parser",
+    "sphinx_click",
 ]
 
 exclude_patterns = ["_build", "**.ipynb_checkpoints"]
