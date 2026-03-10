@@ -9,6 +9,7 @@ from pydsm.input import repeating_timeseries
 from pydsm.input import create_cd_inp
 from pydsm.input import extend_dss_ts
 from pydsm.output.create_gtm_restart import write_gtm_restart
+from pydsm.input import channel_orient
 
 
 import pandas as pd
@@ -357,5 +358,6 @@ main.add_command(pretty_print_input)
 main.add_command(create_gtm_restart_cmd)
 #
 main.add_command(extend_dss_ts.extend_dss_ts)
+main.add_command(channel_orient.generate_channel_orientation, "chan-orient")
 if __name__ == "__main__":
     sys.exit(main())
