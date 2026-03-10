@@ -1,0 +1,7 @@
+pydsm.input.channel\_orient module
+==================================
+
+.. automodule:: pydsm.input.channel_orient
+   :members:
+   :show-inheritance:
+   :undoc-members:

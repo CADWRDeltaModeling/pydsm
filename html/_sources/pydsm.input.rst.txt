@@ -7,6 +7,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   pydsm.input.channel_orient
    pydsm.input.create_cd_inp
    pydsm.input.dcd_calcs
    pydsm.input.dsm2_config
