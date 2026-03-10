@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.input.channel_orient &mdash; pydsm 2025.7.30.dev22+g54536f8f8 documentation</title>
+  <title>pydsm.input.channel_orient &mdash; pydsm 2025.7.30.dev23+g6070b985d documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=95da7636"></script>
+      <script src="../../../_static/documentation_options.js?v=62fe5aaf"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -233,6 +233,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">generate_channel_orientation</span><span class="p">(</span>
     <span class="n">channel_line_geojson_file</span><span class="p">,</span> <span class="n">hydro_echo_file</span><span class="p">,</span> <span class="n">channel_orient_file</span><span class="o">=</span><span class="s2">&quot;channel_orient.inp&quot;</span>
 <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a channel orientation (angle) file from a GeoJSON channel geometry and a Hydro echo file.&quot;&quot;&quot;</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pydsm.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">dsm2study</span>
 
     <span class="n">hydro_tables</span> <span class="o">=</span> <span class="n">dsm2study</span><span class="o">.</span><span class="n">load_echo_file</span><span class="p">(</span><span class="n">hydro_echo_file</span><span class="p">)</span>
