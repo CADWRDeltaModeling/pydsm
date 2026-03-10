@@ -54,6 +54,7 @@ import click
 def generate_channel_orientation(
     channel_line_geojson_file, hydro_echo_file, channel_orient_file="channel_orient.inp"
 ):
+    """Generate a channel orientation (angle) file from a GeoJSON channel geometry and a Hydro echo file."""
     from pydsm.analysis import dsm2study
 
     hydro_tables = dsm2study.load_echo_file(hydro_echo_file)

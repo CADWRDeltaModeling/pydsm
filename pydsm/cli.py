@@ -165,6 +165,7 @@ def compare_dss(
 def update_hydro_tidefile_with_inp(
     hydro_tidefile, input_file, tidefile_path, table_name
 ):
+    """Patch an input table inside a Hydro HDF5 tidefile from a DSM2 .inp file."""
     from . import utils
 
     utils.update_hydro_tidefile_with_inp(
@@ -193,6 +194,7 @@ def update_hydro_tidefile_with_inp(
     help="period type for the data",
 )
 def create_repeating(datafile, input_file, path, units, period_type="PER-AVER"):
+    """Create a repeating annual time series from a CSV template and write it to a DSS file."""
     # Load the input CSV file
     df_template_year = pd.read_csv(
         input_file, parse_dates=["datetime"], index_col="datetime"
@@ -218,6 +220,7 @@ def create_repeating(datafile, input_file, path, units, period_type="PER-AVER"):
     "--end-year", required=True, type=int, help="End year for the extended time series"
 )
 def extend_repeating(datafile, cpart, end_year):
+    """Extend an existing repeating time series in a DSS file forward to a given end year."""
     matches = dss.get_matching_ts(datafile, pathname=f"///{cpart}///")
     with dss.DSSFile(datafile, create_new=False) as dh:
         for df, u, t in matches:
@@ -236,6 +239,7 @@ def extend_repeating(datafile, cpart, end_year):
 @click.argument("dsm2_input_filename")
 @click.argument("file_field_string")
 def create_dsm2_input_for_cd(dss_filename, dsm2_input_filename, file_field_string):
+    """Generate a DSM2 .inp boundary-condition file for consumptive demand from a DSS file."""
     create_cd_inp.create_cd_inp(dss_filename, dsm2_input_filename, file_field_string)
 
 
@@ -249,6 +253,7 @@ def repeating():
 @click.argument("from_file", type=click.Path(exists=True))
 @click.argument("to_file", type=click.Path(exists=False))
 def copy_all_dss(from_file, to_file):
+    """Copy all pathnames from one DSS file to another."""
     dssutils.copy_all(from_file, to_file)
 
 
@@ -256,6 +261,7 @@ def copy_all_dss(from_file, to_file):
 @click.argument("input_file", type=click.Path(exists=True))
 @click.argument("output_file", type=click.Path(exists=False), required=False)
 def pretty_print_input(input_file, output_file=None):
+    """Reformat (pretty-print) a DSM2 .inp echo file. Defaults to <basename>.pretty.inp."""
     from pydsm.input import read_input, pretty_print
 
     tables = read_input(input_file)
