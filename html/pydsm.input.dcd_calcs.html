@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.input.dcd_calcs module &mdash; pydsm 2025.7.30.dev23+g6070b985d documentation</title>
+  <title>pydsm.input.dcd_calcs module &mdash; pydsm 2025.7.30.dev24+gc3a0740b4 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=62fe5aaf"></script>
+      <script src="_static/documentation_options.js?v=0f4e9755"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -179,6 +179,28 @@
   <section id="module-pydsm.input.dcd_calcs">
 <span id="pydsm-input-dcd-calcs-module"></span><h1>pydsm.input.dcd_calcs module<a class="headerlink" href="#module-pydsm.input.dcd_calcs" title="Link to this heading"></a></h1>
 <dl class="py function">
+<dt class="sig sig-object py" id="pydsm.input.dcd_calcs.bparts_to_pattern">
+<span class="sig-prename descclassname"><span class="pre">pydsm.input.dcd_calcs.</span></span><span class="sig-name descname"><span class="pre">bparts_to_pattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bparts</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/input/dcd_calcs.html#bparts_to_pattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.input.dcd_calcs.bparts_to_pattern" title="Link to this definition"></a></dt>
+<dd><p>Convert a list of B-part strings to a regex alternation pattern for DSS path matching.
+Each B-part is wrapped in ^ and $ anchors so that e.g. ‘1’ does not match ‘11’ or ‘100’.
+(pyhecdss uses pandas str.match which anchors the start but not the end.)</p>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>bparts<span class="classifier">list of str</span></dt><dd><p>List of B-part identifiers, e.g. [‘BBID’, ‘12345’, ‘67890’]</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>str</dt><dd><p>Regex alternation string with full anchors, e.g. ‘^1$|^100$|^200$’</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pydsm.input.dcd_calcs.calculate_netcd">
 <span class="sig-prename descclassname"><span class="pre">pydsm.input.dcd_calcs.</span></span><span class="sig-name descname"><span class="pre">calculate_netcd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">div_flows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drain_flows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seep_flows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/input/dcd_calcs.html#calculate_netcd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.input.dcd_calcs.calculate_netcd" title="Link to this definition"></a></dt>
 <dd><p>calculate the total net channel depletions for all the div_flows, drain_flows and seep_flows
@@ -195,8 +217,8 @@ netcd = div_flows - drain_flows +seep_flows</p>
 <dt class="sig sig-object py" id="pydsm.input.dcd_calcs.get_dcd_flows">
 <span class="sig-prename descclassname"><span class="pre">pydsm.input.dcd_calcs.</span></span><span class="sig-name descname"><span class="pre">get_dcd_flows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bpart_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'[0-9]+|BBID'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seepage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epart</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1DAY'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/input/dcd_calcs.html#get_dcd_flows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.input.dcd_calcs.get_dcd_flows" title="Link to this definition"></a></dt>
 <dd><p>gets the diversion, drainage and seepage flows as three data frames</p>
-<section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
+<section id="id1">
+<h2>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>file<span class="classifier">str</span></dt><dd><p>DSS filename for DCD or SMCD output</p>
 </dd>
@@ -206,8 +228,8 @@ netcd = div_flows - drain_flows +seep_flows</p>
 </dd>
 </dl>
 </section>
-<section id="returns">
-<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h2>
+<section id="id2">
+<h2>Returns<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>tuple</dt><dd><p>returns a tuple of diversion flows, drainage flows and seepage flows for all nodes</p>
 </dd>
@@ -219,8 +241,8 @@ netcd = div_flows - drain_flows +seep_flows</p>
 <dt class="sig sig-object py" id="pydsm.input.dcd_calcs.get_dss_data">
 <span class="sig-prename descclassname"><span class="pre">pydsm.input.dcd_calcs.</span></span><span class="sig-name descname"><span class="pre">get_dss_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_pattern</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/input/dcd_calcs.html#get_dss_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.input.dcd_calcs.get_dss_data" title="Link to this definition"></a></dt>
 <dd><p>returns a data frame of all the time series that match the path_pattern</p>
-<section id="id1">
-<h2>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<section id="id3">
+<h2>Parameters<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>file<span class="classifier">str</span></dt><dd><p>dss filename</p>
 </dd>
@@ -228,8 +250,8 @@ netcd = div_flows - drain_flows +seep_flows</p>
 </dd>
 </dl>
 </section>
-<section id="id2">
-<h2>Returns<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id4">
+<h2>Returns<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>DataFrame</dt><dd><p>pandas DataFrame with columns of each data matched</p>
 </dd>
