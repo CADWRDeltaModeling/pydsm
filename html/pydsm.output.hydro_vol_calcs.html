@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.input.network module &mdash; pydsm 2025.7.30.dev25+g2b625a005 documentation</title>
+  <title>pydsm.output.hydro_vol_calcs module &mdash; pydsm 2025.7.30.dev25+g2b625a005 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
@@ -20,8 +20,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pydsm.input.parser module" href="pydsm.input.parser.html" />
-    <link rel="prev" title="pydsm.input.extend_dss_ts module" href="pydsm.input.extend_dss_ts.html" /> 
+    <link rel="next" title="pydsm.output.hydroh5 module" href="pydsm.output.hydroh5.html" />
+    <link rel="prev" title="pydsm.output.hydro_slicer module" href="pydsm.output.hydro_slicer.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -165,10 +165,10 @@
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="modules.html">pydsm</a></li>
           <li class="breadcrumb-item"><a href="pydsm.html">pydsm package</a></li>
-          <li class="breadcrumb-item"><a href="pydsm.input.html">pydsm.input package</a></li>
-      <li class="breadcrumb-item active">pydsm.input.network module</li>
+          <li class="breadcrumb-item"><a href="pydsm.output.html">pydsm.output package</a></li>
+      <li class="breadcrumb-item active">pydsm.output.hydro_vol_calcs module</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/pydsm.input.network.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/pydsm.output.hydro_vol_calcs.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -176,28 +176,88 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-pydsm.input.network">
-<span id="pydsm-input-network-module"></span><h1>pydsm.input.network module<a class="headerlink" href="#module-pydsm.input.network" title="Link to this heading"></a></h1>
+  <section id="module-pydsm.output.hydro_vol_calcs">
+<span id="pydsm-output-hydro-vol-calcs-module"></span><h1>pydsm.output.hydro_vol_calcs module<a class="headerlink" href="#module-pydsm.output.hydro_vol_calcs" title="Link to this heading"></a></h1>
+<p>Utility functions and CLI command for calculating DSM2 Hydro volumes.</p>
+<p>Channel volume  = channel average cross-sectional area (ft²) × channel length (ft)
+Reservoir volume = reservoir area (million ft²) × 1e6 × reservoir water height (ft)</p>
+<dl class="simple">
+<dt>Unit conversion factors (relative to cubic feet):</dt><dd><p>cubic-feet  : 1.0
+acre-feet   : 1 / 43560
+maf         : 1 / (43560 × 1 000 000)</p>
+</dd>
+</dl>
 <dl class="py function">
-<dt class="sig sig-object py" id="pydsm.input.network.build_network">
-<span class="sig-prename descclassname"><span class="pre">pydsm.input.network.</span></span><span class="sig-name descname"><span class="pre">build_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tables</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/input/network.html#build_network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.input.network.build_network" title="Link to this definition"></a></dt>
-<dd><p>Builds a graph network of DSM2 nodes using the information from input files loaded as pandas DataFrames
-Use the parser to load input file (echo files) as pandas DataFrame to call this function
-returns a nx.MultiDiGraph of nodes/reservoirs linked to channels/gates</p>
+<dt class="sig sig-object py" id="pydsm.output.hydro_vol_calcs.convert_volume">
+<span class="sig-prename descclassname"><span class="pre">pydsm.output.hydro_vol_calcs.</span></span><span class="sig-name descname"><span class="pre">convert_volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vol_cubic_feet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/hydro_vol_calcs.html#convert_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.hydro_vol_calcs.convert_volume" title="Link to this definition"></a></dt>
+<dd><p>Convert a volume Series or DataFrame from cubic feet to the requested unit.</p>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
+<p>vol_cubic_feet : pandas.Series or pandas.DataFrame
+unit : str</p>
+<blockquote>
+<div><p>One of ‘cubic-feet’, ‘acre-feet’, ‘maf’.</p>
+</div></blockquote>
+</section>
+<section id="returns">
+<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h2>
+<p>Same type as input, scaled to the requested unit.</p>
+</section>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pydsm.input.network.build_network_channels">
-<span class="sig-prename descclassname"><span class="pre">pydsm.input.network.</span></span><span class="sig-name descname"><span class="pre">build_network_channels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tables</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/input/network.html#build_network_channels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.input.network.build_network_channels" title="Link to this definition"></a></dt>
-<dd><p>Builds network with channel upnodes -&gt; downnodes. Stores the columns as attributes of each node</p>
+<dt class="sig sig-object py" id="pydsm.output.hydro_vol_calcs.get_channel_volumes">
+<span class="sig-prename descclassname"><span class="pre">pydsm.output.hydro_vol_calcs.</span></span><span class="sig-name descname"><span class="pre">get_channel_volumes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hydro</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timewindow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'acre-feet'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/hydro_vol_calcs.html#get_channel_volumes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.hydro_vol_calcs.get_channel_volumes" title="Link to this definition"></a></dt>
+<dd><p>Calculate per-channel volumes as time series.</p>
+<p>Volume = channel average area (ft²) × channel length (ft), converted to <em>unit</em>.</p>
+<section id="id1">
+<h2>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>hydro<span class="classifier">HydroH5</span></dt><dd><p>Open HydroH5 instance.</p>
+</dd>
+<dt>channels<span class="classifier">list of str | None</span></dt><dd><p>Channel numbers to include. None or empty list means all channels.</p>
+</dd>
+<dt>timewindow<span class="classifier">str | None</span></dt><dd><p>DSM2 style time window e.g. ‘01JAN2014 - 01JAN2015’.</p>
+</dd>
+<dt>unit<span class="classifier">str</span></dt><dd><p>Output unit: ‘cubic-feet’, ‘acre-feet’, or ‘maf’.</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h2>Returns<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>pandas.DataFrame</dt><dd><p>Time-indexed DataFrame with one column per channel. Column names are
+channel numbers (str). Values are in <em>unit</em>.</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pydsm.input.network.build_network_reservoirs">
-<span class="sig-prename descclassname"><span class="pre">pydsm.input.network.</span></span><span class="sig-name descname"><span class="pre">build_network_reservoirs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tables</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/input/network.html#build_network_reservoirs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.input.network.build_network_reservoirs" title="Link to this definition"></a></dt>
-<dd><p>Builds network of each reservoir and connected nodes. Uses a directed graph and creates two edges for
-each resevoir connection, one from reservoir to node and from node to the reservoir.
-In this way, each reservoir is treated as a node in the graph</p>
+<dt class="sig sig-object py" id="pydsm.output.hydro_vol_calcs.get_reservoir_volumes">
+<span class="sig-prename descclassname"><span class="pre">pydsm.output.hydro_vol_calcs.</span></span><span class="sig-name descname"><span class="pre">get_reservoir_volumes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hydro</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reservoirs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timewindow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'acre-feet'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/hydro_vol_calcs.html#get_reservoir_volumes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.hydro_vol_calcs.get_reservoir_volumes" title="Link to this definition"></a></dt>
+<dd><p>Calculate per-reservoir volumes as time series.</p>
+<p>Volume = reservoir area (million ft²) × 1e6 × reservoir height (ft), converted to <em>unit</em>.</p>
+<section id="id3">
+<h2>Parameters<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>hydro<span class="classifier">HydroH5</span></dt><dd><p>Open HydroH5 instance.</p>
+</dd>
+<dt>reservoirs<span class="classifier">list of str | None</span></dt><dd><p>Reservoir names to include. None or empty list means all reservoirs.</p>
+</dd>
+<dt>timewindow<span class="classifier">str | None</span></dt><dd><p>DSM2 style time window e.g. ‘01JAN2014 - 01JAN2015’.</p>
+</dd>
+<dt>unit<span class="classifier">str</span></dt><dd><p>Output unit: ‘cubic-feet’, ‘acre-feet’, or ‘maf’.</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h2>Returns<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>pandas.DataFrame</dt><dd><p>Time-indexed DataFrame with one column per reservoir. Values are in <em>unit</em>.</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 </section>
@@ -206,8 +266,8 @@ In this way, each reservoir is treated as a node in the graph</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="pydsm.input.extend_dss_ts.html" class="btn btn-neutral float-left" title="pydsm.input.extend_dss_ts module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="pydsm.input.parser.html" class="btn btn-neutral float-right" title="pydsm.input.parser module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="pydsm.output.hydro_slicer.html" class="btn btn-neutral float-left" title="pydsm.output.hydro_slicer module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pydsm.output.hydroh5.html" class="btn btn-neutral float-right" title="pydsm.output.hydroh5 module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

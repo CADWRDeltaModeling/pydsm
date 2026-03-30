@@ -14,6 +14,7 @@ Submodules
    pydsm.output.gtmh5
    pydsm.output.hydro_flow_calcs
    pydsm.output.hydro_slicer
+   pydsm.output.hydro_vol_calcs
    pydsm.output.hydroh5
    pydsm.output.ptm
    pydsm.output.qualh5

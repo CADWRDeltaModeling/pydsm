@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.output.utils module &mdash; pydsm 2025.7.30.dev24+gc3a0740b4 documentation</title>
+  <title>pydsm.output.utils module &mdash; pydsm 2025.7.30.dev25+g2b625a005 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=0f4e9755"></script>
+      <script src="_static/documentation_options.js?v=8bad0eed"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -192,6 +192,27 @@
 <dt>tidefile_path<span class="classifier">str, optional</span></dt><dd><p>path to table inside the tidefile, by default ‘/hydro/input/channel’</p>
 </dd>
 <dt>table_name<span class="classifier">str, optional</span></dt><dd><p>table name to be read from the .inp file, by default ‘CHANNEL’</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.output.utils.write_csv_with_meta">
+<span class="sig-prename descclassname"><span class="pre">pydsm.output.utils.</span></span><span class="sig-name descname"><span class="pre">write_csv_with_meta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/utils.html#write_csv_with_meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.utils.write_csv_with_meta" title="Link to this definition"></a></dt>
+<dd><p>Write a DataFrame to CSV with leading comment lines containing metadata.</p>
+<p>Comment lines are prefixed with <code class="docutils literal notranslate"><span class="pre">#</span></code> so they can be skipped when reading
+back with <code class="docutils literal notranslate"><span class="pre">pd.read_csv(...,</span> <span class="pre">comment='#')</span></code>.</p>
+<section id="id1">
+<h2>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>filepath<span class="classifier">str</span></dt><dd><p>Destination CSV path.</p>
+</dd>
+<dt>df<span class="classifier">pandas.DataFrame or pandas.Series</span></dt><dd><p>Data to write.</p>
+</dd>
+<dt>meta<span class="classifier">dict</span></dt><dd><p>Ordered key/value pairs written as <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">key:</span> <span class="pre">value</span></code> lines.</p>
+</dd>
+<dt>header<span class="classifier">list of str | None</span></dt><dd><p>Column header override passed to <code class="docutils literal notranslate"><span class="pre">to_csv</span></code>.</p>
 </dd>
 </dl>
 </section>

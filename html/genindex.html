@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; pydsm 2025.7.30.dev24+gc3a0740b4 documentation</title>
+  <title>Index &mdash; pydsm 2025.7.30.dev25+g2b625a005 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=0f4e9755"></script>
+      <script src="_static/documentation_options.js?v=8bad0eed"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -257,9 +257,11 @@
 </li>
       <li><a href="pydsm.output.gtm_grid.html#pydsm.output.gtm_grid.gtm_grid.channels">channels (pydsm.output.gtm_grid.gtm_grid property)</a>
 </li>
+      <li><a href="pydsm.output.dsm2h5.html#pydsm.output.dsm2h5.convert_time_to_table_slice">convert_time_to_table_slice() (in module pydsm.output.dsm2h5)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="pydsm.output.dsm2h5.html#pydsm.output.dsm2h5.convert_time_to_table_slice">convert_time_to_table_slice() (in module pydsm.output.dsm2h5)</a>
+      <li><a href="pydsm.output.hydro_vol_calcs.html#pydsm.output.hydro_vol_calcs.convert_volume">convert_volume() (in module pydsm.output.hydro_vol_calcs)</a>
 </li>
       <li><a href="pydsm.output.hydro_slicer.html#pydsm.output.hydro_slicer.copy_attrs_table">copy_attrs_table() (in module pydsm.output.hydro_slicer)</a>
 </li>
@@ -355,6 +357,8 @@
 </li>
       <li><a href="pydsm.output.hydroh5.html#pydsm.output.hydroh5.HydroH5.get_channel_stage">get_channel_stage() (pydsm.output.hydroh5.HydroH5 method)</a>
 </li>
+      <li><a href="pydsm.output.hydro_vol_calcs.html#pydsm.output.hydro_vol_calcs.get_channel_volumes">get_channel_volumes() (in module pydsm.output.hydro_vol_calcs)</a>
+</li>
       <li><a href="pydsm.output.hydroh5.html#pydsm.output.hydroh5.HydroH5.get_channels">get_channels() (pydsm.output.hydroh5.HydroH5 method)</a>
 
       <ul>
@@ -440,6 +444,8 @@
       <li><a href="pydsm.output.hydroh5.html#pydsm.output.hydroh5.HydroH5.get_reservoir_height">get_reservoir_height() (pydsm.output.hydroh5.HydroH5 method)</a>
 </li>
       <li><a href="pydsm.output.hydroh5.html#pydsm.output.hydroh5.HydroH5.get_reservoir_node_connections">get_reservoir_node_connections() (pydsm.output.hydroh5.HydroH5 method)</a>
+</li>
+      <li><a href="pydsm.output.hydro_vol_calcs.html#pydsm.output.hydro_vol_calcs.get_reservoir_volumes">get_reservoir_volumes() (in module pydsm.output.hydro_vol_calcs)</a>
 </li>
       <li><a href="pydsm.output.hydroh5.html#pydsm.output.hydroh5.HydroH5.get_reservoirs">get_reservoirs() (pydsm.output.hydroh5.HydroH5 method)</a>
 
@@ -584,6 +590,8 @@
         <li><a href="pydsm.output.gtmh5.html#module-pydsm.output.gtmh5">pydsm.output.gtmh5</a>
 </li>
         <li><a href="pydsm.output.hydro_slicer.html#module-pydsm.output.hydro_slicer">pydsm.output.hydro_slicer</a>
+</li>
+        <li><a href="pydsm.output.hydro_vol_calcs.html#module-pydsm.output.hydro_vol_calcs">pydsm.output.hydro_vol_calcs</a>
 </li>
         <li><a href="pydsm.output.hydroh5.html#module-pydsm.output.hydroh5">pydsm.output.hydroh5</a>
 </li>
@@ -749,8 +757,6 @@
         <li><a href="pydsm.input.extend_dss_ts.html#module-pydsm.input.extend_dss_ts">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     pydsm.input.network
 
@@ -758,6 +764,8 @@
         <li><a href="pydsm.input.network.html#module-pydsm.input.network">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     pydsm.input.parser
 
@@ -819,6 +827,13 @@
 
       <ul>
         <li><a href="pydsm.output.hydro_slicer.html#module-pydsm.output.hydro_slicer">module</a>
+</li>
+      </ul></li>
+      <li>
+    pydsm.output.hydro_vol_calcs
+
+      <ul>
+        <li><a href="pydsm.output.hydro_vol_calcs.html#module-pydsm.output.hydro_vol_calcs">module</a>
 </li>
       </ul></li>
       <li>
@@ -970,14 +985,16 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pydsm.input.parser.html#pydsm.input.parser.write">write() (in module pydsm.input.parser)</a>
 </li>
+      <li><a href="pydsm.output.utils.html#pydsm.output.utils.write_csv_with_meta">write_csv_with_meta() (in module pydsm.output.utils)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pydsm.html#pydsm.write_gtm_restart">write_gtm_restart() (in module pydsm)</a>
 
       <ul>
         <li><a href="pydsm.output.create_gtm_restart.html#pydsm.output.create_gtm_restart.write_gtm_restart">(in module pydsm.output.create_gtm_restart)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pydsm.input.parser.html#pydsm.input.parser.write_input">write_input() (in module pydsm.input.parser)</a>
 </li>
   </ul></td>
