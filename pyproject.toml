@@ -29,6 +29,7 @@ dependencies = [
     "numba",
     "diskcache",
     "tabulate",
+    "decorator",
 ]
 dynamic = ["version"]
 

@@ -6,7 +6,8 @@ from pydsm.analysis.postpro import load_location_file, load_location_table
 from pydsm.functions import tsmath
 from pydsm.analysis import dssutils
 from pydsm.input import repeating_timeseries
-from pydsm.input import create_cd_inp
+from pydsm.input import dcd_calcs
+from pydsm.input.dcd_calcs import calc_netcd_cmd
 from pydsm.input import extend_dss_ts
 from pydsm.output.create_gtm_restart import write_gtm_restart
 from pydsm.input import channel_orient
@@ -348,7 +349,6 @@ def create_gtm_restart_cmd(tidefile, target_time, outfile, constituent):
 
 
 # Add the commands to the group repeating
-repeating.add_command(create_repeating)
 repeating.add_command(extend_repeating)
 # adding sub commands to main
 main.add_command(repeating)
@@ -365,5 +365,6 @@ main.add_command(create_gtm_restart_cmd)
 #
 main.add_command(extend_dss_ts.extend_dss_ts)
 main.add_command(channel_orient.generate_channel_orientation, "chan-orient")
+main.add_command(calc_netcd_cmd)
 if __name__ == "__main__":
     sys.exit(main())

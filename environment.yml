@@ -20,6 +20,7 @@ dependencies:
   - numba
   - diskcache
   - tabulate
+  - decorator
   # --- viz extras (pyproject.toml [project.optional-dependencies.viz]) ---
   - geopandas
   - shapely
@@ -29,5 +30,5 @@ dependencies:
   # --- conda-only / custom-channel packages ---
   - pyhecdss
   - vtools3
-  - pip:
-      - -e .        # installs pydsm itself in editable mode
+#  - pip:
+#      - -e .        # installs pydsm itself in editable mode
