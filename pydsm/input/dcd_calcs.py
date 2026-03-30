@@ -1,6 +1,8 @@
 import click
+import sys
 import pandas as pd
 import pyhecdss as dss
+from pydsm.output.utils import write_csv_with_meta
 
 
 def get_bpart_pattern():
@@ -165,5 +167,12 @@ def calc_netcd_cmd(dssfile, bpart, bpart_file, no_seepage, epart, output):
             )
 
     netcd = calculate_netcd(div_flows, drain_flows, seep_flows)
-    netcd.to_csv(output, header=["NETCD"])
+    meta = {
+        "command": " ".join(sys.argv),
+        "dssfile": dssfile,
+        "bparts": ", ".join(bparts) if bparts else "default (all numeric + BBID)",
+        "epart": epart,
+        "seepage": "excluded" if no_seepage else ("included" if seep_flows is not None else "not found (excluded)"),
+    }
+    write_csv_with_meta(output, netcd, meta, header=["NETCD"])
     click.echo(f"NetCD written to {output}")
