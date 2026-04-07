@@ -12,6 +12,7 @@ from pydsm.input import extend_dss_ts
 from pydsm.output.create_gtm_restart import write_gtm_restart
 from pydsm.output.hydro_vol_calcs import calc_volumes_cmd
 from pydsm.input import channel_orient
+from pydsm.analysis.dsm2diff import dsm2_diff
 
 
 import pandas as pd
@@ -368,5 +369,7 @@ main.add_command(extend_dss_ts.extend_dss_ts)
 main.add_command(channel_orient.generate_channel_orientation, "chan-orient")
 main.add_command(calc_netcd_cmd)
 main.add_command(calc_volumes_cmd)
+main.add_command(dsm2_diff)
+
 if __name__ == "__main__":
     sys.exit(main())
