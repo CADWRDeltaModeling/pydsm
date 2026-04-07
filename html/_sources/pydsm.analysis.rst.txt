@@ -10,6 +10,7 @@ Submodules
    pydsm.analysis.dsm2_ec
    pydsm.analysis.dsm2_utilities
    pydsm.analysis.dsm2_x2
+   pydsm.analysis.dsm2diff
    pydsm.analysis.dsm2study
    pydsm.analysis.dssutils
    pydsm.analysis.lockutil

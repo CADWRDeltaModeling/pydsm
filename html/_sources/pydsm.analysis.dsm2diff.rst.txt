@@ -1,0 +1,7 @@
+pydsm.analysis.dsm2diff module
+==============================
+
+.. automodule:: pydsm.analysis.dsm2diff
+   :members:
+   :show-inheritance:
+   :undoc-members:

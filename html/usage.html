@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Usage &mdash; pydsm 2025.7.30.dev25+g2b625a005 documentation</title>
+  <title>Usage &mdash; pydsm 2026.4.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=8bad0eed"></script>
+      <script src="_static/documentation_options.js?v=bb16e1e7"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -68,6 +68,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#compare-dss">Compare DSS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#extract-dss">Extract DSS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#ptm-animate">PTM Animate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsm2-diff">DSM2 Diff</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#slice-hydro">Slice Hydro</a></li>
 </ul>
 </li>
@@ -252,6 +253,160 @@
 </pre></div>
 </div>
 </div></blockquote>
+</section>
+<section id="dsm2-diff">
+<h3>DSM2 Diff<a class="headerlink" href="#dsm2-diff" title="Link to this heading"></a></h3>
+<p>Compare two DSM2 studies by their hydro echo <code class="docutils literal notranslate"><span class="pre">.inp</span></code> files.  The tool reports:</p>
+<ul class="simple">
+<li><p>structural differences in every input table (added, removed, and changed rows)</p></li>
+<li><p>RMSE and bias for DSS-backed time-series inputs (boundary conditions, operating rule time series, etc.)</p></li>
+<li><p>a consolidated “missing rows” summary across all tables</p></li>
+</ul>
+<p><strong>Minimal example — self-contained structural diff only (no DSS loading):</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pydsm<span class="w"> </span>diff<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>studies/baseline/output/hydro_echo_baseline.inp<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>studies/scenario1/output/hydro_echo_scenario1.inp<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--no-csv
+</pre></div>
+</div>
+<p><strong>Default run — structural diff + time-series comparison for the three default TS tables:</strong></p>
+<p>The default TS tables are <code class="docutils literal notranslate"><span class="pre">BOUNDARY_FLOW</span></code>, <code class="docutils literal notranslate"><span class="pre">BOUNDARY_STAGE</span></code>, and <code class="docutils literal notranslate"><span class="pre">OPRULE_TIME_SERIES</span></code>.  The
+comparison window defaults to the intersection of both studies’ <code class="docutils literal notranslate"><span class="pre">run_start_date</span></code> /
+<code class="docutils literal notranslate"><span class="pre">run_end_date</span></code> scalars.  Results are also written to CSV files in the current directory.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pydsm<span class="w"> </span>diff<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>studies/baseline/output/hydro_echo_baseline.inp<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>studies/scenario1/output/hydro_echo_scenario1.inp<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--outdir<span class="w"> </span>diff_results/
+</pre></div>
+</div>
+<p><strong>Restrict to a specific time window:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pydsm<span class="w"> </span>diff<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>studies/baseline/output/hydro_echo_baseline.inp<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>studies/scenario1/output/hydro_echo_scenario1.inp<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--timewindow<span class="w"> </span><span class="s2">&quot;01JAN2021 0000 - 31DEC2022 0000&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--outdir<span class="w"> </span>diff_results/
+</pre></div>
+</div>
+<p><strong>Compare additional TS tables (e.g. include source flows):</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">SOURCE_FLOW</span></code> has over 1 000 entries; use <code class="docutils literal notranslate"><span class="pre">--force</span></code> to bypass the default 25-row guard.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pydsm<span class="w"> </span>diff<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>studies/baseline/output/hydro_echo_baseline.inp<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>studies/scenario1/output/hydro_echo_scenario1.inp<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--tables<span class="w"> </span>boundary_flow<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--tables<span class="w"> </span>boundary_stage<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--tables<span class="w"> </span>oprule_time_series<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--tables<span class="w"> </span>source_flow_reservoir<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--outdir<span class="w"> </span>diff_results/
+
+<span class="c1"># include SOURCE_FLOW (large table — requires --force)</span>
+pydsm<span class="w"> </span>diff<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>studies/baseline/output/hydro_echo_baseline.inp<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>studies/scenario1/output/hydro_echo_scenario1.inp<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--tables<span class="w"> </span>source_flow<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--force<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--outdir<span class="w"> </span>diff_results/
+</pre></div>
+</div>
+<p><strong>All TS tables at once:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pydsm<span class="w"> </span>diff<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>studies/baseline/output/hydro_echo_baseline.inp<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>studies/scenario1/output/hydro_echo_scenario1.inp<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--all-tables<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--force<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--outdir<span class="w"> </span>diff_results/
+</pre></div>
+</div>
+<p><strong>Adjust the RMSE significance threshold:</strong></p>
+<p>By default any RMSE below <code class="docutils literal notranslate"><span class="pre">0.01</span></code> is not flagged.  To tighten or relax this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pydsm<span class="w"> </span>diff<span class="w"> </span>study_a.inp<span class="w"> </span>study_b.inp<span class="w"> </span>--threshold<span class="w"> </span><span class="m">1</span>.0<span class="w"> </span>--outdir<span class="w"> </span>diff_results/
+</pre></div>
+</div>
+<p><strong>Full option reference:</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: pydsm diff [OPTIONS] ECHO_A ECHO_B
+
+  Compare two DSM2 studies by their hydro echo files.
+
+Arguments:
+  ECHO_A   Path to study A hydro echo .inp file.
+  ECHO_B   Path to study B hydro echo .inp file.
+
+Options:
+  -t, --tables TABLE       DSS-backed tables to diff (repeatable).
+                           Default: BOUNDARY_FLOW BOUNDARY_STAGE
+                           OPRULE_TIME_SERIES
+  --all-tables             Diff all known TS-backed tables.
+  --timewindow TEXT        &quot;01JAN2020 0000 - 01JAN2022 0000&quot;.
+                           Default: intersection of both run periods.
+  --threshold FLOAT        RMSE below this is not reported.  [default: 0.01]
+  --max-ts INTEGER         Skip DSS loading for tables &gt; this many rows.
+                           [default: 25]
+  --force                  Load DSS even when table exceeds --max-ts.
+  --outdir PATH            Directory for CSV output files.  [default: .]
+  --no-csv                 Suppress CSV output; terminal only.
+  -h, --help               Show this message and exit.
+</pre></div>
+</div>
+<p><strong>Output CSV files:</strong></p>
+<p>When differences are found the following files are written to <code class="docutils literal notranslate"><span class="pre">--outdir</span></code>:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p>Contents</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;table&gt;_added.csv</span></code></p></td>
+<td><p>Rows present in study B only</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;table&gt;_removed.csv</span></code></p></td>
+<td><p>Rows present in study A only</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;table&gt;_changed.csv</span></code></p></td>
+<td><p>Rows with same key but different values (<code class="docutils literal notranslate"><span class="pre">*_a</span></code> / <code class="docutils literal notranslate"><span class="pre">*_b</span></code> columns + <code class="docutils literal notranslate"><span class="pre">changed_cols</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;table&gt;_ts_summary.csv</span></code></p></td>
+<td><p>Per-entry RMSE, bias, path_match, n_points</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;table&gt;_&lt;name&gt;_diff.csv</span></code></p></td>
+<td><p>Timestamps + <code class="docutils literal notranslate"><span class="pre">a</span></code>, <code class="docutils literal notranslate"><span class="pre">b</span></code>, <code class="docutils literal notranslate"><span class="pre">diff</span></code> columns for entries where RMSE &gt; threshold</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;table&gt;_missing.csv</span></code></p></td>
+<td><p>Entries present in only one study</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Using the Python API directly:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydsm.analysis.dsm2diff</span><span class="w"> </span><span class="kn">import</span> <span class="n">DSM2Diff</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="n">DSM2Diff</span><span class="p">(</span>
+    <span class="s2">&quot;studies/baseline/output/hydro_echo_baseline.inp&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;studies/scenario1/output/hydro_echo_scenario1.inp&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Full run (default TS tables, auto timewindow)</span>
+<span class="n">report</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">report</span><span class="o">.</span><span class="n">print_report</span><span class="p">()</span>
+<span class="n">report</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;diff_results/&quot;</span><span class="p">)</span>
+
+<span class="c1"># Targeted: check a single static table</span>
+<span class="n">sd</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">diff_static</span><span class="p">(</span><span class="s2">&quot;CHANNEL&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sd</span><span class="o">.</span><span class="n">summary_line</span><span class="p">())</span>   <span class="c1"># e.g. &quot;-3 removed, ~2 changed&quot;</span>
+<span class="n">sd</span><span class="o">.</span><span class="n">changed</span>                 <span class="c1"># pandas DataFrame with *_a / *_b value columns</span>
+
+<span class="c1"># Targeted: check one TS table with explicit timewindow</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">diff_ts_table</span><span class="p">(</span>
+    <span class="s2">&quot;BOUNDARY_FLOW&quot;</span><span class="p">,</span>
+    <span class="n">timewindow</span><span class="o">=</span><span class="s2">&quot;01JAN2021 0000 - 01JAN2024 0000&quot;</span><span class="p">,</span>
+    <span class="n">threshold</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">ts</span><span class="o">.</span><span class="n">summary</span>                 <span class="c1"># DataFrame: name | path_match | rmse | bias | n_points</span>
+<span class="n">ts</span><span class="o">.</span><span class="n">diff_series</span><span class="p">[</span><span class="s2">&quot;sac&quot;</span><span class="p">]</span>      <span class="c1"># DataFrame: timestamp | a | b | diff</span>
+</pre></div>
+</div>
 </section>
 <section id="slice-hydro">
 <h3>Slice Hydro<a class="headerlink" href="#slice-hydro" title="Link to this heading"></a></h3>
