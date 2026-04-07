@@ -204,6 +204,145 @@ def get_runtime(tables):
     return parse_military_date(stime), parse_military_date(etime)
 
 
+class DSM2TimeSeriesReference:
+    """
+    Represents one row of a DSM2 time-series input table backed by a HEC-DSS file.
+
+    Every DSM2 input table that drives time-varying boundary conditions (e.g.
+    BOUNDARY_FLOW, SOURCE_FLOW, OPRULE_TIME_SERIES) has at least FILE and PATH
+    columns.  This class wraps those columns together with the optional SIGN
+    (+1/-1 multiplier) and FILLIN (interpolation hint) fields so that the raw
+    data can be retrieved as a pandas Series via :meth:`get_data`.
+
+    When ``file`` is the keyword ``"constant"`` (case-insensitive), ``path``
+    holds the numeric constant value and :meth:`get_data` returns a float
+    instead of a time series.
+
+    Parameters
+    ----------
+    name : str
+        Identifier—usually the NAME (or compound GATE_NAME/DEVICE/VARIABLE)
+        column value from the parsed input table.
+    file : str
+        Absolute path to the HEC-DSS file, or the literal string ``"constant"``.
+    path : str
+        DSS pathname (``/A/B/C//E/F/``) or the numeric value when *file* is
+        ``"constant"``.
+    sign : float, optional
+        Multiplier applied to the loaded series (default ``1.0``).  Use
+        ``-1.0`` for diversions/exports whose measured values are positive but
+        represent sinks.
+    fillin : str, optional
+        DSM2 fill-in strategy (``"last"``, ``"interp"``, ``"none"``).
+        Informational only—pydsm does not apply fill-in logic itself.
+    """
+
+    def __init__(
+        self,
+        name: str,
+        file: str,
+        path: str,
+        sign: float = 1.0,
+        fillin: str = "last",
+    ):
+        self.name = name
+        self.file = file
+        self.path = path
+        self.sign = float(sign)
+        self.fillin = fillin
+
+    def __repr__(self) -> str:
+        fname = os.path.basename(self.file) if not self.is_constant else "constant"
+        return (
+            f"DSM2TimeSeriesReference(name={self.name!r}, file={fname!r}, "
+            f"path={self.path!r}, sign={self.sign}, fillin={self.fillin!r})"
+        )
+
+    @property
+    def is_constant(self) -> bool:
+        """True when this entry uses the ``constant`` keyword in place of a DSS file."""
+        return self.file.lower() == "constant"
+
+    def get_data(self, timewindow: str = None):
+        """
+        Retrieve the time series as a pandas Series.
+
+        For ``constant`` entries a plain float is returned (the constant value
+        multiplied by *sign*).
+
+        Parameters
+        ----------
+        timewindow : str, optional
+            Time window string in DSM2 format, e.g.
+            ``"01JAN2020 0000 - 01JAN2024 0000"``.  When provided the returned
+            series is sliced to this window after loading.  Ignored for
+            constant entries.
+
+        Returns
+        -------
+        pandas.Series or float
+            Raw DSS data multiplied by :attr:`sign`.
+        """
+        if self.is_constant:
+            return float(self.path) * self.sign
+
+        ts = next(pyhecdss.get_ts(self.file, self.path))[0]
+        ts = self.sign * ts
+
+        if timewindow is not None:
+            parts = [p.strip() for p in timewindow.split("-", 1)]
+            if len(parts) == 2:
+                start = pd.Timestamp(parts[0])
+                end = pd.Timestamp(parts[1])
+                ts = ts.loc[start:end]
+
+        return ts
+
+
+def _load_dss_ts_table(
+    table: pd.DataFrame,
+    name_col: str,
+    ref_file: str,
+    study_dir: str = "../",
+) -> "dict[str, DSM2TimeSeriesReference]":
+    """
+    Convert a parsed DSM2 input table into a ``{name: DSM2TimeSeriesReference}`` dict.
+
+    Parameters
+    ----------
+    table : pandas.DataFrame
+        Must have at least FILE and PATH columns.  SIGN and FILLIN are used
+        when present.
+    name_col : str
+        Column whose values become both the dict key and ``DSM2TimeSeriesReference.name``.
+    ref_file : str
+        Absolute path to the echo file used by :func:`abs_path` for resolving
+        relative FILE paths.
+    study_dir : str, optional
+        Passed to :func:`abs_path`; default ``"../"`` assumes the echo file
+        lives inside an ``output/`` sub-directory of the study root.
+
+    Returns
+    -------
+    dict[str, DSM2TimeSeriesReference]
+    """
+    result = {}
+    has_sign = "SIGN" in table.columns
+    has_fillin = "FILLIN" in table.columns
+    for _, row in table.iterrows():
+        name = str(row[name_col])
+        file = str(row["FILE"])
+        path = str(row["PATH"])
+        sign = float(row["SIGN"]) if has_sign else 1.0
+        fillin = str(row["FILLIN"]) if has_fillin else "last"
+        if file.lower() != "constant":
+            file = abs_path(file, ref_file, study_dir)
+        result[name] = DSM2TimeSeriesReference(
+            name=name, file=file, path=path, sign=sign, fillin=fillin
+        )
+    return result
+
+
 class DSM2Study:
 
     def __init__(self, echo_file):
@@ -224,6 +363,50 @@ class DSM2Study:
         self.source_flow["file"] = self.source_flow.apply(
             lambda r: abs_path(r["file"], self.hydro_tidefile), axis=1
         )
+        # DSS-backed input time-series tables from the echo file
+        self.boundary_flow = self._load_input_ts("BOUNDARY_FLOW", "NAME")
+        self.boundary_stage = self._load_input_ts("BOUNDARY_STAGE", "NAME")
+        self.source_flow_ts = self._load_input_ts("SOURCE_FLOW", "NAME")
+        self.source_flow_reservoir = self._load_input_ts(
+            "SOURCE_FLOW_RESERVOIR", "NAME"
+        )
+        self.input_gate = self._load_input_ts_gate()
+        self.input_transfer_flow = self._load_input_ts(
+            "INPUT_TRANSFER_FLOW", "TRANSFER_NAME"
+        )
+        self.oprule_time_series = self._load_input_ts("OPRULE_TIME_SERIES", "NAME")
+
+    def _load_input_ts(self, table_name: str, name_col: str) -> "dict[str, DSM2TimeSeriesReference]":
+        """
+        Load a named input table from the parsed echo file as DSM2TimeSeriesReference objects.
+
+        Returns an empty dict when the table is absent or empty.
+        """
+        table = self.tables.get(table_name)
+        if table is None or table.empty:
+            return {}
+        return _load_dss_ts_table(table, name_col, self.echo_file)
+
+    def _load_input_ts_gate(self) -> "dict[str, DSM2TimeSeriesReference]":
+        """
+        Load INPUT_GATE rows using a compound ``"GATE_NAME/DEVICE/VARIABLE"`` key.
+        """
+        table = self.tables.get("INPUT_GATE")
+        if table is None or table.empty:
+            return {}
+        result = {}
+        has_fillin = "FILLIN" in table.columns
+        for _, row in table.iterrows():
+            key = f"{row['GATE_NAME']}/{row['DEVICE']}/{row['VARIABLE']}"
+            file = str(row["FILE"])
+            path = str(row["PATH"])
+            fillin = str(row["FILLIN"]) if has_fillin else "last"
+            if file.lower() != "constant":
+                file = abs_path(file, self.echo_file)
+            result[key] = DSM2TimeSeriesReference(
+                name=key, file=file, path=path, sign=1.0, fillin=fillin
+            )
+        return result
 
     def load_channelline_shapefile(self, channel_shapefile):
         self.dsm2_chan_lines = load_dsm2_channelline_shapefile(channel_shapefile)
