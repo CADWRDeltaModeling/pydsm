@@ -614,7 +614,19 @@ def build_processors(dssfile, locationfile, vartype, units, study_name, observed
     return processors
 
 
-def run_processor(processor, store=True, clear=True):
+def run_processor(processor, store=True, clear=True, skip_if_cached=False):
+    if skip_if_cached:
+        key = processor.cache.get_cache_key(
+            processor.location.name,
+            processor.vartype.name,
+            PostProcessor.TIME_INTERVAL,
+        )
+        if key in processor.cache.cache:
+            logging.info(
+                "Skipping %s/%s (already cached)"
+                % (processor.location.name, processor.vartype.name)
+            )
+            return
     logging.info("Running %s/%s" % (processor.location.name, processor.vartype.name))
     processed = False
     try:

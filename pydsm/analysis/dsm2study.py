@@ -9,25 +9,9 @@ import shapely
 
 # our imports
 import pyhecdss
-import pydsm
 from pydsm.input import parser, network
 from pydsm.output import hydroh5
 from vtools.functions.filter import godin
-
-# viz imports
-import geoviews as gv
-import hvplot.pandas
-import holoviews as hv
-from holoviews import opts
-
-hv.extension("bokeh")
-import colorcet as cc
-
-#
-import param
-import panel as pn
-
-pn.extension()
 
 import logging
 
