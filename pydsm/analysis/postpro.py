@@ -135,9 +135,10 @@ class PostProCache:
         return f"/{bpart.upper()}/{cpart.upper()}/{epart.upper()}/"
 
     def store(self, df, units, bpart, cpart, epart):
-        if type(df) is str:
+        if df is None or type(df) is str:
+            error_str = df if isinstance(df, str) else "None returned from process()"
             key = self.get_cache_key(bpart, cpart, epart)
-            self.cache[key] = (df, units.upper(), "ERROR")
+            self.cache[key] = (error_str, (units or "").upper(), "ERROR")
         else:
             if df.empty:
                 return
@@ -274,7 +275,13 @@ class PostProcessor:
                     else:
                         return_df = merge(dflist)
                 else:
-                    return_df = next(dfgen).data
+                    try:
+                        return_df = next(dfgen).data
+                    except StopIteration:
+                        return (
+                            "Error in postpro._read_ts: no data found for pathname: "
+                            + pathname.upper()
+                        )
                     convert_index_to_timestamps(return_df)  # inplace change of index
         elif self.subtract or self.ratio:
             # read in >1 time series, and subtract them. Column names of dataframes are set to 'data' because when
@@ -376,10 +383,19 @@ class PostProcessor:
                 return_series = series
             elif series is not None:
                 if timewindow != "":
-                    start, end = timewindow.split("-")
-                    start = pd.Timestamp(start)
-                    end = pd.Timestamp(end)
+                    if " - " in timewindow:
+                        # DSM2 format: "01MAR2015 - 30SEP2024"
+                        tw_parts = [p.strip() for p in timewindow.split(" - ", 1)]
+                        start = pd.Timestamp(tw_parts[0])
+                        end = pd.Timestamp(tw_parts[1])
+                    else:
+                        # Legacy format: "2015-03-01-2024-09-30" (split on first dash pair)
+                        start, end = timewindow.split("-", 1) if timewindow.count("-") == 1 else (timewindow[:10], timewindow[11:])
+                        start = pd.Timestamp(start.strip())
+                        end = pd.Timestamp(end.strip())
                     return_series = series.loc[start:end]
+                else:
+                    return_series = series
             else:
                 return_series = series
         except StopIteration as e:
@@ -414,6 +430,20 @@ class PostProcessor:
         self._store(self.amp, "-AMP", PostProCache.IRR_E_PART)
         return True
 
+    def has_cached_failure(self):
+        """Return True if the cache already holds an error result for this station.
+
+        Distinguishes "never attempted" (key absent) from "attempted but failed"
+        (key present with a string payload).  Used to avoid repeated on-demand
+        processing attempts for stations that genuinely don't exist in the DSS file.
+        """
+        series, _, ptype = self.cache.load(
+            self.location.name,
+            self.vartype.name,
+            PostProcessor.TIME_INTERVAL,
+        )
+        return ptype == "ERROR" and isinstance(series, str) and len(series) > 0
+
     def load_processed(self, timewindow="", invert_series=False):
         """
         invert_series (bool): if true, all data will be multiplied by -1. This is needed
@@ -437,11 +467,11 @@ class PostProcessor:
         )
         success = False
         if (
-            self.df is not None
-            and self.gdf is not None
-            and self.high is not None
-            and self.low is not None
-            and self.amp is not None
+            isinstance(self.df, pd.DataFrame)
+            and isinstance(self.gdf, pd.DataFrame)
+            and isinstance(self.high, pd.DataFrame)
+            and isinstance(self.low, pd.DataFrame)
+            and isinstance(self.amp, pd.DataFrame)
             and len(self.df) > 0
             and len(self.gdf) > 0
             and len(self.high) > 0
