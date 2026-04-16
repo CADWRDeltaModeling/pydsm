@@ -351,6 +351,7 @@ def create_gtm_restart_cmd(tidefile, target_time, outfile, constituent):
 
 
 # Add the commands to the group repeating
+repeating.add_command(create_repeating)
 repeating.add_command(extend_repeating)
 # adding sub commands to main
 main.add_command(repeating)
