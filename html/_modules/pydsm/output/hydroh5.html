@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.output.hydroh5 &mdash; pydsm 2026.4.7.dev3+gea1fab4b5 documentation</title>
+  <title>pydsm.output.hydroh5 &mdash; pydsm 2026.4.7.dev4+gb13cea87b documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=3e64ccc6"></script>
+      <script src="../../../_static/documentation_options.js?v=a467f1d0"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -431,36 +431,46 @@
         <span class="p">)</span>
         <span class="c1"># %%</span>
         <span class="n">dfq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_qext</span><span class="p">()</span>
-        <span class="n">cat_qext_flow</span> <span class="o">=</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">create_catalog_entry</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span>
-            <span class="n">dfq</span><span class="p">,</span>
-            <span class="s2">&quot;flow&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ft^3/s&quot;</span><span class="p">,</span>
-            <span class="n">updown</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;QEXT_&quot;</span><span class="p">,</span>
-            <span class="n">id_column</span><span class="o">=</span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
+        <span class="n">cat_qext_flow</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">dsm2h5</span><span class="o">.</span><span class="n">create_catalog_entry</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span>
+                <span class="n">dfq</span><span class="p">,</span>
+                <span class="s2">&quot;flow&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;ft^3/s&quot;</span><span class="p">,</span>
+                <span class="n">updown</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;QEXT_&quot;</span><span class="p">,</span>
+                <span class="n">id_column</span><span class="o">=</span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">dfq</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">dfq</span><span class="o">.</span><span class="n">empty</span>
+            <span class="k">else</span> <span class="kc">None</span>
         <span class="p">)</span>
         <span class="n">dft</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_transfer_names</span><span class="p">()</span>
-        <span class="n">cat_transfer_flow</span> <span class="o">=</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">create_catalog_entry</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span>
-            <span class="n">dft</span><span class="p">,</span>
-            <span class="s2">&quot;flow&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ft^3/s&quot;</span><span class="p">,</span>
-            <span class="n">updown</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">id_column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;TRANSFER_&quot;</span><span class="p">,</span>
+        <span class="n">cat_transfer_flow</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">dsm2h5</span><span class="o">.</span><span class="n">create_catalog_entry</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span>
+                <span class="n">dft</span><span class="p">,</span>
+                <span class="s2">&quot;flow&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;ft^3/s&quot;</span><span class="p">,</span>
+                <span class="n">updown</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">id_column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;TRANSFER_&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">dft</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">dft</span><span class="o">.</span><span class="n">empty</span>
+            <span class="k">else</span> <span class="kc">None</span>
         <span class="p">)</span>
 
         <span class="n">catalog</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
             <span class="p">[</span>
-                <span class="n">cat_flow</span><span class="p">,</span>
-                <span class="n">cat_area</span><span class="p">,</span>
-                <span class="n">cat_avg_area</span><span class="p">,</span>
-                <span class="n">cat_stage</span><span class="p">,</span>
-                <span class="n">cat_res_height</span><span class="p">,</span>
-                <span class="n">cat_res_node_flow</span><span class="p">,</span>
-                <span class="n">cat_qext_flow</span><span class="p">,</span>
-                <span class="n">cat_transfer_flow</span><span class="p">,</span>
+                <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">[</span>
+                    <span class="n">cat_flow</span><span class="p">,</span>
+                    <span class="n">cat_area</span><span class="p">,</span>
+                    <span class="n">cat_avg_area</span><span class="p">,</span>
+                    <span class="n">cat_stage</span><span class="p">,</span>
+                    <span class="n">cat_res_height</span><span class="p">,</span>
+                    <span class="n">cat_res_node_flow</span><span class="p">,</span>
+                    <span class="n">cat_qext_flow</span><span class="p">,</span>
+                    <span class="n">cat_transfer_flow</span><span class="p">,</span>
+                <span class="p">]</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="p">]</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">catalog</span></div>
