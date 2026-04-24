@@ -190,6 +190,8 @@ def read_table_as_df(h5, tpath):
     :rtype: [type]
     """
     x = h5.get(tpath)
+    if x is None:
+        return None
     if x.dtype.names:
         result = pd.DataFrame(
             [

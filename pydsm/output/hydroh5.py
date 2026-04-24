@@ -208,36 +208,46 @@ class HydroH5:
         )
         # %%
         dfq = self.get_qext()
-        cat_qext_flow = dsm2h5.create_catalog_entry(
-            self.filename,
-            dfq,
-            "flow",
-            "ft^3/s",
-            updown=False,
-            prefix="QEXT_",
-            id_column="name",
+        cat_qext_flow = (
+            dsm2h5.create_catalog_entry(
+                self.filename,
+                dfq,
+                "flow",
+                "ft^3/s",
+                updown=False,
+                prefix="QEXT_",
+                id_column="name",
+            )
+            if dfq is not None and not dfq.empty
+            else None
         )
         dft = self.get_transfer_names()
-        cat_transfer_flow = dsm2h5.create_catalog_entry(
-            self.filename,
-            dft,
-            "flow",
-            "ft^3/s",
-            updown=False,
-            id_column=0,
-            prefix="TRANSFER_",
+        cat_transfer_flow = (
+            dsm2h5.create_catalog_entry(
+                self.filename,
+                dft,
+                "flow",
+                "ft^3/s",
+                updown=False,
+                id_column=0,
+                prefix="TRANSFER_",
+            )
+            if dft is not None and not dft.empty
+            else None
         )
 
         catalog = pd.concat(
             [
-                cat_flow,
-                cat_area,
-                cat_avg_area,
-                cat_stage,
-                cat_res_height,
-                cat_res_node_flow,
-                cat_qext_flow,
-                cat_transfer_flow,
+                c for c in [
+                    cat_flow,
+                    cat_area,
+                    cat_avg_area,
+                    cat_stage,
+                    cat_res_height,
+                    cat_res_node_flow,
+                    cat_qext_flow,
+                    cat_transfer_flow,
+                ] if c is not None
             ]
         )
         return catalog
