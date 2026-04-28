@@ -24,6 +24,7 @@ from typing import Dict, List, Optional, Tuple
 import click
 import numpy as np
 import pandas as pd
+import sys
 
 from pydsm.analysis.dsm2study import (
     DSM2TimeSeriesReference,
@@ -246,6 +247,7 @@ class FullReport:
     timewindow:    ``(start, end)`` effective comparison window
     static_diffs:  ``{table_name: StaticDiff}`` for every known table
     ts_diffs:      ``{table_name: TSDiff}`` for requested TS tables
+    only_tables:   when set, ``print_report`` restricts static section to these names
     """
 
     echo_a: str
@@ -253,83 +255,119 @@ class FullReport:
     timewindow: Tuple[datetime, datetime]
     static_diffs: Dict[str, StaticDiff]
     ts_diffs: Dict[str, TSDiff]
+    only_tables: Optional[List[str]] = None
 
     # ------------------------------------------------------------------
     # Terminal output
     # ------------------------------------------------------------------
 
-    def print_report(self) -> None:
-        """Render the full diff report to stdout."""
+    def print_report(
+        self,
+        file=None,
+        only_tables: Optional[List[str]] = None,
+    ) -> None:
+        """Render the full diff report.
+
+        Parameters
+        ----------
+        file :
+            File-like object to write to.  Defaults to ``sys.stdout``.
+        only_tables : list of str, optional
+            When given, restrict the static-diff section to these table names
+            (case-insensitive).  Tables not in the list are omitted from output
+            but the summary count reflects only the filtered set.
+        """
+        out = file if file is not None else sys.stdout
         SEP = "=" * 72
         THIN = "-" * 72
 
-        print(SEP)
-        print("  DSM2 Study Diff")
-        print(f"  A: {self.echo_a}")
-        print(f"  B: {self.echo_b}")
-        print(f"  Comparison window: {_format_timewindow(*self.timewindow)}")
-        print(SEP)
+        def _p(*args, **kwargs):
+            print(*args, file=out, **kwargs)
+
+        if only_tables is not None:
+            upper_filter = {t.upper() for t in only_tables}
+        else:
+            upper_filter = None
+
+        _p(SEP)
+        _p("  DSM2 Study Diff")
+        _p(f"  A: {self.echo_a}")
+        _p(f"  B: {self.echo_b}")
+        _p(f"  Comparison window: {_format_timewindow(*self.timewindow)}")
+        _p(SEP)
 
         # --- Static table diffs ---
+        filtered_diffs = {
+            n: sd
+            for n, sd in self.static_diffs.items()
+            if upper_filter is None or n.upper() in upper_filter
+        }
         tables_with_diff = [
-            (n, sd) for n, sd in self.static_diffs.items() if sd.has_diff
+            (n, sd) for n, sd in filtered_diffs.items() if sd.has_diff
         ]
         tables_clean = [
-            n for n, sd in self.static_diffs.items() if not sd.has_diff
+            n for n, sd in filtered_diffs.items() if not sd.has_diff
         ]
-        print(
+        _p(
             f"\n[STATIC TABLES]  {len(tables_with_diff)} have differences, "
             f"{len(tables_clean)} are identical"
         )
+        if upper_filter is not None:
+            _p(f"  (filtered to: {', '.join(sorted(upper_filter))})")
         if tables_clean:
-            print("  Identical:", ", ".join(tables_clean))
+            _p("  Identical:", ", ".join(tables_clean))
 
         for tname, sd in tables_with_diff:
-            print(f"\n{THIN}")
-            print(f"  {tname}  —  {sd.summary_line()}")
-            print(THIN)
+            _p(f"\n{THIN}")
+            _p(f"  {tname}  —  {sd.summary_line()}")
+            _p(THIN)
             if not sd.added.empty:
-                print(f"  Added ({len(sd.added)} rows — present in study_b only):")
-                print(_indent(sd.added.to_string(index=False)))
+                _p(f"  Added ({len(sd.added)} rows — present in study_b only):")
+                _p(_indent(sd.added.to_string(index=False)))
             if not sd.removed.empty:
-                print(f"  Removed ({len(sd.removed)} rows — present in study_a only):")
-                print(_indent(sd.removed.to_string(index=False)))
+                _p(f"  Removed ({len(sd.removed)} rows — present in study_a only):")
+                _p(_indent(sd.removed.to_string(index=False)))
             if not sd.changed.empty:
-                print(f"  Changed ({len(sd.changed)} rows — same key, different values):")
-                print(_indent(sd.changed.to_string(index=False)))
+                _p(f"  Changed ({len(sd.changed)} rows — same key, different values):")
+                _p(_indent(sd.changed.to_string(index=False)))
 
         # --- TS diffs ---
         if self.ts_diffs:
-            print(f"\n{SEP}")
-            print("  TIME SERIES DATA COMPARISONS")
-            print(SEP)
+            _p(f"\n{SEP}")
+            _p("  TIME SERIES DATA COMPARISONS")
+            _p(SEP)
             for tname, ts in self.ts_diffs.items():
-                print(f"\n{THIN}")
-                print(f"  {tname}")
-                print(THIN)
+                _p(f"\n{THIN}")
+                _p(f"  {tname}")
+                _p(THIN)
                 if ts.skipped_table:
-                    print(f"  SKIPPED: {ts.skip_reason}")
+                    _p(f"  SKIPPED: {ts.skip_reason}")
                     continue
                 if not ts.missing.empty:
-                    print(
+                    _p(
                         f"  Missing ({len(ts.missing)} entries not in both studies):"
                     )
-                    print(_indent(ts.missing.to_string(index=False)))
+                    _p(_indent(ts.missing.to_string(index=False)))
                 if ts.summary.empty:
-                    print("  No common entries to compare.")
+                    _p("  No common entries to compare.")
                 else:
                     display = _format_ts_summary(ts.summary)
-                    print(
+                    _p(
                         f"  Summary ({len(ts.summary)} entries compared):"
                     )
-                    print(_indent(display.to_string(index=False)))
+                    _p(_indent(display.to_string(index=False)))
 
     # ------------------------------------------------------------------
     # CSV output
     # ------------------------------------------------------------------
 
-    def to_csv(self, outdir: str) -> None:
-        """Write CSV artefacts to *outdir*."""
+    def to_csv(self, outdir: Optional[str]) -> None:
+        """Write CSV artefacts to *outdir*.
+
+        Does nothing when *outdir* is ``None``.
+        """
+        if outdir is None:
+            return
         os.makedirs(outdir, exist_ok=True)
         written: List[str] = []
 
@@ -368,7 +406,7 @@ class FullReport:
             for p in written:
                 print(f"  {p}")
         else:
-            print("\nNo differences found; no CSV files written.")
+            print("\nNo differences found; no CSV files written to", outdir)
 
 
 # ---------------------------------------------------------------------------
@@ -464,6 +502,62 @@ def _compute_static_diff(
 
 
 # ---------------------------------------------------------------------------
+# Time-series resampling helper
+# ---------------------------------------------------------------------------
+
+def _infer_freq_timedelta(ts: pd.Series) -> Optional[pd.Timedelta]:
+    """Return the modal time-step of *ts* as a :class:`pandas.Timedelta`.
+
+    Uses :func:`pandas.infer_freq` first; falls back to the median gap between
+    index values.  Returns ``None`` when the series has fewer than 2 points.
+    """
+    if len(ts) < 2:
+        return None
+    # PeriodIndex carries freq directly; convert to avoid infer_freq raising.
+    if isinstance(ts.index, pd.PeriodIndex):
+        ts = ts.copy()
+        ts.index = ts.index.to_timestamp()
+    alias = None
+    try:
+        alias = pd.infer_freq(ts.index)
+    except TypeError:
+        pass
+    if alias is not None:
+        try:
+            return pd.tseries.frequencies.to_offset(alias).nanos * pd.Timedelta(1, "ns")
+        except Exception:
+            pass
+    diffs = pd.Series(ts.index).diff().dropna()
+    return diffs.median()
+
+
+def _resample_to_common_freq(
+    ts_a: pd.Series, ts_b: pd.Series
+) -> Tuple[pd.Series, pd.Series]:
+    """Resample *ts_a* and *ts_b* to the coarser of their two time-steps.
+
+    If the intervals differ the finer series is aggregated with
+    :meth:`pandas.Series.resample` + ``.mean()`` so that both land on the
+    same grid before comparison.  When intervals are equal or cannot be
+    inferred the series are returned unchanged.
+    """
+    td_a = _infer_freq_timedelta(ts_a)
+    td_b = _infer_freq_timedelta(ts_b)
+
+    if td_a is None or td_b is None or td_a == td_b:
+        return ts_a, ts_b
+
+    if td_a < td_b:
+        # ts_a is finer — resample it to ts_b's interval
+        ts_a = ts_a.resample(td_b).mean()
+    else:
+        # ts_b is finer — resample it to ts_a's interval
+        ts_b = ts_b.resample(td_a).mean()
+
+    return ts_a, ts_b
+
+
+# ---------------------------------------------------------------------------
 # Print helpers
 # ---------------------------------------------------------------------------
 
@@ -474,10 +568,10 @@ def _indent(text: str, prefix: str = "    ") -> str:
 def _format_ts_summary(df: pd.DataFrame) -> pd.DataFrame:
     """Return a display copy of a TS summary DataFrame with formatted floats."""
     display = df.copy()
-    for col in ("rmse", "bias"):
+    for col in ("mean_a", "mean_b", "bias", "rmse", "nse", "pearson_r"):
         if col in display.columns:
             display[col] = display[col].map(
-                lambda v: f"{v:.6f}"
+                lambda v: f"{v:.4f}"
                 if (v is not None and not (isinstance(v, float) and math.isnan(v)))
                 else "N/A"
             )
@@ -660,8 +754,12 @@ class DSM2Diff:
             row: dict = {
                 "name": name,
                 "path_match": path_match,
-                "rmse": None,
+                "mean_a": None,
+                "mean_b": None,
                 "bias": None,
+                "rmse": None,
+                "nse": None,
+                "pearson_r": None,
                 "n_points": None,
                 "skipped": False,
                 "skip_reason": "",
@@ -674,8 +772,10 @@ class DSM2Diff:
                 if isinstance(data_a, float) and isinstance(data_b, float):
                     # Both constant entries
                     diff_val = data_a - data_b
-                    row["rmse"] = abs(diff_val)
+                    row["mean_a"] = data_a
+                    row["mean_b"] = data_b
                     row["bias"] = diff_val
+                    row["rmse"] = abs(diff_val)
                     row["n_points"] = 1
                     if abs(diff_val) > threshold:
                         diff_series[name] = pd.DataFrame(
@@ -685,7 +785,9 @@ class DSM2Diff:
                     row["skipped"] = True
                     row["skip_reason"] = "mismatched types (constant vs time series)"
                 else:
-                    # Both time series — align on shared timestamps
+                    # Resample to coarser interval before aligning so that
+                    # e.g. 15-min vs 1-day pairs are compared fairly.
+                    data_a, data_b = _resample_to_common_freq(data_a, data_b)
                     aligned = pd.concat(
                         [data_a.rename("a"), data_b.rename("b")], axis=1
                     ).dropna()
@@ -694,10 +796,26 @@ class DSM2Diff:
                         row["skip_reason"] = "no overlapping timestamps after alignment"
                     else:
                         diff = aligned["a"] - aligned["b"]
-                        rmse = float(np.sqrt((diff**2).mean()))
+                        mean_a = float(aligned["a"].mean())
+                        mean_b = float(aligned["b"].mean())
                         bias = float(diff.mean())
-                        row["rmse"] = rmse
+                        rmse = float(np.sqrt((diff**2).mean()))
+                        ss_res = float((diff**2).sum())
+                        ss_tot = float(((aligned["a"] - mean_a) ** 2).sum())
+                        nse = float(1.0 - ss_res / ss_tot) if ss_tot > 0 else None
+                        std_a = float(aligned["a"].std())
+                        std_b = float(aligned["b"].std())
+                        pearson_r = (
+                            float(aligned["a"].corr(aligned["b"]))
+                            if std_a > 0 and std_b > 0
+                            else None
+                        )
+                        row["mean_a"] = mean_a
+                        row["mean_b"] = mean_b
                         row["bias"] = bias
+                        row["rmse"] = rmse
+                        row["nse"] = nse
+                        row["pearson_r"] = pearson_r
                         row["n_points"] = len(aligned)
                         if rmse > threshold:
                             aligned["diff"] = diff
@@ -728,6 +846,7 @@ class DSM2Diff:
         threshold: float = RMSE_THRESHOLD_DEFAULT,
         max_ts: int = MAX_TS_DEFAULT,
         force: bool = False,
+        only_tables: Optional[List[str]] = None,
     ) -> FullReport:
         """Run the full diff and return a :class:`FullReport`.
 
@@ -745,8 +864,19 @@ class DSM2Diff:
             Max rows in a TS table before skipping DSS loading.
         force : bool
             Load DSS data even when tables exceed *max_ts* rows.
+        only_tables : list of str, optional
+            When provided, limit static diff output to these tables (passed
+            through to :meth:`FullReport.print_report`).  Any entry that is
+            also TS-backed is automatically added to *ts_tables*.
         """
         requested_ts = [t.upper() for t in (ts_tables or list(DEFAULT_TS_TABLES))]
+
+        # Auto-add TS comparison for any only_tables entry that is TS-backed
+        if only_tables:
+            for t in only_tables:
+                tu = t.upper()
+                if tu in TS_TABLE_NAME_COL and tu not in requested_ts:
+                    requested_ts.append(tu)
 
         tw_start, tw_end = self.get_effective_timewindow(timewindow)
         tw_str = _format_timewindow(tw_start, tw_end)
@@ -780,6 +910,7 @@ class DSM2Diff:
             timewindow=(tw_start, tw_end),
             static_diffs=static_diffs,
             ts_diffs=ts_diffs,
+            only_tables=[t.upper() for t in only_tables] if only_tables else None,
         )
 
 
@@ -790,6 +921,18 @@ class DSM2Diff:
 @click.command("diff")
 @click.argument("echo_a", type=click.Path(exists=True))
 @click.argument("echo_b", type=click.Path(exists=True))
+@click.option(
+    "--table",
+    "-T",
+    "filter_tables",
+    multiple=True,
+    default=None,
+    help=(
+        "Restrict output to this table (may be repeated).  "
+        "If the table is TS-backed, its DSS metric comparison is also run "
+        "automatically (no need to also specify --tables)."
+    ),
+)
 @click.option(
     "--tables",
     "-t",
@@ -833,27 +976,35 @@ class DSM2Diff:
     help="Load DSS data even when a table exceeds --max-ts rows.",
 )
 @click.option(
-    "--outdir",
-    default=".",
+    "--output",
+    "-o",
+    default=None,
     type=click.Path(),
-    show_default=True,
-    help="Directory for CSV output files.",
+    help="Write report text to this file instead of stdout.",
+)
+@click.option(
+    "--outdir",
+    default=None,
+    type=click.Path(),
+    help="Directory for CSV output files. Omit to suppress CSV output.",
 )
 @click.option(
     "--no-csv",
     is_flag=True,
     default=False,
-    help="Suppress CSV output; print report to terminal only.",
+    help="Suppress CSV output (equivalent to omitting --outdir).",
 )
 def dsm2_diff(
     echo_a,
     echo_b,
+    filter_tables,
     tables,
     all_tables,
     timewindow,
     threshold,
     max_ts,
     force,
+    output,
     outdir,
     no_csv,
 ):
@@ -863,7 +1014,16 @@ def dsm2_diff(
     computes RMSE / bias for DSS-backed time-series inputs.
 
     ECHO_A and ECHO_B are paths to the two hydro echo .inp files.
+
+    Use --table (-T) to restrict output to one or more tables, e.g.:
+
+    \b
+      pydsm diff a.inp b.inp -T BOUNDARY_FLOW -T CHANNEL
+
+    When the selected table is TS-backed (e.g. BOUNDARY_FLOW) the DSS
+    metric comparison is run automatically without needing --tables.
     """
+    only_tables = list(filter_tables) if filter_tables else None
     ts_tables = list(TS_TABLE_NAME_COL.keys()) if all_tables else list(tables)
     d = DSM2Diff(echo_a, echo_b)
     report = d.run(
@@ -872,7 +1032,12 @@ def dsm2_diff(
         threshold=threshold,
         max_ts=max_ts,
         force=force,
+        only_tables=only_tables,
     )
-    report.print_report()
+    if output:
+        with open(output, "w", encoding="utf-8") as fh:
+            report.print_report(file=fh, only_tables=only_tables)
+    else:
+        report.print_report(only_tables=only_tables)
     if not no_csv:
         report.to_csv(outdir)

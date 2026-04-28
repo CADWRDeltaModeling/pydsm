@@ -270,15 +270,39 @@ class DSM2TimeSeriesReference:
         if self.is_constant:
             return float(self.path) * self.sign
 
-        ts = next(pyhecdss.get_ts(self.file, self.path))[0]
+        gen = pyhecdss.get_ts(self.file, self.path)
+        result = next(gen, None)
+        if result is None:
+            raise ValueError(
+                f"No data found in {os.path.basename(self.file)!r} for path {self.path!r}"
+            )
+        ts = result[0]
+        # pyhecdss returns a single-column DataFrame; squeeze to Series so that
+        # callers can call .rename("name") without triggering the callable-mapper path.
+        if isinstance(ts, pd.DataFrame):
+            ts = ts.iloc[:, 0]
+        # pyhecdss sometimes returns a PeriodIndex; convert to DatetimeIndex so
+        # that downstream callers can use .resample(), .loc[start:end], etc.
+        if isinstance(ts.index, pd.PeriodIndex):
+            ts.index = ts.index.to_timestamp()
         ts = self.sign * ts
 
         if timewindow is not None:
-            parts = [p.strip() for p in timewindow.split("-", 1)]
-            if len(parts) == 2:
-                start = pd.Timestamp(parts[0])
-                end = pd.Timestamp(parts[1])
-                ts = ts.loc[start:end]
+            # Prefer splitting on " - " to avoid ambiguity with date separators.
+            if " - " in timewindow:
+                start_str, end_str = timewindow.split(" - ", 1)
+            else:
+                start_str, end_str = timewindow.split("-", 1)
+            start_str = start_str.strip()
+            end_str = end_str.strip()
+            # Append time component if only a date was given (DSM2 format).
+            if len(start_str.split()) == 1:
+                start_str += " 0000"
+            if len(end_str.split()) == 1:
+                end_str += " 0000"
+            start = parse_military_date(start_str)
+            end = parse_military_date(end_str)
+            ts = ts.loc[start:end]
 
         return ts
 

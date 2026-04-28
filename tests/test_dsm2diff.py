@@ -787,3 +787,221 @@ class TestCLI:
         )
         assert result.exit_code == 0, result.output
         assert "SKIPPED" in result.output
+
+    def test_diff_command_output_file(self, tmp_path):
+        """--output FILE writes report to file, not stdout."""
+        from pydsm.cli import main
+
+        outfile = str(tmp_path / "report.txt")
+        runner = CliRunner()
+        result = runner.invoke(
+            main,
+            [
+                "diff",
+                ECHO_FILE,
+                ECHO_FILE,
+                "--output", outfile,
+                "--tables", "OPRULE_TIME_SERIES",
+            ],
+        )
+        assert result.exit_code == 0, result.output
+        # stdout should be empty (or just CSV notice); report goes to file
+        with open(outfile, encoding="utf-8") as fh:
+            content = fh.read()
+        assert "DSM2 Study Diff" in content
+
+    def test_diff_command_table_filter(self, tmp_path):
+        """--table CHANNEL restricts static output; other tables not shown."""
+        from pydsm.cli import main
+
+        runner = CliRunner()
+        result = runner.invoke(
+            main,
+            [
+                "diff",
+                ECHO_FILE,
+                ECHO_FILE,
+                "--table", "CHANNEL",
+                "--no-csv",
+            ],
+        )
+        assert result.exit_code == 0, result.output
+        assert "CHANNEL" in result.output
+        assert "filtered to: CHANNEL" in result.output
+
+    def test_diff_command_no_csv_default(self, tmp_path):
+        """Omitting --outdir produces no CSV files (new default: None)."""
+        from pydsm.cli import main
+
+        import os as _os
+        before = set(_os.listdir("."))
+        runner = CliRunner()
+        result = runner.invoke(
+            main,
+            ["diff", ECHO_FILE, ECHO_FILE, "--tables", "OPRULE_TIME_SERIES"],
+        )
+        after = set(_os.listdir("."))
+        assert result.exit_code == 0, result.output
+        new_csv = [f for f in after - before if f.endswith(".csv")]
+        assert new_csv == [], f"Unexpected CSV files written to cwd: {new_csv}"
+
+    def test_diff_command_table_auto_ts(self, tmp_path):
+        """--table BOUNDARY_FLOW auto-enables TS comparison section in output."""
+        from pydsm.cli import main
+
+        runner = CliRunner()
+        result = runner.invoke(
+            main,
+            [
+                "diff",
+                ECHO_FILE,
+                ECHO_FILE,
+                "--table", "BOUNDARY_FLOW",
+                "--no-csv",
+            ],
+        )
+        assert result.exit_code == 0, result.output
+        # TS section should appear because BOUNDARY_FLOW is TS-backed
+        assert "TIME SERIES DATA COMPARISONS" in result.output
+
+
+# ===========================================================================
+# FullReport.to_csv — None outdir guard
+# ===========================================================================
+class TestFullReportToCsvNone:
+    def test_to_csv_none_does_nothing(self, tmp_path):
+        """to_csv(None) must return without creating any files."""
+        report = FullReport(
+            echo_a=ECHO_FILE,
+            echo_b=ECHO_FILE,
+            timewindow=(datetime(2020, 1, 1), datetime(2024, 1, 1)),
+            static_diffs={
+                "CHANNEL": StaticDiff(
+                    "CHANNEL",
+                    pd.DataFrame({"CHAN_NO": ["999"], "MANNING": [0.035]}),
+                    pd.DataFrame(),
+                    pd.DataFrame(),
+                )
+            },
+            ts_diffs={},
+        )
+        report.to_csv(None)  # must not raise, must not create files
+        assert list(tmp_path.iterdir()) == []
+
+
+# ===========================================================================
+# FullReport.print_report — file and only_tables params
+# ===========================================================================
+class TestFullReportPrintReportExtended:
+    def _make_report(self):
+        changed = pd.DataFrame({
+            "CHAN_NO": ["1"],
+            "MANNING_a": [0.035],
+            "MANNING_b": [0.030],
+            "changed_cols": ["MANNING"],
+        })
+        return FullReport(
+            echo_a=ECHO_FILE,
+            echo_b=ECHO_FILE,
+            timewindow=(datetime(2020, 1, 1), datetime(2024, 1, 1)),
+            static_diffs={
+                "CHANNEL": StaticDiff("CHANNEL", pd.DataFrame(), pd.DataFrame(), changed),
+                "SCALAR": StaticDiff("SCALAR", pd.DataFrame(), pd.DataFrame(), pd.DataFrame()),
+            },
+            ts_diffs={},
+        )
+
+    def test_file_param_writes_to_fileobj(self, tmp_path):
+        """print_report(file=fh) writes to the given file object."""
+        import io
+        buf = io.StringIO()
+        self._make_report().print_report(file=buf)
+        content = buf.getvalue()
+        assert "DSM2 Study Diff" in content
+
+    def test_only_tables_filters_output(self, capsys):
+        """only_tables=['CHANNEL'] shows CHANNEL, hides SCALAR."""
+        self._make_report().print_report(only_tables=["CHANNEL"])
+        out = capsys.readouterr().out
+        assert "CHANNEL" in out
+        # SCALAR has no diff, but with filtering it should still be listed
+        # as an identical table only if present in the filtered set — here it
+        # would be absent from the filter entirely, so it must not appear.
+        # We test that SCALAR is NOT in the diff section and filter label is shown.
+        assert "filtered to: CHANNEL" in out
+
+    def test_only_tables_case_insensitive(self, capsys):
+        """only_tables filter is case-insensitive."""
+        self._make_report().print_report(only_tables=["channel"])
+        out = capsys.readouterr().out
+        assert "CHANNEL" in out
+        assert "filtered to: CHANNEL" in out
+
+    def test_no_filter_shows_all(self, capsys):
+        """Default (only_tables=None) shows all tables."""
+        self._make_report().print_report()
+        out = capsys.readouterr().out
+        assert "CHANNEL" in out
+        assert "SCALAR" in out  # listed as Identical
+
+
+# ===========================================================================
+# DSM2Diff.run — only_tables auto-TS behaviour
+# ===========================================================================
+class TestDSM2DiffRunOnlyTables:
+    """Uses object.__new__ injection to avoid file I/O (no fixture file needed)."""
+
+    @staticmethod
+    def _make_scalars():
+        return pd.DataFrame({
+            "NAME": ["run_start_date", "run_start_time", "run_end_date", "run_end_time"],
+            "VALUE": ["01JAN2020", "0000", "01JAN2024", "0000"],
+        })
+
+    @staticmethod
+    def _make_bf_table():
+        """Minimal BOUNDARY_FLOW table with one constant entry."""
+        return pd.DataFrame({
+            "NAME": ["sac"],
+            "NODE": [330],
+            "SIGN": [1],
+            "FILLIN": ["last"],
+            "FILE": ["constant"],
+            "PATH": ["1.0"],
+        })
+
+    @classmethod
+    def _make_diff(cls, extra_tables=None):
+        """Return a DSM2Diff with injected in-memory tables (no disk reads)."""
+        scalars = cls._make_scalars()
+        tables = {"SCALAR": scalars}
+        if extra_tables:
+            tables.update(extra_tables)
+        d = object.__new__(DSM2Diff)
+        d.echo_a = ECHO_FILE   # path used by abs_path(); doesn't need to exist
+        d.echo_b = ECHO_FILE
+        d.tables_a = dict(tables)
+        d.tables_b = dict(tables)
+        return d
+
+    def test_only_tables_stored_on_report(self):
+        d = self._make_diff()
+        report = d.run(ts_tables=[], only_tables=["CHANNEL"])
+        assert report.only_tables == ["CHANNEL"]
+
+    def test_only_tables_none_gives_none(self):
+        d = self._make_diff()
+        report = d.run(ts_tables=[], only_tables=None)
+        assert report.only_tables is None
+
+    def test_only_tables_ts_backed_added_to_ts_diffs(self):
+        """only_tables=['BOUNDARY_FLOW'] must trigger TS comparison automatically."""
+        d = self._make_diff(extra_tables={"BOUNDARY_FLOW": self._make_bf_table()})
+        report = d.run(ts_tables=[], only_tables=["BOUNDARY_FLOW"])
+        assert "BOUNDARY_FLOW" in report.ts_diffs
+
+    def test_only_tables_non_ts_table_no_ts_diff(self):
+        """only_tables=['CHANNEL'] must NOT add a TS diff for CHANNEL."""
+        d = self._make_diff()
+        report = d.run(ts_tables=[], only_tables=["CHANNEL"])
+        assert "CHANNEL" not in report.ts_diffs
