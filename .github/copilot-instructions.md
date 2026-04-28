@@ -208,6 +208,76 @@ The `cadwr-dms` conda channel is required for `pyhecdss` and `vtools3`.
 
 ---
 
+## pyhecdss Gotchas
+
+### `get_ts` returns a single-column DataFrame, not a Series
+`pyhecdss.get_ts(file, path)` is a generator that yields `(DataFrame, units, period_type)` tuples.
+The DataFrame has **one column** whose name is a long DSS pathname string — it is **not** a `pandas.Series`.
+Always squeeze to a Series immediately after retrieval:
+
+```python
+gen = pyhecdss.get_ts(file, path)
+result = next(gen, None)
+if result is None:
+    raise ValueError(f"No data found in {file!r} for path {path!r}")
+ts = result[0]
+if isinstance(ts, pd.DataFrame):
+    ts = ts.iloc[:, 0]   # squeeze to Series
+```
+
+Calling `DataFrame.rename("a")` treats the string as a callable mapper and raises `TypeError: 'str' object is not callable`. Use `Series.rename("a")` after squeezing.
+
+### Use `next(gen, None)` — never bare `next(gen)`
+If the DSS path does not exist in the file, the generator is empty and `next(gen)` raises a bare `StopIteration` with no context. Always pass a default:
+
+```python
+result = next(pyhecdss.get_ts(file, path), None)
+if result is None:
+    raise ValueError(f"No data found in {file!r} for path {path!r}")
+```
+
+### `get_ts` may return a `PeriodIndex` — always convert to `DatetimeIndex`
+Daily (and some other) DSS records come back with a `PeriodIndex`. Convert immediately after squeezing:
+```python
+if isinstance(ts.index, pd.PeriodIndex):
+    ts.index = ts.index.to_timestamp()
+```
+Failure to do this causes `pd.infer_freq`, `.resample()`, and `.loc[start:end]` slicing to raise or silently mis-behave.
+
+### When comparing two series at different intervals, resample to the coarser one first
+Use `.resample(coarser_timedelta).mean()` on the finer series before aligning. Without this, `pd.concat` + `dropna` produces zero overlapping timestamps and the comparison silently skips.
+
+### Logging noise from `_respond_to_istat_state`
+`pyhecdss` has a bug where `logging.debug('Some data or data blocks are missing [istat=3]', RuntimeWarning)` is called with an extra positional argument but no `%s` in the format string. Python's logging `%`-formats the message and raises `TypeError: not all arguments converted during string formatting`, which prints as `--- Logging error ---` noise to stderr. Suppress it at startup:
+
+```python
+logging.getLogger("pyhecdss").setLevel(logging.WARNING)
+```
+
+---
+
+## DSM2 Military Date Format
+
+DSM2 uses `DDMMMYYYY HHMM` (e.g. `01JAN2020 0000`). Use `parse_military_date` from `pydsm.analysis.dsm2study` — **do not use `pd.Timestamp` directly** on these strings.
+
+### Timewindow string splitting
+DSM2 timewindow strings look like `"01JAN2016 0000 - 01JAN2017 0000"`.
+Always split on `" - "` (with spaces), not on `"-"` alone. Splitting on bare `"-"` mis-parses because month abbreviations contain no hyphens but future date formats or path strings might:
+
+```python
+if " - " in timewindow:
+    start_str, end_str = timewindow.split(" - ", 1)
+else:
+    start_str, end_str = timewindow.split("-", 1)
+start = parse_military_date(start_str.strip())
+end   = parse_military_date(end_str.strip())
+```
+
+### `2400` end-of-day convention
+DSM2 uses `2400` to mean midnight at the end of a day (i.e. start of the next day). `parse_military_date` handles this by converting `2400` → `0000` and advancing the date by one day.
+
+---
+
 ## Key Reference Links
 
 | Topic | URL |
