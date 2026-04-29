@@ -54,7 +54,8 @@ def sum(dfflows):
     return dfflows.sum(axis=1)
 
 
-def get_dcd_flows(file, bpart_pattern='[0-9]+|BBID', seepage=True, epart='1DAY'):
+def get_dcd_flows(file, bpart_pattern='[0-9]+|BBID', seepage=True, epart='1DAY',
+                  div_cpart='DIV-FLOW', drain_cpart='DRAIN-FLOW', seep_cpart='SEEP-FLOW'):
     """
     gets the diversion, drainage and seepage flows as three data frames
 
@@ -66,16 +67,24 @@ def get_dcd_flows(file, bpart_pattern='[0-9]+|BBID', seepage=True, epart='1DAY')
         pattern to match for BPART of file, by default '[0-9]+|BBID'
     seepage : bool, optional
         read seepage if True, by default True
+    epart : str, optional
+        DSS time interval E-part, by default '1DAY'
+    div_cpart : str, optional
+        C-part for diversion flows, by default 'DIV-FLOW'
+    drain_cpart : str, optional
+        C-part for drainage flows, by default 'DRAIN-FLOW'
+    seep_cpart : str, optional
+        C-part for seepage flows, by default 'SEEP-FLOW'
 
     Returns
     -------
     tuple
         returns a tuple of diversion flows, drainage flows and seepage flows for all nodes
     """
-    div_flows = get_dss_data(file, f'//({bpart_pattern})/DIV-FLOW//{epart}//')
-    drain_flows = get_dss_data(file, f'//({bpart_pattern})/DRAIN-FLOW//{epart}//')
+    div_flows = get_dss_data(file, f'//({bpart_pattern})/{div_cpart}//{epart}//')
+    drain_flows = get_dss_data(file, f'//({bpart_pattern})/{drain_cpart}//{epart}//')
     if seepage:
-        seep_flows = get_dss_data(file, f'//({bpart_pattern})/SEEP-FLOW//{epart}//')
+        seep_flows = get_dss_data(file, f'//({bpart_pattern})/{seep_cpart}//{epart}//')
     if seepage:
         return div_flows, drain_flows, seep_flows
     else:
@@ -121,13 +130,37 @@ def calculate_netcd(div_flows, drain_flows, seep_flows=None):
     help="Time interval E-part (e.g. 1DAY, 1MON)",
 )
 @click.option(
+    "--div-cpart",
+    default="DIV-FLOW",
+    show_default=True,
+    help="DSS C-part for diversion flows",
+)
+@click.option(
+    "--drain-cpart",
+    default="DRAIN-FLOW",
+    show_default=True,
+    help="DSS C-part for drainage flows",
+)
+@click.option(
+    "--seep-cpart",
+    default="SEEP-FLOW",
+    show_default=True,
+    help="DSS C-part for seepage flows",
+)
+@click.option(
+    "--components",
+    is_flag=True,
+    default=False,
+    help="Also write summed component columns (SUM_DIV, SUM_DRAIN, SUM_SEEP) alongside NETCD",
+)
+@click.option(
     "-o",
     "--output",
     default="netcd.csv",
     show_default=True,
     help="Output CSV file path",
 )
-def calc_netcd_cmd(dssfile, bpart, bpart_file, no_seepage, epart, output):
+def calc_netcd_cmd(dssfile, bpart, bpart_file, no_seepage, epart, div_cpart, drain_cpart, seep_cpart, components, output):
     """Calculate aggregated Net Channel Depletion (NetCD) from a DSS file.
 
     NetCD = DIV-FLOW - DRAIN-FLOW + SEEP-FLOW, summed over all matching B-parts.
@@ -146,22 +179,22 @@ def calc_netcd_cmd(dssfile, bpart, bpart_file, no_seepage, epart, output):
         bpart_pattern = get_bpart_pattern()
 
     try:
-        div_flows = get_dss_data(dssfile, f"//({bpart_pattern})/DIV-FLOW//{epart}//")
+        div_flows = get_dss_data(dssfile, f"//({bpart_pattern})/{div_cpart}//{epart}//")
     except Exception as e:
-        raise click.ClickException(f"No DIV-FLOW data found for the specified B-parts: {e}")
+        raise click.ClickException(f"No {div_cpart} data found for the specified B-parts: {e}")
 
     try:
-        drain_flows = get_dss_data(dssfile, f"//({bpart_pattern})/DRAIN-FLOW//{epart}//")
+        drain_flows = get_dss_data(dssfile, f"//({bpart_pattern})/{drain_cpart}//{epart}//")
     except Exception as e:
-        raise click.ClickException(f"No DRAIN-FLOW data found for the specified B-parts: {e}")
+        raise click.ClickException(f"No {drain_cpart} data found for the specified B-parts: {e}")
 
     seep_flows = None
     if not no_seepage:
         try:
-            seep_flows = get_dss_data(dssfile, f"//({bpart_pattern})/SEEP-FLOW//{epart}//")
+            seep_flows = get_dss_data(dssfile, f"//({bpart_pattern})/{seep_cpart}//{epart}//")
         except Exception:
             click.echo(
-                "Warning: No SEEP-FLOW data found for the specified B-parts. "
+                f"Warning: No {seep_cpart} data found for the specified B-parts. "
                 "Proceeding without seepage (NetCD = DIV - DRAIN).",
                 err=True,
             )
@@ -172,7 +205,17 @@ def calc_netcd_cmd(dssfile, bpart, bpart_file, no_seepage, epart, output):
         "dssfile": dssfile,
         "bparts": ", ".join(bparts) if bparts else "default (all numeric + BBID)",
         "epart": epart,
+        "div_cpart": div_cpart,
+        "drain_cpart": drain_cpart,
+        "seep_cpart": seep_cpart,
         "seepage": "excluded" if no_seepage else ("included" if seep_flows is not None else "not found (excluded)"),
     }
-    write_csv_with_meta(output, netcd, meta, header=["NETCD"])
+    if components:
+        output_df = pd.DataFrame({"SUM_DIV": sum(div_flows), "SUM_DRAIN": sum(drain_flows)})
+        if seep_flows is not None:
+            output_df["SUM_SEEP"] = sum(seep_flows)
+        output_df["NETCD"] = netcd
+        write_csv_with_meta(output, output_df, meta)
+    else:
+        write_csv_with_meta(output, netcd, meta, header=["NETCD"])
     click.echo(f"NetCD written to {output}")

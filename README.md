@@ -224,10 +224,23 @@ pydsm calc-netcd DSSFILE [OPTIONS]
 | `--bpart-file` | — | Text file with one B-part per line |
 | `--no-seepage` | off | Exclude seepage: NetCD = DIV − DRAIN only |
 | `--epart` | `1DAY` | Time interval E-part (e.g. `1DAY`, `1MON`) |
+| `--div-cpart` | `DIV-FLOW` | DSS C-part for diversion flows |
+| `--drain-cpart` | `DRAIN-FLOW` | DSS C-part for drainage flows |
+| `--seep-cpart` | `SEEP-FLOW` | DSS C-part for seepage flows |
+| `--components` | off | Also write summed component columns (`SUM_DIV`, `SUM_DRAIN`, `SUM_SEEP`) alongside `NETCD` |
 | `-o / --output` | `netcd.csv` | Output CSV file path |
 
+By default only the `NETCD` column is written. Pass `--components` to also include the individual summed inputs:
+
 ```bash
+# standard: single NETCD column
 pydsm calc-netcd dcd_nodes.dss --bpart BBID --epart 1MON -o netcd_monthly.csv
+
+# with component breakdown: SUM_DIV, SUM_DRAIN, SUM_SEEP, NETCD columns
+pydsm calc-netcd dcd_nodes.dss --bpart BBID --epart 1MON --components -o netcd_monthly.csv
+
+# custom C-parts (e.g. SMCD output uses different names)
+pydsm calc-netcd smcd.dss --div-cpart DIVERSION --drain-cpart DRAINAGE --seep-cpart SEEPAGE -o netcd_smcd.csv
 ```
 
 ---

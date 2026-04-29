@@ -22,7 +22,7 @@ def write_csv_with_meta(filepath, df, meta, header=None):
     header : list of str | None
         Column header override passed to ``to_csv``.
     """
-    with open(filepath, "w") as f:
+    with open(filepath, "w", newline='') as f:
         for key, value in meta.items():
             f.write(f"# {key}: {value}\n")
         df.to_csv(f, header=header if header is not None else True)
