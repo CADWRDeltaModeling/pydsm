@@ -355,7 +355,7 @@ def csv_to_dss(
     The index column (default 0) is parsed as the datetime index.
     D and E parts are inferred from the time series.
     """
-    df = pd.read_csv(csv_file, index_col=index_col, parse_dates=True)
+    df = pd.read_csv(csv_file, index_col=index_col, parse_dates=True, comment='#')
     df = df * multiplier
     df = df.resample(resample_to).mean()
     with pyhecdss.DSSFile(dss_file, create_new=True) as f:
