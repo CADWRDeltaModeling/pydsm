@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.input.dcd_calcs module &mdash; pydsm 2026.4.7.dev7+g80a95d86e documentation</title>
+  <title>pydsm.input.dcd_calcs module &mdash; pydsm 2026.4.7.dev9+g695d7a91d documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=09d532b7"></script>
+      <script src="_static/documentation_options.js?v=035e2e92"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -216,7 +216,7 @@ netcd = div_flows - drain_flows +seep_flows</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsm.input.dcd_calcs.get_dcd_flows">
-<span class="sig-prename descclassname"><span class="pre">pydsm.input.dcd_calcs.</span></span><span class="sig-name descname"><span class="pre">get_dcd_flows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bpart_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'[0-9]+|BBID'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seepage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epart</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1DAY'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/input/dcd_calcs.html#get_dcd_flows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.input.dcd_calcs.get_dcd_flows" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pydsm.input.dcd_calcs.</span></span><span class="sig-name descname"><span class="pre">get_dcd_flows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bpart_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'[0-9]+|BBID'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seepage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epart</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1DAY'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">div_cpart</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'DIV-FLOW'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drain_cpart</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'DRAIN-FLOW'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seep_cpart</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'SEEP-FLOW'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/input/dcd_calcs.html#get_dcd_flows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.input.dcd_calcs.get_dcd_flows" title="Link to this definition"></a></dt>
 <dd><p>gets the diversion, drainage and seepage flows as three data frames</p>
 <section id="id1">
 <h2>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
@@ -226,6 +226,14 @@ netcd = div_flows - drain_flows +seep_flows</p>
 <dt>bpart_pattern<span class="classifier">str, optional</span></dt><dd><p>pattern to match for BPART of file, by default ‘[0-9]+|BBID’</p>
 </dd>
 <dt>seepage<span class="classifier">bool, optional</span></dt><dd><p>read seepage if True, by default True</p>
+</dd>
+<dt>epart<span class="classifier">str, optional</span></dt><dd><p>DSS time interval E-part, by default ‘1DAY’</p>
+</dd>
+<dt>div_cpart<span class="classifier">str, optional</span></dt><dd><p>C-part for diversion flows, by default ‘DIV-FLOW’</p>
+</dd>
+<dt>drain_cpart<span class="classifier">str, optional</span></dt><dd><p>C-part for drainage flows, by default ‘DRAIN-FLOW’</p>
+</dd>
+<dt>seep_cpart<span class="classifier">str, optional</span></dt><dd><p>C-part for seepage flows, by default ‘SEEP-FLOW’</p>
 </dd>
 </dl>
 </section>
