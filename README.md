@@ -138,10 +138,10 @@ pydsm csv-to-dss CSV_FILE DSS_FILE [OPTIONS]
 | `--unit` | `UNK` | Physical unit string |
 | `--period_type` | `INST-VAL` | Period type (e.g. `INST-VAL`, `PER-AVER`) |
 | `--multiplier` | `1.0` | Scale factor applied to all values |
-| `--resample_to` | `15T` | Pandas resample frequency (e.g. `15T`, `1H`, `1D`) |
+| `--resample_to` | `15min` | Pandas resample frequency (e.g. `15min`, `1h`, `1D`) |
 
 ```bash
-pydsm csv-to-dss observed_ec.csv observed_ec.dss --bpart RSAC075 --unit uS/cm --resample_to 15T
+pydsm csv-to-dss observed_ec.csv observed_ec.dss --bpart RSAC075 --unit uS/cm --resample_to 15min
 ```
 
 ---

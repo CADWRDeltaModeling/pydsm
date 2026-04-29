@@ -347,20 +347,32 @@ def csv_to_dss(
     unit="UNK",
     period_type="INST-VAL",
     multiplier=1.0,
-    resample_to="15T",
+    resample_to="15min",
 ):
+    """Convert a CSV file to a DSS file.
+
+    Column names in the CSV header are used as the B-part of each DSS path.
+    The index column (default 0) is parsed as the datetime index.
+    D and E parts are inferred from the time series.
+    """
     df = pd.read_csv(csv_file, index_col=index_col, parse_dates=True)
     df = df * multiplier
     df = df.resample(resample_to).mean()
-    for c in df.columns:
-        with pyhecdss.DSSFile(dss_file, create_new=True) as f:
-            for c in tqdm.tqdm(df.columns):
-                bpart = c
-                ts = df[c]
-                epart = ts.index.freqstr
-                pathname = f"/{apart}/{bpart}/{cpart}///{fpart}/"
-                print("Writing to ", pathname)
-                f.write_rts(pathname, ts, unit, period_type)
+    with pyhecdss.DSSFile(dss_file, create_new=True) as f:
+        for c in tqdm.tqdm(df.columns):
+            ts = df[c].dropna()
+            if ts.empty:
+                print(f"Skipping {c!r} — all values are NaN")
+                continue
+            # dropna() drops the freq attribute; restore it so write_rts can
+            # determine the E-part from the index frequency.
+            if ts.index.freq is None and len(ts) > 1:
+                inferred = pd.infer_freq(ts.index)
+                if inferred is not None:
+                    ts.index.freq = pd.tseries.frequencies.to_offset(inferred)
+            pathname = f"/{apart}/{c}/{cpart}///{fpart}/"
+            print("Writing to ", pathname)
+            f.write_rts(pathname, ts, unit, period_type)
     print("Done")
 
 

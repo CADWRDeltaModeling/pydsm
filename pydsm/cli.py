@@ -282,7 +282,7 @@ def pretty_print_input(input_file, output_file=None):
 @click.argument("dss_file", type=click.Path(exists=False))
 @click.option("--index_col", default=0, help="Column to use as index")
 @click.option("--apart", default="A", help="A part of the DSS path")
-@click.option("--bpart", default="F", help="B part of the DSS path")
+@click.option("--cpart", default="FLOW", help="C part (variable/parameter) of the DSS path. B parts are read from the CSV column headers.")
 @click.option("--fpart", default="F", help="F part of the DSS path")
 @click.option("--unit", default="UNK", help="Unit of the data")
 @click.option(
@@ -296,30 +296,32 @@ def pretty_print_input(input_file, output_file=None):
 )
 @click.option(
     "--resample_to",
-    default="15T",
-    help="Resample frequency for the time series (e.g., '15T' for 15 minutes)",
+    default="15min",
+    help="Resample frequency for the time series (e.g., '15min' for 15 minutes)",
 )
 def csv_to_dss(
     csv_file,
     dss_file,
     index_col=0,
     apart="A",
-    bpart="F",
+    cpart="FLOW",
     fpart="F",
     unit="UNK",
     period_type="INST-VAL",
     multiplier=1.0,
-    resample_to="15T",
+    resample_to="15min",
 ):
     """
     Convert a CSV file to a DSS file.
+
+    Column headers in the CSV are used as the B part of each DSS path.
     """
     dssutils.csv_to_dss(
         csv_file,
         dss_file,
         index_col,
         apart,
-        bpart,
+        cpart,
         fpart,
         unit,
         period_type,
