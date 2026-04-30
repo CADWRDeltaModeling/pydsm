@@ -33,6 +33,8 @@ VarType = collections.namedtuple("VarType", ["name", "units"])
 
 def convert_index_to_timestamps(df):
     if isinstance(df.index, pd.core.indexes.datetimes.DatetimeIndex):
+        if df.index.dtype != "datetime64[ns]":
+            df.index = df.index.astype("datetime64[ns]")
         return
     df.index = df.index.astype("datetime64[ns]")
     df.index.freq = pd.infer_freq(df.index)  # if possible
