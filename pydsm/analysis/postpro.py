@@ -35,6 +35,10 @@ def convert_index_to_timestamps(df):
     if isinstance(df.index, pd.core.indexes.datetimes.DatetimeIndex):
         if df.index.dtype != "datetime64[ns]":
             df.index = df.index.astype("datetime64[ns]")
+            if df.index.freq is None:
+                inferred = pd.infer_freq(df.index)
+                if inferred is not None:
+                    df.index.freq = pd.tseries.frequencies.to_offset(inferred)
         return
     df.index = df.index.astype("datetime64[ns]")
     df.index.freq = pd.infer_freq(df.index)  # if possible
