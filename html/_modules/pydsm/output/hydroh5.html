@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.output.hydroh5 &mdash; pydsm 2026.4.7.dev12+g1ffb34848 documentation</title>
+  <title>pydsm.output.hydroh5 &mdash; pydsm 2026.4.7.dev13+gf9117a119 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=bbe4d715"></script>
+      <script src="../../../_static/documentation_options.js?v=0e49aea2"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -396,7 +396,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">create_catalog</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">dfc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_channels</span><span class="p">()</span>
 
-        <span class="n">cat_flow</span> <span class="o">=</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">create_catalog_entry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">dfc</span><span class="p">,</span> <span class="s2">&quot;flow&quot;</span><span class="p">,</span> <span class="s2">&quot;ft/s&quot;</span><span class="p">)</span>
+        <span class="n">cat_flow</span> <span class="o">=</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">create_catalog_entry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">dfc</span><span class="p">,</span> <span class="s2">&quot;flow&quot;</span><span class="p">,</span> <span class="s2">&quot;cfs&quot;</span><span class="p">)</span>
         <span class="n">cat_area</span> <span class="o">=</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">create_catalog_entry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">dfc</span><span class="p">,</span> <span class="s2">&quot;area&quot;</span><span class="p">,</span> <span class="s2">&quot;ft^2&quot;</span><span class="p">)</span>
         <span class="n">cat_avg_area</span> <span class="o">=</span> <span class="n">dsm2h5</span><span class="o">.</span><span class="n">create_catalog_entry</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">dfc</span><span class="p">,</span> <span class="s2">&quot;area&quot;</span><span class="p">,</span> <span class="s2">&quot;ft^2&quot;</span><span class="p">,</span> <span class="n">updown</span><span class="o">=</span><span class="kc">False</span>
