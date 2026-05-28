@@ -173,7 +173,7 @@ class HydroH5:
     def create_catalog(self):
         dfc = self.get_channels()
 
-        cat_flow = dsm2h5.create_catalog_entry(self.filename, dfc, "flow", "ft/s")
+        cat_flow = dsm2h5.create_catalog_entry(self.filename, dfc, "flow", "cfs")
         cat_area = dsm2h5.create_catalog_entry(self.filename, dfc, "area", "ft^2")
         cat_avg_area = dsm2h5.create_catalog_entry(
             self.filename, dfc, "area", "ft^2", updown=False
