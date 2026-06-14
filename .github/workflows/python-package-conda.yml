@@ -13,7 +13,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: Set up Python 3.13
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: 3.13
     - name: Add conda to system path
@@ -24,11 +24,8 @@ jobs:
       env:
         ANACONDA_CHANNEL_UPLOAD_TOKEN: ${{ secrets.ANACONDA_CHANNEL_UPLOAD_TOKEN }}
       run: |
-        conda create -n test_pydsm -y conda-build conda-verify numpy anaconda-client setuptools_scm
         source $CONDA/etc/profile.d/conda.sh
-        conda activate test_pydsm
+        conda install -n base -y conda-build conda-verify anaconda-client setuptools_scm
         conda config --set anaconda_upload yes
         export SETUPTOOLS_SCM_PRETEND_VERSION=$(python -m setuptools_scm)
         conda build -c conda-forge -c cadwr-dms -c defaults --user cadwr-dms --token "$ANACONDA_CHANNEL_UPLOAD_TOKEN" conda.recipe
-        conda activate
-        conda remove -n test_pydsm --all
