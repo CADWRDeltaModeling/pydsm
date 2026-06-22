@@ -49,6 +49,9 @@ include = ["pydsm", "pydsm.*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = [
+    "integration: tests that require real data files (deselect with -m 'not integration')",
+]
 
 [tool.setuptools_scm]
 write_to = "pydsm/_version.py"
