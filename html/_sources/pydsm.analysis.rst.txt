@@ -13,7 +13,10 @@ Submodules
    pydsm.analysis.dsm2diff
    pydsm.analysis.dsm2study
    pydsm.analysis.dssutils
+   pydsm.analysis.gate_state
    pydsm.analysis.lockutil
+   pydsm.analysis.network_correction
+   pydsm.analysis.oprule_parser
    pydsm.analysis.postpro
 
 Module contents

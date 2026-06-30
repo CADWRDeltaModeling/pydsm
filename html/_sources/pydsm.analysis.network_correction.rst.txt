@@ -1,0 +1,7 @@
+pydsm.analysis.network\_correction module
+=========================================
+
+.. automodule:: pydsm.analysis.network_correction
+   :members:
+   :show-inheritance:
+   :undoc-members:

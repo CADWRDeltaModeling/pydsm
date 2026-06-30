@@ -1,0 +1,7 @@
+pydsm.analysis.oprule\_parser module
+====================================
+
+.. automodule:: pydsm.analysis.oprule_parser
+   :members:
+   :show-inheritance:
+   :undoc-members:

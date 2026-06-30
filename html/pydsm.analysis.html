@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.analysis package &mdash; pydsm 2026.4.7.dev16+ga4d70fdf4 documentation</title>
+  <title>pydsm.analysis package &mdash; pydsm 2026.6.23.dev1+g50327ecfc documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=361435c3"></script>
+      <script src="_static/documentation_options.js?v=e3a0c1de"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -188,6 +188,7 @@
 <li class="toctree-l1"><a class="reference internal" href="pydsm.analysis.dsm2diff.html">pydsm.analysis.dsm2diff module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pydsm.analysis.dsm2study.html">pydsm.analysis.dsm2study module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pydsm.analysis.dssutils.html">pydsm.analysis.dssutils module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pydsm.analysis.gate_state.html">pydsm.analysis.gate_state module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pydsm.analysis.lockutil.html">pydsm.analysis.lockutil module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.lockutil.html#pydsm.analysis.lockutil.AlreadyLocked"><code class="docutils literal notranslate"><span class="pre">AlreadyLocked</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.lockutil.html#pydsm.analysis.lockutil.LockFile"><code class="docutils literal notranslate"><span class="pre">LockFile</span></code></a><ul>
@@ -195,6 +196,96 @@
 <li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.lockutil.html#pydsm.analysis.lockutil.LockFile.unlock"><code class="docutils literal notranslate"><span class="pre">LockFile.unlock()</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pydsm.analysis.network_correction.html">pydsm.analysis.network_correction module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.network_correction.html#pydsm.analysis.network_correction.NetworkCorrector"><code class="docutils literal notranslate"><span class="pre">NetworkCorrector</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.network_correction.html#pydsm.analysis.network_correction.NetworkCorrector.correct"><code class="docutils literal notranslate"><span class="pre">NetworkCorrector.correct()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.network_correction.html#pydsm.analysis.network_correction.NetworkIDWCorrector"><code class="docutils literal notranslate"><span class="pre">NetworkIDWCorrector</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.network_correction.html#pydsm.analysis.network_correction.NetworkIDWCorrector.correct"><code class="docutils literal notranslate"><span class="pre">NetworkIDWCorrector.correct()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.network_correction.html#pydsm.analysis.network_correction.NetworkOICorrector"><code class="docutils literal notranslate"><span class="pre">NetworkOICorrector</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.network_correction.html#pydsm.analysis.network_correction.NetworkOICorrector.correct"><code class="docutils literal notranslate"><span class="pre">NetworkOICorrector.correct()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.network_correction.html#pydsm.analysis.network_correction.channel_direction_kernel"><code class="docutils literal notranslate"><span class="pre">channel_direction_kernel()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.network_correction.html#pydsm.analysis.network_correction.exponential_kernel"><code class="docutils literal notranslate"><span class="pre">exponential_kernel()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.network_correction.html#pydsm.analysis.network_correction.extract_channel_end_values"><code class="docutils literal notranslate"><span class="pre">extract_channel_end_values()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.network_correction.html#pydsm.analysis.network_correction.snap_stations_to_channel_ends"><code class="docutils literal notranslate"><span class="pre">snap_stations_to_channel_ends()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pydsm.analysis.oprule_parser.html">pydsm.analysis.oprule_parser module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#public-api">Public API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.ActionSpec"><code class="docutils literal notranslate"><span class="pre">ActionSpec</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.ActionSpec.kwargs"><code class="docutils literal notranslate"><span class="pre">ActionSpec.kwargs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.ActionSpec.ramp_min"><code class="docutils literal notranslate"><span class="pre">ActionSpec.ramp_min</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.ActionSpec.value_ast"><code class="docutils literal notranslate"><span class="pre">ActionSpec.value_ast</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.ActionSpec.variable"><code class="docutils literal notranslate"><span class="pre">ActionSpec.variable</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.BareRef"><code class="docutils literal notranslate"><span class="pre">BareRef</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.BareRef.name"><code class="docutils literal notranslate"><span class="pre">BareRef.name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.BinOp"><code class="docutils literal notranslate"><span class="pre">BinOp</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.BinOp.left"><code class="docutils literal notranslate"><span class="pre">BinOp.left</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.BinOp.op"><code class="docutils literal notranslate"><span class="pre">BinOp.op</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.BinOp.right"><code class="docutils literal notranslate"><span class="pre">BinOp.right</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.BoolLit"><code class="docutils literal notranslate"><span class="pre">BoolLit</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.BoolLit.value"><code class="docutils literal notranslate"><span class="pre">BoolLit.value</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.CmpOp"><code class="docutils literal notranslate"><span class="pre">CmpOp</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.CmpOp.left"><code class="docutils literal notranslate"><span class="pre">CmpOp.left</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.CmpOp.op"><code class="docutils literal notranslate"><span class="pre">CmpOp.op</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.CmpOp.right"><code class="docutils literal notranslate"><span class="pre">CmpOp.right</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.DateTimeLit"><code class="docutils literal notranslate"><span class="pre">DateTimeLit</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.DateTimeLit.value"><code class="docutils literal notranslate"><span class="pre">DateTimeLit.value</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.DateTimeNow"><code class="docutils literal notranslate"><span class="pre">DateTimeNow</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.FuncCall"><code class="docutils literal notranslate"><span class="pre">FuncCall</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.FuncCall.args"><code class="docutils literal notranslate"><span class="pre">FuncCall.args</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.FuncCall.kwargs"><code class="docutils literal notranslate"><span class="pre">FuncCall.kwargs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.FuncCall.name"><code class="docutils literal notranslate"><span class="pre">FuncCall.name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.LogOp"><code class="docutils literal notranslate"><span class="pre">LogOp</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.LogOp.left"><code class="docutils literal notranslate"><span class="pre">LogOp.left</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.LogOp.op"><code class="docutils literal notranslate"><span class="pre">LogOp.op</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.LogOp.right"><code class="docutils literal notranslate"><span class="pre">LogOp.right</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.Num"><code class="docutils literal notranslate"><span class="pre">Num</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.Num.value"><code class="docutils literal notranslate"><span class="pre">Num.value</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.ParseError"><code class="docutils literal notranslate"><span class="pre">ParseError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.Token"><code class="docutils literal notranslate"><span class="pre">Token</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.Token.pos"><code class="docutils literal notranslate"><span class="pre">Token.pos</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.Token.type"><code class="docutils literal notranslate"><span class="pre">Token.type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.Token.value"><code class="docutils literal notranslate"><span class="pre">Token.value</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.UnaryOp"><code class="docutils literal notranslate"><span class="pre">UnaryOp</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.UnaryOp.op"><code class="docutils literal notranslate"><span class="pre">UnaryOp.op</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.UnaryOp.operand"><code class="docutils literal notranslate"><span class="pre">UnaryOp.operand</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.UnsupportedFeatureError"><code class="docutils literal notranslate"><span class="pre">UnsupportedFeatureError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.eval_node"><code class="docutils literal notranslate"><span class="pre">eval_node()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.needs_hydro"><code class="docutils literal notranslate"><span class="pre">needs_hydro()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.parse_action"><code class="docutils literal notranslate"><span class="pre">parse_action()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.parse_expr"><code class="docutils literal notranslate"><span class="pre">parse_expr()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.parse_trigger"><code class="docutils literal notranslate"><span class="pre">parse_trigger()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.tokenize"><code class="docutils literal notranslate"><span class="pre">tokenize()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pydsm.analysis.postpro.html">pydsm.analysis.postpro module</a></li>

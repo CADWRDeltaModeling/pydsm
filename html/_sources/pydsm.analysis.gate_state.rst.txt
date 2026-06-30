@@ -1,0 +1,7 @@
+pydsm.analysis.gate\_state module
+=================================
+
+.. automodule:: pydsm.analysis.gate_state
+   :members:
+   :show-inheritance:
+   :undoc-members:

@@ -1,0 +1,596 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pydsm.analysis.network_correction module &mdash; pydsm 2026.6.23.dev1+g50327ecfc documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=e3a0c1de"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pydsm.analysis.oprule_parser module" href="pydsm.analysis.oprule_parser.html" />
+    <link rel="prev" title="pydsm.analysis.lockutil module" href="pydsm.analysis.lockutil.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pydsm
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">pydsm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#conda-recommended">Conda (recommended)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#pip">pip</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#credits">Credits</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#stable-release">Stable release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#from-sources">From sources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#command-line">Command Line</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#compare-dss">Compare DSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#extract-dss">Extract DSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#ptm-animate">PTM Animate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#dsm2-diff">DSM2 Diff</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#slice-hydro">Slice Hydro</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">pydsm</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pydsm.html">pydsm package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="pydsm.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydsm.html#module-pydsm">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/notebooks.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/dsm2.html">DSM2 Input/Output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_read_input.html">Reading/writing echo files into/from Pandas DataFrame</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_read_input.html#Visualizing-input-data">Visualizing input data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_read_input.html#Writing-input-to-file">Writing input to file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_read_hydro_h5.html">Reading hydro h5 output files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_read_qual_h5.html">Reading Qual h5 output</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/dsm2_input_network.html">DSM2 as a network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_input_network.html#Read-in-input-file">Read in input file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_input_network.html#Convert-to-a-graph-network">Convert to a graph network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_input_network.html#Drawing-graph-networks">Drawing graph networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dsm2_input_network.html#Utilizing-graph-information">Utilizing graph information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/timestamps_periods_hec_conventions.html">Time stamps, Periods HEC convention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/timestamps_periods_hec_conventions.html#Time-formats-(standards-and-military-conventions)">Time formats (standards and military conventions)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/timestamps_periods_hec_conventions.html#Period-and-Instantaneous-data-types">Period and Instantaneous data types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/timestamps_periods_hec_conventions.html#Period-operations">Period operations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#deploying">Deploying</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="authors.html#development-lead">Development Lead</a></li>
+<li class="toctree-l2"><a class="reference internal" href="authors.html#contributors">Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="history.html#unreleased-since-2025-07-29">Unreleased (since 2025.07.29)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id1">2021.12.13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id2">2021.11.14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#x-2020-12-24">0.3.x (2020-12-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id3">0.2.7 (2020-12-01)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id4">0.2.6 (2020-10-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id5">0.2.5 (2020-04-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id6">0.2.4 (2020-04-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id7">0.2.3 (2020-04-05)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id8">0.2.0 (2020-03-17)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id9">0.1.9 (2019-11-11)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id10">0.1.8 (2019-10-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id11">0.1.7 (2019-09-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id12">0.1.6 (2019-09-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id13">0.1.5 (2019-09-19)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id14">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id15">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id16">0.1.0 (2019-08-21)</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pydsm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">pydsm</a></li>
+          <li class="breadcrumb-item"><a href="pydsm.html">pydsm package</a></li>
+          <li class="breadcrumb-item"><a href="pydsm.analysis.html">pydsm.analysis package</a></li>
+      <li class="breadcrumb-item active">pydsm.analysis.network_correction module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pydsm.analysis.network_correction.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-pydsm.analysis.network_correction">
+<span id="pydsm-analysis-network-correction-module"></span><h1>pydsm.analysis.network_correction module<a class="headerlink" href="#module-pydsm.analysis.network_correction" title="Link to this heading"></a></h1>
+<p>Network-aware IDW correction of DSM2 channel-end values using sparse observations.</p>
+<p>This module provides tools to bias-correct DSM2 model output (e.g. EC) at every
+channel-end using a sparse set of observation stations, via Inverse Distance
+Weighting (IDW) on a directed network graph.</p>
+<p>The correction is additive:</p>
+<blockquote>
+<div><p>corrected(x, t) = model(x, t) + Σ w_i(x) · r_i(t)  /  Σ w_i(x)</p>
+</div></blockquote>
+<p>where r_i(t) = obs_i(t) − model(x_i, t) is the residual at station i, and
+w_i(x) = d(i → x)^(−power) is the IDW weight based on directed network distance
+from the observation node to the target channel-end node.</p>
+<p>Directed distances follow the UPNODE → DOWNNODE orientation of DSM2 channels
+(approximately the tidally-filtered flow direction).  Channel-ends that are
+upstream of all active observations receive zero correction.</p>
+<p>When observations are NaN (missing) they are excluded automatically; if all
+observations are missing the model values are returned unchanged.</p>
+<p>Typical workflow:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydsm.output.hydroh5</span><span class="w"> </span><span class="kn">import</span> <span class="n">HydroH5</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydsm.output.qualh5</span><span class="w"> </span><span class="kn">import</span> <span class="n">QualH5</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydsm.analysis.network_correction</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">extract_channel_end_values</span><span class="p">,</span>
+    <span class="n">snap_stations_to_channel_ends</span><span class="p">,</span>
+    <span class="n">NetworkIDWCorrector</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># 1. Load model channel-end EC for the full run</span>
+<span class="n">qual</span> <span class="o">=</span> <span class="n">QualH5</span><span class="p">(</span><span class="s2">&quot;historical_v82_ec.h5&quot;</span><span class="p">)</span>
+<span class="n">model_df</span> <span class="o">=</span> <span class="n">extract_channel_end_values</span><span class="p">(</span><span class="n">qual</span><span class="p">,</span> <span class="s2">&quot;ec&quot;</span><span class="p">)</span>
+
+<span class="c1"># 2. Snap observation stations to channel-ends</span>
+<span class="n">hydro</span> <span class="o">=</span> <span class="n">HydroH5</span><span class="p">(</span><span class="s2">&quot;historical_v82.h5&quot;</span><span class="p">)</span>
+<span class="n">channels_df</span> <span class="o">=</span> <span class="n">hydro</span><span class="o">.</span><span class="n">get_channels</span><span class="p">()</span>
+<span class="n">stations</span> <span class="o">=</span> <span class="n">read_stations</span><span class="p">(</span><span class="s2">&quot;obs_stations.csv&quot;</span><span class="p">)</span>        <span class="c1"># from pydsm.viz.dsm2gis</span>
+<span class="n">centerlines</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s2">&quot;channel_centerlines.geojson&quot;</span><span class="p">)</span>
+<span class="n">snapped</span> <span class="o">=</span> <span class="n">snap_stations_to_channel_ends</span><span class="p">(</span><span class="n">stations</span><span class="p">,</span> <span class="n">centerlines</span><span class="p">,</span> <span class="n">channels_df</span><span class="p">)</span>
+
+<span class="c1"># 3. Build corrector (pre-computes distance matrix once)</span>
+<span class="n">corrector</span> <span class="o">=</span> <span class="n">NetworkIDWCorrector</span><span class="p">(</span><span class="n">channels_df</span><span class="p">,</span> <span class="n">snapped</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># 4. Apply correction at each time step</span>
+<span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">model_row</span> <span class="ow">in</span> <span class="n">model_df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s2">&quot;RSAC075&quot;</span><span class="p">:</span> <span class="n">measured_ec_at_t</span><span class="p">,</span> <span class="s2">&quot;RSAN007&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;nan&quot;</span><span class="p">)})</span>
+    <span class="n">corrected</span> <span class="o">=</span> <span class="n">corrector</span><span class="o">.</span><span class="n">correct</span><span class="p">(</span><span class="n">model_row</span><span class="p">,</span> <span class="n">obs</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="pydsm.analysis.network_correction.NetworkCorrector">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydsm.analysis.network_correction.</span></span><span class="sig-name descname"><span class="pre">NetworkCorrector</span></span><a class="reference internal" href="_modules/pydsm/analysis/network_correction.html#NetworkCorrector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.network_correction.NetworkCorrector" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Abstract base for network-aware additive correction of DSM2 channel-end values.</p>
+<p>Both <a class="reference internal" href="#pydsm.analysis.network_correction.NetworkIDWCorrector" title="pydsm.analysis.network_correction.NetworkIDWCorrector"><code class="xref py py-class docutils literal notranslate"><span class="pre">NetworkIDWCorrector</span></code></a> (inverse-distance weighting on a directed
+graph) and <a class="reference internal" href="#pydsm.analysis.network_correction.NetworkOICorrector" title="pydsm.analysis.network_correction.NetworkOICorrector"><code class="xref py py-class docutils literal notranslate"><span class="pre">NetworkOICorrector</span></code></a> (optimal interpolation on an
+undirected graph) implement this interface.</p>
+<p>Subclasses pre-compute all expensive data at construction time so that
+<a class="reference internal" href="#pydsm.analysis.network_correction.NetworkCorrector.correct" title="pydsm.analysis.network_correction.NetworkCorrector.correct"><code class="xref py py-meth docutils literal notranslate"><span class="pre">correct()</span></code></a> is cheap enough to call at every animation time step.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydsm.analysis.network_correction.NetworkCorrector.correct">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">correct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_series</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference internal" href="_modules/pydsm/analysis/network_correction.html#NetworkCorrector.correct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.network_correction.NetworkCorrector.correct" title="Link to this definition"></a></dt>
+<dd><p>Apply additive correction to one time step of channel-end values.</p>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>model_series<span class="classifier">pd.Series</span></dt><dd><p>Channel-end model values indexed by <code class="docutils literal notranslate"><span class="pre">&quot;{chan_no}-{location}&quot;</span></code>.</p>
+</dd>
+<dt>observations<span class="classifier">pd.Series</span></dt><dd><p>Observed values indexed by <code class="docutils literal notranslate"><span class="pre">station_id</span></code>.  <code class="docutils literal notranslate"><span class="pre">NaN</span></code> entries are
+treated as missing and excluded automatically.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>pd.Series</dt><dd><p>Corrected values with the same index and dtype as <em>model_series</em>.
+When no valid observations are available the method returns an
+unchanged copy of <em>model_series</em>.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pydsm.analysis.network_correction.NetworkIDWCorrector">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydsm.analysis.network_correction.</span></span><span class="sig-name descname"><span class="pre">NetworkIDWCorrector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channels_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snapped_stations_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">power</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/network_correction.html#NetworkIDWCorrector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.network_correction.NetworkIDWCorrector" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydsm.analysis.network_correction.NetworkCorrector" title="pydsm.analysis.network_correction.NetworkCorrector"><code class="xref py py-class docutils literal notranslate"><span class="pre">NetworkCorrector</span></code></a></p>
+<p>Correct DSM2 channel-end values using sparse observations via network IDW.</p>
+<p>Network distances are computed along a directed graph that follows the
+UPNODE → DOWNNODE orientation of DSM2 channels (approximately the
+tidally-filtered flow direction), weighted by channel length in feet.
+Corrections therefore spread only to channel-ends that are <em>downstream</em>
+of an observation node in the network.</p>
+<p>The distance matrix is pre-computed once at construction time.  The
+per-time-step <a class="reference internal" href="#pydsm.analysis.network_correction.NetworkIDWCorrector.correct" title="pydsm.analysis.network_correction.NetworkIDWCorrector.correct"><code class="xref py py-meth docutils literal notranslate"><span class="pre">correct()</span></code></a> call is a lightweight weighted-sum that
+drops NaN observations automatically.</p>
+<section id="id1">
+<h2>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>channels_df<span class="classifier">pd.DataFrame</span></dt><dd><p>CHANNEL table from <code class="docutils literal notranslate"><span class="pre">HydroH5.get_channels()</span></code> or
+<code class="docutils literal notranslate"><span class="pre">parser.parse_input()[&quot;CHANNEL&quot;]</span></code>.  Required columns
+(case-insensitive): <code class="docutils literal notranslate"><span class="pre">chan_no</span></code>, <code class="docutils literal notranslate"><span class="pre">upnode</span></code>, <code class="docutils literal notranslate"><span class="pre">downnode</span></code>, <code class="docutils literal notranslate"><span class="pre">length</span></code>.</p>
+</dd>
+<dt>snapped_stations_df<span class="classifier">pd.DataFrame</span></dt><dd><p>Station-to-channel-end mapping from <a class="reference internal" href="#pydsm.analysis.network_correction.snap_stations_to_channel_ends" title="pydsm.analysis.network_correction.snap_stations_to_channel_ends"><code class="xref py py-func docutils literal notranslate"><span class="pre">snap_stations_to_channel_ends()</span></code></a>.
+Index must be <code class="docutils literal notranslate"><span class="pre">station_id</span></code>; columns must include <code class="docutils literal notranslate"><span class="pre">chan_no</span></code>,
+<code class="docutils literal notranslate"><span class="pre">location</span></code>, and <code class="docutils literal notranslate"><span class="pre">node_id</span></code>.</p>
+</dd>
+<dt>power<span class="classifier">float</span></dt><dd><p>IDW distance exponent.  Default <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p>
+</dd>
+<dt>max_distance<span class="classifier">float or None</span></dt><dd><p>Maximum network distance (feet) beyond which an observation has no
+influence.  <code class="docutils literal notranslate"><span class="pre">None</span></code> means no cutoff.</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">corrector</span> <span class="o">=</span> <span class="n">NetworkIDWCorrector</span><span class="p">(</span><span class="n">channels_df</span><span class="p">,</span> <span class="n">snapped</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s2">&quot;RSAC075&quot;</span><span class="p">:</span> <span class="mf">820.0</span><span class="p">,</span> <span class="s2">&quot;RSAN007&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;nan&quot;</span><span class="p">)})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corrected_row</span> <span class="o">=</span> <span class="n">corrector</span><span class="o">.</span><span class="n">correct</span><span class="p">(</span><span class="n">model_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">obs</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydsm.analysis.network_correction.NetworkIDWCorrector.correct">
+<span class="sig-name descname"><span class="pre">correct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_series</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference internal" href="_modules/pydsm/analysis/network_correction.html#NetworkIDWCorrector.correct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.network_correction.NetworkIDWCorrector.correct" title="Link to this definition"></a></dt>
+<dd><p>Apply IDW correction to one time step of channel-end model values.</p>
+<section id="id2">
+<h3>Parameters<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>model_series<span class="classifier">pd.Series</span></dt><dd><p>Channel-end model values indexed by <code class="docutils literal notranslate"><span class="pre">&quot;{chan_no}-{location}&quot;</span></code>.
+Typically a single row of the DataFrame returned by
+<a class="reference internal" href="#pydsm.analysis.network_correction.extract_channel_end_values" title="pydsm.analysis.network_correction.extract_channel_end_values"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_channel_end_values()</span></code></a>.</p>
+</dd>
+<dt>observations<span class="classifier">pd.Series</span></dt><dd><p>Observed values indexed by <code class="docutils literal notranslate"><span class="pre">station_id</span></code>.  <code class="docutils literal notranslate"><span class="pre">NaN</span></code> entries are
+treated as missing and excluded automatically.  Any station IDs
+not present in the snapped-stations table are silently ignored.</p>
+</dd>
+</dl>
+</section>
+<section id="id3">
+<h3>Returns<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>pd.Series</dt><dd><p>Corrected values with the same index and dtype as <em>model_series</em>.
+When no valid observations are available the method returns an
+unchanged copy of <em>model_series</em>.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pydsm.analysis.network_correction.NetworkOICorrector">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydsm.analysis.network_correction.</span></span><span class="sig-name descname"><span class="pre">NetworkOICorrector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channels_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snapped_stations_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_obs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corr_fn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/network_correction.html#NetworkOICorrector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.network_correction.NetworkOICorrector" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydsm.analysis.network_correction.NetworkCorrector" title="pydsm.analysis.network_correction.NetworkCorrector"><code class="xref py py-class docutils literal notranslate"><span class="pre">NetworkCorrector</span></code></a></p>
+<p>Correct DSM2 channel-end values via Optimal Interpolation (OI).</p>
+<p>OI finds the minimum-variance linear unbiased estimator given a background
+error covariance <strong>B</strong> and an observation error covariance <strong>R</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">correction</span> <span class="o">=</span> <span class="n">B_x_obs</span> <span class="o">@</span> <span class="p">(</span><span class="n">B_obs</span> <span class="o">+</span> <span class="n">R</span><span class="p">)</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span> <span class="o">@</span> <span class="n">residuals</span>
+</pre></div>
+</div>
+<p>Unlike <a class="reference internal" href="#pydsm.analysis.network_correction.NetworkIDWCorrector" title="pydsm.analysis.network_correction.NetworkIDWCorrector"><code class="xref py py-class docutils literal notranslate"><span class="pre">NetworkIDWCorrector</span></code></a>, OI:</p>
+<ul class="simple">
+<li><p>Automatically <strong>de-weights redundant stations</strong> that are close to each
+other (through the <code class="docutils literal notranslate"><span class="pre">B_obs</span></code> matrix inversion).</p></li>
+<li><p>Uses an <strong>undirected</strong> shortest-path graph so corrections can spread in
+both directions along any channel.</p></li>
+<li><p>Accepts a pluggable <strong>correlation kernel</strong> via the <em>corr_fn</em> parameter.</p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">B_obs</span></code> and <code class="docutils literal notranslate"><span class="pre">B_x_all</span></code> matrices are pre-computed at construction
+time; the per-step <a class="reference internal" href="#pydsm.analysis.network_correction.NetworkOICorrector.correct" title="pydsm.analysis.network_correction.NetworkOICorrector.correct"><code class="xref py py-meth docutils literal notranslate"><span class="pre">correct()</span></code></a> call does only a small matrix solve
+(O(n_obs³) with n_obs ≤ ~20).</p>
+<section id="id4">
+<h2>Parameters<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>channels_df<span class="classifier">pd.DataFrame</span></dt><dd><p>CHANNEL table.  Same format as <a class="reference internal" href="#pydsm.analysis.network_correction.NetworkIDWCorrector" title="pydsm.analysis.network_correction.NetworkIDWCorrector"><code class="xref py py-class docutils literal notranslate"><span class="pre">NetworkIDWCorrector</span></code></a>.</p>
+</dd>
+<dt>snapped_stations_df<span class="classifier">pd.DataFrame</span></dt><dd><p>Station-to-channel-end mapping from <a class="reference internal" href="#pydsm.analysis.network_correction.snap_stations_to_channel_ends" title="pydsm.analysis.network_correction.snap_stations_to_channel_ends"><code class="xref py py-func docutils literal notranslate"><span class="pre">snap_stations_to_channel_ends()</span></code></a>.</p>
+</dd>
+<dt>sigma_b<span class="classifier">float, optional</span></dt><dd><p>Background error standard deviation (µS/cm).  Scales the B matrices.
+Default <code class="docutils literal notranslate"><span class="pre">1.0</span></code> (relative units; only the ratio sigma_b / sigma_obs
+matters for the weights).</p>
+</dd>
+<dt>sigma_obs<span class="classifier">float, optional</span></dt><dd><p>Observation error standard deviation (µS/cm).  Typical EC sensor
+accuracy is 5–20 µS/cm.  Default <code class="docutils literal notranslate"><span class="pre">10.0</span></code>.</p>
+</dd>
+<dt>corr_fn<span class="classifier">callable or None, optional</span></dt><dd><p>Correlation kernel produced by <a class="reference internal" href="#pydsm.analysis.network_correction.exponential_kernel" title="pydsm.analysis.network_correction.exponential_kernel"><code class="xref py py-func docutils literal notranslate"><span class="pre">exponential_kernel()</span></code></a> or
+<a class="reference internal" href="#pydsm.analysis.network_correction.channel_direction_kernel" title="pydsm.analysis.network_correction.channel_direction_kernel"><code class="xref py py-func docutils literal notranslate"><span class="pre">channel_direction_kernel()</span></code></a>.  When <code class="docutils literal notranslate"><span class="pre">None</span></code> (default)
+<a class="reference internal" href="#pydsm.analysis.network_correction.exponential_kernel" title="pydsm.analysis.network_correction.exponential_kernel"><code class="xref py py-func docutils literal notranslate"><span class="pre">exponential_kernel()</span></code></a> with an auto-estimated length scale is used.</p>
+</dd>
+<dt>length_scale<span class="classifier">float or None, optional</span></dt><dd><p>Overrides the length scale of the default exponential kernel.
+Ignored when <em>corr_fn</em> is provided explicitly.</p>
+</dd>
+</dl>
+</section>
+<section id="id5">
+<h2>Examples<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">corrector</span> <span class="o">=</span> <span class="n">NetworkOICorrector</span><span class="p">(</span><span class="n">channels_df</span><span class="p">,</span> <span class="n">snapped</span><span class="p">,</span>
+<span class="gp">... </span>                               <span class="n">sigma_obs</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s2">&quot;RSAC075&quot;</span><span class="p">:</span> <span class="mf">820.0</span><span class="p">,</span> <span class="s2">&quot;RSAN007&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;nan&quot;</span><span class="p">)})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corrected_row</span> <span class="o">=</span> <span class="n">corrector</span><span class="o">.</span><span class="n">correct</span><span class="p">(</span><span class="n">model_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">obs</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydsm.analysis.network_correction.NetworkOICorrector.correct">
+<span class="sig-name descname"><span class="pre">correct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_series</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference internal" href="_modules/pydsm/analysis/network_correction.html#NetworkOICorrector.correct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.network_correction.NetworkOICorrector.correct" title="Link to this definition"></a></dt>
+<dd><p>Apply OI correction to one time step of channel-end model values.</p>
+<section id="id6">
+<h3>Parameters<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>model_series<span class="classifier">pd.Series</span></dt><dd><p>Channel-end model values indexed by <code class="docutils literal notranslate"><span class="pre">&quot;{chan_no}-{location}&quot;</span></code>.</p>
+</dd>
+<dt>observations<span class="classifier">pd.Series</span></dt><dd><p>Observed values indexed by <code class="docutils literal notranslate"><span class="pre">station_id</span></code>.  <code class="docutils literal notranslate"><span class="pre">NaN</span></code> entries are
+treated as missing and excluded automatically.</p>
+</dd>
+</dl>
+</section>
+<section id="id7">
+<h3>Returns<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>pd.Series</dt><dd><p>Corrected values with the same index and dtype as <em>model_series</em>.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.network_correction.channel_direction_kernel">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.network_correction.</span></span><span class="sig-name descname"><span class="pre">channel_direction_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resistance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/network_correction.html#channel_direction_kernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.network_correction.channel_direction_kernel" title="Link to this definition"></a></dt>
+<dd><p>Return an asymmetry-aware correlation kernel using CHANNEL table flow direction.</p>
+<p>Each path segment is classified as <em>with-flow</em> (traversed UPNODE→DOWNNODE)
+or <em>against-flow</em> (DOWNNODE→UPNODE).  An effective distance is computed
+as the geometric mean of the forward and reverse directed costs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>d_fwd = Σ L_k × (1 if with-flow, resistance if against-flow)
+d_rev = Σ L_k × (resistance if with-flow, 1 if against-flow)
+d_sym = sqrt(d_fwd × d_rev)
+corr  = exp(−d_sym / length_scale)
+</pre></div>
+</div>
+<p>The geometric-mean symmetrisation guarantees a symmetric covariance matrix.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This kernel <strong>cannot</strong> distinguish an upstream neighbour from a
+downstream neighbour at equal total path length.  For single-direction
+paths of length L the effective distance is always <code class="docutils literal notranslate"><span class="pre">L</span> <span class="pre">×</span> <span class="pre">sqrt(resistance)</span></code>
+regardless of direction.  The asymmetry only manifests for paths that
+mix with-flow and against-flow segments — such paths receive a <em>larger</em>
+effective distance than uniformly-directed paths of the same total length.
+For a fully physics-based asymmetric kernel see the Green’s-function
+approach (requires the hydro HDF5 file; not yet implemented).</p>
+</div>
+<section id="id8">
+<h2>Parameters<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>length_scale<span class="classifier">float or None</span></dt><dd><p>Correlation length in feet (same as <a class="reference internal" href="#pydsm.analysis.network_correction.exponential_kernel" title="pydsm.analysis.network_correction.exponential_kernel"><code class="xref py py-func docutils literal notranslate"><span class="pre">exponential_kernel()</span></code></a>).</p>
+</dd>
+<dt>resistance<span class="classifier">float</span></dt><dd><p>Cost multiplier for against-flow traversal.  <code class="docutils literal notranslate"><span class="pre">1.0</span></code> → symmetric
+(same as <a class="reference internal" href="#pydsm.analysis.network_correction.exponential_kernel" title="pydsm.analysis.network_correction.exponential_kernel"><code class="xref py py-func docutils literal notranslate"><span class="pre">exponential_kernel()</span></code></a>); higher values increasingly
+penalise mixed-direction paths.  Default <code class="docutils literal notranslate"><span class="pre">3.0</span></code>.</p>
+</dd>
+</dl>
+</section>
+<section id="id9">
+<h2>Returns<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>callable</dt><dd><p><code class="docutils literal notranslate"><span class="pre">corr_fn(segments:</span> <span class="pre">list[tuple[str,</span> <span class="pre">float]])</span> <span class="pre">-&gt;</span> <span class="pre">float</span></code>
+where each element is <code class="docutils literal notranslate"><span class="pre">(chan_no,</span> <span class="pre">signed_length_ft)</span></code>:
+positive = UPNODE→DOWNNODE, negative = DOWNNODE→UPNODE.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.network_correction.exponential_kernel">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.network_correction.</span></span><span class="sig-name descname"><span class="pre">exponential_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/network_correction.html#exponential_kernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.network_correction.exponential_kernel" title="Link to this definition"></a></dt>
+<dd><p>Return a symmetric exponential correlation kernel.</p>
+<p>The kernel computes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>corr = exp(−total_path_length / length_scale)
+</pre></div>
+</div>
+<p>This is the default kernel for <a class="reference internal" href="#pydsm.analysis.network_correction.NetworkOICorrector" title="pydsm.analysis.network_correction.NetworkOICorrector"><code class="xref py py-class docutils literal notranslate"><span class="pre">NetworkOICorrector</span></code></a>.  It is
+guaranteed to produce a symmetric positive-definite covariance matrix
+because the exponential function is a positive-definite kernel on any
+metric space.</p>
+<section id="id10">
+<h2>Parameters<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>length_scale<span class="classifier">float or None</span></dt><dd><p>Correlation length in feet.  When <code class="docutils literal notranslate"><span class="pre">None</span></code> (default) the caller
+(typically <a class="reference internal" href="#pydsm.analysis.network_correction.NetworkOICorrector" title="pydsm.analysis.network_correction.NetworkOICorrector"><code class="xref py py-class docutils literal notranslate"><span class="pre">NetworkOICorrector</span></code></a>) auto-estimates the scale
+from the mean DISPERSION value and the M2 tidal period.</p>
+</dd>
+</dl>
+</section>
+<section id="id11">
+<h2>Returns<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>callable</dt><dd><p><code class="docutils literal notranslate"><span class="pre">corr_fn(total_length_ft:</span> <span class="pre">float)</span> <span class="pre">-&gt;</span> <span class="pre">float</span></code> in <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1]</span></code>.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.network_correction.extract_channel_end_values">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.network_correction.</span></span><span class="sig-name descname"><span class="pre">extract_channel_end_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qual_h5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constituent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/network_correction.html#extract_channel_end_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.network_correction.extract_channel_end_values" title="Link to this definition"></a></dt>
+<dd><p>Return all channel-end concentrations from a QualH5 file.</p>
+<p>Calls <code class="docutils literal notranslate"><span class="pre">get_channel_concentration</span></code> for both the upstream and downstream
+ends of every channel and concatenates the results into a single DataFrame.</p>
+<section id="id12">
+<h2>Parameters<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>qual_h5<span class="classifier">QualH5</span></dt><dd><p>Open QualH5 (or GtmH5) file.</p>
+</dd>
+<dt>constituent<span class="classifier">str</span></dt><dd><p>Constituent name as stored in the file (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;ec&quot;</span></code>).</p>
+</dd>
+<dt>time_window<span class="classifier">str or None</span></dt><dd><p>Optional DSM2 time-window string, e.g. <code class="docutils literal notranslate"><span class="pre">&quot;05JAN1990</span> <span class="pre">-</span> <span class="pre">11JAN1990&quot;</span></code>.</p>
+</dd>
+</dl>
+</section>
+<section id="id13">
+<h2>Returns<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>pd.DataFrame</dt><dd><p>Time-indexed DataFrame.  Columns are <code class="docutils literal notranslate"><span class="pre">&quot;{chan_no}-upstream&quot;</span></code> and
+<code class="docutils literal notranslate"><span class="pre">&quot;{chan_no}-downstream&quot;</span></code> for every channel in the file, in index
+order (upstream columns first, then downstream).</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.network_correction.snap_stations_to_channel_ends">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.network_correction.</span></span><span class="sig-name descname"><span class="pre">snap_stations_to_channel_ends</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stations_gdf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">centerlines_gdf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channels_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_snap_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/network_correction.html#snap_stations_to_channel_ends"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.network_correction.snap_stations_to_channel_ends" title="Link to this definition"></a></dt>
+<dd><p>Project observation stations onto the nearest channel-end in the network.</p>
+<p>Each station is projected perpendicularly onto the nearest channel
+centerline.  The station is then assigned to the <strong>upstream</strong> channel-end
+when the projected point falls in the first half of the centerline, and to
+the <strong>downstream</strong> channel-end otherwise.</p>
+<section id="id14">
+<h2>Parameters<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>stations_gdf<span class="classifier">geopandas.GeoDataFrame</span></dt><dd><p>Observation station points.  Must have a <code class="docutils literal notranslate"><span class="pre">station_id</span></code> column and
+<code class="docutils literal notranslate"><span class="pre">Point</span></code> geometry.  CRS must match <em>centerlines_gdf</em>.</p>
+</dd>
+<dt>centerlines_gdf<span class="classifier">geopandas.GeoDataFrame</span></dt><dd><p>Channel centerline geometries with an <code class="docutils literal notranslate"><span class="pre">id</span></code> column whose values match
+<code class="docutils literal notranslate"><span class="pre">chan_no</span></code> values in <em>channels_df</em>.</p>
+</dd>
+<dt>channels_df<span class="classifier">pd.DataFrame</span></dt><dd><p>CHANNEL table from <code class="docutils literal notranslate"><span class="pre">HydroH5.get_channels()</span></code> or
+<code class="docutils literal notranslate"><span class="pre">parser.parse_input()[&quot;CHANNEL&quot;]</span></code>.  Required columns
+(case-insensitive): <code class="docutils literal notranslate"><span class="pre">chan_no</span></code>, <code class="docutils literal notranslate"><span class="pre">upnode</span></code>, <code class="docutils literal notranslate"><span class="pre">downnode</span></code>.</p>
+</dd>
+<dt>max_snap_distance<span class="classifier">float or None</span></dt><dd><p>Maximum perpendicular distance from a centerline (in the CRS units of
+<em>centerlines_gdf</em>) at which a station is considered on that channel.
+Stations beyond this threshold emit a warning and are skipped.
+<code class="docutils literal notranslate"><span class="pre">None</span></code> means no limit.</p>
+</dd>
+</dl>
+</section>
+<section id="id15">
+<h2>Returns<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>pd.DataFrame</dt><dd><p>Indexed by <code class="docutils literal notranslate"><span class="pre">station_id</span></code>.  Columns:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">chan_no</span></code>            — channel number (string)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">location</span></code>          — <code class="docutils literal notranslate"><span class="pre">&quot;upstream&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;downstream&quot;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">node_id</span></code>           — integer network node (<code class="docutils literal notranslate"><span class="pre">UPNODE</span></code> or
+<code class="docutils literal notranslate"><span class="pre">DOWNNODE</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">distance_fraction</span></code> — 0–1 fraction along the centerline where
+the station projects</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pydsm.analysis.lockutil.html" class="btn btn-neutral float-left" title="pydsm.analysis.lockutil module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pydsm.analysis.oprule_parser.html" class="btn btn-neutral float-right" title="pydsm.analysis.oprule_parser module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, Nicky Sandhu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

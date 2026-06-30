@@ -1,0 +1,1114 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pydsm.analysis.network_correction &mdash; pydsm 2026.6.23.dev1+g50327ecfc documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=e3a0c1de"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pydsm
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">pydsm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#conda-recommended">Conda (recommended)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#pip">pip</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#credits">Credits</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#stable-release">Stable release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#from-sources">From sources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../usage.html#command-line">Command Line</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#compare-dss">Compare DSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#extract-dss">Extract DSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#ptm-animate">PTM Animate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#dsm2-diff">DSM2 Diff</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#slice-hydro">Slice Hydro</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">pydsm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../pydsm.html">pydsm package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../pydsm.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pydsm.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pydsm.html#module-pydsm">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/notebooks.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../notebooks/dsm2.html">DSM2 Input/Output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_input.html">Reading/writing echo files into/from Pandas DataFrame</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_input.html#Visualizing-input-data">Visualizing input data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_input.html#Writing-input-to-file">Writing input to file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_hydro_h5.html">Reading hydro h5 output files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_qual_h5.html">Reading Qual h5 output</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html">DSM2 as a network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Read-in-input-file">Read in input file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Convert-to-a-graph-network">Convert to a graph network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Drawing-graph-networks">Drawing graph networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Utilizing-graph-information">Utilizing graph information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html">Time stamps, Periods HEC convention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html#Time-formats-(standards-and-military-conventions)">Time formats (standards and military conventions)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html#Period-and-Instantaneous-data-types">Period and Instantaneous data types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html#Period-operations">Period operations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#deploying">Deploying</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../authors.html#development-lead">Development Lead</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../authors.html#contributors">Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#unreleased-since-2025-07-29">Unreleased (since 2025.07.29)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">2021.12.13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id2">2021.11.14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#x-2020-12-24">0.3.x (2020-12-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id3">0.2.7 (2020-12-01)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id4">0.2.6 (2020-10-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id5">0.2.5 (2020-04-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id6">0.2.4 (2020-04-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id7">0.2.3 (2020-04-05)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id8">0.2.0 (2020-03-17)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id9">0.1.9 (2019-11-11)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id10">0.1.8 (2019-10-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id11">0.1.7 (2019-09-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id12">0.1.6 (2019-09-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id13">0.1.5 (2019-09-19)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id14">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id15">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id16">0.1.0 (2019-08-21)</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pydsm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pydsm.analysis.network_correction</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pydsm.analysis.network_correction</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Network-aware IDW correction of DSM2 channel-end values using sparse observations.</span>
+
+<span class="sd">This module provides tools to bias-correct DSM2 model output (e.g. EC) at every</span>
+<span class="sd">channel-end using a sparse set of observation stations, via Inverse Distance</span>
+<span class="sd">Weighting (IDW) on a directed network graph.</span>
+
+<span class="sd">The correction is additive:</span>
+
+<span class="sd">    corrected(x, t) = model(x, t) + Σ w_i(x) · r_i(t)  /  Σ w_i(x)</span>
+
+<span class="sd">where r_i(t) = obs_i(t) − model(x_i, t) is the residual at station i, and</span>
+<span class="sd">w_i(x) = d(i → x)^(−power) is the IDW weight based on directed network distance</span>
+<span class="sd">from the observation node to the target channel-end node.</span>
+
+<span class="sd">Directed distances follow the UPNODE → DOWNNODE orientation of DSM2 channels</span>
+<span class="sd">(approximately the tidally-filtered flow direction).  Channel-ends that are</span>
+<span class="sd">upstream of all active observations receive zero correction.</span>
+
+<span class="sd">When observations are NaN (missing) they are excluded automatically; if all</span>
+<span class="sd">observations are missing the model values are returned unchanged.</span>
+
+<span class="sd">Typical workflow::</span>
+
+<span class="sd">    from pydsm.output.hydroh5 import HydroH5</span>
+<span class="sd">    from pydsm.output.qualh5 import QualH5</span>
+<span class="sd">    from pydsm.analysis.network_correction import (</span>
+<span class="sd">        extract_channel_end_values,</span>
+<span class="sd">        snap_stations_to_channel_ends,</span>
+<span class="sd">        NetworkIDWCorrector,</span>
+<span class="sd">    )</span>
+<span class="sd">    import geopandas as gpd</span>
+<span class="sd">    import pandas as pd</span>
+
+<span class="sd">    # 1. Load model channel-end EC for the full run</span>
+<span class="sd">    qual = QualH5(&quot;historical_v82_ec.h5&quot;)</span>
+<span class="sd">    model_df = extract_channel_end_values(qual, &quot;ec&quot;)</span>
+
+<span class="sd">    # 2. Snap observation stations to channel-ends</span>
+<span class="sd">    hydro = HydroH5(&quot;historical_v82.h5&quot;)</span>
+<span class="sd">    channels_df = hydro.get_channels()</span>
+<span class="sd">    stations = read_stations(&quot;obs_stations.csv&quot;)        # from pydsm.viz.dsm2gis</span>
+<span class="sd">    centerlines = gpd.read_file(&quot;channel_centerlines.geojson&quot;)</span>
+<span class="sd">    snapped = snap_stations_to_channel_ends(stations, centerlines, channels_df)</span>
+
+<span class="sd">    # 3. Build corrector (pre-computes distance matrix once)</span>
+<span class="sd">    corrector = NetworkIDWCorrector(channels_df, snapped, power=2)</span>
+
+<span class="sd">    # 4. Apply correction at each time step</span>
+<span class="sd">    for t, model_row in model_df.iterrows():</span>
+<span class="sd">        obs = pd.Series({&quot;RSAC075&quot;: measured_ec_at_t, &quot;RSAN007&quot;: float(&quot;nan&quot;)})</span>
+<span class="sd">        corrected = corrector.correct(model_row, obs)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">abc</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Abstract base</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="NetworkCorrector">
+<a class="viewcode-back" href="../../../pydsm.analysis.network_correction.html#pydsm.analysis.network_correction.NetworkCorrector">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NetworkCorrector</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract base for network-aware additive correction of DSM2 channel-end values.</span>
+
+<span class="sd">    Both :class:`NetworkIDWCorrector` (inverse-distance weighting on a directed</span>
+<span class="sd">    graph) and :class:`NetworkOICorrector` (optimal interpolation on an</span>
+<span class="sd">    undirected graph) implement this interface.</span>
+
+<span class="sd">    Subclasses pre-compute all expensive data at construction time so that</span>
+<span class="sd">    :meth:`correct` is cheap enough to call at every animation time step.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="NetworkCorrector.correct">
+<a class="viewcode-back" href="../../../pydsm.analysis.network_correction.html#pydsm.analysis.network_correction.NetworkCorrector.correct">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">correct</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">model_series</span><span class="p">:</span> <span class="s2">&quot;pd.Series&quot;</span><span class="p">,</span> <span class="n">observations</span><span class="p">:</span> <span class="s2">&quot;pd.Series&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;pd.Series&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply additive correction to one time step of channel-end values.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model_series : pd.Series</span>
+<span class="sd">            Channel-end model values indexed by ``&quot;{chan_no}-{location}&quot;``.</span>
+<span class="sd">        observations : pd.Series</span>
+<span class="sd">            Observed values indexed by ``station_id``.  ``NaN`` entries are</span>
+<span class="sd">            treated as missing and excluded automatically.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pd.Series</span>
+<span class="sd">            Corrected values with the same index and dtype as *model_series*.</span>
+<span class="sd">            When no valid observations are available the method returns an</span>
+<span class="sd">            unchanged copy of *model_series*.</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+</div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Kernel factories for NetworkOICorrector</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="exponential_kernel">
+<a class="viewcode-back" href="../../../pydsm.analysis.network_correction.html#pydsm.analysis.network_correction.exponential_kernel">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">exponential_kernel</span><span class="p">(</span><span class="n">length_scale</span><span class="p">:</span> <span class="s2">&quot;float | None&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a symmetric exponential correlation kernel.</span>
+
+<span class="sd">    The kernel computes::</span>
+
+<span class="sd">        corr = exp(−total_path_length / length_scale)</span>
+
+<span class="sd">    This is the default kernel for :class:`NetworkOICorrector`.  It is</span>
+<span class="sd">    guaranteed to produce a symmetric positive-definite covariance matrix</span>
+<span class="sd">    because the exponential function is a positive-definite kernel on any</span>
+<span class="sd">    metric space.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    length_scale : float or None</span>
+<span class="sd">        Correlation length in feet.  When ``None`` (default) the caller</span>
+<span class="sd">        (typically :class:`NetworkOICorrector`) auto-estimates the scale</span>
+<span class="sd">        from the mean DISPERSION value and the M2 tidal period.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    callable</span>
+<span class="sd">        ``corr_fn(total_length_ft: float) -&gt; float`` in ``[0, 1]``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">length_scale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">length_scale</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;length_scale must be positive.&quot;</span><span class="p">)</span>
+    <span class="n">_L</span> <span class="o">=</span> <span class="n">length_scale</span>  <span class="c1"># captured in closure; may be None (resolved by caller)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_kernel</span><span class="p">(</span><span class="n">total_length_ft</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">_L</span>
+        <span class="k">if</span> <span class="n">L</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;length_scale was None when corr_fn was called; resolve it &quot;</span>
+                <span class="s2">&quot;before use (NetworkOICorrector does this automatically).&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">total_length_ft</span> <span class="o">/</span> <span class="n">L</span><span class="p">))</span>
+
+    <span class="n">_kernel</span><span class="o">.</span><span class="n">_length_scale</span> <span class="o">=</span> <span class="n">length_scale</span>  <span class="c1"># type: ignore[attr-defined]</span>
+    <span class="n">_kernel</span><span class="o">.</span><span class="n">_kind</span> <span class="o">=</span> <span class="s2">&quot;exponential&quot;</span>         <span class="c1"># type: ignore[attr-defined]</span>
+    <span class="k">return</span> <span class="n">_kernel</span></div>
+
+
+
+<div class="viewcode-block" id="channel_direction_kernel">
+<a class="viewcode-back" href="../../../pydsm.analysis.network_correction.html#pydsm.analysis.network_correction.channel_direction_kernel">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">channel_direction_kernel</span><span class="p">(</span>
+    <span class="n">length_scale</span><span class="p">:</span> <span class="s2">&quot;float | None&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">resistance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return an asymmetry-aware correlation kernel using CHANNEL table flow direction.</span>
+
+<span class="sd">    Each path segment is classified as *with-flow* (traversed UPNODE→DOWNNODE)</span>
+<span class="sd">    or *against-flow* (DOWNNODE→UPNODE).  An effective distance is computed</span>
+<span class="sd">    as the geometric mean of the forward and reverse directed costs::</span>
+
+<span class="sd">        d_fwd = Σ L_k × (1 if with-flow, resistance if against-flow)</span>
+<span class="sd">        d_rev = Σ L_k × (resistance if with-flow, 1 if against-flow)</span>
+<span class="sd">        d_sym = sqrt(d_fwd × d_rev)</span>
+<span class="sd">        corr  = exp(−d_sym / length_scale)</span>
+
+<span class="sd">    The geometric-mean symmetrisation guarantees a symmetric covariance matrix.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        This kernel **cannot** distinguish an upstream neighbour from a</span>
+<span class="sd">        downstream neighbour at equal total path length.  For single-direction</span>
+<span class="sd">        paths of length L the effective distance is always ``L × sqrt(resistance)``</span>
+<span class="sd">        regardless of direction.  The asymmetry only manifests for paths that</span>
+<span class="sd">        mix with-flow and against-flow segments — such paths receive a *larger*</span>
+<span class="sd">        effective distance than uniformly-directed paths of the same total length.</span>
+<span class="sd">        For a fully physics-based asymmetric kernel see the Green&#39;s-function</span>
+<span class="sd">        approach (requires the hydro HDF5 file; not yet implemented).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    length_scale : float or None</span>
+<span class="sd">        Correlation length in feet (same as :func:`exponential_kernel`).</span>
+<span class="sd">    resistance : float</span>
+<span class="sd">        Cost multiplier for against-flow traversal.  ``1.0`` → symmetric</span>
+<span class="sd">        (same as :func:`exponential_kernel`); higher values increasingly</span>
+<span class="sd">        penalise mixed-direction paths.  Default ``3.0``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    callable</span>
+<span class="sd">        ``corr_fn(segments: list[tuple[str, float]]) -&gt; float``</span>
+<span class="sd">        where each element is ``(chan_no, signed_length_ft)``:</span>
+<span class="sd">        positive = UPNODE→DOWNNODE, negative = DOWNNODE→UPNODE.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">resistance</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;resistance must be &gt;= 1.0 (1.0 = symmetric).&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">length_scale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">length_scale</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;length_scale must be positive.&quot;</span><span class="p">)</span>
+    <span class="n">_L</span> <span class="o">=</span> <span class="n">length_scale</span>
+    <span class="n">_r</span> <span class="o">=</span> <span class="n">resistance</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_kernel</span><span class="p">(</span><span class="n">segments</span><span class="p">:</span> <span class="s2">&quot;list[tuple[str, float]]&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">_L</span>
+        <span class="k">if</span> <span class="n">L</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;length_scale was None when corr_fn was called; resolve it &quot;</span>
+                <span class="s2">&quot;before use (NetworkOICorrector does this automatically).&quot;</span>
+            <span class="p">)</span>
+        <span class="n">d_fwd</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="k">if</span> <span class="n">s</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">_r</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">segments</span><span class="p">)</span>
+        <span class="n">d_rev</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">_r</span> <span class="k">if</span> <span class="n">s</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">1.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">segments</span><span class="p">)</span>
+        <span class="n">d_sym</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">d_fwd</span> <span class="o">*</span> <span class="n">d_rev</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">d_sym</span> <span class="o">/</span> <span class="n">L</span><span class="p">))</span>
+
+    <span class="n">_kernel</span><span class="o">.</span><span class="n">_length_scale</span> <span class="o">=</span> <span class="n">length_scale</span>  <span class="c1"># type: ignore[attr-defined]</span>
+    <span class="n">_kernel</span><span class="o">.</span><span class="n">_kind</span> <span class="o">=</span> <span class="s2">&quot;channel_direction&quot;</span>   <span class="c1"># type: ignore[attr-defined]</span>
+    <span class="n">_kernel</span><span class="o">.</span><span class="n">_resistance</span> <span class="o">=</span> <span class="n">resistance</span>      <span class="c1"># type: ignore[attr-defined]</span>
+    <span class="k">return</span> <span class="n">_kernel</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Helper: build normalised CHANNEL DataFrame</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_normalise_channels</span><span class="p">(</span><span class="n">channels_df</span><span class="p">:</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return channels_df with lowercase columns and typed numeric columns.&quot;&quot;&quot;</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">channels_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s2">&quot;length&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">norm</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;channels_df must contain a &#39;length&#39; or &#39;LENGTH&#39; column.&quot;</span>
+        <span class="p">)</span>
+    <span class="n">norm</span><span class="p">[</span><span class="s2">&quot;chan_no&quot;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">norm</span><span class="p">[</span><span class="s2">&quot;chan_no&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">norm</span><span class="p">[</span><span class="s2">&quot;upnode&quot;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">norm</span><span class="p">[</span><span class="s2">&quot;upnode&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">norm</span><span class="p">[</span><span class="s2">&quot;downnode&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm</span><span class="p">[</span><span class="s2">&quot;downnode&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">norm</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">norm</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">norm</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_auto_length_scale</span><span class="p">(</span><span class="n">norm</span><span class="p">:</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Estimate a sensible correlation length from DISPERSION and tidal period.</span>
+
+<span class="sd">    Uses ``sqrt(mean_dispersion × T_M2)`` where T_M2 = 44700 s (M2 tidal</span>
+<span class="sd">    constituent period).  For typical Delta DISPERSION values of 200–500 ft²/s</span>
+<span class="sd">    this gives roughly 3 000–4 700 ft (~1–1.4 km).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">T_M2</span> <span class="o">=</span> <span class="mf">44700.0</span>  <span class="c1"># seconds</span>
+    <span class="k">if</span> <span class="s2">&quot;dispersion&quot;</span> <span class="ow">in</span> <span class="n">norm</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">mean_D</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">norm</span><span class="p">[</span><span class="s2">&quot;dispersion&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mean_D</span> <span class="o">=</span> <span class="mf">360.0</span>  <span class="c1"># fallback: DSM2 default dispersion (ft²/s)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_D</span> <span class="o">*</span> <span class="n">T_M2</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="extract_channel_end_values">
+<a class="viewcode-back" href="../../../pydsm.analysis.network_correction.html#pydsm.analysis.network_correction.extract_channel_end_values">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extract_channel_end_values</span><span class="p">(</span><span class="n">qual_h5</span><span class="p">,</span> <span class="n">constituent</span><span class="p">,</span> <span class="n">time_window</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return all channel-end concentrations from a QualH5 file.</span>
+
+<span class="sd">    Calls ``get_channel_concentration`` for both the upstream and downstream</span>
+<span class="sd">    ends of every channel and concatenates the results into a single DataFrame.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    qual_h5 : QualH5</span>
+<span class="sd">        Open QualH5 (or GtmH5) file.</span>
+<span class="sd">    constituent : str</span>
+<span class="sd">        Constituent name as stored in the file (e.g. ``&quot;ec&quot;``).</span>
+<span class="sd">    time_window : str or None</span>
+<span class="sd">        Optional DSM2 time-window string, e.g. ``&quot;05JAN1990 - 11JAN1990&quot;``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        Time-indexed DataFrame.  Columns are ``&quot;{chan_no}-upstream&quot;`` and</span>
+<span class="sd">        ``&quot;{chan_no}-downstream&quot;`` for every channel in the file, in index</span>
+<span class="sd">        order (upstream columns first, then downstream).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df_up</span> <span class="o">=</span> <span class="n">qual_h5</span><span class="o">.</span><span class="n">get_channel_concentration</span><span class="p">(</span><span class="n">constituent</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;upstream&quot;</span><span class="p">,</span> <span class="n">time_window</span><span class="p">)</span>
+    <span class="n">df_dn</span> <span class="o">=</span> <span class="n">qual_h5</span><span class="o">.</span><span class="n">get_channel_concentration</span><span class="p">(</span><span class="n">constituent</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;downstream&quot;</span><span class="p">,</span> <span class="n">time_window</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_up</span><span class="p">,</span> <span class="n">df_dn</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="snap_stations_to_channel_ends">
+<a class="viewcode-back" href="../../../pydsm.analysis.network_correction.html#pydsm.analysis.network_correction.snap_stations_to_channel_ends">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">snap_stations_to_channel_ends</span><span class="p">(</span>
+    <span class="n">stations_gdf</span><span class="p">,</span> <span class="n">centerlines_gdf</span><span class="p">,</span> <span class="n">channels_df</span><span class="p">,</span> <span class="n">max_snap_distance</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Project observation stations onto the nearest channel-end in the network.</span>
+
+<span class="sd">    Each station is projected perpendicularly onto the nearest channel</span>
+<span class="sd">    centerline.  The station is then assigned to the **upstream** channel-end</span>
+<span class="sd">    when the projected point falls in the first half of the centerline, and to</span>
+<span class="sd">    the **downstream** channel-end otherwise.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    stations_gdf : geopandas.GeoDataFrame</span>
+<span class="sd">        Observation station points.  Must have a ``station_id`` column and</span>
+<span class="sd">        ``Point`` geometry.  CRS must match *centerlines_gdf*.</span>
+<span class="sd">    centerlines_gdf : geopandas.GeoDataFrame</span>
+<span class="sd">        Channel centerline geometries with an ``id`` column whose values match</span>
+<span class="sd">        ``chan_no`` values in *channels_df*.</span>
+<span class="sd">    channels_df : pd.DataFrame</span>
+<span class="sd">        CHANNEL table from ``HydroH5.get_channels()`` or</span>
+<span class="sd">        ``parser.parse_input()[&quot;CHANNEL&quot;]``.  Required columns</span>
+<span class="sd">        (case-insensitive): ``chan_no``, ``upnode``, ``downnode``.</span>
+<span class="sd">    max_snap_distance : float or None</span>
+<span class="sd">        Maximum perpendicular distance from a centerline (in the CRS units of</span>
+<span class="sd">        *centerlines_gdf*) at which a station is considered on that channel.</span>
+<span class="sd">        Stations beyond this threshold emit a warning and are skipped.</span>
+<span class="sd">        ``None`` means no limit.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        Indexed by ``station_id``.  Columns:</span>
+
+<span class="sd">        - ``chan_no``            — channel number (string)</span>
+<span class="sd">        - ``location``          — ``&quot;upstream&quot;`` or ``&quot;downstream&quot;``</span>
+<span class="sd">        - ``node_id``           — integer network node (``UPNODE`` or</span>
+<span class="sd">          ``DOWNNODE``)</span>
+<span class="sd">        - ``distance_fraction`` — 0–1 fraction along the centerline where</span>
+<span class="sd">          the station projects</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pydsm.viz.dsm2gis</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+        <span class="n">find_closest_line_and_distance</span><span class="p">,</span>
+        <span class="n">get_distance_from_start</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">channels_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+    <span class="n">chan_lookup</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;chan_no&quot;</span><span class="p">]):</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;upnode&quot;</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;downnode&quot;</span><span class="p">]))</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">norm</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="n">records</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">stations_gdf</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">closest_line</span><span class="p">,</span> <span class="n">dist_from_line</span> <span class="o">=</span> <span class="n">find_closest_line_and_distance</span><span class="p">(</span>
+            <span class="n">station</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span> <span class="n">centerlines_gdf</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">max_snap_distance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">dist_from_line</span> <span class="o">&gt;</span> <span class="n">max_snap_distance</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Station &#39;</span><span class="si">{</span><span class="n">station</span><span class="p">[</span><span class="s1">&#39;station_id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; is </span><span class="si">{</span><span class="n">dist_from_line</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> units &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;from the nearest channel (threshold </span><span class="si">{</span><span class="n">max_snap_distance</span><span class="si">}</span><span class="s2">). Skipping.&quot;</span><span class="p">,</span>
+                <span class="ne">UserWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="n">chan_no</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">closest_line</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">chan_no</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">chan_lookup</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Channel </span><span class="si">{</span><span class="n">chan_no</span><span class="si">!r}</span><span class="s2"> for station &#39;</span><span class="si">{</span><span class="n">station</span><span class="p">[</span><span class="s1">&#39;station_id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; not found &quot;</span>
+                <span class="s2">&quot;in channels_df. Skipping.&quot;</span><span class="p">,</span>
+                <span class="ne">UserWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="n">line_length</span> <span class="o">=</span> <span class="n">closest_line</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">length</span>
+        <span class="k">if</span> <span class="n">line_length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">dist_along</span> <span class="o">=</span> <span class="n">get_distance_from_start</span><span class="p">(</span><span class="n">station</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span> <span class="n">closest_line</span><span class="p">)</span>
+            <span class="n">fraction</span> <span class="o">=</span> <span class="n">dist_along</span> <span class="o">/</span> <span class="n">line_length</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fraction</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="n">upnode</span><span class="p">,</span> <span class="n">downnode</span> <span class="o">=</span> <span class="n">chan_lookup</span><span class="p">[</span><span class="n">chan_no</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">fraction</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+            <span class="n">location</span><span class="p">,</span> <span class="n">node_id</span> <span class="o">=</span> <span class="s2">&quot;upstream&quot;</span><span class="p">,</span> <span class="n">upnode</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">location</span><span class="p">,</span> <span class="n">node_id</span> <span class="o">=</span> <span class="s2">&quot;downstream&quot;</span><span class="p">,</span> <span class="n">downnode</span>
+
+        <span class="n">records</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;station_id&quot;</span><span class="p">:</span> <span class="n">station</span><span class="p">[</span><span class="s2">&quot;station_id&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;chan_no&quot;</span><span class="p">:</span> <span class="n">chan_no</span><span class="p">,</span>
+                <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="n">location</span><span class="p">,</span>
+                <span class="s2">&quot;node_id&quot;</span><span class="p">:</span> <span class="n">node_id</span><span class="p">,</span>
+                <span class="s2">&quot;distance_fraction&quot;</span><span class="p">:</span> <span class="n">fraction</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">records</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;station_id&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Corrector classes</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="NetworkIDWCorrector">
+<a class="viewcode-back" href="../../../pydsm.analysis.network_correction.html#pydsm.analysis.network_correction.NetworkIDWCorrector">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NetworkIDWCorrector</span><span class="p">(</span><span class="n">NetworkCorrector</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Correct DSM2 channel-end values using sparse observations via network IDW.</span>
+
+<span class="sd">    Network distances are computed along a directed graph that follows the</span>
+<span class="sd">    UPNODE → DOWNNODE orientation of DSM2 channels (approximately the</span>
+<span class="sd">    tidally-filtered flow direction), weighted by channel length in feet.</span>
+<span class="sd">    Corrections therefore spread only to channel-ends that are *downstream*</span>
+<span class="sd">    of an observation node in the network.</span>
+
+<span class="sd">    The distance matrix is pre-computed once at construction time.  The</span>
+<span class="sd">    per-time-step :meth:`correct` call is a lightweight weighted-sum that</span>
+<span class="sd">    drops NaN observations automatically.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    channels_df : pd.DataFrame</span>
+<span class="sd">        CHANNEL table from ``HydroH5.get_channels()`` or</span>
+<span class="sd">        ``parser.parse_input()[&quot;CHANNEL&quot;]``.  Required columns</span>
+<span class="sd">        (case-insensitive): ``chan_no``, ``upnode``, ``downnode``, ``length``.</span>
+<span class="sd">    snapped_stations_df : pd.DataFrame</span>
+<span class="sd">        Station-to-channel-end mapping from :func:`snap_stations_to_channel_ends`.</span>
+<span class="sd">        Index must be ``station_id``; columns must include ``chan_no``,</span>
+<span class="sd">        ``location``, and ``node_id``.</span>
+<span class="sd">    power : float</span>
+<span class="sd">        IDW distance exponent.  Default ``2``.</span>
+<span class="sd">    max_distance : float or None</span>
+<span class="sd">        Maximum network distance (feet) beyond which an observation has no</span>
+<span class="sd">        influence.  ``None`` means no cutoff.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; corrector = NetworkIDWCorrector(channels_df, snapped, power=2)</span>
+<span class="sd">    &gt;&gt;&gt; obs = pd.Series({&quot;RSAC075&quot;: 820.0, &quot;RSAN007&quot;: float(&quot;nan&quot;)})</span>
+<span class="sd">    &gt;&gt;&gt; corrected_row = corrector.correct(model_df.iloc[0], obs)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channels_df</span><span class="p">,</span> <span class="n">snapped_stations_df</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_distance</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">power</span> <span class="o">=</span> <span class="n">power</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_distance</span> <span class="o">=</span> <span class="n">max_distance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_snapped</span> <span class="o">=</span> <span class="n">snapped_stations_df</span>  <span class="c1"># index = station_id</span>
+
+        <span class="c1"># Normalise column names to lowercase so both HydroH5 (lowercase) and</span>
+        <span class="c1"># parse_input (uppercase) formats are accepted transparently.</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">_normalise_channels</span><span class="p">(</span><span class="n">channels_df</span><span class="p">)</span>
+
+        <span class="c1"># channel-end key (e.g. &quot;441-upstream&quot;) → integer network node id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_channel_end_to_node</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">norm</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="n">chan</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;chan_no&quot;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_channel_end_to_node</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">chan</span><span class="si">}</span><span class="s2">-upstream&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;upnode&quot;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_channel_end_to_node</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">chan</span><span class="si">}</span><span class="s2">-downstream&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;downnode&quot;</span><span class="p">])</span>
+
+        <span class="c1"># Directed graph: UPNODE → DOWNNODE, edge weight = length (ft)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">from_pandas_edgelist</span><span class="p">(</span>
+            <span class="n">norm</span><span class="p">,</span>
+            <span class="n">source</span><span class="o">=</span><span class="s2">&quot;upnode&quot;</span><span class="p">,</span>
+            <span class="n">target</span><span class="o">=</span><span class="s2">&quot;downnode&quot;</span><span class="p">,</span>
+            <span class="n">edge_attr</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">],</span>
+            <span class="n">create_using</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">MultiDiGraph</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Pre-compute raw IDW weights once.</span>
+        <span class="c1"># _weights[channel_end_key][station_id] = d^(-power) or inf (same node)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_weights</span><span class="p">()</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Private helpers</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Pre-compute IDW weights from each station node to every channel-end.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict[str, dict[str, float]]</span>
+<span class="sd">            ``{channel_end_key: {station_id: weight}}``.</span>
+<span class="sd">            Weight is ``distance ** (-power)`` for d &gt; 0, or ``inf`` when the</span>
+<span class="sd">            observation and target share the same node.  Unreachable pairs are</span>
+<span class="sd">            absent (zero contribution at correction time).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">weights</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">ce</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">ce</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_channel_end_to_node</span>
+        <span class="p">}</span>
+
+        <span class="k">for</span> <span class="n">station_id</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_snapped</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="n">obs_node</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;node_id&quot;</span><span class="p">])</span>
+
+            <span class="c1"># Directed shortest-path distances from obs_node to all reachable nodes.</span>
+            <span class="n">reachable</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">single_source_dijkstra_path_length</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="p">,</span> <span class="n">obs_node</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;length&quot;</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_distance</span>
+            <span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">ce_key</span><span class="p">,</span> <span class="n">target_node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_channel_end_to_node</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">target_node</span> <span class="o">==</span> <span class="n">obs_node</span><span class="p">:</span>
+                    <span class="c1"># Same network node: correction is the exact residual.</span>
+                    <span class="n">weights</span><span class="p">[</span><span class="n">ce_key</span><span class="p">][</span><span class="n">station_id</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">target_node</span> <span class="ow">in</span> <span class="n">reachable</span><span class="p">:</span>
+                    <span class="n">d</span> <span class="o">=</span> <span class="n">reachable</span><span class="p">[</span><span class="n">target_node</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">d</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">weights</span><span class="p">[</span><span class="n">ce_key</span><span class="p">][</span><span class="n">station_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">power</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c1"># Zero-length path to a different node (degenerate graph):</span>
+                        <span class="c1"># treat the same as a same-node exact match.</span>
+                        <span class="n">weights</span><span class="p">[</span><span class="n">ce_key</span><span class="p">][</span><span class="n">station_id</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+                <span class="c1"># else: target_node unreachable → no entry; contributes weight 0.</span>
+
+        <span class="k">return</span> <span class="n">weights</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Public API</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="NetworkIDWCorrector.correct">
+<a class="viewcode-back" href="../../../pydsm.analysis.network_correction.html#pydsm.analysis.network_correction.NetworkIDWCorrector.correct">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">correct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_series</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">observations</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply IDW correction to one time step of channel-end model values.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model_series : pd.Series</span>
+<span class="sd">            Channel-end model values indexed by ``&quot;{chan_no}-{location}&quot;``.</span>
+<span class="sd">            Typically a single row of the DataFrame returned by</span>
+<span class="sd">            :func:`extract_channel_end_values`.</span>
+<span class="sd">        observations : pd.Series</span>
+<span class="sd">            Observed values indexed by ``station_id``.  ``NaN`` entries are</span>
+<span class="sd">            treated as missing and excluded automatically.  Any station IDs</span>
+<span class="sd">            not present in the snapped-stations table are silently ignored.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pd.Series</span>
+<span class="sd">            Corrected values with the same index and dtype as *model_series*.</span>
+<span class="sd">            When no valid observations are available the method returns an</span>
+<span class="sd">            unchanged copy of *model_series*.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">valid_obs</span> <span class="o">=</span> <span class="n">observations</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">valid_obs</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">model_series</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="c1"># Compute the residual (obs − model) at each available station&#39;s</span>
+        <span class="c1"># assigned channel-end.</span>
+        <span class="n">residuals</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">station_id</span><span class="p">,</span> <span class="n">obs_value</span> <span class="ow">in</span> <span class="n">valid_obs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">station_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_snapped</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_snapped</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">station_id</span><span class="p">]</span>
+            <span class="n">ce_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;chan_no&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">if</span> <span class="n">ce_key</span> <span class="ow">in</span> <span class="n">model_series</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                <span class="n">residuals</span><span class="p">[</span><span class="n">station_id</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obs_value</span><span class="p">)</span> <span class="o">-</span> <span class="nb">float</span><span class="p">(</span><span class="n">model_series</span><span class="p">[</span><span class="n">ce_key</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">residuals</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">model_series</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="c1"># Accumulate corrections into a dict keyed by channel-end label.</span>
+        <span class="n">corrections</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">ce_key</span><span class="p">,</span> <span class="n">ce_weights</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">ce_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">model_series</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Exact-match: the observation node is the same as this channel-end</span>
+            <span class="c1"># node.  Use the mean of all such exact-match residuals (edge case:</span>
+            <span class="c1"># multiple stations at the same physical node).</span>
+            <span class="n">exact_residuals</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">residuals</span><span class="p">[</span><span class="n">sid</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">sid</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">ce_weights</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">sid</span> <span class="ow">in</span> <span class="n">residuals</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+            <span class="p">]</span>
+            <span class="k">if</span> <span class="n">exact_residuals</span><span class="p">:</span>
+                <span class="n">corrections</span><span class="p">[</span><span class="n">ce_key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">exact_residuals</span><span class="p">))</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Standard IDW: weighted sum of available station residuals.</span>
+            <span class="n">w_sum</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">wr_sum</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="k">for</span> <span class="n">sid</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">ce_weights</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">sid</span> <span class="ow">in</span> <span class="n">residuals</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="ow">and</span> <span class="n">w</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+                    <span class="n">w_sum</span> <span class="o">+=</span> <span class="n">w</span>
+                    <span class="n">wr_sum</span> <span class="o">+=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">residuals</span><span class="p">[</span><span class="n">sid</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">w_sum</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="n">corrections</span><span class="p">[</span><span class="n">ce_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">wr_sum</span> <span class="o">/</span> <span class="n">w_sum</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">corrections</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">model_series</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="n">correction_series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">corrections</span><span class="p">)</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span>
+            <span class="n">model_series</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mf">0.0</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">model_series</span> <span class="o">+</span> <span class="n">correction_series</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="NetworkOICorrector">
+<a class="viewcode-back" href="../../../pydsm.analysis.network_correction.html#pydsm.analysis.network_correction.NetworkOICorrector">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NetworkOICorrector</span><span class="p">(</span><span class="n">NetworkCorrector</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Correct DSM2 channel-end values via Optimal Interpolation (OI).</span>
+
+<span class="sd">    OI finds the minimum-variance linear unbiased estimator given a background</span>
+<span class="sd">    error covariance **B** and an observation error covariance **R**::</span>
+
+<span class="sd">        correction = B_x_obs @ (B_obs + R)^{-1} @ residuals</span>
+
+<span class="sd">    Unlike :class:`NetworkIDWCorrector`, OI:</span>
+
+<span class="sd">    * Automatically **de-weights redundant stations** that are close to each</span>
+<span class="sd">      other (through the ``B_obs`` matrix inversion).</span>
+<span class="sd">    * Uses an **undirected** shortest-path graph so corrections can spread in</span>
+<span class="sd">      both directions along any channel.</span>
+<span class="sd">    * Accepts a pluggable **correlation kernel** via the *corr_fn* parameter.</span>
+
+<span class="sd">    The ``B_obs`` and ``B_x_all`` matrices are pre-computed at construction</span>
+<span class="sd">    time; the per-step :meth:`correct` call does only a small matrix solve</span>
+<span class="sd">    (O(n_obs³) with n_obs ≤ ~20).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    channels_df : pd.DataFrame</span>
+<span class="sd">        CHANNEL table.  Same format as :class:`NetworkIDWCorrector`.</span>
+<span class="sd">    snapped_stations_df : pd.DataFrame</span>
+<span class="sd">        Station-to-channel-end mapping from :func:`snap_stations_to_channel_ends`.</span>
+<span class="sd">    sigma_b : float, optional</span>
+<span class="sd">        Background error standard deviation (µS/cm).  Scales the B matrices.</span>
+<span class="sd">        Default ``1.0`` (relative units; only the ratio sigma_b / sigma_obs</span>
+<span class="sd">        matters for the weights).</span>
+<span class="sd">    sigma_obs : float, optional</span>
+<span class="sd">        Observation error standard deviation (µS/cm).  Typical EC sensor</span>
+<span class="sd">        accuracy is 5–20 µS/cm.  Default ``10.0``.</span>
+<span class="sd">    corr_fn : callable or None, optional</span>
+<span class="sd">        Correlation kernel produced by :func:`exponential_kernel` or</span>
+<span class="sd">        :func:`channel_direction_kernel`.  When ``None`` (default)</span>
+<span class="sd">        :func:`exponential_kernel` with an auto-estimated length scale is used.</span>
+<span class="sd">    length_scale : float or None, optional</span>
+<span class="sd">        Overrides the length scale of the default exponential kernel.</span>
+<span class="sd">        Ignored when *corr_fn* is provided explicitly.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; corrector = NetworkOICorrector(channels_df, snapped,</span>
+<span class="sd">    ...                                sigma_obs=10.0)</span>
+<span class="sd">    &gt;&gt;&gt; obs = pd.Series({&quot;RSAC075&quot;: 820.0, &quot;RSAN007&quot;: float(&quot;nan&quot;)})</span>
+<span class="sd">    &gt;&gt;&gt; corrected_row = corrector.correct(model_df.iloc[0], obs)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">channels_df</span><span class="p">,</span>
+        <span class="n">snapped_stations_df</span><span class="p">,</span>
+        <span class="n">sigma_b</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">sigma_obs</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span>
+        <span class="n">corr_fn</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">length_scale</span><span class="p">:</span> <span class="s2">&quot;float | None&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_snapped</span> <span class="o">=</span> <span class="n">snapped_stations_df</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sigma_b</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">sigma_b</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sigma_obs</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">sigma_obs</span><span class="p">)</span>
+
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">_normalise_channels</span><span class="p">(</span><span class="n">channels_df</span><span class="p">)</span>
+
+        <span class="c1"># Resolve length_scale and kernel --------------------------------</span>
+        <span class="k">if</span> <span class="n">corr_fn</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">L</span> <span class="o">=</span> <span class="n">length_scale</span> <span class="k">if</span> <span class="n">length_scale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_auto_length_scale</span><span class="p">(</span><span class="n">norm</span><span class="p">)</span>
+            <span class="n">corr_fn</span> <span class="o">=</span> <span class="n">exponential_kernel</span><span class="p">(</span><span class="n">length_scale</span><span class="o">=</span><span class="n">L</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># If the supplied kernel has length_scale=None, resolve it now.</span>
+            <span class="n">stored_L</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">corr_fn</span><span class="p">,</span> <span class="s2">&quot;_length_scale&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">stored_L</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">L</span> <span class="o">=</span> <span class="n">length_scale</span> <span class="k">if</span> <span class="n">length_scale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_auto_length_scale</span><span class="p">(</span><span class="n">norm</span><span class="p">)</span>
+                <span class="n">kind</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">corr_fn</span><span class="p">,</span> <span class="s2">&quot;_kind&quot;</span><span class="p">,</span> <span class="s2">&quot;exponential&quot;</span><span class="p">)</span>
+                <span class="n">resistance</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">corr_fn</span><span class="p">,</span> <span class="s2">&quot;_resistance&quot;</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;channel_direction&quot;</span><span class="p">:</span>
+                    <span class="n">corr_fn</span> <span class="o">=</span> <span class="n">channel_direction_kernel</span><span class="p">(</span><span class="n">length_scale</span><span class="o">=</span><span class="n">L</span><span class="p">,</span> <span class="n">resistance</span><span class="o">=</span><span class="n">resistance</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">corr_fn</span> <span class="o">=</span> <span class="n">exponential_kernel</span><span class="p">(</span><span class="n">length_scale</span><span class="o">=</span><span class="n">L</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_corr_fn</span> <span class="o">=</span> <span class="n">corr_fn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_directional</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">corr_fn</span><span class="p">,</span> <span class="s2">&quot;_kind&quot;</span><span class="p">,</span> <span class="s2">&quot;exponential&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;channel_direction&quot;</span>
+
+        <span class="c1"># channel-end key → node id ----------------------------------------</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_channel_end_to_node</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">norm</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="n">chan</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;chan_no&quot;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_channel_end_to_node</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">chan</span><span class="si">}</span><span class="s2">-upstream&quot;</span><span class="p">]</span>   <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;upnode&quot;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_channel_end_to_node</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">chan</span><span class="si">}</span><span class="s2">-downstream&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;downnode&quot;</span><span class="p">])</span>
+
+        <span class="c1"># Build directed + undirected graphs --------------------------------</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_digraph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">from_pandas_edgelist</span><span class="p">(</span>
+            <span class="n">norm</span><span class="p">,</span>
+            <span class="n">source</span><span class="o">=</span><span class="s2">&quot;upnode&quot;</span><span class="p">,</span>
+            <span class="n">target</span><span class="o">=</span><span class="s2">&quot;downnode&quot;</span><span class="p">,</span>
+            <span class="n">edge_attr</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;chan_no&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">],</span>
+            <span class="n">create_using</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">MultiDiGraph</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ugraph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_digraph</span><span class="o">.</span><span class="n">to_undirected</span><span class="p">(</span><span class="n">reciprocal</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="c1"># For the undirected graph, keep the minimum-length edge between any</span>
+        <span class="c1"># two nodes (relevant when parallel channels exist).</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ugraph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">]))</span>
+            <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">(</span>
+                <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">data</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">u2</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_digraph</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="p">)</span> <span class="k">if</span> <span class="n">v2</span> <span class="o">==</span> <span class="n">v</span><span class="p">})</span>
+                <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">nx</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ugraph</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="c1"># Rebuild more cleanly: simple undirected graph, one edge per node pair.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ugraph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_digraph</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="n">existing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ugraph</span><span class="o">.</span><span class="n">get_edge_data</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">existing</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">existing</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ugraph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span>
+                                      <span class="n">chan_no</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;chan_no&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+                                      <span class="n">length</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">])</span>
+        <span class="c1"># Also handle reverse edges (DOWNNODE → UPNODE in directed graph)</span>
+        <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_digraph</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="n">existing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ugraph</span><span class="o">.</span><span class="n">get_edge_data</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">existing</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ugraph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span>
+                                      <span class="n">chan_no</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;chan_no&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+                                      <span class="n">length</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">])</span>
+
+        <span class="c1"># Observation node list (in index order of snapped_stations_df) -----</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_station_ids</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">snapped_stations_df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_obs_nodes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">snapped_stations_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="s2">&quot;node_id&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_station_ids</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Build channel-end list in consistent order -------------------------</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ce_keys</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_channel_end_to_node</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ce_nodes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_channel_end_to_node</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ce_keys</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Pre-compute B_obs and B_x_all -------------------------------------</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_B_obs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_B_x_all</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_covariance_matrices</span><span class="p">(</span><span class="n">norm</span><span class="p">)</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Private helpers</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_path_segments</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">source_node</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">target_node</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">norm</span><span class="p">:</span> <span class="s2">&quot;pd.DataFrame&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return signed path segments ``[(chan_no, signed_length_ft), ...]``.</span>
+
+<span class="sd">        Each segment has positive length if traversed UPNODE→DOWNNODE</span>
+<span class="sd">        (with flow), negative if DOWNNODE→UPNODE (against flow).</span>
+<span class="sd">        Returns an empty list if no path exists.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">source_node</span> <span class="o">==</span> <span class="n">target_node</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">path_nodes</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ugraph</span><span class="p">,</span> <span class="n">source_node</span><span class="p">,</span> <span class="n">target_node</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;length&quot;</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="n">nx</span><span class="o">.</span><span class="n">NetworkXNoPath</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+
+        <span class="c1"># Build lookup: (u, v) → (chan_no, length, upnode, downnode)</span>
+        <span class="n">chan_lookup</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">norm</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="n">up</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;upnode&quot;</span><span class="p">])</span>
+            <span class="n">dn</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;downnode&quot;</span><span class="p">])</span>
+            <span class="n">chan_no</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;chan_no&quot;</span><span class="p">])</span>
+            <span class="n">L</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">])</span>
+            <span class="n">chan_lookup</span><span class="p">[(</span><span class="n">up</span><span class="p">,</span> <span class="n">dn</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">chan_no</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>   <span class="c1"># with-flow direction</span>
+            <span class="n">chan_lookup</span><span class="p">[(</span><span class="n">dn</span><span class="p">,</span> <span class="n">up</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">chan_no</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>  <span class="c1"># against-flow direction</span>
+
+        <span class="n">segments</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">path_nodes</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">path_nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+            <span class="n">info</span> <span class="o">=</span> <span class="n">chan_lookup</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span> <span class="ow">or</span> <span class="n">chan_lookup</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">info</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">chan_no</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">with_flow</span> <span class="o">=</span> <span class="n">info</span>
+            <span class="c1"># Check actual traversal direction</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">chan_lookup</span><span class="p">:</span>
+                <span class="n">actual_with_flow</span> <span class="o">=</span> <span class="n">chan_lookup</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)][</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">actual_with_flow</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">chan_lookup</span><span class="p">[(</span><span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">)][</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">signed_L</span> <span class="o">=</span> <span class="n">L</span> <span class="k">if</span> <span class="n">actual_with_flow</span> <span class="k">else</span> <span class="o">-</span><span class="n">L</span>
+            <span class="n">segments</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">chan_no</span><span class="p">,</span> <span class="n">signed_L</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">segments</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_correlation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_node</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">target_node</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">norm</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return background error correlation B(source, target) / sigma_b^2.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">source_node</span> <span class="o">==</span> <span class="n">target_node</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">1.0</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">total_len</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">shortest_path_length</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ugraph</span><span class="p">,</span> <span class="n">source_node</span><span class="p">,</span> <span class="n">target_node</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;length&quot;</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="n">nx</span><span class="o">.</span><span class="n">NetworkXNoPath</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.0</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_directional</span><span class="p">:</span>
+            <span class="n">segs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path_segments</span><span class="p">(</span><span class="n">source_node</span><span class="p">,</span> <span class="n">target_node</span><span class="p">,</span> <span class="n">norm</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">segs</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mf">0.0</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_corr_fn</span><span class="p">(</span><span class="n">segs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_corr_fn</span><span class="p">(</span><span class="n">total_len</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_covariance_matrices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">norm</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Pre-compute B_obs (n_obs × n_obs) and B_x_all (n_ce × n_obs).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        B_obs : np.ndarray, shape (n_obs, n_obs)</span>
+<span class="sd">        B_x_all : np.ndarray, shape (n_ce, n_obs)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n_obs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obs_nodes</span><span class="p">)</span>
+        <span class="n">n_ce</span>  <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ce_nodes</span><span class="p">)</span>
+        <span class="n">sb2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sigma_b</span> <span class="o">**</span> <span class="mi">2</span>
+
+        <span class="n">B_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_obs</span><span class="p">,</span> <span class="n">n_obs</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ni</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obs_nodes</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">nj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obs_nodes</span><span class="p">):</span>
+                <span class="n">B_obs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">sb2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_correlation</span><span class="p">(</span><span class="n">ni</span><span class="p">,</span> <span class="n">nj</span><span class="p">,</span> <span class="n">norm</span><span class="p">)</span>
+
+        <span class="n">B_x_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_ce</span><span class="p">,</span> <span class="n">n_obs</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">xi</span><span class="p">,</span> <span class="n">xn</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ce_nodes</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">nj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obs_nodes</span><span class="p">):</span>
+                <span class="n">B_x_all</span><span class="p">[</span><span class="n">xi</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">sb2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_correlation</span><span class="p">(</span><span class="n">nj</span><span class="p">,</span> <span class="n">xn</span><span class="p">,</span> <span class="n">norm</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">B_obs</span><span class="p">,</span> <span class="n">B_x_all</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Public API</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="NetworkOICorrector.correct">
+<a class="viewcode-back" href="../../../pydsm.analysis.network_correction.html#pydsm.analysis.network_correction.NetworkOICorrector.correct">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">correct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_series</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">observations</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply OI correction to one time step of channel-end model values.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model_series : pd.Series</span>
+<span class="sd">            Channel-end model values indexed by ``&quot;{chan_no}-{location}&quot;``.</span>
+<span class="sd">        observations : pd.Series</span>
+<span class="sd">            Observed values indexed by ``station_id``.  ``NaN`` entries are</span>
+<span class="sd">            treated as missing and excluded automatically.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pd.Series</span>
+<span class="sd">            Corrected values with the same index and dtype as *model_series*.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">valid_obs</span> <span class="o">=</span> <span class="n">observations</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">valid_obs</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">model_series</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="c1"># --- available observation set S -----------------------------------</span>
+        <span class="n">avail_mask</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">sid</span> <span class="ow">in</span> <span class="n">valid_obs</span><span class="o">.</span><span class="n">index</span> <span class="ow">and</span> <span class="n">sid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_snapped</span><span class="o">.</span><span class="n">index</span>
+            <span class="k">for</span> <span class="n">sid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_station_ids</span>
+        <span class="p">]</span>
+        <span class="n">avail_idx</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">avail_mask</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">avail_idx</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">model_series</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="c1"># --- residuals r_i = obs_i − model[ce_i] ----------------------------</span>
+        <span class="n">residuals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">avail_idx</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">avail_idx</span><span class="p">):</span>
+            <span class="n">sid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_station_ids</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_snapped</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sid</span><span class="p">]</span>
+            <span class="n">ce_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;chan_no&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">obs_val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">valid_obs</span><span class="p">[</span><span class="n">sid</span><span class="p">])</span>
+            <span class="n">model_val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">model_series</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ce_key</span><span class="p">,</span> <span class="n">obs_val</span><span class="p">))</span>  <span class="c1"># fallback=obs</span>
+            <span class="n">residuals</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">obs_val</span> <span class="o">-</span> <span class="n">model_val</span>
+
+        <span class="c1"># --- OI linear solve (once, shared across all channel-ends) ---------</span>
+        <span class="c1"># W = B_x[:,S] @ (B_obs[S,S] + sigma_obs^2 * I)^{-1}</span>
+        <span class="c1"># corrections = W @ residuals</span>
+        <span class="n">B_S</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_B_obs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">avail_idx</span><span class="p">,</span> <span class="n">avail_idx</span><span class="p">)]</span>
+        <span class="n">B_xS</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_B_x_all</span><span class="p">[:,</span> <span class="n">avail_idx</span><span class="p">]</span>   <span class="c1"># shape (n_ce, |S|)</span>
+        <span class="n">so2</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sigma_obs</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">A</span>    <span class="o">=</span> <span class="n">B_S</span> <span class="o">+</span> <span class="n">so2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">avail_idx</span><span class="p">))</span>
+        <span class="c1"># Solve A^T x = B_xS^T  →  x = (A^{-1} B_xS^T)^T</span>
+        <span class="c1"># i.e. W = B_xS @ A^{-1}  (n_ce × |S|)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">B_xS</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>      <span class="c1"># shape (n_ce, |S|)</span>
+        <span class="k">except</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">LinAlgError</span><span class="p">:</span>
+            <span class="c1"># Fallback: pseudo-inverse (handles degenerate B_obs)</span>
+            <span class="n">W</span> <span class="o">=</span> <span class="n">B_xS</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+
+        <span class="n">ce_corrections</span> <span class="o">=</span> <span class="n">W</span> <span class="o">@</span> <span class="n">residuals</span>              <span class="c1"># shape (n_ce,)</span>
+
+        <span class="c1"># --- assemble into a Series with the same index as model_series ----</span>
+        <span class="n">corr_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ce_keys</span><span class="p">[</span><span class="n">xi</span><span class="p">]:</span> <span class="n">ce_corrections</span><span class="p">[</span><span class="n">xi</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">xi</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ce_keys</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ce_keys</span><span class="p">[</span><span class="n">xi</span><span class="p">]</span> <span class="ow">in</span> <span class="n">model_series</span><span class="o">.</span><span class="n">index</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">corr_dict</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">model_series</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="n">correction_series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">corr_dict</span><span class="p">)</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span>
+            <span class="n">model_series</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mf">0.0</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">model_series</span> <span class="o">+</span> <span class="n">correction_series</span></div>
+</div>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, Nicky Sandhu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

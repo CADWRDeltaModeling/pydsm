@@ -1,0 +1,1352 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pydsm.analysis.oprule_parser &mdash; pydsm 2026.6.23.dev1+g50327ecfc documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=e3a0c1de"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pydsm
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">pydsm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#conda-recommended">Conda (recommended)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#pip">pip</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#credits">Credits</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#stable-release">Stable release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#from-sources">From sources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../usage.html#command-line">Command Line</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#compare-dss">Compare DSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#extract-dss">Extract DSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#ptm-animate">PTM Animate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#dsm2-diff">DSM2 Diff</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#slice-hydro">Slice Hydro</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">pydsm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../pydsm.html">pydsm package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../pydsm.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pydsm.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pydsm.html#module-pydsm">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/notebooks.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../notebooks/dsm2.html">DSM2 Input/Output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_input.html">Reading/writing echo files into/from Pandas DataFrame</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_input.html#Visualizing-input-data">Visualizing input data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_input.html#Writing-input-to-file">Writing input to file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_hydro_h5.html">Reading hydro h5 output files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_qual_h5.html">Reading Qual h5 output</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html">DSM2 as a network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Read-in-input-file">Read in input file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Convert-to-a-graph-network">Convert to a graph network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Drawing-graph-networks">Drawing graph networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Utilizing-graph-information">Utilizing graph information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html">Time stamps, Periods HEC convention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html#Time-formats-(standards-and-military-conventions)">Time formats (standards and military conventions)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html#Period-and-Instantaneous-data-types">Period and Instantaneous data types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html#Period-operations">Period operations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#deploying">Deploying</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../authors.html#development-lead">Development Lead</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../authors.html#contributors">Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#unreleased-since-2025-07-29">Unreleased (since 2025.07.29)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">2021.12.13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id2">2021.11.14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#x-2020-12-24">0.3.x (2020-12-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id3">0.2.7 (2020-12-01)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id4">0.2.6 (2020-10-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id5">0.2.5 (2020-04-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id6">0.2.4 (2020-04-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id7">0.2.3 (2020-04-05)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id8">0.2.0 (2020-03-17)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id9">0.1.9 (2019-11-11)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id10">0.1.8 (2019-10-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id11">0.1.7 (2019-09-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id12">0.1.6 (2019-09-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id13">0.1.5 (2019-09-19)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id14">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id15">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id16">0.1.0 (2019-08-21)</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pydsm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pydsm.analysis.oprule_parser</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pydsm.analysis.oprule_parser</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Lexer, Pratt parser, and evaluator for the DSM2 operating-rule expression language.</span>
+
+<span class="sd">Public API</span>
+<span class="sd">----------</span>
+<span class="sd">parse_trigger(text) -&gt; AST node</span>
+<span class="sd">    Parse a boolean trigger expression (or &quot;TRUE&quot;).</span>
+
+<span class="sd">parse_expr(text) -&gt; AST node</span>
+<span class="sd">    Parse a numeric value expression (used in action TO clauses).</span>
+
+<span class="sd">parse_action(text) -&gt; list[ActionSpec]</span>
+<span class="sd">    Parse a full action string: ``SET interface(kwargs) TO expr [RAMP N MIN]``</span>
+<span class="sd">    with optional ``WHILE`` / ``THEN`` chaining. Both combinators are treated</span>
+<span class="sd">    as simultaneous — all sub-actions are returned as a flat list.</span>
+
+<span class="sd">eval_node(node, time_idx, ts_data, expressions, hydro, hydro_cache, ts_cache)</span>
+<span class="sd">    Recursively evaluate an AST node.  Returns ``pd.Series``, ``float``, or</span>
+<span class="sd">    ``bool`` depending on the node type.</span>
+
+<span class="sd">UnsupportedFeatureError</span>
+<span class="sd">    Raised (and logged as WARNING) when the parser or evaluator encounters</span>
+<span class="sd">    an unsupported construct: SEASON, ACCUMULATE, PREDICT, PID, IPID.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Exception types</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="UnsupportedFeatureError">
+<a class="viewcode-back" href="../../../pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.UnsupportedFeatureError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">UnsupportedFeatureError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised for DSM2 operating-rule constructs that are not yet implemented.&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="ParseError">
+<a class="viewcode-back" href="../../../pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.ParseError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ParseError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when the input string cannot be parsed.&quot;&quot;&quot;</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Token definitions</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="c1"># Token types</span>
+<span class="n">T_NUMBER</span> <span class="o">=</span> <span class="s2">&quot;NUMBER&quot;</span>
+<span class="n">T_NAME</span> <span class="o">=</span> <span class="s2">&quot;NAME&quot;</span>
+<span class="n">T_KEYWORD</span> <span class="o">=</span> <span class="s2">&quot;KEYWORD&quot;</span>
+<span class="n">T_REFDATE</span> <span class="o">=</span> <span class="s2">&quot;REFDATE&quot;</span>
+<span class="n">T_REFTIME</span> <span class="o">=</span> <span class="s2">&quot;REFTIME&quot;</span>
+<span class="n">T_OP</span> <span class="o">=</span> <span class="s2">&quot;OP&quot;</span>
+<span class="n">T_EOF</span> <span class="o">=</span> <span class="s2">&quot;EOF&quot;</span>
+
+<span class="c1"># Keywords (case-insensitive match; stored as uppercase)</span>
+<span class="n">_KEYWORDS</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;AND&quot;</span><span class="p">,</span> <span class="s2">&quot;OR&quot;</span><span class="p">,</span> <span class="s2">&quot;NOT&quot;</span><span class="p">,</span> <span class="s2">&quot;TRUE&quot;</span><span class="p">,</span> <span class="s2">&quot;FALSE&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;SET&quot;</span><span class="p">,</span> <span class="s2">&quot;TO&quot;</span><span class="p">,</span> <span class="s2">&quot;WHEN&quot;</span><span class="p">,</span> <span class="s2">&quot;WHILE&quot;</span><span class="p">,</span> <span class="s2">&quot;THEN&quot;</span><span class="p">,</span> <span class="s2">&quot;RAMP&quot;</span><span class="p">,</span> <span class="s2">&quot;STEP&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ABS&quot;</span><span class="p">,</span> <span class="s2">&quot;SQRT&quot;</span><span class="p">,</span> <span class="s2">&quot;EXP&quot;</span><span class="p">,</span> <span class="s2">&quot;LOG&quot;</span><span class="p">,</span> <span class="s2">&quot;LN&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;MAX2&quot;</span><span class="p">,</span> <span class="s2">&quot;MIN2&quot;</span><span class="p">,</span> <span class="s2">&quot;MAX3&quot;</span><span class="p">,</span> <span class="s2">&quot;MIN3&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;LOOKUP&quot;</span><span class="p">,</span> <span class="s2">&quot;IFELSE&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;DATETIME&quot;</span><span class="p">,</span> <span class="s2">&quot;YEAR&quot;</span><span class="p">,</span> <span class="s2">&quot;MONTH&quot;</span><span class="p">,</span> <span class="s2">&quot;DAY&quot;</span><span class="p">,</span> <span class="s2">&quot;HOUR&quot;</span><span class="p">,</span> <span class="s2">&quot;MIN&quot;</span><span class="p">,</span> <span class="s2">&quot;DT&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;SEASON&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ACCUMULATE&quot;</span><span class="p">,</span> <span class="s2">&quot;PREDICT&quot;</span><span class="p">,</span> <span class="s2">&quot;PID&quot;</span><span class="p">,</span> <span class="s2">&quot;IPID&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;LINEAR&quot;</span><span class="p">,</span> <span class="s2">&quot;QUAD&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Month names → numeric value (case-insensitive)</span>
+<span class="n">_MONTHS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;JAN&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s2">&quot;FEB&quot;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s2">&quot;MAR&quot;</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="s2">&quot;APR&quot;</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">,</span>
+    <span class="s2">&quot;MAY&quot;</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span> <span class="s2">&quot;JUN&quot;</span><span class="p">:</span> <span class="mf">6.0</span><span class="p">,</span> <span class="s2">&quot;JUL&quot;</span><span class="p">:</span> <span class="mf">7.0</span><span class="p">,</span> <span class="s2">&quot;AUG&quot;</span><span class="p">:</span> <span class="mf">8.0</span><span class="p">,</span>
+    <span class="s2">&quot;SEP&quot;</span><span class="p">:</span> <span class="mf">9.0</span><span class="p">,</span> <span class="s2">&quot;OCT&quot;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span> <span class="s2">&quot;NOV&quot;</span><span class="p">:</span> <span class="mf">11.0</span><span class="p">,</span> <span class="s2">&quot;DEC&quot;</span><span class="p">:</span> <span class="mf">12.0</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># Month pattern for REFDATE / REFSEASON detection</span>
+<span class="n">_MON_PAT</span> <span class="o">=</span> <span class="s2">&quot;(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)&quot;</span>
+
+<span class="c1"># Pre-compiled master tokeniser regex.</span>
+<span class="c1"># Rules applied in order (first match wins).</span>
+<span class="n">_TOKEN_RE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    (?P&lt;SKIP&gt;   [ \t\n\r]+)</span>
+<span class="sd">  | (?P&lt;REFDATE&gt;  [0-3]?[0-9]&quot;&quot;&quot;</span> <span class="o">+</span> <span class="n">_MON_PAT</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;&quot;&quot;[12][0-9]</span><span class="si">{3}</span><span class="s2">)  # e.g. 20SEP2018</span>
+<span class="s2">  | (?P&lt;REFSEASON&gt;[0-3]?[0-9]&quot;&quot;&quot;</span> <span class="o">+</span> <span class="n">_MON_PAT</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;&quot;&quot;)               # e.g. 28MAY (no year)</span>
+<span class="s2">  | (?P&lt;REFTIME&gt;  [0-2][0-9]:[0-5][0-9])                           # HH:MM with colon</span>
+<span class="s2">  | (?P&lt;NAME&gt;     [A-Za-z][A-Za-z0-9_@]*)</span>
+<span class="s2">  | (?P&lt;NUMBER&gt;   (?:[0-9]+)(?:\.[0-9]*)?(?:[eE][+-]?[0-9]+)?</span>
+<span class="s2">                | \.[0-9]+(?:[eE][+-]?[0-9]+)?)</span>
+<span class="s2">  | (?P&lt;GE&gt;       &gt;=)</span>
+<span class="s2">  | (?P&lt;LE&gt;       &lt;=)</span>
+<span class="s2">  | (?P&lt;NE&gt;       &lt;&gt;)</span>
+<span class="s2">  | (?P&lt;EQ&gt;       ==)</span>
+<span class="s2">  | (?P&lt;OP&gt;       [-+*/^()[\],&lt;&gt;=])</span>
+<span class="s2">  &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">re</span><span class="o">.</span><span class="n">VERBOSE</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="Token">
+<a class="viewcode-back" href="../../../pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.Token">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Token</span><span class="p">:</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span>    <span class="c1"># T_NUMBER, T_NAME, T_KEYWORD, T_REFDATE, T_REFTIME, T_OP, T_EOF</span>
+    <span class="n">value</span><span class="p">:</span> <span class="n">Any</span>   <span class="c1"># float for NUMBER, str for everything else</span>
+    <span class="n">pos</span><span class="p">:</span> <span class="nb">int</span></div>
+
+
+
+<div class="viewcode-block" id="tokenize">
+<a class="viewcode-back" href="../../../pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.tokenize">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Token</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Lex *text* into a list of Tokens (terminated by a T_EOF).&quot;&quot;&quot;</span>
+    <span class="n">tokens</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Token</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">length</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">_TOKEN_RE</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ParseError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected character </span><span class="si">{</span><span class="n">text</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="si">!r}</span><span class="s2"> at position </span><span class="si">{</span><span class="n">pos</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">end</span><span class="p">()</span>
+        <span class="n">kind</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">lastgroup</span>
+
+        <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;SKIP&quot;</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="n">raw</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;REFDATE&quot;</span><span class="p">:</span>
+            <span class="n">tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Token</span><span class="p">(</span><span class="n">T_REFDATE</span><span class="p">,</span> <span class="n">raw</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">m</span><span class="o">.</span><span class="n">start</span><span class="p">()))</span>
+
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;REFSEASON&quot;</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;REFSEASON token </span><span class="si">%r</span><span class="s2"> is not supported and will cause the rule to be skipped.&quot;</span><span class="p">,</span> <span class="n">raw</span>
+            <span class="p">)</span>
+            <span class="c1"># Emit a sentinel that the parser converts to UnsupportedFeatureError</span>
+            <span class="n">tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Token</span><span class="p">(</span><span class="n">T_KEYWORD</span><span class="p">,</span> <span class="s2">&quot;_REFSEASON_&quot;</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">start</span><span class="p">()))</span>
+
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;REFTIME&quot;</span><span class="p">:</span>
+            <span class="n">tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Token</span><span class="p">(</span><span class="n">T_REFTIME</span><span class="p">,</span> <span class="n">raw</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">start</span><span class="p">()))</span>
+
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;NAME&quot;</span><span class="p">:</span>
+            <span class="n">upper</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">upper</span> <span class="ow">in</span> <span class="n">_MONTHS</span><span class="p">:</span>
+                <span class="n">tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Token</span><span class="p">(</span><span class="n">T_NUMBER</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">_MONTHS</span><span class="p">[</span><span class="n">upper</span><span class="p">]),</span> <span class="n">m</span><span class="o">.</span><span class="n">start</span><span class="p">()))</span>
+            <span class="k">elif</span> <span class="n">upper</span> <span class="ow">in</span> <span class="n">_KEYWORDS</span><span class="p">:</span>
+                <span class="n">tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Token</span><span class="p">(</span><span class="n">T_KEYWORD</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">start</span><span class="p">()))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Token</span><span class="p">(</span><span class="n">T_NAME</span><span class="p">,</span> <span class="n">raw</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">start</span><span class="p">()))</span>
+
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;NUMBER&quot;</span><span class="p">:</span>
+            <span class="n">tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Token</span><span class="p">(</span><span class="n">T_NUMBER</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">raw</span><span class="p">),</span> <span class="n">m</span><span class="o">.</span><span class="n">start</span><span class="p">()))</span>
+
+        <span class="k">elif</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;GE&quot;</span><span class="p">,</span> <span class="s2">&quot;LE&quot;</span><span class="p">,</span> <span class="s2">&quot;NE&quot;</span><span class="p">,</span> <span class="s2">&quot;EQ&quot;</span><span class="p">):</span>
+            <span class="c1"># Multi-char comparison operators</span>
+            <span class="n">tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Token</span><span class="p">(</span><span class="n">T_OP</span><span class="p">,</span> <span class="n">raw</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">start</span><span class="p">()))</span>
+
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># kind == &quot;OP&quot; (single-char)</span>
+            <span class="c1"># &quot;=&quot; becomes the DEFINE pseudo-op; everything else keeps its char</span>
+            <span class="n">tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Token</span><span class="p">(</span><span class="n">T_OP</span><span class="p">,</span> <span class="n">raw</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">start</span><span class="p">()))</span>
+
+    <span class="n">tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Token</span><span class="p">(</span><span class="n">T_EOF</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">length</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">tokens</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># AST node types</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="Num">
+<a class="viewcode-back" href="../../../pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.Num">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Num</span><span class="p">:</span>
+    <span class="n">value</span><span class="p">:</span> <span class="nb">float</span></div>
+
+
+
+<div class="viewcode-block" id="BoolLit">
+<a class="viewcode-back" href="../../../pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.BoolLit">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BoolLit</span><span class="p">:</span>
+    <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span></div>
+
+
+
+<div class="viewcode-block" id="DateTimeLit">
+<a class="viewcode-back" href="../../../pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.DateTimeLit">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DateTimeLit</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A specific point in time (from REFDATE [REFTIME]).&quot;&quot;&quot;</span>
+    <span class="n">value</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span></div>
+
+
+
+<div class="viewcode-block" id="DateTimeNow">
+<a class="viewcode-back" href="../../../pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.DateTimeNow">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DateTimeNow</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The DATETIME keyword — evaluates to the current simulation time.&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="BinOp">
+<a class="viewcode-back" href="../../../pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.BinOp">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BinOp</span><span class="p">:</span>
+    <span class="n">op</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># +, -, *, /, ^</span>
+    <span class="n">left</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="n">right</span><span class="p">:</span> <span class="n">Any</span></div>
+
+
+
+<div class="viewcode-block" id="CmpOp">
+<a class="viewcode-back" href="../../../pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.CmpOp">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CmpOp</span><span class="p">:</span>
+    <span class="n">op</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># &gt;=, &lt;=, &gt;, &lt;, ==, &lt;&gt;</span>
+    <span class="n">left</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="n">right</span><span class="p">:</span> <span class="n">Any</span></div>
+
+
+
+<div class="viewcode-block" id="LogOp">
+<a class="viewcode-back" href="../../../pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.LogOp">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LogOp</span><span class="p">:</span>
+    <span class="n">op</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># AND, OR</span>
+    <span class="n">left</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="n">right</span><span class="p">:</span> <span class="n">Any</span></div>
+
+
+
+<div class="viewcode-block" id="UnaryOp">
+<a class="viewcode-back" href="../../../pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.UnaryOp">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">UnaryOp</span><span class="p">:</span>
+    <span class="n">op</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># NEG, NOT</span>
+    <span class="n">operand</span><span class="p">:</span> <span class="n">Any</span></div>
+
+
+
+<div class="viewcode-block" id="FuncCall">
+<a class="viewcode-back" href="../../../pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.FuncCall">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FuncCall</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A named function / model variable call: ``ts(name=X)``, ``MIN2(a,b)``, ...&quot;&quot;&quot;</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">args</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="BareRef">
+<a class="viewcode-back" href="../../../pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.BareRef">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BareRef</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A bare identifier resolved as an OPRULE_EXPRESSION name at eval time.&quot;&quot;&quot;</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span></div>
+
+
+
+<div class="viewcode-block" id="ActionSpec">
+<a class="viewcode-back" href="../../../pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.ActionSpec">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ActionSpec</span><span class="p">:</span>
+    <span class="n">variable</span><span class="p">:</span> <span class="nb">str</span>           <span class="c1"># e.g. &quot;gate_op&quot;, &quot;gate_coef&quot;, &quot;gate_height&quot;</span>
+    <span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>  <span class="c1"># e.g. {&quot;gate&quot;: &quot;FalseBarrier&quot;, &quot;device&quot;: &quot;radial_gates&quot;}</span>
+    <span class="n">value_ast</span><span class="p">:</span> <span class="n">Any</span>          <span class="c1"># parsed AST of the value expression</span>
+    <span class="n">ramp_min</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>  <span class="c1"># from RAMP N MIN (stored; ramp interpolation not applied)</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Parser (Pratt / top-down operator precedence)</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="c1"># Left binding powers for infix operators</span>
+<span class="n">_LEFT_BP</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;OR&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;AND&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="s2">&quot;&lt;&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s2">&quot;&lt;=&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s2">&quot;&gt;=&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s2">&quot;==&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s2">&quot;&lt;&gt;&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+    <span class="s2">&quot;+&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+    <span class="s2">&quot;*&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="s2">&quot;^&quot;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>  <span class="c1"># right-assoc — see _right_bp</span>
+<span class="p">}</span>
+<span class="c1"># Right binding power for right-associative operators</span>
+<span class="n">_RIGHT_BP</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;^&quot;</span><span class="p">:</span> <span class="mi">59</span><span class="p">}</span>
+
+<span class="c1"># Function keywords that take argument lists</span>
+<span class="n">_FUNC_KEYWORDS</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;ABS&quot;</span><span class="p">,</span> <span class="s2">&quot;SQRT&quot;</span><span class="p">,</span> <span class="s2">&quot;EXP&quot;</span><span class="p">,</span> <span class="s2">&quot;LOG&quot;</span><span class="p">,</span> <span class="s2">&quot;LN&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;MAX2&quot;</span><span class="p">,</span> <span class="s2">&quot;MIN2&quot;</span><span class="p">,</span> <span class="s2">&quot;MAX3&quot;</span><span class="p">,</span> <span class="s2">&quot;MIN3&quot;</span><span class="p">,</span> <span class="s2">&quot;LOOKUP&quot;</span><span class="p">,</span> <span class="s2">&quot;IFELSE&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;YEAR&quot;</span><span class="p">,</span> <span class="s2">&quot;MONTH&quot;</span><span class="p">,</span> <span class="s2">&quot;DAY&quot;</span><span class="p">,</span> <span class="s2">&quot;HOUR&quot;</span><span class="p">,</span> <span class="s2">&quot;MIN&quot;</span><span class="p">,</span> <span class="s2">&quot;DT&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;ACCUMULATE&quot;</span><span class="p">,</span> <span class="s2">&quot;PREDICT&quot;</span><span class="p">,</span> <span class="s2">&quot;PID&quot;</span><span class="p">,</span> <span class="s2">&quot;IPID&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Month abbreviations for parsing REFDATE strings</span>
+<span class="n">_MONTH_MAP</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;JAN&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;FEB&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;MAR&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;APR&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;MAY&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;JUN&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="s2">&quot;JUL&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s2">&quot;AUG&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s2">&quot;SEP&quot;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s2">&quot;OCT&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;NOV&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="s2">&quot;DEC&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">_REFDATE_RE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s2">&quot;^([0-3]?[0-9])(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)([12][0-9]</span><span class="si">{3}</span><span class="s2">)$&quot;</span><span class="p">,</span>
+    <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_parse_refdate</span><span class="p">(</span><span class="n">raw</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">time_str</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a REFDATE string (e.g. &#39;20SEP2018&#39;) + optional REFTIME to Timestamp.&quot;&quot;&quot;</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">_REFDATE_RE</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">m</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParseError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot parse REFDATE: </span><span class="si">{</span><span class="n">raw</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">day</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">mon</span> <span class="o">=</span> <span class="n">_MONTH_MAP</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+    <span class="n">hour</span><span class="p">,</span> <span class="n">minute</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">time_str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">time_str</span><span class="p">:</span>
+            <span class="n">h_str</span><span class="p">,</span> <span class="n">mi_str</span> <span class="o">=</span> <span class="n">time_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+            <span class="n">hour</span><span class="p">,</span> <span class="n">minute</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">h_str</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">mi_str</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># 4-digit HHMM</span>
+            <span class="n">hhmm</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time_str</span><span class="p">)</span>
+            <span class="n">hour</span><span class="p">,</span> <span class="n">minute</span> <span class="o">=</span> <span class="n">hhmm</span> <span class="o">//</span> <span class="mi">100</span><span class="p">,</span> <span class="n">hhmm</span> <span class="o">%</span> <span class="mi">100</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="n">mon</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="n">day</span><span class="p">,</span> <span class="n">hour</span><span class="o">=</span><span class="n">hour</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="n">minute</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">_Parser</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pratt (top-down operator precedence) parser for DSM2 operating-rule expressions.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tokens</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Token</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tokens</span> <span class="o">=</span> <span class="n">tokens</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># --- Token access ---</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_peek</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Token</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tokens</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_advance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Token</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tokens</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">t</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_expect_op</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Token</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="n">T_OP</span> <span class="ow">or</span> <span class="n">t</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="n">value</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ParseError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Expected operator </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2"> at pos </span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">pos</span><span class="si">}</span><span class="s2">, got </span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">value</span><span class="si">!r}</span><span class="s2">)&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_expect_keyword</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kw</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Token</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="n">T_KEYWORD</span> <span class="ow">or</span> <span class="n">t</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="n">kw</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ParseError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Expected keyword </span><span class="si">{</span><span class="n">kw</span><span class="si">!r}</span><span class="s2"> at pos </span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">pos</span><span class="si">}</span><span class="s2">, got </span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">value</span><span class="si">!r}</span><span class="s2">)&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+
+    <span class="c1"># --- Left binding power ---</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_lbp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tok</span><span class="p">:</span> <span class="n">Token</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_KEYWORD</span> <span class="ow">and</span> <span class="n">tok</span><span class="o">.</span><span class="n">value</span> <span class="ow">in</span> <span class="n">_LEFT_BP</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_LEFT_BP</span><span class="p">[</span><span class="n">tok</span><span class="o">.</span><span class="n">value</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_OP</span> <span class="ow">and</span> <span class="n">tok</span><span class="o">.</span><span class="n">value</span> <span class="ow">in</span> <span class="n">_LEFT_BP</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_LEFT_BP</span><span class="p">[</span><span class="n">tok</span><span class="o">.</span><span class="n">value</span><span class="p">]</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="c1"># --- Pratt core ---</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse_bp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_bp</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_atom</span><span class="p">()</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">tok</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span>
+            <span class="n">bp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lbp</span><span class="p">(</span><span class="n">tok</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">bp</span> <span class="o">&lt;=</span> <span class="n">min_bp</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+            <span class="n">right_bp</span> <span class="o">=</span> <span class="n">_RIGHT_BP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tok</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">bp</span><span class="p">)</span>
+            <span class="n">right</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_bp</span><span class="p">(</span><span class="n">right_bp</span><span class="p">)</span>
+            <span class="n">op_val</span> <span class="o">=</span> <span class="n">tok</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_KEYWORD</span> <span class="k">else</span> <span class="n">tok</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">if</span> <span class="n">op_val</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;AND&quot;</span><span class="p">,</span> <span class="s2">&quot;OR&quot;</span><span class="p">):</span>
+                <span class="n">left</span> <span class="o">=</span> <span class="n">LogOp</span><span class="p">(</span><span class="n">op_val</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">op_val</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;&lt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&lt;=&quot;</span><span class="p">,</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&gt;=&quot;</span><span class="p">,</span> <span class="s2">&quot;==&quot;</span><span class="p">,</span> <span class="s2">&quot;&lt;&gt;&quot;</span><span class="p">):</span>
+                <span class="n">left</span> <span class="o">=</span> <span class="n">CmpOp</span><span class="p">(</span><span class="n">op_val</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">left</span> <span class="o">=</span> <span class="n">BinOp</span><span class="p">(</span><span class="n">op_val</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">left</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_parse_atom</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="n">tok</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span>
+
+        <span class="c1"># --- NUMBER literal ---</span>
+        <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_NUMBER</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">Num</span><span class="p">(</span><span class="n">tok</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+        <span class="c1"># --- TRUE / FALSE ---</span>
+        <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_KEYWORD</span> <span class="ow">and</span> <span class="n">tok</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;TRUE&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">BoolLit</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_KEYWORD</span> <span class="ow">and</span> <span class="n">tok</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;FALSE&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">BoolLit</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># --- DATETIME keyword (current simulation time) ---</span>
+        <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_KEYWORD</span> <span class="ow">and</span> <span class="n">tok</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;DATETIME&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">DateTimeNow</span><span class="p">()</span>
+
+        <span class="c1"># --- REFDATE [REFTIME | 4-digit NUMBER] ---</span>
+        <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_REFDATE</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+            <span class="n">time_str</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">nxt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">nxt</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_REFTIME</span><span class="p">:</span>
+                <span class="n">time_str</span> <span class="o">=</span> <span class="n">nxt</span><span class="o">.</span><span class="n">value</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">nxt</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_NUMBER</span> <span class="ow">and</span> <span class="n">_is_valid_hhmm</span><span class="p">(</span><span class="n">nxt</span><span class="o">.</span><span class="n">value</span><span class="p">):</span>
+                <span class="n">time_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">nxt</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">DateTimeLit</span><span class="p">(</span><span class="n">_parse_refdate</span><span class="p">(</span><span class="n">tok</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">time_str</span><span class="p">))</span>
+
+        <span class="c1"># --- Unsupported: REFSEASON sentinel ---</span>
+        <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_KEYWORD</span> <span class="ow">and</span> <span class="n">tok</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;_REFSEASON_&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UnsupportedFeatureError</span><span class="p">(</span>
+                <span class="s2">&quot;REFSEASON tokens are not supported. Skipping rule.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># --- SEASON keyword ---</span>
+        <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_KEYWORD</span> <span class="ow">and</span> <span class="n">tok</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;SEASON&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+            <span class="k">raise</span> <span class="n">UnsupportedFeatureError</span><span class="p">(</span><span class="s2">&quot;SEASON is not supported. Skipping rule.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># --- Unsupported stateful ops as function calls ---</span>
+        <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_KEYWORD</span> <span class="ow">and</span> <span class="n">tok</span><span class="o">.</span><span class="n">value</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;ACCUMULATE&quot;</span><span class="p">,</span> <span class="s2">&quot;PREDICT&quot;</span><span class="p">,</span> <span class="s2">&quot;PID&quot;</span><span class="p">,</span> <span class="s2">&quot;IPID&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+            <span class="k">raise</span> <span class="n">UnsupportedFeatureError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tok</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">() is not supported (stateful operator). Skipping rule.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># --- Function keywords with arglist ---</span>
+        <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_KEYWORD</span> <span class="ow">and</span> <span class="n">tok</span><span class="o">.</span><span class="n">value</span> <span class="ow">in</span> <span class="n">_FUNC_KEYWORDS</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">tok</span><span class="o">.</span><span class="n">value</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_expect_op</span><span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">)</span>
+            <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_arglist</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_expect_op</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">FuncCall</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># --- NAME: either a function call or a bare reference ---</span>
+        <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_NAME</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">tok</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_OP</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;(&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>  <span class="c1"># consume &#39;(&#39;</span>
+                <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_arglist</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_expect_op</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">FuncCall</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">BareRef</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="c1"># --- Grouped sub-expression ---</span>
+        <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_OP</span> <span class="ow">and</span> <span class="n">tok</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;(&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+            <span class="n">inner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_bp</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_expect_op</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">inner</span>
+
+        <span class="c1"># --- Unary minus ---</span>
+        <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_OP</span> <span class="ow">and</span> <span class="n">tok</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;-&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+            <span class="n">operand</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_bp</span><span class="p">(</span><span class="mi">70</span><span class="p">)</span>  <span class="c1"># unary has highest precedence</span>
+            <span class="k">return</span> <span class="n">UnaryOp</span><span class="p">(</span><span class="s2">&quot;NEG&quot;</span><span class="p">,</span> <span class="n">operand</span><span class="p">)</span>
+
+        <span class="c1"># --- Unary NOT ---</span>
+        <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_KEYWORD</span> <span class="ow">and</span> <span class="n">tok</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;NOT&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+            <span class="n">operand</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_bp</span><span class="p">(</span><span class="mi">70</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">UnaryOp</span><span class="p">(</span><span class="s2">&quot;NOT&quot;</span><span class="p">,</span> <span class="n">operand</span><span class="p">)</span>
+
+        <span class="k">raise</span> <span class="n">ParseError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Unexpected token </span><span class="si">{</span><span class="n">tok</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">tok</span><span class="o">.</span><span class="n">value</span><span class="si">!r}</span><span class="s2">) at pos </span><span class="si">{</span><span class="n">tok</span><span class="o">.</span><span class="n">pos</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># --- Arglist parser: NAME=value kwargs or positional args ---</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_parse_arglist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse an arglist until &#39;)&#39; or &#39;]&#39;.  Returns (positional_args, keyword_args).&quot;&quot;&quot;</span>
+        <span class="n">args</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">tok</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_OP</span> <span class="ow">and</span> <span class="n">tok</span><span class="o">.</span><span class="n">value</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">,</span> <span class="s2">&quot;]&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span>
+
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="c1"># Check for NAME = value  (keyword argument)</span>
+            <span class="n">nxt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">nxt</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_NAME</span><span class="p">:</span>
+                <span class="c1"># Peek ahead to see if followed by &#39;=&#39;</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tokens</span><span class="p">):</span>
+                    <span class="n">after</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tokens</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_pos</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">after</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_OP</span> <span class="ow">and</span> <span class="n">after</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;=&quot;</span><span class="p">:</span>
+                        <span class="n">kw_name</span> <span class="o">=</span> <span class="n">nxt</span><span class="o">.</span><span class="n">value</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>   <span class="c1"># consume NAME</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>   <span class="c1"># consume &#39;=&#39;</span>
+                        <span class="n">val_tok</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span>
+                        <span class="k">if</span> <span class="n">val_tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_NAME</span><span class="p">:</span>
+                            <span class="n">kwargs</span><span class="p">[</span><span class="n">kw_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">val_tok</span><span class="o">.</span><span class="n">value</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+                        <span class="k">elif</span> <span class="n">val_tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_NUMBER</span><span class="p">:</span>
+                            <span class="n">kwargs</span><span class="p">[</span><span class="n">kw_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">val_tok</span><span class="o">.</span><span class="n">value</span>  <span class="c1"># float</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">raise</span> <span class="n">ParseError</span><span class="p">(</span>
+                                <span class="sa">f</span><span class="s2">&quot;Expected NAME or NUMBER after &#39;=&#39; in arglist, &quot;</span>
+                                <span class="sa">f</span><span class="s2">&quot;got </span><span class="si">{</span><span class="n">val_tok</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">val_tok</span><span class="o">.</span><span class="n">value</span><span class="si">!r}</span><span class="s2">) at pos </span><span class="si">{</span><span class="n">val_tok</span><span class="o">.</span><span class="n">pos</span><span class="si">}</span><span class="s2">&quot;</span>
+                            <span class="p">)</span>
+                        <span class="c1"># check for separator</span>
+                        <span class="n">sep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span>
+                        <span class="k">if</span> <span class="n">sep</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_OP</span> <span class="ow">and</span> <span class="n">sep</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;,&quot;</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+                            <span class="k">continue</span>
+                        <span class="k">break</span>
+
+            <span class="c1"># Array literal  [ NUMBER, NUMBER, ... ]</span>
+            <span class="k">if</span> <span class="n">nxt</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_OP</span> <span class="ow">and</span> <span class="n">nxt</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;[&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>  <span class="c1"># consume &#39;[&#39;</span>
+                <span class="n">arr</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_NUMBER</span><span class="p">:</span>
+                        <span class="n">arr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+                    <span class="k">elif</span> <span class="n">t</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_OP</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;,&quot;</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+                    <span class="k">elif</span> <span class="n">t</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_OP</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;]&quot;</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+                        <span class="k">break</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="n">ParseError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected token in array literal: </span><span class="si">{</span><span class="n">t</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+                <span class="n">sep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">sep</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_OP</span> <span class="ow">and</span> <span class="n">sep</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;,&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+                    <span class="k">continue</span>
+                <span class="k">break</span>
+
+            <span class="c1"># Positional expression argument</span>
+            <span class="n">arg_ast</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_bp</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg_ast</span><span class="p">)</span>
+            <span class="n">sep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">sep</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_OP</span> <span class="ow">and</span> <span class="n">sep</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;,&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+                <span class="k">continue</span>
+            <span class="k">break</span>
+
+        <span class="k">return</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span>
+
+    <span class="c1"># --- Action parser ---</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse_action</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ActionSpec</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse ``SET interface(kwargs) TO expr [RAMP N MIN] [WHILE|THEN ...]``.&quot;&quot;&quot;</span>
+        <span class="n">specs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ActionSpec</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parse_single_action</span><span class="p">(</span><span class="n">specs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">specs</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_parse_single_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">specs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ActionSpec</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_expect_keyword</span><span class="p">(</span><span class="s2">&quot;SET&quot;</span><span class="p">)</span>
+
+        <span class="c1"># interface name — NAME or a keyword used as interface name</span>
+        <span class="n">tok</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_NAME</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">tok</span><span class="o">.</span><span class="n">value</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_KEYWORD</span><span class="p">:</span>
+            <span class="c1"># Some interface names (like &#39;gate_op&#39;) may look like keywords</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">tok</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ParseError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected interface name after SET at pos </span><span class="si">{</span><span class="n">tok</span><span class="o">.</span><span class="n">pos</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Optional arglist</span>
+        <span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_OP</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;(&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>  <span class="c1"># consume &#39;(&#39;</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_arglist</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_expect_op</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_expect_keyword</span><span class="p">(</span><span class="s2">&quot;TO&quot;</span><span class="p">)</span>
+        <span class="n">value_ast</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_bp</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Optional RAMP N MIN</span>
+        <span class="n">ramp_min</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_KEYWORD</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;RAMP&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>  <span class="c1"># consume RAMP</span>
+            <span class="n">ramp_tok</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">ramp_tok</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="n">T_NUMBER</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ParseError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected number after RAMP at pos </span><span class="si">{</span><span class="n">ramp_tok</span><span class="o">.</span><span class="n">pos</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">ramp_min</span> <span class="o">=</span> <span class="n">ramp_tok</span><span class="o">.</span><span class="n">value</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+            <span class="c1"># Expect MIN (or HOUR)</span>
+            <span class="n">unit_tok</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">unit_tok</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_KEYWORD</span> <span class="ow">and</span> <span class="n">unit_tok</span><span class="o">.</span><span class="n">value</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;MIN&quot;</span><span class="p">,</span> <span class="s2">&quot;HOUR&quot;</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>  <span class="c1"># consume unit</span>
+                <span class="k">if</span> <span class="n">unit_tok</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;HOUR&quot;</span><span class="p">:</span>
+                    <span class="n">ramp_min</span> <span class="o">=</span> <span class="n">ramp_min</span> <span class="o">*</span> <span class="mf">60.0</span>
+
+        <span class="c1"># Normalise kwargs: float values for known numeric keys (channel, dist)</span>
+        <span class="n">norm_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+                <span class="n">norm_kwargs</span><span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">norm_kwargs</span><span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+        <span class="n">specs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ActionSpec</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">norm_kwargs</span><span class="p">,</span> <span class="n">value_ast</span><span class="p">,</span> <span class="n">ramp_min</span><span class="p">))</span>
+
+        <span class="c1"># WHILE / THEN chains — treat both as simultaneous</span>
+        <span class="n">nxt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">nxt</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">T_KEYWORD</span> <span class="ow">and</span> <span class="n">nxt</span><span class="o">.</span><span class="n">value</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;WHILE&quot;</span><span class="p">,</span> <span class="s2">&quot;THEN&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_advance</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_parse_single_action</span><span class="p">(</span><span class="n">specs</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_is_valid_hhmm</span><span class="p">(</span><span class="n">val</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if *val* (a NUMBER token value) looks like a valid HHMM time.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">val</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">val</span> <span class="o">&gt;</span> <span class="mi">2359</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">hh</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">//</span> <span class="mi">100</span>
+    <span class="n">mm</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">%</span> <span class="mi">100</span>
+    <span class="k">return</span> <span class="n">hh</span> <span class="o">&lt;</span> <span class="mi">24</span> <span class="ow">and</span> <span class="n">mm</span> <span class="o">&lt;</span> <span class="mi">60</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Public parse entry points</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="parse_trigger">
+<a class="viewcode-back" href="../../../pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.parse_trigger">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_trigger</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse a DSM2 OPERATING_RULE TRIGGER string into an AST node.</span>
+
+<span class="sd">    Accepts ``&quot;TRUE&quot;`` / ``&quot;FALSE&quot;`` literals, boolean expressions, and</span>
+<span class="sd">    arithmetic comparisons.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ParseError</span>
+<span class="sd">        If the text cannot be parsed.</span>
+<span class="sd">    UnsupportedFeatureError</span>
+<span class="sd">        If the text contains unsupported constructs (SEASON, ACCUMULATE, etc.).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">tokenize</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">_Parser</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+    <span class="n">ast</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">parse_bp</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="n">T_EOF</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParseError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Unexpected tokens after expression: </span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span><span class="si">!r}</span><span class="s2"> in </span><span class="si">{</span><span class="n">text</span><span class="si">!r}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">ast</span></div>
+
+
+
+<div class="viewcode-block" id="parse_expr">
+<a class="viewcode-back" href="../../../pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.parse_expr">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_expr</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse a numeric value expression (used in TO clauses) into an AST node.&quot;&quot;&quot;</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">tokenize</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">_Parser</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+    <span class="n">ast</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">parse_bp</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="n">T_EOF</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParseError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Unexpected tokens after expression: </span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">_peek</span><span class="p">()</span><span class="si">!r}</span><span class="s2"> in </span><span class="si">{</span><span class="n">text</span><span class="si">!r}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">ast</span></div>
+
+
+
+<div class="viewcode-block" id="parse_action">
+<a class="viewcode-back" href="../../../pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.parse_action">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_action</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ActionSpec</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse a DSM2 OPERATING_RULE ACTION string into a list of :class:`ActionSpec`.</span>
+
+<span class="sd">    Handles ``WHILE``/``THEN``-chained compound actions (both treated as</span>
+<span class="sd">    simultaneous).  Any ``RAMP N MIN`` suffix is parsed and stored in</span>
+<span class="sd">    :attr:`ActionSpec.ramp_min` but ramp-interpolation is not applied.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">tokenize</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">_Parser</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+    <span class="n">specs</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">parse_action</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">specs</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Resample helpers (shared with gate_state.py via import from here)</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_resample_series_to_index</span><span class="p">(</span><span class="n">series</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Forward-fill (then back-fill for leading NaN) an irregular Series onto *time_idx*.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">series</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">):</span>
+        <span class="n">series</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">series</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">series</span> <span class="o">=</span> <span class="n">series</span><span class="p">[</span><span class="o">~</span><span class="n">series</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s2">&quot;last&quot;</span><span class="p">)]</span>
+    <span class="n">combined</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">series</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">time_idx</span><span class="p">))</span><span class="o">.</span><span class="n">ffill</span><span class="p">()</span><span class="o">.</span><span class="n">bfill</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">combined</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">time_idx</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_resample_to_index</span><span class="p">(</span><span class="n">ts_ref</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">,</span> <span class="n">_ts_cache</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load a DSM2TimeSeriesReference and resample to *time_idx*.</span>
+
+<span class="sd">    *_ts_cache* is an optional dict keyed by ``ts_ref.name`` that avoids</span>
+<span class="sd">    re-reading the same DSS path when the same reference appears in multiple</span>
+<span class="sd">    OPERATING_RULE triggers.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">_ts_cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">ts_ref</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">_ts_cache</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">_ts_cache</span><span class="p">[</span><span class="n">ts_ref</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">ts_ref</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">_ts_cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_ts_cache</span><span class="p">[</span><span class="n">ts_ref</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">time_idx</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_resample_series_to_index</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">)</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Evaluator</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="c1"># Supported comparison operators</span>
+<span class="n">_CMP_DISPATCH</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;&gt;=&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">&gt;=</span> <span class="n">b</span><span class="p">,</span>
+    <span class="s2">&quot;&lt;=&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">&lt;=</span> <span class="n">b</span><span class="p">,</span>
+    <span class="s2">&quot;&gt;&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">,</span>
+    <span class="s2">&quot;&lt;&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">,</span>
+    <span class="s2">&quot;==&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">,</span>
+    <span class="s2">&quot;&lt;&gt;&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">!=</span> <span class="n">b</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># Supported arithmetic operators</span>
+<span class="n">_ARITH_DISPATCH</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;+&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span>
+    <span class="s2">&quot;-&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">,</span>
+    <span class="s2">&quot;*&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">,</span>
+    <span class="s2">&quot;/&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span><span class="p">,</span>
+    <span class="s2">&quot;^&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">**</span> <span class="n">b</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_broadcast</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">op_fn</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply *op_fn(a, b)* broadcasting scalar/Series combinations.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+        <span class="c1"># Ensure both are Series or broadcastable</span>
+        <span class="k">return</span> <span class="n">op_fn</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">op_fn</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="eval_node">
+<a class="viewcode-back" href="../../../pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.eval_node">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">eval_node</span><span class="p">(</span>
+    <span class="n">node</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="n">time_idx</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">,</span>
+    <span class="n">ts_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">expressions</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">hydro</span><span class="p">,</span>
+    <span class="n">hydro_cache</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">ts_cache</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Recursively evaluate an AST node.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    node : AST node</span>
+<span class="sd">        Output of :func:`parse_trigger`, :func:`parse_expr`, or any sub-node.</span>
+<span class="sd">    time_idx : pd.DatetimeIndex</span>
+<span class="sd">        The evaluation time axis for this chunk.</span>
+<span class="sd">    ts_data : dict[str, DSM2TimeSeriesReference]</span>
+<span class="sd">        OPRULE_TIME_SERIES name → reference objects.</span>
+<span class="sd">    expressions : dict[str, str]</span>
+<span class="sd">        OPRULE_EXPRESSION name → definition string.</span>
+<span class="sd">    hydro : HydroH5 | None</span>
+<span class="sd">        Required when the trigger involves ``chan_stage`` / ``chan_vel``.</span>
+<span class="sd">    hydro_cache : dict</span>
+<span class="sd">        Memoization cache for HDF5 channel reads (keyed by (kind, channel, loc)).</span>
+<span class="sd">    ts_cache : dict</span>
+<span class="sd">        Memoization cache for DSS time series (keyed by ts name).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.Series, float, bool, or pd.Timestamp</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># --- Scalar literals ---</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">Num</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">BoolLit</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">DateTimeLit</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">value</span>  <span class="c1"># pd.Timestamp scalar</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">DateTimeNow</span><span class="p">):</span>
+        <span class="c1"># Return a Series of pd.Timestamps (one per row in time_idx)</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">time_idx</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">time_idx</span><span class="p">)</span>
+
+    <span class="c1"># --- Binary arithmetic ---</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">BinOp</span><span class="p">):</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">eval_node</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">,</span> <span class="n">ts_data</span><span class="p">,</span> <span class="n">expressions</span><span class="p">,</span> <span class="n">hydro</span><span class="p">,</span> <span class="n">hydro_cache</span><span class="p">,</span> <span class="n">ts_cache</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">eval_node</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">,</span> <span class="n">ts_data</span><span class="p">,</span> <span class="n">expressions</span><span class="p">,</span> <span class="n">hydro</span><span class="p">,</span> <span class="n">hydro_cache</span><span class="p">,</span> <span class="n">ts_cache</span><span class="p">)</span>
+        <span class="n">op_fn</span> <span class="o">=</span> <span class="n">_ARITH_DISPATCH</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">op_fn</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown binary operator: </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_broadcast</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">op_fn</span><span class="p">)</span>
+
+    <span class="c1"># --- Comparison ---</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">CmpOp</span><span class="p">):</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">eval_node</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">,</span> <span class="n">ts_data</span><span class="p">,</span> <span class="n">expressions</span><span class="p">,</span> <span class="n">hydro</span><span class="p">,</span> <span class="n">hydro_cache</span><span class="p">,</span> <span class="n">ts_cache</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">eval_node</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">,</span> <span class="n">ts_data</span><span class="p">,</span> <span class="n">expressions</span><span class="p">,</span> <span class="n">hydro</span><span class="p">,</span> <span class="n">hydro_cache</span><span class="p">,</span> <span class="n">ts_cache</span><span class="p">)</span>
+        <span class="n">cmp_fn</span> <span class="o">=</span> <span class="n">_CMP_DISPATCH</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cmp_fn</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown comparison operator: </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1"># Timestamp comparison: if either side is a Timestamp or a Series of Timestamps</span>
+        <span class="n">a_is_ts</span> <span class="o">=</span> <span class="n">_is_timestamp_type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">b_is_ts</span> <span class="o">=</span> <span class="n">_is_timestamp_type</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">a_is_ts</span> <span class="ow">or</span> <span class="n">b_is_ts</span><span class="p">:</span>
+            <span class="c1"># Normalise both to a common Timestamp comparable type</span>
+            <span class="n">a_cmp</span> <span class="o">=</span> <span class="n">_to_timestamp_comparable</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">)</span>
+            <span class="n">b_cmp</span> <span class="o">=</span> <span class="n">_to_timestamp_comparable</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">cmp_fn</span><span class="p">(</span><span class="n">a_cmp</span><span class="p">,</span> <span class="n">b_cmp</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">time_idx</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_broadcast</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">cmp_fn</span><span class="p">)</span>
+
+    <span class="c1"># --- Logical ---</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">LogOp</span><span class="p">):</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">eval_node</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">,</span> <span class="n">ts_data</span><span class="p">,</span> <span class="n">expressions</span><span class="p">,</span> <span class="n">hydro</span><span class="p">,</span> <span class="n">hydro_cache</span><span class="p">,</span> <span class="n">ts_cache</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">eval_node</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">,</span> <span class="n">ts_data</span><span class="p">,</span> <span class="n">expressions</span><span class="p">,</span> <span class="n">hydro</span><span class="p">,</span> <span class="n">hydro_cache</span><span class="p">,</span> <span class="n">ts_cache</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">op</span> <span class="o">==</span> <span class="s2">&quot;AND&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_broadcast</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">&amp;</span> <span class="n">y</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">op</span> <span class="o">==</span> <span class="s2">&quot;OR&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_broadcast</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">|</span> <span class="n">y</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown logical operator: </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># --- Unary ---</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">UnaryOp</span><span class="p">):</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">eval_node</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">operand</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">,</span> <span class="n">ts_data</span><span class="p">,</span> <span class="n">expressions</span><span class="p">,</span> <span class="n">hydro</span><span class="p">,</span> <span class="n">hydro_cache</span><span class="p">,</span> <span class="n">ts_cache</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">op</span> <span class="o">==</span> <span class="s2">&quot;NEG&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="n">v</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">op</span> <span class="o">==</span> <span class="s2">&quot;NOT&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+                <span class="k">return</span> <span class="o">~</span><span class="n">v</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+            <span class="k">return</span> <span class="ow">not</span> <span class="n">v</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown unary operator: </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># --- Named bare reference (OPRULE_EXPRESSION) ---</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">BareRef</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">expressions</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">sub_ast</span> <span class="o">=</span> <span class="n">parse_trigger</span><span class="p">(</span><span class="n">expressions</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+                <span class="k">return</span> <span class="n">eval_node</span><span class="p">(</span>
+                    <span class="n">sub_ast</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">,</span> <span class="n">ts_data</span><span class="p">,</span> <span class="n">expressions</span><span class="p">,</span> <span class="n">hydro</span><span class="p">,</span> <span class="n">hydro_cache</span><span class="p">,</span> <span class="n">ts_cache</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="n">ParseError</span><span class="p">:</span>
+                <span class="n">sub_ast</span> <span class="o">=</span> <span class="n">parse_expr</span><span class="p">(</span><span class="n">expressions</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+                <span class="k">return</span> <span class="n">eval_node</span><span class="p">(</span>
+                    <span class="n">sub_ast</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">,</span> <span class="n">ts_data</span><span class="p">,</span> <span class="n">expressions</span><span class="p">,</span> <span class="n">hydro</span><span class="p">,</span> <span class="n">hydro_cache</span><span class="p">,</span> <span class="n">ts_cache</span>
+                <span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;BareRef </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> not found in OPRULE_EXPRESSION dict. &quot;</span>
+            <span class="s2">&quot;Known: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">expressions</span><span class="o">.</span><span class="n">keys</span><span class="p">())[:</span><span class="mi">10</span><span class="p">])</span>
+        <span class="p">)</span>
+
+    <span class="c1"># --- Function calls ---</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">FuncCall</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_eval_func</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">,</span> <span class="n">ts_data</span><span class="p">,</span> <span class="n">expressions</span><span class="p">,</span> <span class="n">hydro</span><span class="p">,</span> <span class="n">hydro_cache</span><span class="p">,</span> <span class="n">ts_cache</span><span class="p">)</span>
+
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown AST node type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">node</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_is_timestamp_type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if *v* is a pd.Timestamp or a Series of Timestamps.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_to_timestamp_comparable</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert *v* to something pd.Timestamp comparison can handle.</span>
+
+<span class="sd">    A scalar Timestamp stays as-is.  A Series of Timestamps becomes a</span>
+<span class="sd">    DatetimeIndex for vectorised comparison.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">v</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">v</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_eval_func</span><span class="p">(</span>
+    <span class="n">node</span><span class="p">:</span> <span class="n">FuncCall</span><span class="p">,</span>
+    <span class="n">time_idx</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">,</span>
+    <span class="n">ts_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">expressions</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">hydro</span><span class="p">,</span>
+    <span class="n">hydro_cache</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">ts_cache</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate a FuncCall node.&quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+    <span class="c1"># --- ts(name=X) — OPRULE_TIME_SERIES lookup ---</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;TS&quot;</span><span class="p">:</span>
+        <span class="n">ts_name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ts_name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="n">ts_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">ts_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;ts() requires name=&lt;identifier&gt;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ts_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ts_data</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;OPRULE_TIME_SERIES name not found: </span><span class="si">{</span><span class="n">ts_name</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_resample_to_index</span><span class="p">(</span><span class="n">ts_data</span><span class="p">[</span><span class="n">ts_name</span><span class="p">],</span> <span class="n">time_idx</span><span class="p">,</span> <span class="n">ts_cache</span><span class="p">)</span>
+
+    <span class="c1"># --- chan_stage / chan_vel ---</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;CHAN_STAGE&quot;</span><span class="p">,</span> <span class="s2">&quot;CHAN_VEL&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">hydro</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">() requires HDF5 data but hydro=None. Provide --hydro-file.&quot;</span>
+            <span class="p">)</span>
+        <span class="n">channel_id</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;channel&quot;</span><span class="p">)</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dist&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">channel_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">() missing &#39;channel&#39; argument&quot;</span><span class="p">)</span>
+        <span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;stage&quot;</span> <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;CHAN_STAGE&quot;</span> <span class="k">else</span> <span class="s2">&quot;vel&quot;</span>
+        <span class="k">return</span> <span class="n">_eval_chan_numeric_new</span><span class="p">(</span>
+            <span class="n">kind</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">channel_id</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">dist</span><span class="p">),</span> <span class="n">time_idx</span><span class="p">,</span> <span class="n">hydro</span><span class="p">,</span> <span class="n">hydro_cache</span>
+        <span class="p">)</span>
+
+    <span class="c1"># --- Unsupported stateful operators ---</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;ACCUMULATE&quot;</span><span class="p">,</span> <span class="s2">&quot;PREDICT&quot;</span><span class="p">,</span> <span class="s2">&quot;PID&quot;</span><span class="p">,</span> <span class="s2">&quot;IPID&quot;</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">() is not supported. Skipping rule.&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">UnsupportedFeatureError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">() is a stateful operator and is not supported.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># --- Helper to evaluate positional args ---</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_eval_arg</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">eval_node</span><span class="p">(</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">time_idx</span><span class="p">,</span> <span class="n">ts_data</span><span class="p">,</span> <span class="n">expressions</span><span class="p">,</span> <span class="n">hydro</span><span class="p">,</span> <span class="n">hydro_cache</span><span class="p">,</span> <span class="n">ts_cache</span>
+        <span class="p">)</span>
+
+    <span class="c1"># --- Math unary functions ---</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;ABS&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">_eval_arg</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;SQRT&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">_eval_arg</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;EXP&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">_eval_arg</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;LN&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">_eval_arg</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;LOG&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">_eval_arg</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>  <span class="c1"># DSM2 LOG = base-10</span>
+
+    <span class="c1"># --- Binary min/max ---</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;MIN2&quot;</span><span class="p">:</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">_eval_arg</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">_eval_arg</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;MAX2&quot;</span><span class="p">:</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">_eval_arg</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">_eval_arg</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+    <span class="c1"># --- Ternary min/max ---</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;MIN3&quot;</span><span class="p">:</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">_eval_arg</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">_eval_arg</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">_eval_arg</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;MAX3&quot;</span><span class="p">:</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">_eval_arg</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">_eval_arg</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">_eval_arg</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+
+    <span class="c1"># --- IFELSE(cond, true_val, false_val) ---</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;IFELSE&quot;</span><span class="p">:</span>
+        <span class="n">cond</span> <span class="o">=</span> <span class="n">_eval_arg</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">t_val</span> <span class="o">=</span> <span class="n">_eval_arg</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">f_val</span> <span class="o">=</span> <span class="n">_eval_arg</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cond</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">cond</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">t_val</span><span class="p">,</span> <span class="n">f_val</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">t_val</span> <span class="k">if</span> <span class="n">cond</span> <span class="k">else</span> <span class="n">f_val</span>
+
+    <span class="c1"># --- LOOKUP(x, [x0,x1,...], [y0,y1,...]) ---</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;LOOKUP&quot;</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">_eval_arg</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">xp</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># list of floats (raw array from parser)</span>
+        <span class="n">fp</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">xp</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;LOOKUP requires array literals [x0,...] and [y0,...]&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xp</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span>
+
+    <span class="c1"># --- Time component accessors ---</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;YEAR&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">time_idx</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">time_idx</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;MONTH&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">time_idx</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">time_idx</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;DAY&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">time_idx</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">time_idx</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;HOUR&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">time_idx</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">time_idx</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;MIN&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">time_idx</span><span class="o">.</span><span class="n">minute</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">time_idx</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;DT&quot;</span><span class="p">:</span>
+        <span class="c1"># Timestep in minutes inferred from time_idx frequency</span>
+        <span class="n">freq</span> <span class="o">=</span> <span class="n">time_idx</span><span class="o">.</span><span class="n">freq</span>
+        <span class="k">if</span> <span class="n">freq</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">dt_minutes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">tseries</span><span class="o">.</span><span class="n">frequencies</span><span class="o">.</span><span class="n">to_offset</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span><span class="o">.</span><span class="n">nanos</span> <span class="o">/</span> <span class="mf">1e9</span> <span class="o">/</span> <span class="mf">60.0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dt_minutes</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="p">(</span><span class="n">time_idx</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">time_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="mf">60.0</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">time_idx</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span>
+                <span class="k">else</span> <span class="mf">60.0</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">dt_minutes</span><span class="p">)</span>
+
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown function: </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Channel HDF5 reader (used by _eval_func above)</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_eval_chan_numeric_new</span><span class="p">(</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">channel_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">dist</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">time_idx</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">,</span>
+    <span class="n">hydro</span><span class="p">,</span>
+    <span class="n">hydro_cache</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read chan_stage or chan_vel from the HDF5 for a single channel / location.&quot;&quot;&quot;</span>
+    <span class="n">location</span> <span class="o">=</span> <span class="s2">&quot;upstream&quot;</span> <span class="k">if</span> <span class="n">dist</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;downstream&quot;</span>
+    <span class="n">cache_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">channel_id</span><span class="p">,</span> <span class="n">location</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cache_key</span> <span class="ow">in</span> <span class="n">hydro_cache</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_resample_series_to_index</span><span class="p">(</span><span class="n">hydro_cache</span><span class="p">[</span><span class="n">cache_key</span><span class="p">],</span> <span class="n">time_idx</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;stage&quot;</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">hydro</span><span class="o">.</span><span class="n">get_channel_stage</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">channel_id</span><span class="p">),</span> <span class="n">location</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># velocity = flow / area</span>
+        <span class="n">flow_df</span> <span class="o">=</span> <span class="n">hydro</span><span class="o">.</span><span class="n">get_channel_flow</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">channel_id</span><span class="p">),</span> <span class="n">location</span><span class="p">)</span>
+        <span class="n">area_df</span> <span class="o">=</span> <span class="n">hydro</span><span class="o">.</span><span class="n">get_channel_area</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">channel_id</span><span class="p">),</span> <span class="n">location</span><span class="p">)</span>
+        <span class="n">flow</span> <span class="o">=</span> <span class="n">flow_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">flow_df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="k">else</span> <span class="n">flow_df</span>
+        <span class="n">area</span> <span class="o">=</span> <span class="n">area_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">area_df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="k">else</span> <span class="n">area_df</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">flow</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">PeriodIndex</span><span class="p">):</span>
+            <span class="n">flow</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">flow</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_timestamp</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">area</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">PeriodIndex</span><span class="p">):</span>
+            <span class="n">area</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">area</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_timestamp</span><span class="p">()</span>
+        <span class="n">series</span> <span class="o">=</span> <span class="n">flow</span> <span class="o">/</span> <span class="n">area</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">area</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">other</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+        <span class="n">hydro_cache</span><span class="p">[</span><span class="n">cache_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">series</span>
+        <span class="k">return</span> <span class="n">_resample_series_to_index</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">)</span>
+
+    <span class="n">series</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="k">else</span> <span class="n">df</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">series</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">PeriodIndex</span><span class="p">):</span>
+        <span class="n">series</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_timestamp</span><span class="p">()</span>
+    <span class="n">hydro_cache</span><span class="p">[</span><span class="n">cache_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">series</span>
+    <span class="k">return</span> <span class="n">_resample_series_to_index</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">)</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Walk AST for hydro dependency detection</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_ast_needs_hydro</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if *node* (or any descendant) calls chan_stage or chan_vel.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">FuncCall</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;CHAN_STAGE&quot;</span><span class="p">,</span> <span class="s2">&quot;CHAN_VEL&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="n">_ast_needs_hydro</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="p">(</span><span class="n">BinOp</span><span class="p">,</span> <span class="n">CmpOp</span><span class="p">,</span> <span class="n">LogOp</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">_ast_needs_hydro</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_ast_needs_hydro</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">UnaryOp</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_ast_needs_hydro</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">operand</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">False</span>
+
+
+<div class="viewcode-block" id="needs_hydro">
+<a class="viewcode-back" href="../../../pydsm.analysis.oprule_parser.html#pydsm.analysis.oprule_parser.needs_hydro">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">needs_hydro</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">expressions</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">_visited</span><span class="p">:</span> <span class="nb">set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if *text* (or any OPRULE_EXPRESSION it references) needs HDF5 data.</span>
+
+<span class="sd">    Replaces the regex-based ``_needs_hydro`` in gate_state.py.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">_visited</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ast</span> <span class="o">=</span> <span class="n">parse_trigger</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="n">ParseError</span><span class="p">,</span> <span class="n">UnsupportedFeatureError</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ast</span> <span class="o">=</span> <span class="n">parse_expr</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="n">ParseError</span><span class="p">,</span> <span class="n">UnsupportedFeatureError</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">_ast_needs_hydro</span><span class="p">(</span><span class="n">ast</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="c1"># Expand bare-name references into expressions</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">_iter_nodes</span><span class="p">(</span><span class="n">ast</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">BareRef</span><span class="p">)</span> <span class="ow">and</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">expressions</span> <span class="ow">and</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_visited</span><span class="p">:</span>
+            <span class="n">_visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">needs_hydro</span><span class="p">(</span><span class="n">expressions</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">expressions</span><span class="p">,</span> <span class="n">_visited</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_iter_nodes</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Yield all AST nodes in *node* (depth-first).&quot;&quot;&quot;</span>
+    <span class="k">yield</span> <span class="n">node</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="p">(</span><span class="n">BinOp</span><span class="p">,</span> <span class="n">CmpOp</span><span class="p">,</span> <span class="n">LogOp</span><span class="p">)):</span>
+        <span class="k">yield from</span> <span class="n">_iter_nodes</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+        <span class="k">yield from</span> <span class="n">_iter_nodes</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">UnaryOp</span><span class="p">):</span>
+        <span class="k">yield from</span> <span class="n">_iter_nodes</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">operand</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">FuncCall</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">yield from</span> <span class="n">_iter_nodes</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, Nicky Sandhu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
