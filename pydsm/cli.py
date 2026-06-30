@@ -13,6 +13,8 @@ from pydsm.output.create_gtm_restart import write_gtm_restart
 from pydsm.output.hydro_vol_calcs import calc_volumes_cmd
 from pydsm.input import channel_orient
 from pydsm.analysis.dsm2diff import dsm2_diff
+from pydsm.analysis.gate_state import get_gate_state
+from pydsm.analysis.dsm2study import parse_military_date
 
 
 import pandas as pd
@@ -352,6 +354,74 @@ def create_gtm_restart_cmd(tidefile, target_time, outfile, constituent):
     click.echo(f"Wrote restart file: {path}")
 
 
+@click.command(name="gate-state")
+@click.argument("echo_file", type=click.Path(exists=True))
+@click.option(
+    "--output",
+    "-o",
+    default="gate_state.h5",
+    show_default=True,
+    help="Output HDF5 file path.",
+)
+@click.option(
+    "--start",
+    default=None,
+    help="Start date in DSM2 format, e.g. '01SEP2014 0000'. Defaults to run_start_date.",
+)
+@click.option(
+    "--end",
+    default=None,
+    help="End date in DSM2 format, e.g. '31DEC2024 0000'. Defaults to run_end_date.",
+)
+@click.option(
+    "--interval",
+    default="1h",
+    show_default=True,
+    help="Output time interval as a pandas frequency string (e.g. '1h', '15min').",
+)
+@click.option(
+    "--hydro-file",
+    default=None,
+    type=click.Path(exists=True),
+    help=(
+        "Path to the DSM2 hydro HDF5 tidefile. Required when any OPERATING_RULE "
+        "trigger uses chan_stage or chan_vel."
+    ),
+)
+def gate_state_cmd(echo_file, output, start, end, interval, hydro_file):
+    """Evaluate DSM2 gate operating rules and write a gate state table to HDF5.
+
+    ECHO_FILE is the path to a DSM2 hydro echo (.inp) file.
+
+    The output HDF5 file contains a long-format DataFrame at key /gate_state
+    with columns: gate_name, device, variable, direction, value and a
+    DatetimeIndex at the requested interval.
+    """
+    start_dt = None
+    end_dt = None
+    if start:
+        s = start.strip()
+        if len(s.split()) == 1:
+            s += " 0000"
+        start_dt = parse_military_date(s)
+    if end:
+        e = end.strip()
+        if len(e.split()) == 1:
+            e += " 0000"
+        end_dt = parse_military_date(e)
+
+    click.echo(f"Reading echo file: {echo_file}")
+    get_gate_state(
+        echo_file,
+        start=start_dt,
+        end=end_dt,
+        interval=interval,
+        hydro_file=hydro_file,
+        output_file=output,
+    )
+    click.echo(f"Gate state written to: {output} (group=/gate_state)")
+
+
 # Add the commands to the group repeating
 repeating.add_command(create_repeating)
 repeating.add_command(extend_repeating)
@@ -373,6 +443,7 @@ main.add_command(channel_orient.generate_channel_orientation, "chan-orient")
 main.add_command(calc_netcd_cmd)
 main.add_command(calc_volumes_cmd)
 main.add_command(dsm2_diff)
+main.add_command(gate_state_cmd)
 
 if __name__ == "__main__":
     sys.exit(main())
