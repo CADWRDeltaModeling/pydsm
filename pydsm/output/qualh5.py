@@ -54,7 +54,8 @@ class QualH5:
         """
         closes file as cleanup
         """
-        self.h5.close()
+        if hasattr(self, 'h5'):
+            self.h5.close()
 
     def is_gtm(self):
         return dsm2h5.get_model(self.h5) == "gtm"

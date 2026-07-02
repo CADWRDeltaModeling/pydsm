@@ -55,7 +55,8 @@ class HydroH5:
         """
         closes file as cleanup
         """
-        self.h5.close()
+        if hasattr(self, 'h5'):
+            self.h5.close()
 
     def get_start_end_dates(self):
         """
