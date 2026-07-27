@@ -32,32 +32,56 @@ def get_distance_from_start(point: Point, closest_line: gpd.GeoDataFrame):
 
 
 def read_stations(file_path):
+    """Read a stations CSV and return a UTM Zone 10N (EPSG:26910) GeoDataFrame.
+
+    UTM coordinates (``x``/``y``, or ``utm_easting``/``utm_northing`` as
+    written by ``dsm2ui datastore extract --stations``) are generally more
+    accurate than the accompanying lat/lon columns -- station locations are
+    often hand-verified/corrected in UTM without always re-deriving lat/lon.
+    When both are present, UTM is used on a per-row basis; lat/lon is used as
+    a fallback for rows where UTM is missing. Rows with neither a usable UTM
+    nor lat/lon coordinate are dropped.
+    """
     # Read the CSV file
     stations = pd.read_csv(file_path)
-    if "lat" in stations.columns and "lon" in stations.columns:
-        # Create GeoDataFrame with Point geometry and set the CRS to WGS84 (EPSG:4326)
-        stations = gpd.GeoDataFrame(
-            stations,
-            geometry=[Point(xy) for xy in zip(stations.lon, stations.lat)],
-            crs="EPSG:4326",  # Define CRS during GeoDataFrame creation
-        )
-        stations.set_crs(epsg=4326, inplace=True)
-        stations_utm = stations.to_crs(epsg=26910)
-        stations.set_crs(epsg=4326, inplace=True)  # Set CRS again to avoid warning
-    elif "x" in stations.columns and "y" in stations.columns:
-        # Create GeoDataFrame with Point geometry and set the CRS to UTM Zone 10N (EPSG:26910)
-        stations = gpd.GeoDataFrame(
-            stations,
-            geometry=[Point(xy) for xy in zip(stations.x, stations.y)],
-            crs="EPSG:26910",  # Define CRS during GeoDataFrame creation
-        )
-        stations.set_crs(epsg=26910, inplace=True)
-        stations.set_crs(epsg=26910, inplace=True)
-        stations_utm = stations
+
+    if "x" in stations.columns and "y" in stations.columns:
+        easting_col, northing_col = "x", "y"
+    elif "utm_easting" in stations.columns and "utm_northing" in stations.columns:
+        easting_col, northing_col = "utm_easting", "utm_northing"
     else:
+        easting_col, northing_col = None, None
+    has_utm = easting_col is not None and northing_col is not None
+    has_lat_lon = "lat" in stations.columns and "lon" in stations.columns
+
+    if not has_utm and not has_lat_lon:
         raise ValueError(
-            "Input file must contain 'lat' and 'lon' columns or 'x' and 'y' columns"
+            "Input file must contain 'lat' and 'lon' columns or 'x'/'y' "
+            "(or 'utm_easting'/'utm_northing') columns"
         )
+
+    if has_lat_lon:
+        geometry = gpd.GeoSeries(
+            gpd.points_from_xy(stations.lon, stations.lat),
+            index=stations.index,
+            crs="EPSG:4326",
+        ).to_crs(epsg=26910)
+    else:
+        geometry = gpd.GeoSeries(
+            [None] * len(stations), index=stations.index, crs="EPSG:26910"
+        )
+
+    if has_utm:
+        easting = pd.to_numeric(stations[easting_col], errors="coerce")
+        northing = pd.to_numeric(stations[northing_col], errors="coerce")
+        utm_mask = easting.notna() & northing.notna()
+        if utm_mask.any():
+            geometry.loc[utm_mask] = gpd.points_from_xy(
+                easting[utm_mask], northing[utm_mask]
+            )
+
+    stations_utm = gpd.GeoDataFrame(stations, geometry=geometry, crs="EPSG:26910")
+    stations_utm = stations_utm[stations_utm.geometry.notna()].reset_index(drop=True)
     return stations_utm
 
 

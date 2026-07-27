@@ -575,6 +575,13 @@ def load_location_file(locationfile, gate_data=False):
     if "MODEL VARTYPE" in df.columns:
         columns_to_keep.append("MODEL VARTYPE")
         new_column_names.append("MODEL_VARTYPE")
+    # UTM easting/northing (EPSG:26910) are often more accurate than the lat/lon
+    # columns in the location CSVs -- surveyed/adjusted station locations are
+    # frequently only corrected in the UTM columns. Carry them through when
+    # present so downstream mapping code can prefer them over lat/lon.
+    if not gate_data and "utm_easting" in df.columns and "utm_northing" in df.columns:
+        columns_to_keep += ["utm_easting", "utm_northing"]
+        new_column_names += ["Easting", "Northing"]
     dfloc = None
     try:
         if "subtract" not in df.columns:
