@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.viz.dsm2gis module &mdash; pydsm 2026.6.23.dev2+gf90b360b3 documentation</title>
+  <title>pydsm.viz.dsm2gis module &mdash; pydsm 2026.6.23.dev3+ga658adda9 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=edfb96f7"></script>
+      <script src="_static/documentation_options.js?v=2cd567e6"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -221,7 +221,15 @@ default is 100 (feet, but depends if geojson file units are in feet or meters)</
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsm.viz.dsm2gis.read_stations">
 <span class="sig-prename descclassname"><span class="pre">pydsm.viz.dsm2gis.</span></span><span class="sig-name descname"><span class="pre">read_stations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/viz/dsm2gis.html#read_stations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.viz.dsm2gis.read_stations" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Read a stations CSV and return a UTM Zone 10N (EPSG:26910) GeoDataFrame.</p>
+<p>UTM coordinates (<code class="docutils literal notranslate"><span class="pre">x</span></code>/<code class="docutils literal notranslate"><span class="pre">y</span></code>, or <code class="docutils literal notranslate"><span class="pre">utm_easting</span></code>/<code class="docutils literal notranslate"><span class="pre">utm_northing</span></code> as
+written by <code class="docutils literal notranslate"><span class="pre">dsm2ui</span> <span class="pre">datastore</span> <span class="pre">extract</span> <span class="pre">--stations</span></code>) are generally more
+accurate than the accompanying lat/lon columns – station locations are
+often hand-verified/corrected in UTM without always re-deriving lat/lon.
+When both are present, UTM is used on a per-row basis; lat/lon is used as
+a fallback for rows where UTM is missing. Rows with neither a usable UTM
+nor lat/lon coordinate are dropped.</p>
+</dd></dl>
 
 </section>
 
