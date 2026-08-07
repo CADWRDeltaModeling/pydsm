@@ -1,0 +1,98 @@
+start_time: &start_time 2020-01-01 00:00:00 #global begining period of updating dsm2 input dss file
+end_time: &end_time 2026-01-01 00:00:00 #global end period of updating dsm2 input dss file
+flow_bc_dss: &flow_bc_dss Z:\dsm2_studies\timeseries\hist.dss #hist.dss in DSM2 timeseries folder
+
+sac:
+  start: *start_time #individual begining period of updating data
+  end: *end_time #individual end period of updating data
+  process_flow_file: //cnrastore-bdo/Modeling_Data/repo/continuous/processed/dms_sack_flow.csv
+  outfile: *flow_bc_dss
+  dss_path: //RSAC155/FLOW//// #specify the DSS path that can uniquely identify the time series in the DSS file
+
+vernalis:
+  start: *start_time #individual begining period of updating data
+  end: *end_time #individual end period of updating data
+  process_flow_file: //cnrastore-bdo/Modeling_Data/repo/continuous/processed/dms_vns_flow.csv
+  outfile: *flow_bc_dss
+  dss_path: //RSAN112/FLOW//// #specify the DSS path that can uniquely identify the time series in the DSS file
+
+calaveras:
+  start: *start_time #individual begining period of updating data
+  end: *end_time #individual end period of updating data
+  process_flow_file: //cnrastore-bdo/Modeling_Data/repo/continuous/processed/dms_calaveras_flow.csv
+  outfile: *flow_bc_dss
+  dss_path: //RCAL009/FLOW//// #specify the DSS path that can uniquely identify the time series in the DSS file
+
+consumnes:
+  start: *start_time #individual begining period of updating data
+  end: *end_time #individual end period of updating data
+  process_flow_file: //cnrastore-bdo/Modeling_Data/repo/continuous/processed/dms_consumnes_flow.csv
+  outfile: *flow_bc_dss
+  dss_path: //RCSM075/FLOW//// #specify the DSS path that can uniquely identify the time series in the DSS file
+
+
+moke:
+  start: *start_time #individual begining period of updating data
+  end: *end_time #individual end period of updating data
+  process_flow_file: //cnrastore-bdo/Modeling_Data/repo/continuous/processed/dms_moke_flow.csv
+  outfile: *flow_bc_dss
+  dss_path: //RMKL070/FLOW//// #specify the DSS path that can uniquely identify the time series in the DSS file
+
+
+north_bay:
+  start: *start_time #individual begining period of updating data
+  end: *end_time #individual end period of updating data
+  process_flow_file: //cnrastore-bdo/Modeling_Data/repo/continuous/processed/dms_bks_flow.csv
+  outfile: *flow_bc_dss
+  dss_path: //SLBAR002/FLOW-EXPORT//// #specify the DSS path that can uniquely identify the time series in the DSS file
+
+
+yolo_toe:
+  start: *start_time #individual begining period of updating data
+  end: *end_time #individual end period of updating data
+  process_flow_file: //cnrastore-bdo/Modeling_Data/repo/continuous/processed/dms_ytoe_flow.csv
+  outfile: *flow_bc_dss
+  dss_path: //YOLO_TOEDRAIN/FLOW//// #specify the DSS path that can uniquely identify the time series in the DSS file
+
+yolo:
+  start: *start_time #individual begining period of updating data
+  end: *end_time #individual end period of updating data
+  process_flow_file: //cnrastore-bdo/Modeling_Data/repo/continuous/processed/dms_yolo_flow.csv
+  outfile: *flow_bc_dss
+  dss_path: //BYOLO040/FLOW//// #specify the DSS path that can uniquely identify the time series in the DSS file
+
+ccc:
+  start: *start_time #individual begining period of updating data
+  end: *end_time #individual end period of updating data
+  process_flow_file: //cnrastore-bdo/Modeling_Data/repo/continuous/processed/dms_ccc_flow.csv
+  outfile: *flow_bc_dss
+  dss_path: //CHCCC006/FLOW-DIVERSION//// #specify the DSS path that can uniquely identify the time series in the DSS file
+
+
+ccc_old:
+  start: *start_time #individual begining period of updating data
+  end: *end_time #individual end period of updating data
+  process_flow_file: //cnrastore-bdo/Modeling_Data/repo/continuous/processed/dms_cccoldr_flow.csv
+  outfile: *flow_bc_dss
+  dss_path: //ROLD034/FLOW-EXPORT//// #specify the DSS path that can uniquely identify the time series in the DSS file
+
+ccw:
+  start: *start_time #individual begining period of updating data
+  end: *end_time #individual end period of updating data
+  process_flow_file: //cnrastore-bdo/Modeling_Data/repo/continuous/processed/dms_ccw_flow.csv
+  outfile: *flow_bc_dss
+  dss_path: //CHVCT001/FLOW-EXPORT//// #specify the DSS path that can uniquely identify the time series in the DSS file
+
+cvp:
+  start: *start_time #individual begining period of updating data
+  end: *end_time #individual end period of updating data
+  process_flow_file: //cnrastore-bdo/Modeling_Data/repo/continuous/processed/dms_cvp_flow.csv
+  outfile: *flow_bc_dss
+  dss_path: //CHDMC004/FLOW-EXPORT//// #specify the DSS path that can uniquely identify the time series in the DSS file
+
+swp:
+  start: *start_time #individual begining period of updating data
+  end: *end_time #individual end period of updating data
+  process_flow_file: //cnrastore-bdo/Modeling_Data/repo/continuous/processed/dms_swp_flow.csv
+  outfile: *flow_bc_dss
+  dss_path: //CHSWP003/FLOW-EXPORT//// #specify the DSS path that can uniquely identify the time series in the DSS file
