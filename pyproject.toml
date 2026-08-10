@@ -36,6 +36,7 @@ dynamic = ["version"]
 [project.scripts]
 pydsm = "pydsm.cli:main"
 update-dsm2-flow-dss = "pydsm.dsm2_datastore.update_dsm2_flow_dss:main"
+update-ccf = "pydsm.dsm2_datastore.update_ccf:main"
 
 [project.urls]
 Homepage = "https://github.com/CADWRDeltaModeling/pydsm"
