@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.analysis.dsm2study module &mdash; pydsm 2026.6.23.dev4+gbe8e2abad documentation</title>
+  <title>pydsm.analysis.dsm2study module &mdash; pydsm 2026.6.23.dev5+g7bee1c10d documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=7200311d"></script>
+      <script src="_static/documentation_options.js?v=e838c6c9"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -177,8 +177,261 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="pydsm-analysis-dsm2study-module">
-<h1>pydsm.analysis.dsm2study module<a class="headerlink" href="#pydsm-analysis-dsm2study-module" title="Link to this heading"></a></h1>
+  <section id="module-pydsm.analysis.dsm2study">
+<span id="pydsm-analysis-dsm2study-module"></span><h1>pydsm.analysis.dsm2study module<a class="headerlink" href="#module-pydsm.analysis.dsm2study" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.DSM2Study">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dsm2study.</span></span><span class="sig-name descname"><span class="pre">DSM2Study</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">echo_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#DSM2Study"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.DSM2Study" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.DSM2Study.get_inflows_outflows">
+<span class="sig-name descname"><span class="pre">get_inflows_outflows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodeid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timewindow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#DSM2Study.get_inflows_outflows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.DSM2Study.get_inflows_outflows" title="Link to this definition"></a></dt>
+<dd><p>For the node id, get the in flows (upstream channels) and out flows (downstream channels)</p>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>nodeid<span class="classifier">int</span></dt><dd><p>The node id</p>
+</dd>
+<dt>timewindow<span class="classifier">str</span></dt><dd><p>timewindow string as two times separted by “-”, e.g. 01JAN2000 - 05APR2001</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>tuple of arrays</dt><dd><p>a tuple of 2 arrays i.e. inflows, outflows</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.DSM2Study.get_net_source_flow">
+<span class="sig-name descname"><span class="pre">get_net_source_flow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodeid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#DSM2Study.get_net_source_flow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.DSM2Study.get_net_source_flow" title="Link to this definition"></a></dt>
+<dd><p>uses the sign information from source flow table to addup the net source/sink value</p>
+<section id="id1">
+<h2>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>nodeid<span class="classifier">int</span></dt><dd><p>node id</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h2>Returns<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>pandas DataFrame</dt><dd><p>net source flow time series</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.DSM2Study.get_output_channels">
+<span class="sig-name descname"><span class="pre">get_output_channels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#DSM2Study.get_output_channels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.DSM2Study.get_output_channels" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.DSM2Study.get_runtime">
+<span class="sig-name descname"><span class="pre">get_runtime</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#DSM2Study.get_runtime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.DSM2Study.get_runtime" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.DSM2Study.get_source_flows">
+<span class="sig-name descname"><span class="pre">get_source_flows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodeid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#DSM2Study.get_source_flows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.DSM2Study.get_source_flows" title="Link to this definition"></a></dt>
+<dd><p>get source flows</p>
+<section id="id3">
+<h2>Parameters<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>nodeid<span class="classifier">int</span></dt><dd><p>node id</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h2>Returns<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>array of pandas dataframes</dt><dd><p>array of source flow time series for the node typically diversion, return, seepage</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.DSM2Study.load_channelline_shapefile">
+<span class="sig-name descname"><span class="pre">load_channelline_shapefile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel_shapefile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#DSM2Study.load_channelline_shapefile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.DSM2Study.load_channelline_shapefile" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.DSM2TimeSeriesReference">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dsm2study.</span></span><span class="sig-name descname"><span class="pre">DSM2TimeSeriesReference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sign</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fillin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'last'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#DSM2TimeSeriesReference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.DSM2TimeSeriesReference" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents one row of a DSM2 time-series input table backed by a HEC-DSS file.</p>
+<p>Every DSM2 input table that drives time-varying boundary conditions (e.g.
+BOUNDARY_FLOW, SOURCE_FLOW, OPRULE_TIME_SERIES) has at least FILE and PATH
+columns.  This class wraps those columns together with the optional SIGN
+(+1/-1 multiplier) and FILLIN (interpolation hint) fields so that the raw
+data can be retrieved as a pandas Series via <a class="reference internal" href="#pydsm.analysis.dsm2study.DSM2TimeSeriesReference.get_data" title="pydsm.analysis.dsm2study.DSM2TimeSeriesReference.get_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_data()</span></code></a>.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">file</span></code> is the keyword <code class="docutils literal notranslate"><span class="pre">&quot;constant&quot;</span></code> (case-insensitive), <code class="docutils literal notranslate"><span class="pre">path</span></code>
+holds the numeric constant value and <a class="reference internal" href="#pydsm.analysis.dsm2study.DSM2TimeSeriesReference.get_data" title="pydsm.analysis.dsm2study.DSM2TimeSeriesReference.get_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_data()</span></code></a> returns a float
+instead of a time series.</p>
+<section id="id5">
+<h2>Parameters<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>name<span class="classifier">str</span></dt><dd><p>Identifier—usually the NAME (or compound GATE_NAME/DEVICE/VARIABLE)
+column value from the parsed input table.</p>
+</dd>
+<dt>file<span class="classifier">str</span></dt><dd><p>Absolute path to the HEC-DSS file, or the literal string <code class="docutils literal notranslate"><span class="pre">&quot;constant&quot;</span></code>.</p>
+</dd>
+<dt>path<span class="classifier">str</span></dt><dd><p>DSS pathname (<code class="docutils literal notranslate"><span class="pre">/A/B/C//E/F/</span></code>) or the numeric value when <em>file</em> is
+<code class="docutils literal notranslate"><span class="pre">&quot;constant&quot;</span></code>.</p>
+</dd>
+<dt>sign<span class="classifier">float, optional</span></dt><dd><p>Multiplier applied to the loaded series (default <code class="docutils literal notranslate"><span class="pre">1.0</span></code>).  Use
+<code class="docutils literal notranslate"><span class="pre">-1.0</span></code> for diversions/exports whose measured values are positive but
+represent sinks.</p>
+</dd>
+<dt>fillin<span class="classifier">str, optional</span></dt><dd><p>DSM2 fill-in strategy (<code class="docutils literal notranslate"><span class="pre">&quot;last&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;interp&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;none&quot;</span></code>).
+Informational only—pydsm does not apply fill-in logic itself.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.DSM2TimeSeriesReference.get_data">
+<span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timewindow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#DSM2TimeSeriesReference.get_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.DSM2TimeSeriesReference.get_data" title="Link to this definition"></a></dt>
+<dd><p>Retrieve the time series as a pandas Series.</p>
+<p>For <code class="docutils literal notranslate"><span class="pre">constant</span></code> entries a plain float is returned (the constant value
+multiplied by <em>sign</em>).</p>
+<section id="id6">
+<h3>Parameters<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>timewindow<span class="classifier">str, optional</span></dt><dd><p>Time window string in DSM2 format, e.g.
+<code class="docutils literal notranslate"><span class="pre">&quot;01JAN2020</span> <span class="pre">0000</span> <span class="pre">-</span> <span class="pre">01JAN2024</span> <span class="pre">0000&quot;</span></code>.  When provided the returned
+series is sliced to this window after loading.  Ignored for
+constant entries.</p>
+</dd>
+</dl>
+</section>
+<section id="id7">
+<h3>Returns<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>pandas.Series or float</dt><dd><p>Raw DSS data multiplied by <code class="xref py py-attr docutils literal notranslate"><span class="pre">sign</span></code>.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.DSM2TimeSeriesReference.is_constant">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">is_constant</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pydsm.analysis.dsm2study.DSM2TimeSeriesReference.is_constant" title="Link to this definition"></a></dt>
+<dd><p>True when this entry uses the <code class="docutils literal notranslate"><span class="pre">constant</span></code> keyword in place of a DSS file.</p>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.abs_path">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dsm2study.</span></span><span class="sig-name descname"><span class="pre">abs_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hydro_echo_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">study_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'../'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#abs_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.abs_path" title="Link to this definition"></a></dt>
+<dd><p>builds absolute path to file using the path to the hydro_echo_file and the study_dir
+Assumes the default study directory to be one above the location of the hydro_echo_file</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.get_data_for_source">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dsm2study.</span></span><span class="sig-name descname"><span class="pre">get_data_for_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#get_data_for_source"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.get_data_for_source" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.get_hydro_tidefile">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dsm2study.</span></span><span class="sig-name descname"><span class="pre">get_hydro_tidefile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tables</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#get_hydro_tidefile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.get_hydro_tidefile" title="Link to this definition"></a></dt>
+<dd><p>Get the hydro tidefile from the IO_FILE table in all tables list loaded by load_echo_file</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.get_in_out_channel_numbers">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dsm2study.</span></span><span class="sig-name descname"><span class="pre">get_in_out_channel_numbers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodeid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#get_in_out_channel_numbers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.get_in_out_channel_numbers" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.get_in_out_edges">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dsm2study.</span></span><span class="sig-name descname"><span class="pre">get_in_out_edges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodeid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#get_in_out_edges"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.get_in_out_edges" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.get_inflows_outflow">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dsm2study.</span></span><span class="sig-name descname"><span class="pre">get_inflows_outflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hydro</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timewindow</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#get_inflows_outflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.get_inflows_outflow" title="Link to this definition"></a></dt>
+<dd><p>get the inflows and outflows corresponding to the list of channels for the given timewindow
+The in_channels and out_channels are assumed to be related by being in channel</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.get_location_on_channel_line">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dsm2study.</span></span><span class="sig-name descname"><span class="pre">get_location_on_channel_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dsm2_chan_lines</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#get_location_on_channel_line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.get_location_on_channel_line" title="Link to this definition"></a></dt>
+<dd><p>Returns a point on the channel line at the specified distance.</p>
+<section id="id8">
+<h2>Parameters<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>channel_id<span class="classifier">int</span></dt><dd><p>The channel ID to find</p>
+</dd>
+<dt>distance<span class="classifier">float or str</span></dt><dd><p>Either a numeric distance or “LENGTH” for the full channel length</p>
+</dd>
+<dt>dsm2_chan_lines<span class="classifier">GeoDataFrame</span></dt><dd><p>GeoDataFrame with channel geometries</p>
+</dd>
+</dl>
+</section>
+<section id="id9">
+<h2>Returns<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>shapely.geometry.Point</dt><dd><p>Point on the channel line at specified distance, or Point(nan, nan) if not found</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.get_runtime">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dsm2study.</span></span><span class="sig-name descname"><span class="pre">get_runtime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tables</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#get_runtime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.get_runtime" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.join_channels_info_with_dsm2_channel_line">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dsm2study.</span></span><span class="sig-name descname"><span class="pre">join_channels_info_with_dsm2_channel_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dsm2_chan_lines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geo_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'id'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#join_channels_info_with_dsm2_channel_line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.join_channels_info_with_dsm2_channel_line" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.join_channels_info_with_shapefile">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dsm2study.</span></span><span class="sig-name descname"><span class="pre">join_channels_info_with_shapefile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dsm2_chans</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geo_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'id'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#join_channels_info_with_shapefile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.join_channels_info_with_shapefile" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.load_dsm2_channelline_shapefile">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dsm2study.</span></span><span class="sig-name descname"><span class="pre">load_dsm2_channelline_shapefile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel_shapefile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#load_dsm2_channelline_shapefile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.load_dsm2_channelline_shapefile" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.load_dsm2_flowline_shapefile">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dsm2study.</span></span><span class="sig-name descname"><span class="pre">load_dsm2_flowline_shapefile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shapefile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#load_dsm2_flowline_shapefile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.load_dsm2_flowline_shapefile" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.load_dsm2_node_shapefile">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dsm2study.</span></span><span class="sig-name descname"><span class="pre">load_dsm2_node_shapefile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_shapefile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#load_dsm2_node_shapefile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.load_dsm2_node_shapefile" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.load_echo_file">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dsm2study.</span></span><span class="sig-name descname"><span class="pre">load_echo_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#load_echo_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.load_echo_file" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.parse_military_date">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dsm2study.</span></span><span class="sig-name descname"><span class="pre">parse_military_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#parse_military_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.parse_military_date" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2study.to_node_tuple_map">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dsm2study.</span></span><span class="sig-name descname"><span class="pre">to_node_tuple_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2study.html#to_node_tuple_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2study.to_node_tuple_map" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </section>
 
 

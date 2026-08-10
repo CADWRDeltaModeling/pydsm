@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.analysis.dsm2_utilities module &mdash; pydsm 2026.6.23.dev4+gbe8e2abad documentation</title>
+  <title>pydsm.analysis.dsm2_utilities module &mdash; pydsm 2026.6.23.dev5+g7bee1c10d documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=7200311d"></script>
+      <script src="_static/documentation_options.js?v=e838c6c9"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -177,8 +177,60 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="pydsm-analysis-dsm2-utilities-module">
-<h1>pydsm.analysis.dsm2_utilities module<a class="headerlink" href="#pydsm-analysis-dsm2-utilities-module" title="Link to this heading"></a></h1>
+  <section id="module-pydsm.analysis.dsm2_utilities">
+<span id="pydsm-analysis-dsm2-utilities-module"></span><h1>pydsm.analysis.dsm2_utilities module<a class="headerlink" href="#module-pydsm.analysis.dsm2_utilities" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2_utilities.calc_dcu">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dsm2_utilities.</span></span><span class="sig-name descname"><span class="pre">calc_dcu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dcd_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_outfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2_utilities.html#calc_dcu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2_utilities.calc_dcu" title="Link to this definition"></a></dt>
+<dd><p>calculate Delta Consumptive Use from DICULFILE inputs from DSM2 setup</p>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
+<p>dcd_filename: str | Path</p>
+<blockquote>
+<div><p>name of boundary flow DSM2 input file in DSS format</p>
+</div></blockquote>
+<p>write_outfile: str | Path | None</p>
+<blockquote>
+<div><p>name of output file to write Net Delta Ouflow (df_ndo) out to</p>
+</div></blockquote>
+</section>
+<section id="returns">
+<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>cu_total_dcd<span class="classifier">pd.DataFrame</span></dt><dd><p>Data with calculation of Delta Consumptive Use from boundary inputs</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dsm2_utilities.calc_ndo">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dsm2_utilities.</span></span><span class="sig-name descname"><span class="pre">calc_ndo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flow_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dcd_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_outfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dsm2_utilities.html#calc_ndo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dsm2_utilities.calc_ndo" title="Link to this definition"></a></dt>
+<dd><p>calculate Net Delta Outflow using the BNDRYINPUT and DICULFILE inputs from DSM2 setup</p>
+<section id="id1">
+<h2>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>flow_filename: str | Path</p>
+<blockquote>
+<div><p>name of boundary flow DSM2 input file in DSS format</p>
+</div></blockquote>
+<p>dcd_filename: str | Path</p>
+<blockquote>
+<div><p>name of boundary flow DSM2 input file in DSS format</p>
+</div></blockquote>
+<p>write_outfile: str | Path | None</p>
+<blockquote>
+<div><p>name of output file to write Net Delta Ouflow (df_ndo) out to</p>
+</div></blockquote>
+</section>
+<section id="id2">
+<h2>Returns<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>df_ndo<span class="classifier">pd.DataFrame</span></dt><dd><p>Data with calculation of Net Delta Outflow from boundary inputs</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
 </section>
 
 

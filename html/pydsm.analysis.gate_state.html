@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.analysis.gate_state module &mdash; pydsm 2026.6.23.dev4+gbe8e2abad documentation</title>
+  <title>pydsm.analysis.gate_state module &mdash; pydsm 2026.6.23.dev5+g7bee1c10d documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=7200311d"></script>
+      <script src="_static/documentation_options.js?v=e838c6c9"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -177,8 +177,119 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="pydsm-analysis-gate-state-module">
-<h1>pydsm.analysis.gate_state module<a class="headerlink" href="#pydsm-analysis-gate-state-module" title="Link to this heading"></a></h1>
+  <section id="module-pydsm.analysis.gate_state">
+<span id="pydsm-analysis-gate-state-module"></span><h1>pydsm.analysis.gate_state module<a class="headerlink" href="#module-pydsm.analysis.gate_state" title="Link to this heading"></a></h1>
+<p>Evaluate DSM2 OPERATING_RULE triggers and actions over a run period,
+returning a time-indexed long-format DataFrame of gate states.</p>
+<section id="public-api">
+<h2>Public API<a class="headerlink" href="#public-api" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>get_gate_devices(tables) -&gt; pd.DataFrame</dt><dd><p>Structural information: GATE + GATE_WEIR_DEVICE + GATE_PIPE_DEVICE joined.</p>
+</dd>
+<dt>get_gate_state(echo_file, start, end, interval, hydro_file) -&gt; pd.DataFrame</dt><dd><p>Long-format DataFrame with columns:
+gate_name, device, variable, direction, value
+and a DatetimeIndex at the requested interval.</p>
+</dd>
+</dl>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.gate_state.get_gate_devices">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.gate_state.</span></span><span class="sig-name descname"><span class="pre">get_gate_devices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/pydsm/analysis/gate_state.html#get_gate_devices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.gate_state.get_gate_devices" title="Link to this definition"></a></dt>
+<dd><p>Return a combined DataFrame of all gate devices (weir + pipe) joined with GATE.</p>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>tables<span class="classifier">dict[str, pd.DataFrame]</span></dt><dd><p>Parsed DSM2 tables from <a class="reference internal" href="pydsm.input.parser.html#pydsm.input.parser.read_input" title="pydsm.input.parser.read_input"><code class="xref py py-func docutils literal notranslate"><span class="pre">pydsm.input.parser.read_input()</span></code></a>.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>pd.DataFrame</dt><dd><p>Columns include GATE_NAME, DEVICE, device_type, DEFAULT_OP plus
+FROM_OBJ, FROM_IDENTIFIER, TO_NODE from the GATE table.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.gate_state.get_gate_state">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.gate_state.</span></span><span class="sig-name descname"><span class="pre">get_gate_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">echo_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'1h'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hydro_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">720</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/gate_state.html#get_gate_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.gate_state.get_gate_state" title="Link to this definition"></a></dt>
+<dd><p>Evaluate DSM2 OPERATING_RULE triggers and actions over the run period.</p>
+<p>Processes the time window in <em>chunk_size</em> steps to bound memory use.
+State (gate_op, gate_install, …) is carried across chunk boundaries so
+the result is identical to a single-pass evaluation.</p>
+<section id="id1">
+<h2>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>echo_file<span class="classifier">str</span></dt><dd><p>Path to the DSM2 hydro echo (<code class="docutils literal notranslate"><span class="pre">.inp</span></code>) file.</p>
+</dd>
+<dt>start<span class="classifier">datetime | None</span></dt><dd><p>Start of the evaluation period.  Defaults to <code class="docutils literal notranslate"><span class="pre">run_start_date</span></code> from
+the SCALAR table.</p>
+</dd>
+<dt>end<span class="classifier">datetime | None</span></dt><dd><p>End of the evaluation period.  Defaults to <code class="docutils literal notranslate"><span class="pre">run_end_date</span></code> from the
+SCALAR table.</p>
+</dd>
+<dt>interval<span class="classifier">str, optional</span></dt><dd><p>pandas frequency string for the output time index.  Default <code class="docutils literal notranslate"><span class="pre">&quot;1h&quot;</span></code>.</p>
+</dd>
+<dt>hydro_file<span class="classifier">str | None</span></dt><dd><p>Path to the DSM2 hydro HDF5 tidefile.  Required when any
+OPERATING_RULE trigger involves <code class="docutils literal notranslate"><span class="pre">chan_stage</span></code> or <code class="docutils literal notranslate"><span class="pre">chan_vel</span></code>.</p>
+</dd>
+<dt>chunk_size<span class="classifier">int, optional</span></dt><dd><p>Number of time-steps per processing chunk.  Default 720 (≈30 days at
+1-hour resolution).  Larger values use more memory; smaller values
+reduce peak memory at the cost of slightly more overhead.</p>
+</dd>
+<dt>output_file<span class="classifier">str | None</span></dt><dd><p>When provided, each chunk is appended to this HDF5 file at key
+<code class="docutils literal notranslate"><span class="pre">/gate_state</span></code> using pandas table format, then freed from memory.
+The function returns <code class="docutils literal notranslate"><span class="pre">None</span></code> in this case.  When <code class="docutils literal notranslate"><span class="pre">None</span></code> all chunks
+are concatenated in memory and the full DataFrame is returned.</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h2>Returns<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>pd.DataFrame or None</dt><dd><p>Long-format DataFrame with a DatetimeIndex (name=``”timestamp”<code class="docutils literal notranslate"><span class="pre">)</span> <span class="pre">and</span>
+<span class="pre">columns</span> <span class="pre">``gate_name</span></code>, <code class="docutils literal notranslate"><span class="pre">device</span></code>, <code class="docutils literal notranslate"><span class="pre">variable</span></code>, <code class="docutils literal notranslate"><span class="pre">direction</span></code>,
+<code class="docutils literal notranslate"><span class="pre">value</span></code>.  Returns <code class="docutils literal notranslate"><span class="pre">None</span></code> when <em>output_file</em> is supplied.</p>
+</dd>
+</dl>
+</section>
+<section id="raises">
+<h2>Raises<a class="headerlink" href="#raises" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>ValueError</dt><dd><p>If any trigger requires HDF5 data and <em>hydro_file</em> is not provided.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.gate_state.read_gate_state_hdf5">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.gate_state.</span></span><span class="sig-name descname"><span class="pre">read_gate_state_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/pydsm/analysis/gate_state.html#read_gate_state_hdf5"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.gate_state.read_gate_state_hdf5" title="Link to this definition"></a></dt>
+<dd><p>Read a wide-format gate_state HDF5 file back into a long-format DataFrame.</p>
+<p>This is the inverse of the wide-format writer in <a class="reference internal" href="#pydsm.analysis.gate_state.get_gate_state" title="pydsm.analysis.gate_state.get_gate_state"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_gate_state()</span></code></a>.
+Each dataset under <code class="docutils literal notranslate"><span class="pre">/gate_state</span></code> has shape <code class="docutils literal notranslate"><span class="pre">(n_timesteps,</span> <span class="pre">n_gates)</span></code>
+and attrs <code class="docutils literal notranslate"><span class="pre">gate_names</span></code>, <code class="docutils literal notranslate"><span class="pre">start_time</span></code>, <code class="docutils literal notranslate"><span class="pre">interval</span></code>.</p>
+<section id="id3">
+<h2>Parameters<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>path<span class="classifier">str</span></dt><dd><p>Path to the gate_state HDF5 file produced by <a class="reference internal" href="#pydsm.analysis.gate_state.get_gate_state" title="pydsm.analysis.gate_state.get_gate_state"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_gate_state()</span></code></a>.</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h2>Returns<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>pd.DataFrame</dt><dd><p>Long-format DataFrame with DatetimeIndex (name=``”timestamp”<code class="docutils literal notranslate"><span class="pre">)</span> <span class="pre">and</span>
+<span class="pre">columns</span> <span class="pre">``gate_name</span></code>, <code class="docutils literal notranslate"><span class="pre">device</span></code>, <code class="docutils literal notranslate"><span class="pre">variable</span></code>, <code class="docutils literal notranslate"><span class="pre">direction</span></code>,
+<code class="docutils literal notranslate"><span class="pre">value</span></code>.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
 </section>
 
 

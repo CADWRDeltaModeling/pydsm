@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.analysis.dssutils module &mdash; pydsm 2026.6.23.dev4+gbe8e2abad documentation</title>
+  <title>pydsm.analysis.dssutils module &mdash; pydsm 2026.6.23.dev5+g7bee1c10d documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=7200311d"></script>
+      <script src="_static/documentation_options.js?v=e838c6c9"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -177,8 +177,70 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="pydsm-analysis-dssutils-module">
-<h1>pydsm.analysis.dssutils module<a class="headerlink" href="#pydsm-analysis-dssutils-module" title="Link to this heading"></a></h1>
+  <section id="module-pydsm.analysis.dssutils">
+<span id="pydsm-analysis-dssutils-module"></span><h1>pydsm.analysis.dssutils module<a class="headerlink" href="#module-pydsm.analysis.dssutils" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dssutils.compare_dss">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dssutils.</span></span><span class="sig-name descname"><span class="pre">compare_dss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dssfile1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dssfile2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold_metric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rmse'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cpart</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">godin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metricsfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'compare_dss_metrics_diff.csv'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold_plots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dssutils.html#compare_dss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dssutils.compare_dss" title="Link to this definition"></a></dt>
+<dd><p>Compares the dss files for common pathnames (B and C parts) and writes out various metrics to file
+Filtering for matching c parts
+and compare values with tolerance (default of 3 digits)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dssutils.copy_all">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dssutils.</span></span><span class="sig-name descname"><span class="pre">copy_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dssutils.html#copy_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dssutils.copy_all" title="Link to this definition"></a></dt>
+<dd><p>Copy all pathnames from one DSS file to another</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dssutils.csv_to_dss">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dssutils.</span></span><span class="sig-name descname"><span class="pre">csv_to_dss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csv_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dss_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apart</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'A'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cpart</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'C'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fpart</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'F'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UNK'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'INST-VAL'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiplier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resample_to</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'15min'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dssutils.html#csv_to_dss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dssutils.csv_to_dss" title="Link to this definition"></a></dt>
+<dd><p>Convert a CSV file to a DSS file.</p>
+<p>Column names in the CSV header are used as the B-part of each DSS path.
+The index column (default 0) is parsed as the datetime index.
+D and E parts are inferred from the time series.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dssutils.do_catalog_with_lock">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dssutils.</span></span><span class="sig-name descname"><span class="pre">do_catalog_with_lock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dssfile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dssutils.html#do_catalog_with_lock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dssutils.do_catalog_with_lock" title="Link to this definition"></a></dt>
+<dd><p>Does catalog by first acquiring system wide lock on lockfile.</p>
+<p>This is because HEC-DSS version 6 uses a single temporary catalog file across any process that is attempting a catalog on a DSS File</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dssutils.extract_dss">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dssutils.</span></span><span class="sig-name descname"><span class="pre">extract_dss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dssfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cpart</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">godin_filter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">daily_average</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">daily_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">daily_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monthly_average</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dssutils.html#extract_dss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dssutils.extract_dss" title="Link to this definition"></a></dt>
+<dd><p>Extract data from DSS file, optionally filtering it and writing to a pickle for quick future loads</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.analysis.dssutils.get_dss_data">
+<span class="sig-prename descclassname"><span class="pre">pydsm.analysis.dssutils.</span></span><span class="sig-name descname"><span class="pre">get_dss_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">primary_pathname_part_dss_filename_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">primary_pathname_part</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">primary_part_c_part_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">primary_part_e_part_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">primary_part_f_part_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">daily_avg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_b_part_numeric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/analysis/dssutils.html#get_dss_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.analysis.dssutils.get_dss_data" title="Link to this definition"></a></dt>
+<dd><p>Read each dss time series from specified b part, c part, e part, and filename, and return a
+dataframe containing all time series as individual columns.</p>
+<dl>
+<dt>primary_pathname_part (str):</dt><dd><p>The ‘primary pathname part’ is the pathname part for which we will be extracting one or more
+time series. For example:
+1) if we want data for a specific list of stations, then ‘b_part’ will</p>
+<blockquote>
+<div><p>be the primary pathname part.</p>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>If we want all div-flow, seep-flow, or drain-flow data, then ‘c_part’ will be the primary
+pathname part.</p></li>
+</ol>
+</dd>
+</dl>
+<p>primary_pathname_part_dss_filename_dict (dict): key=primary part value, value=DSS filename
+primary_part_c_part_dict (dict): key=primary part, value=c_part to use for filtering
+primary_part_e_part_dict (dict): key=primary part, value=e_part to use for filtering
+primary_part_f_part_dict (dict): key=primary part, value=f_part to use for filtering
+daily_avg (bool, optional): if true and data are not daily, only daily averaged data will be returned
+filter_b_part_numeric (bool, optional): if true, remove any columns for which b part in dss path header is not numeric</p>
+</dd></dl>
+
 </section>
 
 

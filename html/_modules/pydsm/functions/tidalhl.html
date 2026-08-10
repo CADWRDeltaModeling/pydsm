@@ -1,0 +1,559 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pydsm.functions.tidalhl &mdash; pydsm 2026.6.23.dev5+g7bee1c10d documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=e838c6c9"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pydsm
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">pydsm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#conda-recommended">Conda (recommended)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#pip">pip</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#credits">Credits</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#stable-release">Stable release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#known-issues">Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#from-sources">From sources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../usage.html#command-line">Command Line</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#compare-dss">Compare DSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#extract-dss">Extract DSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#ptm-animate">PTM Animate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#dsm2-diff">DSM2 Diff</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../usage.html#slice-hydro">Slice Hydro</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">pydsm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../pydsm.html">pydsm package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../pydsm.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pydsm.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pydsm.html#module-pydsm">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/notebooks.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../notebooks/dsm2.html">DSM2 Input/Output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_input.html">Reading/writing echo files into/from Pandas DataFrame</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_input.html#Visualizing-input-data">Visualizing input data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_input.html#Writing-input-to-file">Writing input to file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_hydro_h5.html">Reading hydro h5 output files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_read_qual_h5.html">Reading Qual h5 output</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html">DSM2 as a network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Read-in-input-file">Read in input file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Convert-to-a-graph-network">Convert to a graph network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Drawing-graph-networks">Drawing graph networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/dsm2_input_network.html#Utilizing-graph-information">Utilizing graph information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html">Time stamps, Periods HEC convention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html#Time-formats-(standards-and-military-conventions)">Time formats (standards and military conventions)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html#Period-and-Instantaneous-data-types">Period and Instantaneous data types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../notebooks/timestamps_periods_hec_conventions.html#Period-operations">Period operations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#deploying">Deploying</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../authors.html#development-lead">Development Lead</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../authors.html#contributors">Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#unreleased-since-2025-07-29">Unreleased (since 2025.07.29)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">2021.12.13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id2">2021.11.14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#x-2020-12-24">0.3.x (2020-12-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id3">0.2.7 (2020-12-01)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id4">0.2.6 (2020-10-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id5">0.2.5 (2020-04-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id6">0.2.4 (2020-04-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id7">0.2.3 (2020-04-05)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id8">0.2.0 (2020-03-17)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id9">0.1.9 (2019-11-11)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id10">0.1.8 (2019-10-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id11">0.1.7 (2019-09-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id12">0.1.6 (2019-09-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id13">0.1.5 (2019-09-19)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id14">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id15">0.1.4 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id16">0.1.0 (2019-08-21)</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pydsm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pydsm.functions.tidalhl</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pydsm.functions.tidalhl</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numba</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">vtools.functions.filter</span><span class="w"> </span><span class="kn">import</span> <span class="n">cosine_lanczos</span>
+
+
+<div class="viewcode-block" id="get_smoothed_resampled">
+<a class="viewcode-back" href="../../../pydsm.functions.tidalhl.html#pydsm.functions.tidalhl.get_smoothed_resampled">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_smoothed_resampled</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span> <span class="n">cutoff_period</span><span class="o">=</span><span class="s2">&quot;2h&quot;</span><span class="p">,</span> <span class="n">resample_period</span><span class="o">=</span><span class="s2">&quot;1min&quot;</span><span class="p">,</span> <span class="n">interpolate_method</span><span class="o">=</span><span class="s2">&quot;pchip&quot;</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resample the dataframe (indexed by time) to the regular period of resample_period using the interpolate method</span>
+
+<span class="sd">    Furthermore the cosine lanczos filter is used with a cutoff_period to smooth the signal to remove high frequency noise</span>
+
+<span class="sd">    Args:</span>
+
+<span class="sd">        df (DataFrame): A single column dataframe indexed by datetime</span>
+
+<span class="sd">        cutoff_period (str, optional): cutoff period for cosine lanczos filter. Defaults to &#39;2h&#39;.</span>
+
+<span class="sd">        resample_period (str, optional): Resample to regular period. Defaults to &#39;1min&#39;.</span>
+
+<span class="sd">        interpolate_method (str, optional): interpolation for resampling. Defaults to &#39;pchip&#39;.</span>
+
+<span class="sd">    Returns:</span>
+
+<span class="sd">        DataFrame: smoothed and resampled dataframe indexed by datetime</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dfb</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">resample_period</span><span class="p">)</span><span class="o">.</span><span class="n">bfill</span><span class="p">()</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">resample_period</span><span class="p">)</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">interpolate_method</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">dfb</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">return</span> <span class="n">cosine_lanczos</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">cutoff_period</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="lmax">
+<a class="viewcode-back" href="../../../pydsm.functions.tidalhl.html#pydsm.functions.tidalhl.lmax">[docs]</a>
+<span class="nd">@numba</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">lmax</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Local maximum: Returns value only when centered on maximum&quot;&quot;&quot;</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">arr</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span></div>
+
+
+
+<div class="viewcode-block" id="lmin">
+<a class="viewcode-back" href="../../../pydsm.functions.tidalhl.html#pydsm.functions.tidalhl.lmin">[docs]</a>
+<span class="nd">@numba</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">lmin</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Local minimum: Returns value only when centered on minimum&quot;&quot;&quot;</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">arr</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span></div>
+
+
+
+<div class="viewcode-block" id="periods_per_window">
+<a class="viewcode-back" href="../../../pydsm.functions.tidalhl.html#pydsm.functions.tidalhl.periods_per_window">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">periods_per_window</span><span class="p">(</span><span class="n">moving_window_size</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">period_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Number of period size in moving window</span>
+
+<span class="sd">    Args:</span>
+
+<span class="sd">        moving_window_size (str): moving window size as a string e.g 7H for 7 hour</span>
+
+<span class="sd">        period_str (str): period as str e.g. 1T for 1 min</span>
+
+<span class="sd">    Returns:</span>
+
+<span class="sd">        int: number of periods in the moving window rounded to an integer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span>
+        <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">moving_window_size</span><span class="p">)</span>
+        <span class="o">/</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">tseries</span><span class="o">.</span><span class="n">frequencies</span><span class="o">.</span><span class="n">to_offset</span><span class="p">(</span><span class="n">period_str</span><span class="p">))</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="tidal_highs">
+<a class="viewcode-back" href="../../../pydsm.functions.tidalhl.html#pydsm.functions.tidalhl.tidal_highs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">tidal_highs</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">moving_window_size</span><span class="o">=</span><span class="s2">&quot;7h&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tidal highs (could be upto two highs in a 25 hr period)</span>
+
+<span class="sd">    Args:</span>
+
+<span class="sd">        df (DataFrame): a time series with a regular frequency</span>
+
+<span class="sd">        moving_window_size (str, optional): moving window size to look for highs within. Defaults to &#39;7h&#39;.</span>
+
+<span class="sd">    Returns:</span>
+
+<span class="sd">        DataFrame: an irregular time series with highs at resolution of df.index</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">period_str</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">freqstr</span>
+    <span class="n">periods</span> <span class="o">=</span> <span class="n">periods_per_window</span><span class="p">(</span><span class="n">moving_window_size</span><span class="p">,</span> <span class="n">period_str</span><span class="p">)</span>
+    <span class="n">dfmax</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">moving_window_size</span><span class="p">,</span> <span class="n">min_periods</span><span class="o">=</span><span class="n">periods</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">lmax</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">dfmax</span> <span class="o">=</span> <span class="n">dfmax</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">periods</span><span class="o">=-</span><span class="p">(</span><span class="n">periods</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">dfmax</span> <span class="o">=</span> <span class="n">dfmax</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+    <span class="n">dfmax</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">dfmax</span></div>
+
+
+
+<div class="viewcode-block" id="tidal_lows">
+<a class="viewcode-back" href="../../../pydsm.functions.tidalhl.html#pydsm.functions.tidalhl.tidal_lows">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">tidal_lows</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">moving_window_size</span><span class="o">=</span><span class="s2">&quot;7h&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tidal lows (could be upto two lows in a 25 hr period)</span>
+
+<span class="sd">    Args:</span>
+
+<span class="sd">        df (DataFrame): a time series with a regular frequency</span>
+
+<span class="sd">        moving_window_size (str, optional): moving window size to look for lows within. Defaults to &#39;7h&#39;.</span>
+
+<span class="sd">    Returns:</span>
+
+<span class="sd">        DataFrame: an irregular time series with lows at resolution of df.index</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">period_str</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">freqstr</span>
+    <span class="n">periods</span> <span class="o">=</span> <span class="n">periods_per_window</span><span class="p">(</span><span class="n">moving_window_size</span><span class="p">,</span> <span class="n">period_str</span><span class="p">)</span>
+    <span class="n">dfmin</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">moving_window_size</span><span class="p">,</span> <span class="n">min_periods</span><span class="o">=</span><span class="n">periods</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">lmin</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">dfmin</span> <span class="o">=</span> <span class="n">dfmin</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">periods</span><span class="o">=-</span><span class="p">(</span><span class="n">periods</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">dfmin</span> <span class="o">=</span> <span class="n">dfmin</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+    <span class="n">dfmin</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;min&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">dfmin</span></div>
+
+
+
+<div class="viewcode-block" id="get_tidal_hl">
+<a class="viewcode-back" href="../../../pydsm.functions.tidalhl.html#pydsm.functions.tidalhl.get_tidal_hl">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_tidal_hl</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">cutoff_period</span><span class="o">=</span><span class="s2">&quot;2h&quot;</span><span class="p">,</span>
+    <span class="n">resample_period</span><span class="o">=</span><span class="s2">&quot;1min&quot;</span><span class="p">,</span>
+    <span class="n">interpolate_method</span><span class="o">=</span><span class="s2">&quot;pchip&quot;</span><span class="p">,</span>
+    <span class="n">moving_window_size</span><span class="o">=</span><span class="s2">&quot;7h&quot;</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get Tidal highs and lows</span>
+
+<span class="sd">    Args:</span>
+
+<span class="sd">        df (DataFrame): A single column dataframe indexed by datetime</span>
+
+<span class="sd">        cutoff_period (str, optional): cutoff period for cosine lanczos filter. Defaults to &#39;2h&#39;.</span>
+
+<span class="sd">        resample_period (str, optional): Resample to regular period. Defaults to &#39;1min&#39;.</span>
+
+<span class="sd">        interpolate_method (str, optional): interpolation for resampling. Defaults to &#39;pchip&#39;.</span>
+
+<span class="sd">        moving_window_size (str, optional): moving window size to look for lows within. Defaults to &#39;7h&#39;.</span>
+
+<span class="sd">    Returns:</span>
+
+<span class="sd">        tuple of DataFrame: Tidal high and tidal low time series</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dfs</span> <span class="o">=</span> <span class="n">get_smoothed_resampled</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">cutoff_period</span><span class="p">,</span> <span class="n">resample_period</span><span class="p">,</span> <span class="n">interpolate_method</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">tidal_highs</span><span class="p">(</span><span class="n">dfs</span><span class="p">),</span> <span class="n">tidal_lows</span><span class="p">(</span><span class="n">dfs</span><span class="p">)</span></div>
+
+
+
+<span class="n">get_tidal_hl_rolling</span> <span class="o">=</span> <span class="n">get_tidal_hl</span>  <span class="c1"># for older refs. #FIXME</span>
+
+
+<div class="viewcode-block" id="get_tidal_amplitude">
+<a class="viewcode-back" href="../../../pydsm.functions.tidalhl.html#pydsm.functions.tidalhl.get_tidal_amplitude">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_tidal_amplitude</span><span class="p">(</span><span class="n">dfh</span><span class="p">,</span> <span class="n">dfl</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tidal amplitude given tidal highs and lows</span>
+
+<span class="sd">    Args:</span>
+
+<span class="sd">        dfh (DataFrame): Tidal highs time series</span>
+
+<span class="sd">        dfl (DataFrame): Tidal lows time series</span>
+
+<span class="sd">    Returns:</span>
+
+<span class="sd">        DataFrame: Amplitude timeseries, at the times of the low following the high being used for amplitude calculation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dfamp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">dfh</span><span class="p">,</span> <span class="n">dfl</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">dfamp</span> <span class="o">=</span> <span class="n">dfamp</span><span class="p">[[</span><span class="s2">&quot;min&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dfamp</span><span class="p">[[</span><span class="s2">&quot;max&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">ffill</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dfamp</span><span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">dfamp</span><span class="p">[</span><span class="s2">&quot;min&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;amplitude&quot;</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="get_tidal_amplitude_diff">
+<a class="viewcode-back" href="../../../pydsm.functions.tidalhl.html#pydsm.functions.tidalhl.get_tidal_amplitude_diff">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_tidal_amplitude_diff</span><span class="p">(</span><span class="n">dfamp1</span><span class="p">,</span> <span class="n">dfamp2</span><span class="p">,</span> <span class="n">percent_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="s2">&quot;4h&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the difference of values within +/- 4H of values in the two amplitude arrays</span>
+
+<span class="sd">    Args:</span>
+
+<span class="sd">        dfamp1 (DataFrame): Amplitude time series</span>
+
+<span class="sd">        dfamp2 (DataFrame): Amplitude time series</span>
+
+<span class="sd">        percent_diff (bool, optional): If true do percent diff. Defaults to False.</span>
+
+<span class="sd">    Returns:</span>
+
+<span class="sd">        DataFrame: Difference dfamp1-dfamp2 or % Difference (dfamp1-dfamp2)/dfamp2*100  for values within +/- 4H of each other</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dfamp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge_asof</span><span class="p">(</span>
+        <span class="n">dfamp1</span><span class="p">,</span>
+        <span class="n">dfamp2</span><span class="p">,</span>
+        <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">,</span>
+        <span class="n">tolerance</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">tolerance</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">percent_diff</span><span class="p">:</span>
+        <span class="n">dfdiff</span> <span class="o">=</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">dfamp</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">dfamp</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">dfamp</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dfdiff</span> <span class="o">=</span> <span class="n">dfamp</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">dfamp</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dfdiff</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;amplitude_diff&quot;</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="get_phase_diff">
+<a class="viewcode-back" href="../../../pydsm.functions.tidalhl.html#pydsm.functions.tidalhl.get_phase_diff">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_phase_diff</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span> <span class="n">df2</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="s2">&quot;4h&quot;</span><span class="p">):</span>
+    <span class="n">df1</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">index</span>
+    <span class="n">df2</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">index</span>
+    <span class="n">df21</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge_asof</span><span class="p">(</span>
+        <span class="n">df2</span><span class="p">,</span>
+        <span class="n">df1</span><span class="p">,</span>
+        <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">,</span>
+        <span class="n">tolerance</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">tolerance</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">df21</span><span class="p">[</span><span class="s2">&quot;time_x&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df21</span><span class="p">[</span><span class="s2">&quot;time_y&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="mi">60</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="get_tidal_phase_diff">
+<a class="viewcode-back" href="../../../pydsm.functions.tidalhl.html#pydsm.functions.tidalhl.get_tidal_phase_diff">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_tidal_phase_diff</span><span class="p">(</span><span class="n">dfh2</span><span class="p">,</span> <span class="n">dfl2</span><span class="p">,</span> <span class="n">dfh1</span><span class="p">,</span> <span class="n">dfl1</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="s2">&quot;4h&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the phase difference between df2 and df1 tidal highs and lows</span>
+
+<span class="sd">    Scans +/- 4 hours in df1 to get the highs and lows in that windows for df2 to</span>
+<span class="sd">    get the tidal highs and lows at the times of df1</span>
+
+
+<span class="sd">    Args:</span>
+
+<span class="sd">        dfh2 (DataFrame): Timeseries of tidal highs</span>
+
+<span class="sd">        dfl2 (DataFrame): Timeseries of tidal lows</span>
+
+<span class="sd">        dfh1 (DataFrame): Timeseries of tidal highs</span>
+
+<span class="sd">        dfl1 (DataFRame): Timeseries of tidal lows</span>
+
+<span class="sd">    Returns:</span>
+
+<span class="sd">        DataFrame: Phase difference (dfh2-dfh1) and (dfl2-dfl1) in minutes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">high_phase_diff</span> <span class="o">=</span> <span class="n">get_phase_diff</span><span class="p">(</span><span class="n">dfh2</span><span class="p">,</span> <span class="n">dfh1</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">)</span>
+    <span class="n">low_phase_diff</span> <span class="o">=</span> <span class="n">get_phase_diff</span><span class="p">(</span><span class="n">dfl2</span><span class="p">,</span> <span class="n">dfl1</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">)</span>
+    <span class="n">merged_diff</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+        <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">high_phase_diff</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">dfh1</span><span class="o">.</span><span class="n">index</span><span class="p">),</span>
+        <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">low_phase_diff</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">dfl1</span><span class="o">.</span><span class="n">index</span><span class="p">),</span>
+        <span class="n">how</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">,</span>
+        <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">merged_diff</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">merged_diff</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="get_tidal_hl_zerocrossing">
+<a class="viewcode-back" href="../../../pydsm.functions.tidalhl.html#pydsm.functions.tidalhl.get_tidal_hl_zerocrossing">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_tidal_hl_zerocrossing</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">round_to</span><span class="o">=</span><span class="s2">&quot;1min&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Finds the tidal high and low times using zero crossings of the first derivative.</span>
+
+<span class="sd">    This works for all situations but is not robust in the face of noise and perturbations in the signal</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">zc</span><span class="p">,</span> <span class="n">zi</span> <span class="o">=</span> <span class="n">zerocross</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">round_to</span><span class="p">:</span>
+        <span class="n">zc</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">zc</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_to</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">zc</span></div>
+
+
+
+<div class="viewcode-block" id="zerocross">
+<a class="viewcode-back" href="../../../pydsm.functions.tidalhl.html#pydsm.functions.tidalhl.zerocross">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">zerocross</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the gradient of the time series and identifies locations where gradient changes sign</span>
+<span class="sd">    Returns the time rounded to nearest minute where the zero crossing happens (based on linear derivative assumption)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">diffdfv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">indi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">diffdfv</span><span class="p">)))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">diffdfv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># Find the zero crossing by linear interpolation</span>
+    <span class="n">zdb</span> <span class="o">=</span> <span class="n">diffdfv</span><span class="p">[</span><span class="n">indi</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+    <span class="n">zda</span> <span class="o">=</span> <span class="n">diffdfv</span><span class="p">[</span><span class="n">indi</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">diffdfv</span><span class="o">.</span><span class="n">index</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">diffdfv</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">indi</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">indi</span><span class="p">]</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">indi</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="n">indi</span><span class="p">]</span>
+    <span class="n">zc</span> <span class="o">=</span> <span class="o">-</span><span class="n">y</span><span class="p">[</span><span class="n">indi</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">dx</span> <span class="o">/</span> <span class="n">dy</span><span class="p">)</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="n">indi</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">zc</span><span class="p">,</span> <span class="n">indi</span></div>
+
+
+
+<span class="c1">##---- FUNCTIONS CACHED BELOW THIS LINE PERHAPS TO USE LATER? ---#</span>
+
+
+<div class="viewcode-block" id="where_changed">
+<a class="viewcode-back" href="../../../pydsm.functions.tidalhl.html#pydsm.functions.tidalhl.where_changed">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">where_changed</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">wdiff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">diff</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">wdiff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">wdiff</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># insert the first value i.e. zero index</span>
+    <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">wdiff</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span></div>
+
+
+
+<div class="viewcode-block" id="where_same">
+<a class="viewcode-back" href="../../../pydsm.functions.tidalhl.html#pydsm.functions.tidalhl.where_same">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">where_same</span><span class="p">(</span><span class="n">dfg</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    return dfg only where its value is the same as df for the same time stamps</span>
+<span class="sd">    i.e. the interesection locations with df</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dfall</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">dfg</span><span class="p">,</span> <span class="n">df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dfall</span><span class="p">[</span><span class="n">dfall</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">dfall</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="limit_to_indices">
+<a class="viewcode-back" href="../../../pydsm.functions.tidalhl.html#pydsm.functions.tidalhl.limit_to_indices">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">limit_to_indices</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">si</span><span class="p">,</span> <span class="n">ei</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">&gt;</span> <span class="n">si</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">&lt;</span> <span class="n">ei</span><span class="p">)]</span></div>
+
+
+
+<div class="viewcode-block" id="filter_where_na">
+<a class="viewcode-back" href="../../../pydsm.functions.tidalhl.html#pydsm.functions.tidalhl.filter_where_na">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">filter_where_na</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">dfb</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    remove values in df where dfb has na values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dfx</span> <span class="o">=</span> <span class="n">dfb</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">dfx</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="p">:]</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, Nicky Sandhu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
