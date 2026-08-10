@@ -84,25 +84,13 @@ pydsm extract-dss model_output.dss -o ec_daily.gz --cpart EC -davg
 
 #### `compare-dss`
 
-Compare two DSS files on matching B/C-part pathnames and write goodness-of-fit metrics to a CSV.
-
-```
-pydsm compare-dss DSSFILE1 DSSFILE2 [OPTIONS]
-```
-
-| Argument / Option | Default | Description |
-|---|---|---|
-| `DSSFILE1`, `DSSFILE2` | *(required)* | Two DSS files to compare |
-| `--cpart` | — | Filter to paths matching this C-part string |
-| `--threshold` | `0.001` | Metric value above which a path is flagged as different |
-| `--threshold-metric` | `rmse` | Metric used for threshold check. Choices: `mean_error`, `nmean_error`, `mse`, `nmse`, `rmse`, `nrmse`, `nash_sutcliffe`, `percent_bias` |
-| `--metricsfile` | `compare_dss_metrics_diff.csv` | Output metrics CSV filename |
-| `--time-window` | — | Comparison window, e.g. `"01JAN1990 - 01OCT1991"` |
-| `--threshold-plots` | `False` | Write HTML plots for paths that exceed the threshold |
+Compare two DSS files on matching B/C-part pathnames and write goodness-of-fit metrics to a CSV. Fast, zero-setup check for exactly two files — no location CSVs or config needed.
 
 ```bash
 pydsm compare-dss base.dss variant.dss --cpart EC --time-window "01JAN2020 - 01JAN2022"
 ```
+
+Full reference (all options, metrics, limitations): [README-compare-dss.md](README-compare-dss.md)
 
 ---
 
@@ -308,27 +296,13 @@ pydsm chan-orient dsm2_channels.geojson hydro_echo.inp --channel_orient_file cha
 
 #### `diff`
 
-Compare two DSM2 studies by their Hydro echo files. Reports structural differences in all input tables and computes RMSE/bias for DSS-backed time-series inputs.
-
-```
-pydsm diff ECHO_A ECHO_B [OPTIONS]
-```
-
-| Argument / Option | Default | Description |
-|---|---|---|
-| `ECHO_A`, `ECHO_B` | *(required)* | Paths to the two Hydro echo `.inp` files |
-| `-t / --tables` | `BOUNDARY_FLOW BOUNDARY_STAGE OPRULE_TIME_SERIES` | DSS-backed tables to compare for time-series data (repeatable) |
-| `--all-tables` | off | Compare DSS data in all known TS-backed tables |
-| `--timewindow` | run-period intersection | Comparison window, e.g. `"01JAN2020 0000 - 01JAN2022 0000"` |
-| `--threshold` | `0.01` | RMSE below this is not reported as a difference |
-| `--max-ts` | `25` | Skip DSS loading for tables with more rows than this |
-| `--force` | off | Load DSS data even when a table exceeds `--max-ts` rows |
-| `--outdir` | `.` | Directory for CSV output files |
-| `--no-csv` | off | Print report to terminal only; suppress CSV output |
+Compare two DSM2 studies by their Hydro echo files. Reports structural differences in all input tables and computes RMSE/bias for DSS-backed time-series inputs — use this to explain *why* two studies' outputs differ.
 
 ```bash
 pydsm diff base/hydro_echo.inp variant/hydro_echo.inp --timewindow "01JAN2020 0000 - 01JAN2022 0000" --outdir diff_output/
 ```
+
+Full reference (all tables, options, output formats): [README-diff.md](README-diff.md)
 
 ---
 
