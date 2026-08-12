@@ -1,0 +1,11 @@
+start_time: &start_time 2020-01-01 00:00:00 #global begining period of updating dsm2 input dss file
+end_time: &end_time 2026-01-01 00:00:00 #global end period of updating dsm2 input dss file
+dss_file:  &mrz_dss Z:\dsm2_studies\timeseries\hist_forQAQC.dss #dss file in dsm2 that stores mrz data
+
+mrz_stage:
+  start: *start_time #individual begining period of updating data
+  end: *end_time #individual end period of updating data
+  process_stage_file: //cnrastore-bdo/Modeling_Data/repo/continuous/processed/dms_mrz_elev.csv
+  correction_file: Z:/pydsm/pydsm/dsm2_datastore/mrz_anh_setup_correction.csv
+  outfile: *mrz_dss
+  dss_path: //RSAC054/STAGE//// #specify the DSS path that can uniquely identify the time series in the DSS file
