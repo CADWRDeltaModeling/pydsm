@@ -6,17 +6,19 @@ import pandas as pd
 import click
 import pyhecdss
 import yaml
+from dms_datastore.read_multi import read_ts_repo
+
 
 import logging
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logging.basicConfig(level=logging.WARNING, format="%(levelname)s: %(message)s")
 
-def update_mrz_stage_dss(sdate, edate, dss_path, process_stage_file, dss_outfile):
+def update_mrz_stage_dss(sdate, edate, dss_path, station_id, dss_outfile):
 
-    process_stage_data = pd.read_csv(process_stage_file, comment='#', index_col=0, parse_dates=True).loc[sdate:edate]
+    process_stage_data = read_ts_repo(station_id, variable='elev', start=sdate, end=edate, repo="processed")
     if process_stage_data.empty:
-       raise ValueError(f"No stage data found in {process_stage_file} for the period {sdate} to {edate}")
+       raise ValueError(f"No stage data found in the processed repo for station {station_id} for the period {sdate} to {edate}")
     for i in pyhecdss.get_ts(dss_outfile,f'{dss_path}'):
         original_dss_data = i.data
         units = i.units
@@ -89,7 +91,7 @@ def main(config_file, site):
     for s in sites:
         site_cfg = config[s]
         update_mrz_stage_dss(site_cfg['start'], site_cfg['end'], site_cfg['dss_path'],
-                              site_cfg['process_stage_file'], site_cfg['outfile'])
+                              site_cfg['station_id'], site_cfg['outfile'])
         logging.info(f"Updated MRZ stage DSS for site {s}")
 
 

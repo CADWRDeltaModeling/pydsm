@@ -5,7 +5,7 @@ dss_file:  &mrz_dss Z:\dsm2_studies\timeseries\hist_forQAQC.dss #dss file in dsm
 mrz_stage:
   start: *start_time #individual begining period of updating data
   end: *end_time #individual end period of updating data
-  process_stage_file: //cnrastore-bdo/Modeling_Data/repo/continuous/processed/dms_mrz_elev.csv
+  station_id: mrz
   correction_file: Z:/pydsm/pydsm/dsm2_datastore/mrz_anh_setup_correction.csv
   outfile: *mrz_dss
   dss_path: //RSAC054/STAGE//// #specify the DSS path that can uniquely identify the time series in the DSS file
