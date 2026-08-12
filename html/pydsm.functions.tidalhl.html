@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.functions.tidalhl module &mdash; pydsm 2026.6.23.dev6+g82b23744c documentation</title>
+  <title>pydsm.functions.tidalhl module &mdash; pydsm 2026.6.23.dev7+g7c99928b5 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=27bdbb37"></script>
+      <script src="_static/documentation_options.js?v=55fcedea"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -177,211 +177,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-pydsm.functions.tidalhl">
-<span id="pydsm-functions-tidalhl-module"></span><h1>pydsm.functions.tidalhl module<a class="headerlink" href="#module-pydsm.functions.tidalhl" title="Link to this heading"></a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.functions.tidalhl.filter_where_na">
-<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tidalhl.</span></span><span class="sig-name descname"><span class="pre">filter_where_na</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dfb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tidalhl.html#filter_where_na"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tidalhl.filter_where_na" title="Link to this definition"></a></dt>
-<dd><p>remove values in df where dfb has na values</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.functions.tidalhl.get_phase_diff">
-<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tidalhl.</span></span><span class="sig-name descname"><span class="pre">get_phase_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'4h'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tidalhl.html#get_phase_diff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tidalhl.get_phase_diff" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.functions.tidalhl.get_smoothed_resampled">
-<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tidalhl.</span></span><span class="sig-name descname"><span class="pre">get_smoothed_resampled</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'2h'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resample_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1min'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolate_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pchip'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tidalhl.html#get_smoothed_resampled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tidalhl.get_smoothed_resampled" title="Link to this definition"></a></dt>
-<dd><p>Resample the dataframe (indexed by time) to the regular period of resample_period using the interpolate method</p>
-<p>Furthermore the cosine lanczos filter is used with a cutoff_period to smooth the signal to remove high frequency noise</p>
-<p>Args:</p>
-<blockquote>
-<div><p>df (DataFrame): A single column dataframe indexed by datetime</p>
-<p>cutoff_period (str, optional): cutoff period for cosine lanczos filter. Defaults to ‘2h’.</p>
-<p>resample_period (str, optional): Resample to regular period. Defaults to ‘1min’.</p>
-<p>interpolate_method (str, optional): interpolation for resampling. Defaults to ‘pchip’.</p>
-</div></blockquote>
-<p>Returns:</p>
-<blockquote>
-<div><p>DataFrame: smoothed and resampled dataframe indexed by datetime</p>
-</div></blockquote>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.functions.tidalhl.get_tidal_amplitude">
-<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tidalhl.</span></span><span class="sig-name descname"><span class="pre">get_tidal_amplitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dfl</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tidalhl.html#get_tidal_amplitude"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tidalhl.get_tidal_amplitude" title="Link to this definition"></a></dt>
-<dd><p>Tidal amplitude given tidal highs and lows</p>
-<p>Args:</p>
-<blockquote>
-<div><p>dfh (DataFrame): Tidal highs time series</p>
-<p>dfl (DataFrame): Tidal lows time series</p>
-</div></blockquote>
-<p>Returns:</p>
-<blockquote>
-<div><p>DataFrame: Amplitude timeseries, at the times of the low following the high being used for amplitude calculation</p>
-</div></blockquote>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.functions.tidalhl.get_tidal_amplitude_diff">
-<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tidalhl.</span></span><span class="sig-name descname"><span class="pre">get_tidal_amplitude_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfamp1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dfamp2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">percent_diff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'4h'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tidalhl.html#get_tidal_amplitude_diff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tidalhl.get_tidal_amplitude_diff" title="Link to this definition"></a></dt>
-<dd><p>Get the difference of values within +/- 4H of values in the two amplitude arrays</p>
-<p>Args:</p>
-<blockquote>
-<div><p>dfamp1 (DataFrame): Amplitude time series</p>
-<p>dfamp2 (DataFrame): Amplitude time series</p>
-<p>percent_diff (bool, optional): If true do percent diff. Defaults to False.</p>
-</div></blockquote>
-<p>Returns:</p>
-<blockquote>
-<div><p>DataFrame: Difference dfamp1-dfamp2 or % Difference (dfamp1-dfamp2)/dfamp2*100  for values within +/- 4H of each other</p>
-</div></blockquote>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.functions.tidalhl.get_tidal_hl">
-<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tidalhl.</span></span><span class="sig-name descname"><span class="pre">get_tidal_hl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'2h'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resample_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1min'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolate_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pchip'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moving_window_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'7h'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tidalhl.html#get_tidal_hl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tidalhl.get_tidal_hl" title="Link to this definition"></a></dt>
-<dd><p>Get Tidal highs and lows</p>
-<p>Args:</p>
-<blockquote>
-<div><p>df (DataFrame): A single column dataframe indexed by datetime</p>
-<p>cutoff_period (str, optional): cutoff period for cosine lanczos filter. Defaults to ‘2h’.</p>
-<p>resample_period (str, optional): Resample to regular period. Defaults to ‘1min’.</p>
-<p>interpolate_method (str, optional): interpolation for resampling. Defaults to ‘pchip’.</p>
-<p>moving_window_size (str, optional): moving window size to look for lows within. Defaults to ‘7h’.</p>
-</div></blockquote>
-<p>Returns:</p>
-<blockquote>
-<div><p>tuple of DataFrame: Tidal high and tidal low time series</p>
-</div></blockquote>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.functions.tidalhl.get_tidal_hl_rolling">
-<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tidalhl.</span></span><span class="sig-name descname"><span class="pre">get_tidal_hl_rolling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'2h'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resample_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1min'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolate_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pchip'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moving_window_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'7h'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsm.functions.tidalhl.get_tidal_hl_rolling" title="Link to this definition"></a></dt>
-<dd><p>Get Tidal highs and lows</p>
-<p>Args:</p>
-<blockquote>
-<div><p>df (DataFrame): A single column dataframe indexed by datetime</p>
-<p>cutoff_period (str, optional): cutoff period for cosine lanczos filter. Defaults to ‘2h’.</p>
-<p>resample_period (str, optional): Resample to regular period. Defaults to ‘1min’.</p>
-<p>interpolate_method (str, optional): interpolation for resampling. Defaults to ‘pchip’.</p>
-<p>moving_window_size (str, optional): moving window size to look for lows within. Defaults to ‘7h’.</p>
-</div></blockquote>
-<p>Returns:</p>
-<blockquote>
-<div><p>tuple of DataFrame: Tidal high and tidal low time series</p>
-</div></blockquote>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.functions.tidalhl.get_tidal_hl_zerocrossing">
-<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tidalhl.</span></span><span class="sig-name descname"><span class="pre">get_tidal_hl_zerocrossing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">round_to</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1min'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tidalhl.html#get_tidal_hl_zerocrossing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tidalhl.get_tidal_hl_zerocrossing" title="Link to this definition"></a></dt>
-<dd><p>Finds the tidal high and low times using zero crossings of the first derivative.</p>
-<p>This works for all situations but is not robust in the face of noise and perturbations in the signal</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.functions.tidalhl.get_tidal_phase_diff">
-<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tidalhl.</span></span><span class="sig-name descname"><span class="pre">get_tidal_phase_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfh2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dfl2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dfh1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dfl1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'4h'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tidalhl.html#get_tidal_phase_diff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tidalhl.get_tidal_phase_diff" title="Link to this definition"></a></dt>
-<dd><p>Calculates the phase difference between df2 and df1 tidal highs and lows</p>
-<p>Scans +/- 4 hours in df1 to get the highs and lows in that windows for df2 to
-get the tidal highs and lows at the times of df1</p>
-<p>Args:</p>
-<blockquote>
-<div><p>dfh2 (DataFrame): Timeseries of tidal highs</p>
-<p>dfl2 (DataFrame): Timeseries of tidal lows</p>
-<p>dfh1 (DataFrame): Timeseries of tidal highs</p>
-<p>dfl1 (DataFRame): Timeseries of tidal lows</p>
-</div></blockquote>
-<p>Returns:</p>
-<blockquote>
-<div><p>DataFrame: Phase difference (dfh2-dfh1) and (dfl2-dfl1) in minutes</p>
-</div></blockquote>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.functions.tidalhl.limit_to_indices">
-<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tidalhl.</span></span><span class="sig-name descname"><span class="pre">limit_to_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">si</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ei</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tidalhl.html#limit_to_indices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tidalhl.limit_to_indices" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.functions.tidalhl.lmax">
-<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tidalhl.</span></span><span class="sig-name descname"><span class="pre">lmax</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tidalhl.html#lmax"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tidalhl.lmax" title="Link to this definition"></a></dt>
-<dd><p>Local maximum: Returns value only when centered on maximum</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.functions.tidalhl.lmin">
-<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tidalhl.</span></span><span class="sig-name descname"><span class="pre">lmin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tidalhl.html#lmin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tidalhl.lmin" title="Link to this definition"></a></dt>
-<dd><p>Local minimum: Returns value only when centered on minimum</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.functions.tidalhl.periods_per_window">
-<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tidalhl.</span></span><span class="sig-name descname"><span class="pre">periods_per_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">moving_window_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period_str</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/pydsm/functions/tidalhl.html#periods_per_window"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tidalhl.periods_per_window" title="Link to this definition"></a></dt>
-<dd><p>Number of period size in moving window</p>
-<p>Args:</p>
-<blockquote>
-<div><p>moving_window_size (str): moving window size as a string e.g 7H for 7 hour</p>
-<p>period_str (str): period as str e.g. 1T for 1 min</p>
-</div></blockquote>
-<p>Returns:</p>
-<blockquote>
-<div><p>int: number of periods in the moving window rounded to an integer</p>
-</div></blockquote>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.functions.tidalhl.tidal_highs">
-<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tidalhl.</span></span><span class="sig-name descname"><span class="pre">tidal_highs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moving_window_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'7h'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tidalhl.html#tidal_highs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tidalhl.tidal_highs" title="Link to this definition"></a></dt>
-<dd><p>Tidal highs (could be upto two highs in a 25 hr period)</p>
-<p>Args:</p>
-<blockquote>
-<div><p>df (DataFrame): a time series with a regular frequency</p>
-<p>moving_window_size (str, optional): moving window size to look for highs within. Defaults to ‘7h’.</p>
-</div></blockquote>
-<p>Returns:</p>
-<blockquote>
-<div><p>DataFrame: an irregular time series with highs at resolution of df.index</p>
-</div></blockquote>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.functions.tidalhl.tidal_lows">
-<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tidalhl.</span></span><span class="sig-name descname"><span class="pre">tidal_lows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moving_window_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'7h'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tidalhl.html#tidal_lows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tidalhl.tidal_lows" title="Link to this definition"></a></dt>
-<dd><p>Tidal lows (could be upto two lows in a 25 hr period)</p>
-<p>Args:</p>
-<blockquote>
-<div><p>df (DataFrame): a time series with a regular frequency</p>
-<p>moving_window_size (str, optional): moving window size to look for lows within. Defaults to ‘7h’.</p>
-</div></blockquote>
-<p>Returns:</p>
-<blockquote>
-<div><p>DataFrame: an irregular time series with lows at resolution of df.index</p>
-</div></blockquote>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.functions.tidalhl.where_changed">
-<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tidalhl.</span></span><span class="sig-name descname"><span class="pre">where_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tidalhl.html#where_changed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tidalhl.where_changed" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.functions.tidalhl.where_same">
-<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tidalhl.</span></span><span class="sig-name descname"><span class="pre">where_same</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tidalhl.html#where_same"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tidalhl.where_same" title="Link to this definition"></a></dt>
-<dd><p>return dfg only where its value is the same as df for the same time stamps
-i.e. the interesection locations with df</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.functions.tidalhl.zerocross">
-<span class="sig-prename descclassname"><span class="pre">pydsm.functions.tidalhl.</span></span><span class="sig-name descname"><span class="pre">zerocross</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/functions/tidalhl.html#zerocross"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.functions.tidalhl.zerocross" title="Link to this definition"></a></dt>
-<dd><p>Calculates the gradient of the time series and identifies locations where gradient changes sign
-Returns the time rounded to nearest minute where the zero crossing happens (based on linear derivative assumption)</p>
-</dd></dl>
-
+  <section id="pydsm-functions-tidalhl-module">
+<h1>pydsm.functions.tidalhl module<a class="headerlink" href="#pydsm-functions-tidalhl-module" title="Link to this heading"></a></h1>
 </section>
 
 

@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.output.hydro_flow_calcs module &mdash; pydsm 2026.6.23.dev6+g82b23744c documentation</title>
+  <title>pydsm.output.hydro_flow_calcs module &mdash; pydsm 2026.6.23.dev7+g7c99928b5 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=27bdbb37"></script>
+      <script src="_static/documentation_options.js?v=55fcedea"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -177,150 +177,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-pydsm.output.hydro_flow_calcs">
-<span id="pydsm-output-hydro-flow-calcs-module"></span><h1>pydsm.output.hydro_flow_calcs module<a class="headerlink" href="#module-pydsm.output.hydro_flow_calcs" title="Link to this heading"></a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.output.hydro_flow_calcs.calculate_net_flow">
-<span class="sig-prename descclassname"><span class="pre">pydsm.output.hydro_flow_calcs.</span></span><span class="sig-name descname"><span class="pre">calculate_net_flow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">echo_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/hydro_flow_calcs.html#calculate_net_flow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.hydro_flow_calcs.calculate_net_flow" title="Link to this definition"></a></dt>
-<dd><p>Calculate net sum of flows at a daily resampling of all boundary flow and exports and diversions. 
-Each flow in DSM2 has a sign value and those are accounted for in this calculation</p>
-<p>Loosely speaking this would be equivalent of NDOI (Net Delta Outflow Index) for DSM2 applied to the Delta.</p>
-<p>A more precise interpretation would require to remove certain source/sink terms e.g. Suisun Marsh</p>
-<section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
-<dl class="simple">
-<dt>dsm2_dir<span class="classifier">str</span></dt><dd><p>directory containing the DSM2 main input file</p>
-</dd>
-</dl>
-</section>
-<section id="returns">
-<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h2>
-<dl class="simple">
-<dt>DataFrame</dt><dd><p>net sum of all boundary flows</p>
-</dd>
-</dl>
-</section>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.output.hydro_flow_calcs.get_dsm2_dir">
-<span class="sig-prename descclassname"><span class="pre">pydsm.output.hydro_flow_calcs.</span></span><span class="sig-name descname"><span class="pre">get_dsm2_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">echo_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tables</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/hydro_flow_calcs.html#get_dsm2_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.hydro_flow_calcs.get_dsm2_dir" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.output.hydro_flow_calcs.get_output_dir">
-<span class="sig-prename descclassname"><span class="pre">pydsm.output.hydro_flow_calcs.</span></span><span class="sig-name descname"><span class="pre">get_output_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tables</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/hydro_flow_calcs.html#get_output_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.hydro_flow_calcs.get_output_dir" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.output.hydro_flow_calcs.get_tidal_outflow">
-<span class="sig-prename descclassname"><span class="pre">pydsm.output.hydro_flow_calcs.</span></span><span class="sig-name descname"><span class="pre">get_tidal_outflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">h5file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/hydro_flow_calcs.html#get_tidal_outflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.hydro_flow_calcs.get_tidal_outflow" title="Link to this definition"></a></dt>
-<dd><p>Read the h5 file for flow in channel_id
-Filter out the tidal signal using cosine lanczos (preferred) or godin filter
-Also resample to daily flow (period average to daily)</p>
-<p>One use of this is to retrieve the Net Delta Outflow from DSM2 output. For that 
-the channel_id is 441.</p>
-<section id="id1">
-<h2>Returns<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
-<dl class="simple">
-<dt>DataFrame</dt><dd><p>Tidally filtered daily averaged flow at channel_id downstream</p>
-</dd>
-</dl>
-</section>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.output.hydro_flow_calcs.net_flows_by_filename">
-<span class="sig-prename descclassname"><span class="pre">pydsm.output.hydro_flow_calcs.</span></span><span class="sig-name descname"><span class="pre">net_flows_by_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">echo_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/hydro_flow_calcs.html#net_flows_by_filename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.hydro_flow_calcs.net_flows_by_filename" title="Link to this definition"></a></dt>
-<dd><p>calculate net flows by filename (.dss) from the input specified in the echo file</p>
-<p>Each flow in DSM2 is specified as a file (.dss) and pathname (/A/B/C//E/F) (or optionally constant) with a sign
-in the following tables :-</p>
-<p>BOUNDARY_FLOW
-SOURCE_FLOW
-SOURCE_FLOW_RESERVOIR
-INPUT_TRANSFER_FLOW</p>
-<p>These tables are combined and then grouped by the filename and the resulting matches are summed (for efficiency)</p>
-<section id="id2">
-<h2>Parameters<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
-<dl class="simple">
-<dt>echo_file<span class="classifier">str</span></dt><dd><p>echo filename from DSM2 Hydro setup</p>
-</dd>
-</dl>
-</section>
-<section id="id3">
-<h2>Returns<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
-<dl class="simple">
-<dt>dict</dt><dd><p>DSS filename to summed flow read from that file</p>
-</dd>
-</dl>
-</section>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.output.hydro_flow_calcs.read_echo_file">
-<span class="sig-prename descclassname"><span class="pre">pydsm.output.hydro_flow_calcs.</span></span><span class="sig-name descname"><span class="pre">read_echo_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">echo_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/hydro_flow_calcs.html#read_echo_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.hydro_flow_calcs.read_echo_file" title="Link to this definition"></a></dt>
-<dd><p>reads echo file and returns a dictionary of table names and their associated data in DataFrame(s)</p>
-<section id="id4">
-<h2>Parameters<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
-<dl class="simple">
-<dt>echo_file<span class="classifier">str</span></dt><dd><p>echo file from DSM2 output</p>
-</dd>
-</dl>
-</section>
-<section id="id5">
-<h2>Returns<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
-<dl class="simple">
-<dt>dict</dt><dd><p>a dictionary of table names and their associated data in DataFrame(s)</p>
-</dd>
-</dl>
-</section>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.output.hydro_flow_calcs.read_flows">
-<span class="sig-prename descclassname"><span class="pre">pydsm.output.hydro_flow_calcs.</span></span><span class="sig-name descname"><span class="pre">read_flows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/hydro_flow_calcs.html#read_flows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.hydro_flow_calcs.read_flows" title="Link to this definition"></a></dt>
-<dd><p>Builds a dictionary of {name: timeseries data} from a table that has atleast the following columns: NAME, FILE, PATH.</p>
-<dl class="simple">
-<dt>The data is either</dt><dd><ul class="simple">
-<li><p>Timeseries data retrieved from a FILE ( DSS format) and PATH (DSS pathname)</p></li>
-<li><p>Constant data when FILE is ‘constant’ &amp; PATH is the value</p></li>
-</ul>
-</dd>
-</dl>
-<section id="id6">
-<h2>Parameters<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
-<dl class="simple">
-<dt>table<span class="classifier">DataFrame</span></dt><dd><p>table containing name and file and path of data</p>
-</dd>
-<dt>base_dir<span class="classifier">str</span></dt><dd><p>directory used as based to construct full file path name of file in table</p>
-</dd>
-</dl>
-</section>
-<section id="id7">
-<h2>Returns<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
-<p>a dictionary of data indexed by NAME with SIGN from the FILE and PATH indicated in each row of the table</p>
-</section>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pydsm.output.hydro_flow_calcs.sum_dict">
-<span class="sig-prename descclassname"><span class="pre">pydsm.output.hydro_flow_calcs.</span></span><span class="sig-name descname"><span class="pre">sum_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/output/hydro_flow_calcs.html#sum_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.output.hydro_flow_calcs.sum_dict" title="Link to this definition"></a></dt>
-<dd><p>Sum of all the time series
-checks for non-dataframes to add
-converts period index to timestamp for add</p>
-<section id="id8">
-<h2>Parameters<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
-<p>data_dict : dictionary of data names to DataFrame</p>
-</section>
-<section id="id9">
-<h2>Returns<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
-<dl class="simple">
-<dt>DataFrame</dt><dd><p>sum of all the data in the dictionary resample to daily means</p>
-</dd>
-</dl>
-</section>
-</dd></dl>
-
+  <section id="pydsm-output-hydro-flow-calcs-module">
+<h1>pydsm.output.hydro_flow_calcs module<a class="headerlink" href="#pydsm-output-hydro-flow-calcs-module" title="Link to this heading"></a></h1>
 </section>
 
 
