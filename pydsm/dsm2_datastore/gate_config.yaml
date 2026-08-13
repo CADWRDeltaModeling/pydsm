@@ -28,3 +28,18 @@ dcc:
   outfile: *gate_dss
   column_name: action #column name in the processed csv file
   dss_path: //RSAC128/POS//// #specify the DSS path that can uniquely identify the time series in the DSS file
+
+
+smscg:
+  start: *start_time #individual begining period of updating data
+  end: *end_time #individual end period of updating data
+  station_id: smscg
+  processed_file: //cnrastore-bdo/Modeling_data/repo/structures/processed/dms_smscg_ops.csv
+  outfile: *gate_dss
+  column_name: [flashboards, gate_1, gate_2, gate_3] #column name in the processed csv file
+  dss_path_boatlock: //MTZSL/BOATLOCK_OP//// #specify the DSS path that can uniquely identify the time series in the DSS file
+  dss_path_flashboard: //MTZSL/FLASHBOARD_OP////
+  dss_path_mod_flashboard: //MTZSL/MOD_FLASHBOARD_OP////
+  dss_path_radial_op: //MTZSL/RADIAL_OP////
+  dss_path_radial_to: //MTZSL/RADIAL_FRACT_DOWN////
+  dss_path_radial_from: //MTZSL/RADIAL_FRACT_UP////
