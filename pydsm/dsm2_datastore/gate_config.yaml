@@ -43,3 +43,41 @@ smscg:
   dss_path_radial_op: //MTZSL/RADIAL_OP////
   dss_path_radial_to: //MTZSL/RADIAL_FRACT_DOWN////
   dss_path_radial_from: //MTZSL/RADIAL_FRACT_UP////
+
+
+glc:
+  start: *start_time #individual begining period of updating data
+  end: *end_time #individual end period of updating data
+  station_id: glc
+  processed_file: Z:/DD-311/schism_temporary_barrier_th/grantline_barrier.th
+  outfile: *gate_dss
+  column_name: [install,elev_weir,width_weir,down_op_pipe]
+  dss_path_weir_install: //GL_CN/INSTALL//// #specify the DSS path that can uniquely identify the time series in the DSS file
+  dss_path_weir_elev: //GL_CN/WEIRELEVATION//// #specify the DSS path that can uniquely identify the time series in the DSS file
+  dss_path_weir_width: //GL_CN/WEIRWIDTH//// #specify the DSS path that can uniquely identify the time series in the DSS file
+  dss_path_pipe_op: //GL_CN/PIPE_OP_DOWN//// #specify the DSS path that can uniquely identify the time series in the DSS file
+
+
+mid_r:
+  start: *start_time #individual begining period of updating data
+  end: *end_time #individual end period of updating data
+  station_id: mid_r
+  outfile: *gate_dss
+  column_name: [install,elev,op_down] #column name in the processed csv file
+  processed_file1: Z:/DD-311/schism_temporary_barrier_th/midr_weir.th
+  processed_file2: Z:/DD-311/schism_temporary_barrier_th/midr_culvert_l.th
+  processed_file3: Z:/DD-311/schism_temporary_barrier_th/midr_culvert_r.th
+  dss_path_install: //MID_R/INSTALL//// #specify the DSS path that can uniquely identify the time series in the DSS file
+  dss_path_elev: //MID_R/WEIRELEVATION//// #specify the DSS path that can uniquely identify the time series in the DSS file
+  dss_path_op_down: //MID_R/PIPE_OP_DOWN//// #specify the DSS path that can uniquely identify the time series in the DSS file
+
+
+old_r_tracy:
+  start: *start_time #individual begining period of updating data
+  end: *end_time #individual end period of updating data
+  station_id: old_r_tracy
+  outfile: *gate_dss
+  column_name: [install,op_down_weir] #column name in the processed csv file
+  processed_file: Z:/DD-311/schism_temporary_barrier_th/oldr_tracy_barrier.th
+  dss_path_install: //OLD_R/INSTALL//// #specify the DSS path that can uniquely identify the time series in the DSS file
+  dss_path_op_down: //OLD_R/PIPE_OP_DOWN//// #specify the DSS path that can uniquely identify the time series in the DSS file
