@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.input.channel_orient &mdash; pydsm 2026.6.23.dev11+gf1dd0484c documentation</title>
+  <title>pydsm.input.channel_orient &mdash; pydsm 2026.6.23.dev13+g91fc7afd0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=371adbf9"></script>
+      <script src="../../../_static/documentation_options.js?v=ee9c00c2"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -184,7 +184,7 @@
 <div class="viewcode-block" id="calculate_angle">
 <a class="viewcode-back" href="../../../pydsm.input.channel_orient.html#pydsm.input.channel_orient.calculate_angle">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">calculate_angle</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the angle (in degrees) of the line segment defined by two points (p1, p2).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Calculate the angle (in degrees) of the line segment defined by two points (p1, p2)."""</span>
     <span class="n">dx</span> <span class="o">=</span> <span class="n">p2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">dy</span> <span class="o">=</span> <span class="n">p2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">angle</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">dy</span><span class="p">,</span> <span class="n">dx</span><span class="p">))</span>
@@ -195,7 +195,7 @@
 <div class="viewcode-block" id="find_segment_and_angle">
 <a class="viewcode-back" href="../../../pydsm.input.channel_orient.html#pydsm.input.channel_orient.find_segment_and_angle">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">find_segment_and_angle</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">normalized</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the segment of the line where the distance lies and calculate the angle of that segment.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Find the segment of the line where the distance lies and calculate the angle of that segment."""</span>
     <span class="n">coords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>  <span class="c1"># Extract coordinates from the LineString</span>
     <span class="n">total_distance</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">if</span> <span class="n">normalized</span><span class="p">:</span>
@@ -212,10 +212,10 @@
         <span class="p">):</span>  <span class="c1"># Check if the distance lies within this segment</span>
             <span class="n">angle</span> <span class="o">=</span> <span class="n">calculate_angle</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
             <span class="k">return</span> <span class="p">{</span>
-                <span class="s2">&quot;segment_start&quot;</span><span class="p">:</span> <span class="n">p1</span><span class="p">,</span>
-                <span class="s2">&quot;segment_end&quot;</span><span class="p">:</span> <span class="n">p2</span><span class="p">,</span>
-                <span class="s2">&quot;angle&quot;</span><span class="p">:</span> <span class="n">angle</span><span class="p">,</span>
-                <span class="s2">&quot;distance_within_segment&quot;</span><span class="p">:</span> <span class="n">distance</span> <span class="o">-</span> <span class="n">total_distance</span><span class="p">,</span>
+                <span class="s2">"segment_start"</span><span class="p">:</span> <span class="n">p1</span><span class="p">,</span>
+                <span class="s2">"segment_end"</span><span class="p">:</span> <span class="n">p2</span><span class="p">,</span>
+                <span class="s2">"angle"</span><span class="p">:</span> <span class="n">angle</span><span class="p">,</span>
+                <span class="s2">"distance_within_segment"</span><span class="p">:</span> <span class="n">distance</span> <span class="o">-</span> <span class="n">total_distance</span><span class="p">,</span>
             <span class="p">}</span>
 
         <span class="n">total_distance</span> <span class="o">+=</span> <span class="n">segment_length</span>
@@ -228,13 +228,13 @@
 
 
 <span class="nd">@click</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
-<span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s2">&quot;channel_line_geojson_file&quot;</span><span class="p">)</span>
-<span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s2">&quot;hydro_echo_file&quot;</span><span class="p">)</span>
-<span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;--channel_orient_file&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;channel_orient.inp&quot;</span><span class="p">)</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s2">"channel_line_geojson_file"</span><span class="p">)</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s2">"hydro_echo_file"</span><span class="p">)</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">"--channel_orient_file"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">"channel_orient.inp"</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">generate_channel_orientation</span><span class="p">(</span>
-    <span class="n">channel_line_geojson_file</span><span class="p">,</span> <span class="n">hydro_echo_file</span><span class="p">,</span> <span class="n">channel_orient_file</span><span class="o">=</span><span class="s2">&quot;channel_orient.inp&quot;</span>
+    <span class="n">channel_line_geojson_file</span><span class="p">,</span> <span class="n">hydro_echo_file</span><span class="p">,</span> <span class="n">channel_orient_file</span><span class="o">=</span><span class="s2">"channel_orient.inp"</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a channel orientation (angle) file from a GeoJSON channel geometry and a Hydro echo file.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Generate a channel orientation (angle) file from a GeoJSON channel geometry and a Hydro echo file."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pydsm.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">dsm2study</span>
 
     <span class="n">hydro_tables</span> <span class="o">=</span> <span class="n">dsm2study</span><span class="o">.</span><span class="n">load_echo_file</span><span class="p">(</span><span class="n">hydro_echo_file</span><span class="p">)</span>
@@ -242,24 +242,24 @@
     <span class="n">channels</span> <span class="o">=</span> <span class="n">dsm2study</span><span class="o">.</span><span class="n">join_channels_info_with_dsm2_channel_line</span><span class="p">(</span>
         <span class="n">channel_lines</span><span class="p">,</span> <span class="n">hydro_tables</span>
     <span class="p">)</span>
-    <span class="n">deltax</span> <span class="o">=</span> <span class="n">hydro_tables</span><span class="p">[</span><span class="s2">&quot;SCALAR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;NAME==&quot;deltax&quot;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">VALUE</span>
+    <span class="n">deltax</span> <span class="o">=</span> <span class="n">hydro_tables</span><span class="p">[</span><span class="s2">"SCALAR"</span><span class="p">]</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">'NAME=="deltax"'</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">VALUE</span>
     <span class="n">deltax</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">deltax</span><span class="p">)</span>
 
     <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">channels</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-        <span class="n">line</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">"geometry"</span><span class="p">]</span>
         <span class="n">line</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">linemerge</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-        <span class="n">chan_length</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;LENGTH&quot;</span><span class="p">])</span>
+        <span class="n">chan_length</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">"LENGTH"</span><span class="p">])</span>
         <span class="n">nsegments</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">chan_length</span> <span class="o">/</span> <span class="n">deltax</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">norm_distance</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nsegments</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">find_segment_and_angle</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">norm_distance</span><span class="p">,</span> <span class="n">normalized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;CHAN_NO&quot;</span><span class="p">],</span> <span class="n">norm_distance</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;angle&quot;</span><span class="p">]])</span>
+            <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">row</span><span class="p">[</span><span class="s2">"CHAN_NO"</span><span class="p">],</span> <span class="n">norm_distance</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="s2">"angle"</span><span class="p">]])</span>
 
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;CHAN_NO&quot;</span><span class="p">,</span> <span class="s2">&quot;NORM_DISTANCE&quot;</span><span class="p">,</span> <span class="s2">&quot;ANGLE&quot;</span><span class="p">])</span>
-    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;NORM_DISTANCE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;NORM_DISTANCE&quot;</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
-    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;ANGLE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;ANGLE&quot;</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">channel_orient_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;CHANNEL_ORIENTATION&quot;</span><span class="p">:</span> <span class="n">df</span><span class="p">})</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"CHAN_NO"</span><span class="p">,</span> <span class="s2">"NORM_DISTANCE"</span><span class="p">,</span> <span class="s2">"ANGLE"</span><span class="p">])</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">"NORM_DISTANCE"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"NORM_DISTANCE"</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">"ANGLE"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"ANGLE"</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">channel_orient_file</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">{</span><span class="s2">"CHANNEL_ORIENTATION"</span><span class="p">:</span> <span class="n">df</span><span class="p">})</span>
 </pre></div>
 
            </div>

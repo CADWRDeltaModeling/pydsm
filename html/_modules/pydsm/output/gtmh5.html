@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.output.gtmh5 &mdash; pydsm 2026.6.23.dev11+gf1dd0484c documentation</title>
+  <title>pydsm.output.gtmh5 &mdash; pydsm 2026.6.23.dev13+g91fc7afd0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=371adbf9"></script>
+      <script src="../../../_static/documentation_options.js?v=ee9c00c2"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -172,12 +172,12 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pydsm.output.gtmh5</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Utility functions for working with GTM/Qual HDF5 outputs.</span>
+<span></span><span class="sd">"""Utility functions for working with GTM/Qual HDF5 outputs.</span>
 
 <span class="sd">This module centralizes helper functions that were previously defined inside</span>
 <span class="sd">`tests/ex_gtmh5_restart.py` so that they can be reused across the codebase</span>
 <span class="sd">and by users.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -189,16 +189,16 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">qualh5</span>
 
-<span class="n">_DSM2_TIME_FORMAT</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">%b%Y %H%M&quot;</span>
+<span class="n">_DSM2_TIME_FORMAT</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%d</span><span class="s2">%b%Y %H%M"</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_parse_dsm2_time</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse a DSM2 time string (DDMMMYYYY HHMM) to a naive ``datetime``.</span>
+<span class="w">    </span><span class="sd">"""Parse a DSM2 time string (DDMMMYYYY HHMM) to a naive ``datetime``.</span>
 
 <span class="sd">    Tries explicit DSM2 format first, then falls back to ``pandas.to_datetime``.</span>
 <span class="sd">    Accepts existing ``datetime`` / ``Timestamp`` objects and returns a</span>
 <span class="sd">    built-in ``datetime`` (naive) for consistency.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">datetime</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">)):</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
     <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
@@ -209,13 +209,13 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_format_time</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Format a datetime or parseable string into DSM2 style: ``DDMMMYYYY HHMM``.</span>
+<span class="w">    </span><span class="sd">"""Format a datetime or parseable string into DSM2 style: ``DDMMMYYYY HHMM``.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; _format_time(&quot;1990-01-01 01:00&quot;)</span>
-<span class="sd">    &#39;01JAN1990 0100&#39;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; _format_time("1990-01-01 01:00")</span>
+<span class="sd">    '01JAN1990 0100'</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">ts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="n">_DSM2_TIME_FORMAT</span><span class="p">)</span>
@@ -232,7 +232,7 @@
     <span class="n">end_time</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">output_freq</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the model output timestamp nearest to ``target_time``.</span>
+<span class="w">    </span><span class="sd">"""Return the model output timestamp nearest to ``target_time``.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -241,13 +241,13 @@
 <span class="sd">    start_time, end_time : datetime | str</span>
 <span class="sd">        Inclusive simulation time span.</span>
 <span class="sd">    output_freq : pandas offset / frequency or string parseable by ``to_timedelta``</span>
-<span class="sd">        Regular interval of outputs (e.g. &#39;60min&#39;).</span>
+<span class="sd">        Regular interval of outputs (e.g. '60min').</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    datetime</span>
 <span class="sd">        The nearest output timestamp clamped within [start_time, end_time].</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">target</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">target_time</span><span class="p">)</span>
     <span class="n">start</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">start_time</span><span class="p">)</span>
     <span class="n">end</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">end_time</span><span class="p">)</span>
@@ -260,10 +260,10 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="n">freq_td</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">output_freq</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c1"># pragma: no cover - defensive</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported frequency </span><span class="si">{</span><span class="n">output_freq</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unsupported frequency </span><span class="si">{</span><span class="n">output_freq</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">freq_td</span> <span class="o">&lt;=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span>  <span class="c1"># pragma: no cover - sanity check</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Non-positive frequency interval&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Non-positive frequency interval"</span><span class="p">)</span>
 
     <span class="n">elapsed</span> <span class="o">=</span> <span class="n">target</span> <span class="o">-</span> <span class="n">start</span>
     <span class="n">steps_floor</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">elapsed</span> <span class="o">//</span> <span class="n">freq_td</span><span class="p">)</span>
@@ -286,7 +286,7 @@
     <span class="n">tidefile</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">time</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Determine nearest model time and build a single-interval timewindow.</span>
+<span class="w">    </span><span class="sd">"""Determine nearest model time and build a single-interval timewindow.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -298,8 +298,8 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    (timewindow, model_time)</span>
-<span class="sd">        timewindow is &#39;START-END&#39; using DSM2 format; model_time is datetime.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        timewindow is 'START-END' using DSM2 format; model_time is datetime.</span>
+<span class="sd">    """</span>
     <span class="n">qualt</span> <span class="o">=</span> <span class="n">qualh5</span><span class="o">.</span><span class="n">QualH5</span><span class="p">(</span><span class="n">tidefile</span><span class="p">)</span>
     <span class="n">output_freq</span> <span class="o">=</span> <span class="n">qualt</span><span class="o">.</span><span class="n">get_output_freq</span><span class="p">()</span>
     <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span> <span class="o">=</span> <span class="n">qualt</span><span class="o">.</span><span class="n">get_start_end_dates</span><span class="p">()</span>
@@ -310,7 +310,7 @@
     <span class="n">model_time</span> <span class="o">=</span> <span class="n">_nearest_time</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">,</span> <span class="n">output_freq</span><span class="p">)</span>
     <span class="n">interval_end</span> <span class="o">=</span> <span class="n">model_time</span> <span class="o">+</span> <span class="n">output_freq</span>
 
-    <span class="n">timewindow</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_format_time</span><span class="p">(</span><span class="n">model_time</span><span class="p">)</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">_format_time</span><span class="p">(</span><span class="n">interval_end</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">timewindow</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_format_time</span><span class="p">(</span><span class="n">model_time</span><span class="p">)</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">_format_time</span><span class="p">(</span><span class="n">interval_end</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
     <span class="k">return</span> <span class="n">timewindow</span><span class="p">,</span> <span class="n">model_time</span></div>
 
 
@@ -320,43 +320,43 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">get_interpolated_cell_concentrations</span><span class="p">(</span>
     <span class="n">tidefile</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">timewindow</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">constituent</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ec&quot;</span><span class="p">,</span>
+    <span class="n">constituent</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"ec"</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute per-cell interpolated concentrations for a provided timewindow.</span>
+<span class="w">    </span><span class="sd">"""Compute per-cell interpolated concentrations for a provided timewindow.</span>
 
 <span class="sd">    Produces an array shape (1, total_cells) combining upstream and downstream</span>
 <span class="sd">    concentrations with linear interpolation across channel cells.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">qualt</span> <span class="o">=</span> <span class="n">qualh5</span><span class="o">.</span><span class="n">QualH5</span><span class="p">(</span><span class="n">tidefile</span><span class="p">)</span>
-    <span class="n">ct</span> <span class="o">=</span> <span class="n">qualt</span><span class="o">.</span><span class="n">get_input_table</span><span class="p">(</span><span class="s2">&quot;/geometry/channel&quot;</span><span class="p">)</span>
+    <span class="n">ct</span> <span class="o">=</span> <span class="n">qualt</span><span class="o">.</span><span class="n">get_input_table</span><span class="p">(</span><span class="s2">"/geometry/channel"</span><span class="p">)</span>
     <span class="n">channel_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">qualt</span><span class="o">.</span><span class="n">get_channel_numbers</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
 
     <span class="n">upconc</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">qualt</span><span class="o">.</span><span class="n">get_channel_concentration</span><span class="p">(</span>
-            <span class="n">constituent</span><span class="p">,</span> <span class="n">channel_ids</span><span class="p">,</span> <span class="s2">&quot;upstream&quot;</span><span class="p">,</span> <span class="n">timewindow</span>
+            <span class="n">constituent</span><span class="p">,</span> <span class="n">channel_ids</span><span class="p">,</span> <span class="s2">"upstream"</span><span class="p">,</span> <span class="n">timewindow</span>
         <span class="p">)</span>
         <span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
         <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="n">dnconc</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">qualt</span><span class="o">.</span><span class="n">get_channel_concentration</span><span class="p">(</span>
-            <span class="n">constituent</span><span class="p">,</span> <span class="n">channel_ids</span><span class="p">,</span> <span class="s2">&quot;downstream&quot;</span><span class="p">,</span> <span class="n">timewindow</span>
+            <span class="n">constituent</span><span class="p">,</span> <span class="n">channel_ids</span><span class="p">,</span> <span class="s2">"downstream"</span><span class="p">,</span> <span class="n">timewindow</span>
         <span class="p">)</span>
         <span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
         <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
     <span class="p">)</span>
 
     <span class="n">num_channels</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">channel_ids</span><span class="p">)</span>
-    <span class="n">num_cells</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ct</span><span class="p">[</span><span class="s2">&quot;end_cell&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+    <span class="n">num_cells</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ct</span><span class="p">[</span><span class="s2">"end_cell"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
 
     <span class="n">channel_cell_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_channels</span><span class="p">,</span> <span class="n">num_cells</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">interp_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_channels</span><span class="p">,</span> <span class="n">num_cells</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">ct</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-        <span class="n">ch_num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;channel_num&quot;</span><span class="p">])</span>
+        <span class="n">ch_num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">"channel_num"</span><span class="p">])</span>
         <span class="n">ch_index</span> <span class="o">=</span> <span class="n">channel_ids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">ch_num</span><span class="p">)</span>
-        <span class="n">start_cell</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;start_cell&quot;</span><span class="p">])</span>
-        <span class="n">end_cell</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;end_cell&quot;</span><span class="p">])</span>
+        <span class="n">start_cell</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">"start_cell"</span><span class="p">])</span>
+        <span class="n">end_cell</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">"end_cell"</span><span class="p">])</span>
         <span class="n">ncells</span> <span class="o">=</span> <span class="n">end_cell</span> <span class="o">-</span> <span class="n">start_cell</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">ncells</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">interp_weights</span><span class="p">[</span><span class="n">ch_index</span><span class="p">,</span> <span class="n">start_cell</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">end_cell</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
@@ -374,12 +374,12 @@
 
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;_DSM2_TIME_FORMAT&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;_parse_dsm2_time&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;_format_time&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;_nearest_time&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;build_timewindow_for_time&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_interpolated_cell_concentrations&quot;</span><span class="p">,</span>
+    <span class="s2">"_DSM2_TIME_FORMAT"</span><span class="p">,</span>
+    <span class="s2">"_parse_dsm2_time"</span><span class="p">,</span>
+    <span class="s2">"_format_time"</span><span class="p">,</span>
+    <span class="s2">"_nearest_time"</span><span class="p">,</span>
+    <span class="s2">"build_timewindow_for_time"</span><span class="p">,</span>
+    <span class="s2">"get_interpolated_cell_concentrations"</span><span class="p">,</span>
 <span class="p">]</span>
 </pre></div>
 

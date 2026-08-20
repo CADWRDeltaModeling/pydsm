@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.input.create_cd_inp &mdash; pydsm 2026.6.23.dev11+gf1dd0484c documentation</title>
+  <title>pydsm.input.create_cd_inp &mdash; pydsm 2026.6.23.dev13+g91fc7afd0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=371adbf9"></script>
+      <script src="../../../_static/documentation_options.js?v=ee9c00c2"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -177,37 +177,37 @@
 <div class="viewcode-block" id="create_cd_inp">
 <a class="viewcode-back" href="../../../pydsm.input.create_cd_inp.html#pydsm.input.create_cd_inp.create_cd_inp">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">create_cd_inp</span><span class="p">(</span><span class="n">dss_filename</span><span class="p">,</span> <span class="n">dsm2_input_filename</span><span class="p">,</span> <span class="n">file_field_string</span><span class="p">):</span>
-    <span class="n">fout</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">dsm2_input_filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+    <span class="n">fout</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">dsm2_input_filename</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">DSSFile</span><span class="p">(</span><span class="n">dss_filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">d</span><span class="p">:</span>
         <span class="n">catdf</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">read_catalog</span><span class="p">()</span>
-        <span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;# Consumptive Use input file for DSM2</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;# This file was created automatically by pydsm.create_cd_inp.py</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;SOURCE_FLOW</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%-15s</span><span class="s2"> </span><span class="si">%4s</span><span class="s2"> </span><span class="si">%5s</span><span class="s2"> </span><span class="si">%-7s</span><span class="s2"> </span><span class="si">%-18s</span><span class="s2"> </span><span class="si">%-s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">&#39;NAME&#39;</span><span class="p">,</span><span class="s1">&#39;NODE&#39;</span><span class="p">,</span><span class="s1">&#39;SIGN&#39;</span><span class="p">,</span><span class="s1">&#39;FILLIN&#39;</span><span class="p">,</span><span class="s1">&#39;FILE&#39;</span><span class="p">,</span><span class="s1">&#39;PATH&#39;</span><span class="p">))</span>
+        <span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'# Consumptive Use input file for DSM2</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+        <span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'# This file was created automatically by pydsm.create_cd_inp.py</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+        <span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'SOURCE_FLOW</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+        <span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"</span><span class="si">%-15s</span><span class="s2"> </span><span class="si">%4s</span><span class="s2"> </span><span class="si">%5s</span><span class="s2"> </span><span class="si">%-7s</span><span class="s2"> </span><span class="si">%-18s</span><span class="s2"> </span><span class="si">%-s</span><span class="se">\n</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="s1">'NAME'</span><span class="p">,</span><span class="s1">'NODE'</span><span class="p">,</span><span class="s1">'SIGN'</span><span class="p">,</span><span class="s1">'FILLIN'</span><span class="p">,</span><span class="s1">'FILE'</span><span class="p">,</span><span class="s1">'PATH'</span><span class="p">))</span>
 
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">catdf</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-            <span class="n">line</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
-            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
-            <span class="n">node</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;B&#39;</span><span class="p">]</span>
-            <span class="n">sign</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
-            <span class="n">fillin</span><span class="o">=</span><span class="s1">&#39;last&#39;</span>
-            <span class="k">if</span> <span class="s1">&#39;DIV&#39;</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;C&#39;</span><span class="p">]:</span>
-                <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;dicu_div_&#39;</span> <span class="o">+</span> <span class="n">node</span>
-                <span class="n">sign</span><span class="o">=</span><span class="s1">&#39;-1&#39;</span>
-            <span class="k">elif</span> <span class="s1">&#39;SEEP&#39;</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;C&#39;</span><span class="p">]:</span>
-                <span class="n">name</span> <span class="o">=</span><span class="s1">&#39;dicu_seep_&#39;</span> <span class="o">+</span> <span class="n">node</span>
-                <span class="n">sign</span><span class="o">=</span><span class="s1">&#39;-1&#39;</span>
-            <span class="k">elif</span> <span class="s1">&#39;DRAIN&#39;</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;C&#39;</span><span class="p">]:</span>
-                <span class="n">name</span> <span class="o">=</span><span class="s1">&#39;dicu_drain_&#39;</span> <span class="o">+</span> <span class="n">node</span>
-                <span class="n">sign</span><span class="o">=</span><span class="s1">&#39;1&#39;</span>
+            <span class="n">line</span><span class="o">=</span><span class="s1">''</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">''</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">'B'</span><span class="p">]</span>
+            <span class="n">sign</span><span class="o">=</span><span class="s1">''</span>
+            <span class="n">fillin</span><span class="o">=</span><span class="s1">'last'</span>
+            <span class="k">if</span> <span class="s1">'DIV'</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">'C'</span><span class="p">]:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="s1">'dicu_div_'</span> <span class="o">+</span> <span class="n">node</span>
+                <span class="n">sign</span><span class="o">=</span><span class="s1">'-1'</span>
+            <span class="k">elif</span> <span class="s1">'SEEP'</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">'C'</span><span class="p">]:</span>
+                <span class="n">name</span> <span class="o">=</span><span class="s1">'dicu_seep_'</span> <span class="o">+</span> <span class="n">node</span>
+                <span class="n">sign</span><span class="o">=</span><span class="s1">'-1'</span>
+            <span class="k">elif</span> <span class="s1">'DRAIN'</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">'C'</span><span class="p">]:</span>
+                <span class="n">name</span> <span class="o">=</span><span class="s1">'dicu_drain_'</span> <span class="o">+</span> <span class="n">node</span>
+                <span class="n">sign</span><span class="o">=</span><span class="s1">'1'</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ERROR: C part does not contain DIV, DRAIN, or SEEP!. Catalog line=&#39;</span><span class="o">+</span><span class="n">row</span><span class="p">)</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span>
-            <span class="c1"># line = name+&#39;\t&#39;+node+&#39;\t&#39;+sign+&#39;\t&#39;+fillin+&#39;\t&#39;+file_field_string+&#39;\t&#39;+s+row[1][&#39;A&#39;]+s+row[1][&#39;B&#39;]+s+row[1][&#39;C&#39;]+s+s+row[1][&#39;E&#39;]+s+row[1][&#39;F&#39;].strip()+s+&#39;\n&#39;</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">'ERROR: C part does not contain DIV, DRAIN, or SEEP!. Catalog line='</span><span class="o">+</span><span class="n">row</span><span class="p">)</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s1">'/'</span>
+            <span class="c1"># line = name+'\t'+node+'\t'+sign+'\t'+fillin+'\t'+file_field_string+'\t'+s+row[1]['A']+s+row[1]['B']+s+row[1]['C']+s+s+row[1]['E']+s+row[1]['F'].strip()+s+'\n'</span>
             <span class="c1"># fout.write(line)</span>
-            <span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%-15s</span><span class="s2"> </span><span class="si">%4s</span><span class="s2"> </span><span class="si">%5s</span><span class="s2"> </span><span class="si">%-7s</span><span class="s2"> </span><span class="si">%-18s</span><span class="s2"> /</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">//</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">/</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> 
-                       <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">sign</span><span class="p">,</span> <span class="n">fillin</span><span class="p">,</span> <span class="n">file_field_string</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;A&#39;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;B&#39;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;C&#39;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;E&#39;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;F&#39;</span><span class="p">]))</span>
-    <span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;END</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+            <span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"</span><span class="si">%-15s</span><span class="s2"> </span><span class="si">%4s</span><span class="s2"> </span><span class="si">%5s</span><span class="s2"> </span><span class="si">%-7s</span><span class="s2"> </span><span class="si">%-18s</span><span class="s2"> /</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">//</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">/</span><span class="se">\n</span><span class="s2">"</span> <span class="o">%</span> 
+                       <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">sign</span><span class="p">,</span> <span class="n">fillin</span><span class="p">,</span> <span class="n">file_field_string</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">'A'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">'B'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">'C'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">'E'</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">'F'</span><span class="p">]))</span>
+    <span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"END</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span></div>
 
 
 <span class="c1">######################</span>
@@ -228,13 +228,13 @@
 <div class="viewcode-block" id="main">
 <a class="viewcode-back" href="../../../pydsm.input.create_cd_inp.html#pydsm.input.create_cd_inp.main">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-    <span class="n">dss_filename</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;e:/full_calibration_8_3/delta/dsm2_studies/timeseries/dcd_dsm2_mss1.dss&#39;</span>
-    <span class="n">dsm2_input_filename</span><span class="o">=</span><span class="s1">&#39;e:/full_calibration_8_3/delta/dsm2_studies/timeseries/test.inp&#39;</span>
-    <span class="n">file_field_string</span> <span class="o">=</span> <span class="s1">&#39;$</span><span class="si">{DICUFILE}</span><span class="s1">&#39;</span>
+    <span class="n">dss_filename</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">'e:/full_calibration_8_3/delta/dsm2_studies/timeseries/dcd_dsm2_mss1.dss'</span>
+    <span class="n">dsm2_input_filename</span><span class="o">=</span><span class="s1">'e:/full_calibration_8_3/delta/dsm2_studies/timeseries/test.inp'</span>
+    <span class="n">file_field_string</span> <span class="o">=</span> <span class="s1">'$</span><span class="si">{DICUFILE}</span><span class="s1">'</span>
     <span class="n">create_cd_inp</span><span class="p">(</span><span class="n">dss_filename</span><span class="p">,</span> <span class="n">dsm2_input_filename</span><span class="p">,</span> <span class="n">file_field_string</span><span class="p">)</span></div>
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 

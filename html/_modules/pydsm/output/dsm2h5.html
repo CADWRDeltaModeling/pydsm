@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.output.dsm2h5 &mdash; pydsm 2026.6.23.dev11+gf1dd0484c documentation</title>
+  <title>pydsm.output.dsm2h5 &mdash; pydsm 2026.6.23.dev13+g91fc7afd0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=371adbf9"></script>
+      <script src="../../../_static/documentation_options.js?v=ee9c00c2"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -176,7 +176,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">h5py</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">This module loads h5 files created by a DSM2 hydro or qual run.</span>
 <span class="sd">All the input, geometry and data tables are available as pandas DataFrame objects</span>
 
@@ -185,46 +185,46 @@
 <span class="sd">the tables, namely start time and time interval.</span>
 
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="n">_path_structure_map</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;hydro&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;/hydro/input&quot;</span><span class="p">,</span> <span class="s2">&quot;/hydro/data&quot;</span><span class="p">,</span> <span class="s2">&quot;/hydro/geometry&quot;</span><span class="p">],</span>
-    <span class="s2">&quot;qual&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;input&quot;</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">],</span>
+    <span class="s2">"hydro"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"/hydro/input"</span><span class="p">,</span> <span class="s2">"/hydro/data"</span><span class="p">,</span> <span class="s2">"/hydro/geometry"</span><span class="p">],</span>
+    <span class="s2">"qual"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"input"</span><span class="p">,</span> <span class="s2">"output"</span><span class="p">],</span>
 <span class="p">}</span>
 
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">hardwired lists of data available for modeltype. Currently</span>
-<span class="sd">the model type is either &#39;hydro&#39; or &#39;qual&#39;</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">the model type is either 'hydro' or 'qual'</span>
+<span class="sd">"""</span>
 <span class="n">_MODEL_TO_DATA_PATHS_MAP</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;hydro&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;/hydro/data/&quot;</span> <span class="o">+</span> <span class="n">s</span>
+    <span class="s2">"hydro"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">"/hydro/data/"</span> <span class="o">+</span> <span class="n">s</span>
         <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[</span>
-            <span class="s2">&quot;channel area&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;channel avg area&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;channel flow&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;channel stage&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;qext flow&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;reservoir flow&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;reservoir height&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;transfer flow&quot;</span><span class="p">,</span>
+            <span class="s2">"channel area"</span><span class="p">,</span>
+            <span class="s2">"channel avg area"</span><span class="p">,</span>
+            <span class="s2">"channel flow"</span><span class="p">,</span>
+            <span class="s2">"channel stage"</span><span class="p">,</span>
+            <span class="s2">"qext flow"</span><span class="p">,</span>
+            <span class="s2">"reservoir flow"</span><span class="p">,</span>
+            <span class="s2">"reservoir height"</span><span class="p">,</span>
+            <span class="s2">"transfer flow"</span><span class="p">,</span>
         <span class="p">]</span>
     <span class="p">],</span>
-    <span class="s2">&quot;qual&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;/output/&quot;</span> <span class="o">+</span> <span class="n">s</span>
+    <span class="s2">"qual"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">"/output/"</span> <span class="o">+</span> <span class="n">s</span>
         <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[</span>
-            <span class="s2">&quot;channel avg concentration&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;channel concentration&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;reservoir concentration&quot;</span><span class="p">,</span>
+            <span class="s2">"channel avg concentration"</span><span class="p">,</span>
+            <span class="s2">"channel concentration"</span><span class="p">,</span>
+            <span class="s2">"reservoir concentration"</span><span class="p">,</span>
         <span class="p">]</span>
     <span class="p">],</span>
-    <span class="s2">&quot;gtm&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;/output&quot;</span> <span class="o">+</span> <span class="n">s</span>
+    <span class="s2">"gtm"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">"/output"</span> <span class="o">+</span> <span class="n">s</span>
         <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[</span>
-            <span class="s2">&quot;cell concentration&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;constituent_names&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;reservoir concentration&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;reservoir_names&quot;</span><span class="p">,</span>
+            <span class="s2">"cell concentration"</span><span class="p">,</span>
+            <span class="s2">"constituent_names"</span><span class="p">,</span>
+            <span class="s2">"reservoir concentration"</span><span class="p">,</span>
+            <span class="s2">"reservoir_names"</span><span class="p">,</span>
         <span class="p">]</span>
     <span class="p">],</span>
 <span class="p">}</span>
@@ -233,56 +233,56 @@
 <div class="viewcode-block" id="get_model">
 <a class="viewcode-back" href="../../../pydsm.output.dsm2h5.html#pydsm.output.dsm2h5.get_model">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_model</span><span class="p">(</span><span class="n">h5f</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    returns one of &quot;hydro&quot; or &quot;qual&quot;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">h5f</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/hydro&quot;</span><span class="p">):</span>  <span class="c1"># hydro files have hydro at top level</span>
-        <span class="k">return</span> <span class="s2">&quot;hydro&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    returns one of "hydro" or "qual"</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">h5f</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/hydro"</span><span class="p">):</span>  <span class="c1"># hydro files have hydro at top level</span>
+        <span class="k">return</span> <span class="s2">"hydro"</span>
     <span class="k">elif</span> <span class="n">h5f</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-        <span class="s2">&quot;/output/channel avg concentration&quot;</span>
+        <span class="s2">"/output/channel avg concentration"</span>
     <span class="p">):</span>  <span class="c1"># only qual h5 files have the avg concentration</span>
-        <span class="k">return</span> <span class="s2">&quot;qual&quot;</span>
+        <span class="k">return</span> <span class="s2">"qual"</span>
     <span class="k">elif</span> <span class="n">h5f</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-        <span class="s2">&quot;/output/channel concentration&quot;</span>
+        <span class="s2">"/output/channel concentration"</span>
     <span class="p">):</span>  <span class="c1"># qual and gtm files have output group not found in hydro</span>
-        <span class="k">return</span> <span class="s2">&quot;gtm&quot;</span>
+        <span class="k">return</span> <span class="s2">"gtm"</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;unknown&quot;</span></div>
+        <span class="k">return</span> <span class="s2">"unknown"</span></div>
 
 
 
 <div class="viewcode-block" id="get_model_from_file">
 <a class="viewcode-back" href="../../../pydsm.output.dsm2h5.html#pydsm.output.dsm2h5.get_model_from_file">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_model_from_file</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    returns one of &quot;hydro&quot; or &quot;qual&quot;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    returns one of "hydro" or "qual"</span>
+<span class="sd">    """</span>
+    <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">get_model</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="get_start_end_dates">
 <a class="viewcode-back" href="../../../pydsm.output.dsm2h5.html#pydsm.output.dsm2h5.get_start_end_dates">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_start_end_dates</span><span class="p">(</span><span class="n">tidef</span><span class="p">,</span> <span class="n">scalar_table</span><span class="o">=</span><span class="s2">&quot;/hydro/input/scalar&quot;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_start_end_dates</span><span class="p">(</span><span class="n">tidef</span><span class="p">,</span> <span class="n">scalar_table</span><span class="o">=</span><span class="s2">"/hydro/input/scalar"</span><span class="p">):</span>
     <span class="n">scalar</span> <span class="o">=</span> <span class="n">tidef</span><span class="o">.</span><span class="n">get_input_table</span><span class="p">(</span><span class="n">scalar_table</span><span class="p">)</span>
-    <span class="n">sdate</span> <span class="o">=</span> <span class="n">scalar</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">scalar</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;run_start_date&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">edate</span> <span class="o">=</span> <span class="n">scalar</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">scalar</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;run_end_date&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">sdate</span> <span class="o">=</span> <span class="n">scalar</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">scalar</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"run_start_date"</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">edate</span> <span class="o">=</span> <span class="n">scalar</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">scalar</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"run_end_date"</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">sdate</span><span class="p">,</span> <span class="n">edate</span></div>
 
 
 
 <div class="viewcode-block" id="get_datapaths">
 <a class="viewcode-back" href="../../../pydsm.output.dsm2h5.html#pydsm.output.dsm2h5.get_datapaths">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_datapaths</span><span class="p">(</span><span class="n">modeltype</span><span class="o">=</span><span class="s2">&quot;hydro&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_datapaths</span><span class="p">(</span><span class="n">modeltype</span><span class="o">=</span><span class="s2">"hydro"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Returns expected paths in model type (hydro or qual)</span>
 
-<span class="sd">    :param modeltype: defaults to &quot;hydro&quot;. could be &quot;hydro&quot; or &quot;qual&quot;</span>
+<span class="sd">    :param modeltype: defaults to "hydro". could be "hydro" or "qual"</span>
 <span class="sd">    :type modeltype: str, optional</span>
 <span class="sd">    :return: list of model output paths</span>
 <span class="sd">    :rtype: list</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">_MODEL_TO_DATA_PATHS_MAP</span><span class="p">[</span><span class="n">modeltype</span><span class="p">]</span></div>
 
 
@@ -291,13 +291,13 @@
 <a class="viewcode-back" href="../../../pydsm.output.dsm2h5.html#pydsm.output.dsm2h5.get_table_paths">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_table_paths</span><span class="p">(</span>
     <span class="n">filename</span><span class="p">,</span>
-    <span class="n">group_paths</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;/hydro/input&quot;</span><span class="p">,</span> <span class="s2">&quot;/hydro/data&quot;</span><span class="p">,</span> <span class="s2">&quot;/hydro/geometry&quot;</span><span class="p">,</span> <span class="s2">&quot;input&quot;</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">],</span>
+    <span class="n">group_paths</span><span class="o">=</span><span class="p">[</span><span class="s2">"/hydro/input"</span><span class="p">,</span> <span class="s2">"/hydro/data"</span><span class="p">,</span> <span class="s2">"/hydro/geometry"</span><span class="p">,</span> <span class="s2">"input"</span><span class="p">,</span> <span class="s2">"output"</span><span class="p">],</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    returns a list of paths to tables (h5py.DataSets)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">table_paths</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">group_paths</span><span class="p">:</span>
             <span class="n">table_paths</span> <span class="o">+=</span> <span class="n">get_paths_for_group_path</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">table_paths</span></div>
@@ -307,7 +307,7 @@
 <div class="viewcode-block" id="get_paths_for_group_path">
 <a class="viewcode-back" href="../../../pydsm.output.dsm2h5.html#pydsm.output.dsm2h5.get_paths_for_group_path">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_paths_for_group_path</span><span class="p">(</span><span class="n">h5f</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    get paths for the open file handle to .h5 and the path to the containing group</span>
 
 <span class="sd">    :param h5f: filehandle</span>
@@ -316,10 +316,10 @@
 <span class="sd">    :type path: str</span>
 <span class="sd">    :return: list of contained paths</span>
 <span class="sd">    :rtype: list</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">gpath</span> <span class="o">=</span> <span class="n">h5f</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">gpath</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">path</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">gpath</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">path</span> <span class="o">+</span> <span class="s2">"/"</span> <span class="o">+</span> <span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">gpath</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span></div>
 
@@ -328,8 +328,8 @@
 <div class="viewcode-block" id="list_groups_as_df">
 <a class="viewcode-back" href="../../../pydsm.output.dsm2h5.html#pydsm.output.dsm2h5.list_groups_as_df">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">list_groups_as_df</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">group_path</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;reads listing of group path as pd.DataFrame&quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""reads listing of group path as pd.DataFrame"""</span>
+    <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">group_path</span><span class="p">])</span></div>
 
 
@@ -337,9 +337,9 @@
 <div class="viewcode-block" id="read_table_attr">
 <a class="viewcode-back" href="../../../pydsm.output.dsm2h5.html#pydsm.output.dsm2h5.read_table_attr">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">read_table_attr</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">table_path</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    returns a dictionary of attribute names to values</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">df_to_dict</span><span class="p">(</span><span class="n">read_table_attrs_as_df</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">table_path</span><span class="p">))</span></div>
 
 
@@ -347,15 +347,15 @@
 <div class="viewcode-block" id="read_table_attrs_as_df">
 <a class="viewcode-back" href="../../../pydsm.output.dsm2h5.html#pydsm.output.dsm2h5.read_table_attrs_as_df">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">read_table_attrs_as_df</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">table_path</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    reads a tables attribute as a pandas.DataFrame</span>
 <span class="sd">    returns a data frame of attributes as Name and Value columns</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="sd">    """</span>
+    <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">bf</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="n">table_path</span><span class="p">]</span>
-        <span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">bf</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="s2">&quot;Value&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">str_</span><span class="p">)</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">bf</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"Name"</span><span class="p">,</span> <span class="s2">"Value"</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">str_</span><span class="p">)</span>
         <span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-            <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([(</span><span class="s2">&quot;shape&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">bf</span><span class="o">.</span><span class="n">shape</span><span class="p">))],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="s2">&quot;Value&quot;</span><span class="p">]),</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([(</span><span class="s2">"shape"</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">bf</span><span class="o">.</span><span class="n">shape</span><span class="p">))],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"Name"</span><span class="p">,</span> <span class="s2">"Value"</span><span class="p">]),</span>
             <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">a</span></div>
@@ -364,10 +364,10 @@
 
 <div class="viewcode-block" id="df_to_dict">
 <a class="viewcode-back" href="../../../pydsm.output.dsm2h5.html#pydsm.output.dsm2h5.df_to_dict">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">df_to_dict</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">key_column</span><span class="o">=</span><span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="n">value_column</span><span class="o">=</span><span class="s2">&quot;Value&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">df_to_dict</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">key_column</span><span class="o">=</span><span class="s2">"Name"</span><span class="p">,</span> <span class="n">value_column</span><span class="o">=</span><span class="s2">"Value"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    creates a dictionary based on a key_column (default Name) mapped to a value_column (default Value)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">key_column</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="n">value_column</span><span class="p">]))</span></div>
 
 
@@ -375,10 +375,10 @@
 <div class="viewcode-block" id="df_column_values_to_index">
 <a class="viewcode-back" href="../../../pydsm.output.dsm2h5.html#pydsm.output.dsm2h5.df_column_values_to_index">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">df_column_values_to_index</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">column_label</span><span class="p">,</span> <span class="n">matching_values</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    returns in the index values for the column_label for the matching_values</span>
 <span class="sd">    in the DataFrame of that column</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">column_label</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">matching_values</span><span class="p">)]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span></div>
 
 
@@ -386,7 +386,7 @@
 <div class="viewcode-block" id="read_table_as_df">
 <a class="viewcode-back" href="../../../pydsm.output.dsm2h5.html#pydsm.output.dsm2h5.read_table_as_df">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">read_table_as_df</span><span class="p">(</span><span class="n">h5</span><span class="p">,</span> <span class="n">tpath</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    reads table as a pandas.DateFrame</span>
 <span class="sd">    converts byte types to string and strips empty spaces</span>
 <span class="sd">    all other types are kept as is</span>
@@ -397,7 +397,7 @@
 <span class="sd">    :type tpath: [type]</span>
 <span class="sd">    :return: [description]</span>
 <span class="sd">    :rtype: [type]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">h5</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tpath</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
@@ -407,7 +407,7 @@
                 <span class="p">[</span>
                     <span class="p">(</span>
                         <span class="n">v</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-                        <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;bytes&quot;</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"bytes"</span><span class="p">)</span>
                         <span class="k">else</span> <span class="n">v</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
                     <span class="p">)</span>
                     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">fields</span>
@@ -418,19 +418,19 @@
         <span class="p">)</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
             <span class="n">dtype</span><span class="o">=</span><span class="p">{</span>
-                <span class="n">k</span><span class="p">:</span> <span class="s2">&quot;unicode&quot;</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;bytes&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+                <span class="n">k</span><span class="p">:</span> <span class="s2">"unicode"</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"bytes"</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
                 <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">fields</span>
             <span class="p">}</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
             <span class="p">[</span>
-                <span class="n">v</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;bytes&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">v</span>
+                <span class="n">v</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"bytes"</span><span class="p">)</span> <span class="k">else</span> <span class="n">v</span>
                 <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">x</span>
             <span class="p">]</span>
         <span class="p">)</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
-            <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;unicode&quot;</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;bytes&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="s2">"unicode"</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"bytes"</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span>
         <span class="p">)</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">strip</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">result</span></div>
@@ -440,10 +440,10 @@
 <div class="viewcode-block" id="read_table_as_array">
 <a class="viewcode-back" href="../../../pydsm.output.dsm2h5.html#pydsm.output.dsm2h5.read_table_as_array">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">read_table_as_array</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">table_path</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    reads table from h5 filename from the table_path and returns array of dtype</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="sd">    """</span>
+    <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">table_path</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span></div>
 
 
@@ -453,18 +453,18 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">convert_time_to_table_slice</span><span class="p">(</span>
     <span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">,</span> <span class="n">interval</span><span class="p">,</span> <span class="n">table_start_time</span><span class="p">,</span> <span class="n">table_time_length</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    start_time and end_time as convertable to to_datetime</span>
 <span class="sd">    interval as convertable to Timedelta</span>
 <span class="sd">    table_start_time convertable to_datetime</span>
 <span class="sd">    table_time_length int</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">st</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">start_time</span><span class="p">)</span>
     <span class="n">et</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">end_time</span><span class="p">)</span>
     <span class="n">table_start_time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">table_start_time</span><span class="p">)</span>
     <span class="n">interval</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">interval</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">et</span> <span class="o">&lt;</span> <span class="n">st</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="s2">&quot;Start time: &quot;</span> <span class="o">+</span> <span class="n">st</span> <span class="o">+</span> <span class="s2">&quot; is ahead of end time: &quot;</span> <span class="o">+</span> <span class="n">et</span>
+        <span class="k">raise</span> <span class="s2">"Start time: "</span> <span class="o">+</span> <span class="n">st</span> <span class="o">+</span> <span class="s2">" is ahead of end time: "</span> <span class="o">+</span> <span class="n">et</span>
     <span class="n">table_end_time</span> <span class="o">=</span> <span class="n">table_start_time</span> <span class="o">+</span> <span class="n">interval</span> <span class="o">*</span> <span class="n">table_time_length</span>
     <span class="k">if</span> <span class="n">st</span> <span class="o">&lt;</span> <span class="n">table_start_time</span><span class="p">:</span>
         <span class="n">st</span> <span class="o">=</span> <span class="n">table_start_time</span>
@@ -480,22 +480,22 @@
 <a class="viewcode-back" href="../../../pydsm.output.dsm2h5.html#pydsm.output.dsm2h5.read_attributes_from_table">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">read_attributes_from_table</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="c1">#</span>
-    <span class="n">interval_string</span> <span class="o">=</span> <span class="n">decode_if_bytes</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interval&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">interval_string</span> <span class="o">=</span> <span class="n">decode_if_bytes</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"interval"</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
     <span class="c1"># FIXME: these conversions are HECDSS. Move them to pyhecdss utility function</span>
-    <span class="n">interval_string</span> <span class="o">=</span> <span class="n">interval_string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;hour&quot;</span><span class="p">,</span> <span class="s2">&quot;h&quot;</span><span class="p">)</span>
-    <span class="n">interval_string</span> <span class="o">=</span> <span class="n">interval_string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;day&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">)</span>
-    <span class="n">interval_string</span> <span class="o">=</span> <span class="n">interval_string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;mon&quot;</span><span class="p">,</span> <span class="s2">&quot;MS&quot;</span><span class="p">)</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">decode_if_bytes</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">model_version</span> <span class="o">=</span> <span class="n">decode_if_bytes</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;model_version&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_time&quot;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-        <span class="n">start_time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">decode_if_bytes</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_time&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">interval_string</span> <span class="o">=</span> <span class="n">interval_string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"hour"</span><span class="p">,</span> <span class="s2">"h"</span><span class="p">)</span>
+    <span class="n">interval_string</span> <span class="o">=</span> <span class="n">interval_string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"day"</span><span class="p">,</span> <span class="s2">"D"</span><span class="p">)</span>
+    <span class="n">interval_string</span> <span class="o">=</span> <span class="n">interval_string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"mon"</span><span class="p">,</span> <span class="s2">"MS"</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">decode_if_bytes</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"model"</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">model_version</span> <span class="o">=</span> <span class="n">decode_if_bytes</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"model_version"</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_time"</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">decode_if_bytes</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_time"</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">start_time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">decode_if_bytes</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_time&quot;</span><span class="p">]))</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">decode_if_bytes</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_time"</span><span class="p">]))</span>
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;interval&quot;</span><span class="p">:</span> <span class="n">interval_string</span><span class="p">,</span>
-        <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span>
-        <span class="s2">&quot;model_version&quot;</span><span class="p">:</span> <span class="n">model_version</span><span class="p">,</span>
-        <span class="s2">&quot;start_time&quot;</span><span class="p">:</span> <span class="n">start_time</span><span class="p">,</span>
+        <span class="s2">"interval"</span><span class="p">:</span> <span class="n">interval_string</span><span class="p">,</span>
+        <span class="s2">"model"</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span>
+        <span class="s2">"model_version"</span><span class="p">:</span> <span class="n">model_version</span><span class="p">,</span>
+        <span class="s2">"start_time"</span><span class="p">:</span> <span class="n">start_time</span><span class="p">,</span>
     <span class="p">}</span></div>
 
 
@@ -503,35 +503,35 @@
 <div class="viewcode-block" id="read_time_indexed_table">
 <a class="viewcode-back" href="../../../pydsm.output.dsm2h5.html#pydsm.output.dsm2h5.read_time_indexed_table">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">read_time_indexed_table</span><span class="p">(</span><span class="n">h5</span><span class="p">,</span> <span class="n">table_path</span><span class="p">,</span> <span class="n">timewindow</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">other_indices</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    returns a pandas DataFrame of time series from the table where</span>
 <span class="sd">     - the first index is time (if None retrieves the entire time window)</span>
 <span class="sd">        - specified as timewindow in the format of &lt;&lt;start time str&gt;&gt; - &lt;&lt;end time str&gt;&gt;, e.g. 01JAN1990 - 05JUL1992</span>
 <span class="sd">     - second index are the ids</span>
 <span class="sd">     - third index (if any) is the location identifier within the id aka 3rd dimension</span>
 
-<span class="sd">    The attributes of the HDF5 data sets contains &quot;start_time&quot; and &quot;interval&quot; for evenly spaced data. This is</span>
+<span class="sd">    The attributes of the HDF5 data sets contains "start_time" and "interval" for evenly spaced data. This is</span>
 <span class="sd">    used to infer the time window if none is given</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">h5</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">table_path</span><span class="p">)</span>
     <span class="c1">#</span>
     <span class="n">attrs</span> <span class="o">=</span> <span class="n">read_attributes_from_table</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="c1">#</span>
-    <span class="n">stime</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_time&quot;</span><span class="p">])</span>
+    <span class="n">stime</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_time"</span><span class="p">])</span>
     <span class="c1"># if start time and end time given use the slice</span>
     <span class="k">if</span> <span class="n">timewindow</span><span class="p">:</span>
-        <span class="n">twse</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">timewindow</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)]</span>
+        <span class="n">twse</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">timewindow</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"-"</span><span class="p">)]</span>
         <span class="n">timeSlice</span> <span class="o">=</span> <span class="n">convert_time_to_table_slice</span><span class="p">(</span>
-            <span class="n">twse</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">twse</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interval&quot;</span><span class="p">],</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_time&quot;</span><span class="p">],</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">twse</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">twse</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">"interval"</span><span class="p">],</span> <span class="n">attrs</span><span class="p">[</span><span class="s2">"start_time"</span><span class="p">],</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">timeSlice</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">timeSlice</span><span class="o">.</span><span class="n">start</span><span class="p">:</span>
-        <span class="n">stime</span> <span class="o">=</span> <span class="n">stime</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interval&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="n">timeSlice</span><span class="o">.</span><span class="n">start</span>
+        <span class="n">stime</span> <span class="o">=</span> <span class="n">stime</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"interval"</span><span class="p">])</span> <span class="o">*</span> <span class="n">timeSlice</span><span class="o">.</span><span class="n">start</span>
     <span class="n">darr</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">((</span><span class="n">timeSlice</span><span class="p">,</span> <span class="o">*</span><span class="n">other_indices</span><span class="p">))</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
         <span class="n">darr</span><span class="p">,</span>
-        <span class="n">index</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">stime</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interval&quot;</span><span class="p">],</span> <span class="n">periods</span><span class="o">=</span><span class="n">darr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+        <span class="n">index</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">stime</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"interval"</span><span class="p">],</span> <span class="n">periods</span><span class="o">=</span><span class="n">darr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
         <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">df</span></div>
@@ -544,9 +544,9 @@
 <div class="viewcode-block" id="strip">
 <a class="viewcode-back" href="../../../pydsm.output.dsm2h5.html#pydsm.output.dsm2h5.strip">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">strip</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    returns a striped copy of the str types of DataFrame</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span><span class="p">)</span></div>
 
 
@@ -555,7 +555,7 @@
 <a class="viewcode-back" href="../../../pydsm.output.dsm2h5.html#pydsm.output.dsm2h5.is_sequence_like">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_sequence_like</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="n">tobj</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-    <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">tobj</span><span class="p">,</span> <span class="s2">&quot;__len__&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">tobj</span><span class="p">,</span> <span class="s2">&quot;__getitem__&quot;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">tobj</span><span class="p">,</span> <span class="s2">"__len__"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">tobj</span><span class="p">,</span> <span class="s2">"__getitem__"</span><span class="p">)</span></div>
 
 
 
@@ -570,7 +570,7 @@
         <span class="k">return</span> <span class="n">str_or_seq</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-            <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> should be string, sequence of strings or slice: called with type: </span><span class="si">%s</span><span class="s2">&quot;</span>
+            <span class="s2">"</span><span class="si">%s</span><span class="s2"> should be string, sequence of strings or slice: called with type: </span><span class="si">%s</span><span class="s2">"</span>
             <span class="o">%</span> <span class="p">(</span><span class="n">str_or_seq</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">str_or_seq</span><span class="p">))</span>
         <span class="p">)</span></div>
 
@@ -579,23 +579,23 @@
 <div class="viewcode-block" id="create_catalog_entry">
 <a class="viewcode-back" href="../../../pydsm.output.dsm2h5.html#pydsm.output.dsm2h5.create_catalog_entry">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">create_catalog_entry</span><span class="p">(</span>
-    <span class="n">filename</span><span class="p">,</span> <span class="n">dfc</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">updown</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;CHAN_&quot;</span><span class="p">,</span> <span class="n">id_column</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">filename</span><span class="p">,</span> <span class="n">dfc</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">updown</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"CHAN_"</span><span class="p">,</span> <span class="n">id_column</span><span class="o">=</span><span class="mi">0</span>
 <span class="p">):</span>
     <span class="n">catalog</span> <span class="o">=</span> <span class="n">dfc</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">id_column</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
         <span class="n">id_column_name</span> <span class="o">=</span> <span class="n">catalog</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">id_column</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">id_column_name</span> <span class="o">=</span> <span class="n">id_column</span>
-    <span class="n">catalog</span> <span class="o">=</span> <span class="n">catalog</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="n">id_column_name</span><span class="p">:</span> <span class="s2">&quot;id&quot;</span><span class="p">})</span>
-    <span class="n">catalog</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="n">catalog</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
-    <span class="n">catalog</span><span class="p">[</span><span class="s2">&quot;variable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable</span>
-    <span class="n">catalog</span><span class="p">[</span><span class="s2">&quot;unit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">unit</span>
-    <span class="n">catalog</span><span class="p">[</span><span class="s2">&quot;filename&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">filename</span>
+    <span class="n">catalog</span> <span class="o">=</span> <span class="n">catalog</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="n">id_column_name</span><span class="p">:</span> <span class="s2">"id"</span><span class="p">})</span>
+    <span class="n">catalog</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="n">catalog</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">catalog</span><span class="p">[</span><span class="s2">"variable"</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable</span>
+    <span class="n">catalog</span><span class="p">[</span><span class="s2">"unit"</span><span class="p">]</span> <span class="o">=</span> <span class="n">unit</span>
+    <span class="n">catalog</span><span class="p">[</span><span class="s2">"filename"</span><span class="p">]</span> <span class="o">=</span> <span class="n">filename</span>
     <span class="k">if</span> <span class="n">updown</span><span class="p">:</span>
         <span class="n">catalog_up</span> <span class="o">=</span> <span class="n">catalog</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">catalog_down</span> <span class="o">=</span> <span class="n">catalog</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">catalog_up</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">catalog_up</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;_UP&quot;</span>
-        <span class="n">catalog_down</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">catalog_down</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;_DOWN&quot;</span>
+        <span class="n">catalog_up</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">catalog_up</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"_UP"</span>
+        <span class="n">catalog_down</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">catalog_down</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"_DOWN"</span>
         <span class="n">catalog</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">catalog_up</span><span class="p">,</span> <span class="n">catalog_down</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">catalog</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
@@ -606,9 +606,9 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">decode_if_bytes</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">UnicodeDecodeError</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"replace"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">x</span></div>
 
 </pre></div>

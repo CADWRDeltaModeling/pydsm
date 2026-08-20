@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reading/writing echo files into/from Pandas DataFrame &mdash; pydsm 2026.6.23.dev11+gf1dd0484c documentation</title>
+  <title>Reading/writing echo files into/from Pandas DataFrame &mdash; pydsm 2026.6.23.dev13+g91fc7afd0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=371adbf9"></script>
+      <script src="../_static/documentation_options.js?v=ee9c00c2"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -219,7 +219,7 @@ END
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fname</span><span class="o">=</span><span class="s1">&#39;../../tests/data/hydro_echo_historical_v82.inp&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fname</span><span class="o">=</span><span class="s1">'../../tests/data/hydro_echo_historical_v82.inp'</span>
 <span class="n">tables</span><span class="o">=</span><span class="n">read_input</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -250,7 +250,7 @@ END
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">tables</span><span class="p">[</span><span class="s1">&#39;CHANNEL&#39;</span><span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">tables</span><span class="p">[</span><span class="s1">'CHANNEL'</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -394,7 +394,7 @@ END
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tables</span><span class="p">[</span><span class="s1">&#39;CHANNEL&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tables</span><span class="p">[</span><span class="s1">'CHANNEL'</span><span class="p">]</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -421,8 +421,8 @@ dtype: object
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">=</span><span class="n">tables</span><span class="p">[</span><span class="s1">&#39;CHANNEL&#39;</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Channels with length &gt; 20000 ft:&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">=</span><span class="n">tables</span><span class="p">[</span><span class="s1">'CHANNEL'</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Channels with length &gt; 20000 ft:'</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">LENGTH</span><span class="o">&gt;</span><span class="mi">20000</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -586,7 +586,7 @@ Channels with length &gt; 20000 ft:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="o">=</span><span class="n">tables</span><span class="p">[</span><span class="s1">&#39;XSECT_LAYER&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="o">=</span><span class="n">tables</span><span class="p">[</span><span class="s1">'XSECT_LAYER'</span><span class="p">]</span>
 <span class="n">display</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -731,9 +731,9 @@ Channels with length &gt; 20000 ft:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">on</span><span class="o">=</span><span class="s1">&#39;CHAN_NO&#39;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">fc</span><span class="p">[</span><span class="n">fc</span><span class="o">.</span><span class="n">CHAN_NO</span><span class="o">==</span><span class="mi">441</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;DIST&#39;</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;DIST: &#39;</span><span class="p">,</span><span class="n">name</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">on</span><span class="o">=</span><span class="s1">'CHAN_NO'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">fc</span><span class="p">[</span><span class="n">fc</span><span class="o">.</span><span class="n">CHAN_NO</span><span class="o">==</span><span class="mi">441</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'DIST'</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'DIST: '</span><span class="p">,</span><span class="n">name</span><span class="p">)</span>
     <span class="n">display</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1157,11 +1157,11 @@ DIST:  0.914
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group</span><span class="o">=</span><span class="n">fc</span><span class="p">[</span><span class="n">fc</span><span class="o">.</span><span class="n">CHAN_NO</span><span class="o">==</span><span class="mi">441</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;DIST&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group</span><span class="o">=</span><span class="n">fc</span><span class="p">[</span><span class="n">fc</span><span class="o">.</span><span class="n">CHAN_NO</span><span class="o">==</span><span class="mi">441</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'DIST'</span><span class="p">)</span>
 <span class="n">dist</span><span class="p">,</span><span class="n">group</span><span class="o">=</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">group</span><span class="p">))</span>
-<span class="n">group</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s1">&#39;ELEV&#39;</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;AREA&#39;</span><span class="p">,</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;line&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;AREA&#39;</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;AREA with ELEV&#39;</span><span class="p">)</span>
-<span class="n">group</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s1">&#39;ELEV&#39;</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;WIDTH&#39;</span><span class="p">,</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;line&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;WIDTH&#39;</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;WIDTH with ELEV&#39;</span><span class="p">)</span>
-<span class="n">_</span><span class="o">=</span><span class="n">group</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s1">&#39;ELEV&#39;</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;WET_PERIM&#39;</span><span class="p">,</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;line&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;WET_PERIM&#39;</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;WET_PERIM with ELEV&#39;</span><span class="p">)</span>
+<span class="n">group</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s1">'ELEV'</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="s1">'AREA'</span><span class="p">,</span><span class="n">kind</span><span class="o">=</span><span class="s1">'line'</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">'AREA'</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s1">'AREA with ELEV'</span><span class="p">)</span>
+<span class="n">group</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s1">'ELEV'</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="s1">'WIDTH'</span><span class="p">,</span><span class="n">kind</span><span class="o">=</span><span class="s1">'line'</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">'WIDTH'</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s1">'WIDTH with ELEV'</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">group</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s1">'ELEV'</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="s1">'WET_PERIM'</span><span class="p">,</span><span class="n">kind</span><span class="o">=</span><span class="s1">'line'</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">'WET_PERIM'</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s1">'WET_PERIM with ELEV'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1174,7 +1174,7 @@ DIST:  0.914
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">write_input</span><span class="p">(</span><span class="s1">&#39;../../tests/hydro_echo_historical_v82_copy.inp&#39;</span><span class="p">,</span><span class="n">tables</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">write_input</span><span class="p">(</span><span class="s1">'../../tests/hydro_echo_historical_v82_copy.inp'</span><span class="p">,</span><span class="n">tables</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

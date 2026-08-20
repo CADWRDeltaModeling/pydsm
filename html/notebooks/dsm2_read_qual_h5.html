@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reading Qual h5 output &mdash; pydsm 2026.6.23.dev11+gf1dd0484c documentation</title>
+  <title>Reading Qual h5 output &mdash; pydsm 2026.6.23.dev13+g91fc7afd0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=371adbf9"></script>
+      <script src="../_static/documentation_options.js?v=ee9c00c2"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -206,7 +206,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;../../tests/data/historical_v82_ec.h5&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span><span class="o">=</span><span class="s1">'../../tests/data/historical_v82_ec.h5'</span>
 <span class="n">qual</span><span class="o">=</span><span class="n">QualH5</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -462,8 +462,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">up1</span> <span class="o">=</span> <span class="n">qual</span><span class="o">.</span><span class="n">get_channel_concentration</span><span class="p">(</span><span class="s1">&#39;ec&#39;</span><span class="p">,</span> <span class="s1">&#39;434&#39;</span><span class="p">,</span><span class="s1">&#39;upstream&#39;</span><span class="p">)</span>
-<span class="n">down1</span> <span class="o">=</span> <span class="n">qual</span><span class="o">.</span><span class="n">get_channel_concentration</span><span class="p">(</span><span class="s1">&#39;ec&#39;</span><span class="p">,</span><span class="s1">&#39;434&#39;</span><span class="p">,</span><span class="s1">&#39;downstream&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">up1</span> <span class="o">=</span> <span class="n">qual</span><span class="o">.</span><span class="n">get_channel_concentration</span><span class="p">(</span><span class="s1">'ec'</span><span class="p">,</span> <span class="s1">'434'</span><span class="p">,</span><span class="s1">'upstream'</span><span class="p">)</span>
+<span class="n">down1</span> <span class="o">=</span> <span class="n">qual</span><span class="o">.</span><span class="n">get_channel_concentration</span><span class="p">(</span><span class="s1">'ec'</span><span class="p">,</span><span class="s1">'434'</span><span class="p">,</span><span class="s1">'downstream'</span><span class="p">)</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">up1</span><span class="p">,</span><span class="n">down1</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -561,7 +561,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">up2</span> <span class="o">=</span> <span class="n">qual</span><span class="o">.</span><span class="n">get_channel_avg_concentration</span><span class="p">(</span><span class="s1">&#39;ec&#39;</span><span class="p">,</span> <span class="s1">&#39;380&#39;</span><span class="p">,</span><span class="s1">&#39;10JAN1990 - 25JAN1990&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">up2</span> <span class="o">=</span> <span class="n">qual</span><span class="o">.</span><span class="n">get_channel_avg_concentration</span><span class="p">(</span><span class="s1">'ec'</span><span class="p">,</span> <span class="s1">'380'</span><span class="p">,</span><span class="s1">'10JAN1990 - 25JAN1990'</span><span class="p">)</span>
 <span class="n">up2</span>
 </pre></div>
 </div>
@@ -646,7 +646,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_channel_concentration</span><span class="p">(</span><span class="s1">&#39;ec&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="s1">&#39;upstream&#39;</span><span class="p">,</span><span class="s1">&#39;08JAN1990 - 10JAN1990&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_channel_concentration</span><span class="p">(</span><span class="s1">'ec'</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="s1">'upstream'</span><span class="p">,</span><span class="s1">'08JAN1990 - 10JAN1990'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -914,7 +914,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_input_table</span><span class="p">(</span><span class="s1">&#39;/input/tidefile&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qual</span><span class="o">.</span><span class="n">get_input_table</span><span class="p">(</span><span class="s1">'/input/tidefile'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

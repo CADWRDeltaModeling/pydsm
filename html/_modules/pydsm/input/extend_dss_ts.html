@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.input.extend_dss_ts &mdash; pydsm 2026.6.23.dev11+gf1dd0484c documentation</title>
+  <title>pydsm.input.extend_dss_ts &mdash; pydsm 2026.6.23.dev13+g91fc7afd0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=371adbf9"></script>
+      <script src="../../../_static/documentation_options.js?v=ee9c00c2"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -182,7 +182,7 @@
 <div class="viewcode-block" id="extend_ts">
 <a class="viewcode-back" href="../../../pydsm.input.extend_dss_ts.html#pydsm.input.extend_dss_ts.extend_ts">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">extend_ts</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">days</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Extends a time series by shifting it by a number of days</span>
 
 <span class="sd">    Parameters</span>
@@ -196,14 +196,14 @@
 <span class="sd">    -------</span>
 <span class="sd">    DataFrame</span>
 <span class="sd">        pandas DataFrame with the data shifted by days</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">days</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;D&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">days</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">"D"</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Exception </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> : Could not extend time series data. attempting to shift by 12 months&quot;</span>
+            <span class="sa">f</span><span class="s2">"Exception </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> : Could not extend time series data. attempting to shift by 12 months"</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">"M"</span><span class="p">)</span></div>
 
 
 
@@ -213,19 +213,19 @@
 
 <span class="nd">@click</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span>
-    <span class="s2">&quot;dss_filename&quot;</span><span class="p">,</span>
+    <span class="s2">"dss_filename"</span><span class="p">,</span>
     <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s2">&quot;dss_ext_filename&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(),</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s2">"dss_ext_filename"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(),</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
-    <span class="s2">&quot;--days&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">366</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of days to extend the time series&quot;</span>
+    <span class="s2">"--days"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">366</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Number of days to extend the time series"</span>
 <span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
-    <span class="s2">&quot;--pathfilter&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">STRING</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;///////&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;HECDSS path filter&quot;</span>
+    <span class="s2">"--pathfilter"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">STRING</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">"///////"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"HECDSS path filter"</span>
 <span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">extend_dss_ts</span><span class="p">(</span><span class="n">dss_filename</span><span class="p">,</span> <span class="n">dss_ext_filename</span><span class="p">,</span> <span class="n">days</span><span class="o">=</span><span class="mi">366</span><span class="p">,</span> <span class="n">pathfilter</span><span class="o">=</span><span class="s2">&quot;///////&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">extend_dss_ts</span><span class="p">(</span><span class="n">dss_filename</span><span class="p">,</span> <span class="n">dss_ext_filename</span><span class="p">,</span> <span class="n">days</span><span class="o">=</span><span class="mi">366</span><span class="p">,</span> <span class="n">pathfilter</span><span class="o">=</span><span class="s2">"///////"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Extends time series data in a DSS file by a number of days</span>
 
 <span class="sd">    Parameters</span>
@@ -234,14 +234,14 @@
 <span class="sd">    dss_filename : DSS filename to read the time series data from</span>
 <span class="sd">    dss_ext_filename : DSS filename to write the extended time series data to</span>
 <span class="sd">    days : optional, number of days to extend the time series, by default 366</span>
-<span class="sd">    pathfilter : optional, HECDSS path filter, by default &quot;///////&quot;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    pathfilter : optional, HECDSS path filter, by default "///////"</span>
+<span class="sd">    """</span>
     <span class="k">with</span> <span class="n">dss</span><span class="o">.</span><span class="n">DSSFile</span><span class="p">(</span><span class="n">dss_ext_filename</span><span class="p">,</span> <span class="n">create_new</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">dhout</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">df</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">ptype</span> <span class="ow">in</span> <span class="n">dss</span><span class="o">.</span><span class="n">get_matching_ts</span><span class="p">(</span><span class="n">dss_filename</span><span class="p">,</span> <span class="n">pathfilter</span><span class="p">):</span>
             <span class="n">dfn</span> <span class="o">=</span> <span class="n">extend_ts</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">days</span><span class="p">)</span>
             <span class="n">dfn</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">combine_first</span><span class="p">(</span><span class="n">dfn</span><span class="p">)</span>
             <span class="n">p</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;IR-&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"IR-"</span><span class="p">):</span>
                 <span class="n">dhout</span><span class="o">.</span><span class="n">write_its</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">dfn</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">ptype</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">dhout</span><span class="o">.</span><span class="n">write_rts</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">dfn</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">ptype</span><span class="p">)</span>

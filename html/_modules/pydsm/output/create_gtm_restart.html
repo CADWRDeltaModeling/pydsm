@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.output.create_gtm_restart &mdash; pydsm 2026.6.23.dev11+gf1dd0484c documentation</title>
+  <title>pydsm.output.create_gtm_restart &mdash; pydsm 2026.6.23.dev13+g91fc7afd0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=371adbf9"></script>
+      <script src="../../../_static/documentation_options.js?v=ee9c00c2"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -172,7 +172,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pydsm.output.create_gtm_restart</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Create a GTM restart file from a tide (Qual/GTM HDF5) file.</span>
+<span></span><span class="sd">"""Create a GTM restart file from a tide (Qual/GTM HDF5) file.</span>
 
 <span class="sd">Generates a restart file containing:</span>
 <span class="sd"> - Cell concentrations (interpolated per cell from channel end concentrations)</span>
@@ -182,10 +182,10 @@
 <span class="sd">Example</span>
 <span class="sd">-------</span>
 <span class="sd">&gt;&gt;&gt; write_gtm_restart(</span>
-<span class="sd">...    tidefile=&quot;tests/data/hist_v82_mss2_extran_gtm.h5&quot;,</span>
-<span class="sd">...    target_time=&quot;05FEB2020 0300&quot;,</span>
-<span class="sd">...    outfile=&quot;restart_created.qrf&quot;,</span>
-<span class="sd">...    constituent=&quot;ec&quot;,</span>
+<span class="sd">...    tidefile="tests/data/hist_v82_mss2_extran_gtm.h5",</span>
+<span class="sd">...    target_time="05FEB2020 0300",</span>
+<span class="sd">...    outfile="restart_created.qrf",</span>
+<span class="sd">...    constituent="ec",</span>
 <span class="sd">... )</span>
 
 <span class="sd">Output file format (illustrative):</span>
@@ -200,7 +200,7 @@
 <span class="sd">              reservoir_name                ec</span>
 <span class="sd">clifton_court                               416.6467054602688336</span>
 <span class="sd">... (reservoirs) ...</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -221,30 +221,30 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_time_label_with_2400</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Format time similar to DSM2/expected restart label.</span>
+<span class="w">    </span><span class="sd">"""Format time similar to DSM2/expected restart label.</span>
 
 <span class="sd">    If the time is exactly on midnight (00:00) we represent it as previous day 2400.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">dt</span><span class="o">.</span><span class="n">hour</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">dt</span><span class="o">.</span><span class="n">minute</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">prev</span> <span class="o">=</span> <span class="n">dt</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">prev</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">%b%Y&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; 2400&quot;</span>
-    <span class="k">return</span> <span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">%b%Y %H%M&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">prev</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"</span><span class="si">%d</span><span class="s2">%b%Y"</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">" 2400"</span>
+    <span class="k">return</span> <span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"</span><span class="si">%d</span><span class="s2">%b%Y %H%M"</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_compute_julmin</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute julian minutes relative to the _EPOCH_JULMIN baseline.</span>
+<span class="w">    </span><span class="sd">"""Compute julian minutes relative to the _EPOCH_JULMIN baseline.</span>
 
 <span class="sd">    This matches the magnitude of values seen in existing restart samples.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="n">dt</span> <span class="o">-</span> <span class="n">_EPOCH_JULMIN</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">//</span> <span class="mi">60</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_format_cell_header</span><span class="p">(</span><span class="n">constituent</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;cell_no&#39;</span><span class="si">:</span><span class="s2">&gt;29</span><span class="si">}{</span><span class="n">constituent</span><span class="si">:</span><span class="s2">&gt;20</span><span class="si">}</span><span class="s2">              &quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'cell_no'</span><span class="si">:</span><span class="s2">&gt;29</span><span class="si">}{</span><span class="n">constituent</span><span class="si">:</span><span class="s2">&gt;20</span><span class="si">}</span><span class="s2">              "</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_format_res_header</span><span class="p">(</span><span class="n">constituent</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;reservoir_name&#39;</span><span class="si">:</span><span class="s2">&gt;29</span><span class="si">}{</span><span class="n">constituent</span><span class="si">:</span><span class="s2">&gt;20</span><span class="si">}</span><span class="s2">              &quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'reservoir_name'</span><span class="si">:</span><span class="s2">&gt;29</span><span class="si">}{</span><span class="n">constituent</span><span class="si">:</span><span class="s2">&gt;20</span><span class="si">}</span><span class="s2">              "</span>
 
 
 <div class="viewcode-block" id="write_gtm_restart">
@@ -253,9 +253,9 @@
     <span class="n">tidefile</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
     <span class="n">target_time</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">datetime</span><span class="p">,</span>
     <span class="n">outfile</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
-    <span class="n">constituent</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ec&quot;</span><span class="p">,</span>
+    <span class="n">constituent</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"ec"</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write a GTM restart file at the requested time.</span>
+<span class="w">    </span><span class="sd">"""Write a GTM restart file at the requested time.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -265,13 +265,13 @@
 <span class="sd">       Desired time (will snap to nearest output time).</span>
 <span class="sd">    outfile : str | Path</span>
 <span class="sd">       Destination restart file path.</span>
-<span class="sd">    constituent : str, default &#39;ec&#39;</span>
+<span class="sd">    constituent : str, default 'ec'</span>
 <span class="sd">       Constituent to export.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    Path to the written restart file.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">tidefile</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tidefile</span><span class="p">)</span>
     <span class="n">outfile</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">outfile</span><span class="p">)</span>
     <span class="n">qualt</span> <span class="o">=</span> <span class="n">QualH5</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tidefile</span><span class="p">))</span>
@@ -291,7 +291,7 @@
 
     <span class="c1"># Gather reservoir concentrations</span>
     <span class="n">res_df</span> <span class="o">=</span> <span class="n">qualt</span><span class="o">.</span><span class="n">get_reservoirs</span><span class="p">()</span>
-    <span class="n">res_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">res_df</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">res_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">res_df</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">res_names</span><span class="p">:</span>
         <span class="n">res_conc_df</span> <span class="o">=</span> <span class="n">qualt</span><span class="o">.</span><span class="n">get_reservoir_concentration</span><span class="p">(</span>
             <span class="n">constituent</span><span class="p">,</span> <span class="n">res_names</span><span class="p">,</span> <span class="n">timewindow</span><span class="o">=</span><span class="n">timewindow</span>
@@ -307,47 +307,47 @@
     <span class="n">julmin</span> <span class="o">=</span> <span class="n">_compute_julmin</span><span class="p">(</span><span class="n">interval_end</span><span class="p">)</span>
 
     <span class="n">lines</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time_label</span><span class="si">}</span><span class="s2">/time&quot;</span><span class="p">)</span>
-    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">julmin</span><span class="si">:</span><span class="s2">12d</span><span class="si">}</span><span class="s2"> /julmin&quot;</span><span class="p">)</span>
-    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="mi">1</span><span class="si">:</span><span class="s2">12d</span><span class="si">}</span><span class="s2"> /n_column&quot;</span><span class="p">)</span>
-    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_cells</span><span class="si">:</span><span class="s2">12d</span><span class="si">}</span><span class="s2"> /n_cell&quot;</span><span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">time_label</span><span class="si">}</span><span class="s2">/time"</span><span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">julmin</span><span class="si">:</span><span class="s2">12d</span><span class="si">}</span><span class="s2"> /julmin"</span><span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="mi">1</span><span class="si">:</span><span class="s2">12d</span><span class="si">}</span><span class="s2"> /n_column"</span><span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">n_cells</span><span class="si">:</span><span class="s2">12d</span><span class="si">}</span><span class="s2"> /n_cell"</span><span class="p">)</span>
     <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_format_cell_header</span><span class="p">(</span><span class="n">constituent</span><span class="p">))</span>
 
     <span class="c1"># Cell data lines: id (1-based) and value</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cell_conc</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-        <span class="c1"># Align cell number under &#39;cell_no&#39; and value under constituent header</span>
-        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">32d</span><span class="si">}{</span><span class="n">val</span><span class="si">:</span><span class="s2">32.16f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1"># Align cell number under 'cell_no' and value under constituent header</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">32d</span><span class="si">}{</span><span class="n">val</span><span class="si">:</span><span class="s2">32.16f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_res</span><span class="si">:</span><span class="s2">12d</span><span class="si">}</span><span class="s2"> /n_resv&quot;</span><span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">n_res</span><span class="si">:</span><span class="s2">12d</span><span class="si">}</span><span class="s2"> /n_resv"</span><span class="p">)</span>
     <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_format_res_header</span><span class="p">(</span><span class="n">constituent</span><span class="p">))</span>
 
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">res_names</span><span class="p">,</span> <span class="n">res_conc</span><span class="p">):</span>
-        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">&lt;32</span><span class="si">}{</span><span class="n">val</span><span class="si">:</span><span class="s2">&gt;32.16f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">&lt;32</span><span class="si">}{</span><span class="n">val</span><span class="si">:</span><span class="s2">&gt;32.16f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="n">outfile</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">outfile</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">outfile</span></div>
 
 
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;write_gtm_restart&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"write_gtm_restart"</span><span class="p">]</span>
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>  <span class="c1"># rudimentary CLI usage</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>  <span class="c1"># rudimentary CLI usage</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
 
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Create GTM restart file&quot;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;tidefile&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to GTM/Qual tide HDF5 file&quot;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;target_time&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Target time (e.g. &#39;05FEB2020 0300&#39;)&quot;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;outfile&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output restart file path&quot;</span><span class="p">)</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">"Create GTM restart file"</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"tidefile"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Path to GTM/Qual tide HDF5 file"</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"target_time"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Target time (e.g. '05FEB2020 0300')"</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"outfile"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Output restart file path"</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-c&quot;</span><span class="p">,</span> <span class="s2">&quot;--constituent&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;ec&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Constituent name (default ec)&quot;</span>
+        <span class="s2">"-c"</span><span class="p">,</span> <span class="s2">"--constituent"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">"ec"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Constituent name (default ec)"</span>
     <span class="p">)</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 
     <span class="n">path</span> <span class="o">=</span> <span class="n">write_gtm_restart</span><span class="p">(</span>
         <span class="n">args</span><span class="o">.</span><span class="n">tidefile</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">target_time</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">outfile</span><span class="p">,</span> <span class="n">constituent</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">constituent</span>
     <span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wrote restart file: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Wrote restart file: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 
            </div>

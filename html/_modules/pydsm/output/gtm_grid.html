@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.output.gtm_grid &mdash; pydsm 2026.6.23.dev11+gf1dd0484c documentation</title>
+  <title>pydsm.output.gtm_grid &mdash; pydsm 2026.6.23.dev13+g91fc7afd0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=371adbf9"></script>
+      <script src="../../../_static/documentation_options.js?v=ee9c00c2"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -172,9 +172,9 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pydsm.output.gtm_grid</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd"> cells, segments, nodes and channels connections.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">io</span><span class="w"> </span><span class="kn">import</span> <span class="n">StringIO</span> 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -214,14 +214,14 @@
    <span class="k">def</span><span class="w"> </span><span class="nf">channels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
       <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hydro_info</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
          <span class="bp">self</span><span class="o">.</span><span class="n">read_hydro_echo</span><span class="p">()</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">_channels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hydro_info</span><span class="p">[</span><span class="s1">&#39;CHANNEL&#39;</span><span class="p">]</span>  
+      <span class="bp">self</span><span class="o">.</span><span class="n">_channels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hydro_info</span><span class="p">[</span><span class="s1">'CHANNEL'</span><span class="p">]</span>  
       <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_channels</span>
 
    <span class="nd">@property</span>
    <span class="k">def</span><span class="w"> </span><span class="nf">rc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
       <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hydro_info</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
          <span class="bp">self</span><span class="o">.</span><span class="n">read_hydro_echo</span><span class="p">()</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">_rc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hydro_info</span><span class="p">[</span><span class="s1">&#39;RESERVOIR_CONNECTION&#39;</span><span class="p">]</span>  
+      <span class="bp">self</span><span class="o">.</span><span class="n">_rc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hydro_info</span><span class="p">[</span><span class="s1">'RESERVOIR_CONNECTION'</span><span class="p">]</span>  
       <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rc</span>
 
    <span class="nd">@property</span>
@@ -241,7 +241,7 @@
       <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_res_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
          <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hydro_info</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">read_hydro_echo</span><span class="p">()</span>
-         <span class="bp">self</span><span class="o">.</span><span class="n">_res_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hydro_info</span><span class="p">[</span><span class="s1">&#39;RESERVOIR&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">NAME</span><span class="o">.</span><span class="n">values</span>
+         <span class="bp">self</span><span class="o">.</span><span class="n">_res_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hydro_info</span><span class="p">[</span><span class="s1">'RESERVOIR'</span><span class="p">]</span><span class="o">.</span><span class="n">NAME</span><span class="o">.</span><span class="n">values</span>
       <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_res_name</span>
 
    <span class="nd">@property</span>
@@ -265,13 +265,13 @@
 <div class="viewcode-block" id="gtm_grid.read_gtm_h5">
 <a class="viewcode-back" href="../../../pydsm.output.gtm_grid.html#pydsm.output.gtm_grid.gtm_grid.read_gtm_h5">[docs]</a>
    <span class="k">def</span><span class="w"> </span><span class="nf">read_gtm_h5</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">      </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">      </span><span class="sd">"""</span>
 <span class="sd">      Read a gtm output hdf5 file (any file)</span>
-<span class="sd">      &quot;&quot;&quot;</span>
-      <span class="n">gtm</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hdf_fn</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
-      <span class="n">df_seg</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">gtm</span><span class="p">[</span><span class="s1">&#39;geometry/segment&#39;</span><span class="p">][()])</span>
-      <span class="n">df_seg</span><span class="p">[</span><span class="s1">&#39;end_cell_no&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_seg</span><span class="p">[[</span><span class="s1">&#39;start_cell_no&#39;</span><span class="p">,</span><span class="s1">&#39;nx&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
-      <span class="n">df_seg</span><span class="p">[</span><span class="s1">&#39;delta_x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_seg</span><span class="p">[</span><span class="s1">&#39;length&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">df_seg</span><span class="p">[</span><span class="s1">&#39;nx&#39;</span><span class="p">]</span>
+<span class="sd">      """</span>
+      <span class="n">gtm</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hdf_fn</span><span class="p">,</span><span class="s1">'r'</span><span class="p">)</span>
+      <span class="n">df_seg</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">gtm</span><span class="p">[</span><span class="s1">'geometry/segment'</span><span class="p">][()])</span>
+      <span class="n">df_seg</span><span class="p">[</span><span class="s1">'end_cell_no'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_seg</span><span class="p">[[</span><span class="s1">'start_cell_no'</span><span class="p">,</span><span class="s1">'nx'</span><span class="p">]]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+      <span class="n">df_seg</span><span class="p">[</span><span class="s1">'delta_x'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_seg</span><span class="p">[</span><span class="s1">'length'</span><span class="p">]</span><span class="o">/</span><span class="n">df_seg</span><span class="p">[</span><span class="s1">'nx'</span><span class="p">]</span>
       <span class="n">gtm</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">_segments</span> <span class="o">=</span> <span class="n">df_seg</span></div>
 
@@ -280,10 +280,10 @@
 <a class="viewcode-back" href="../../../pydsm.output.gtm_grid.html#pydsm.output.gtm_grid.gtm_grid.cell_dataframe">[docs]</a>
    <span class="k">def</span><span class="w"> </span><span class="nf">cell_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
       <span class="n">df_seg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">segments</span>
-      <span class="n">ncell</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">df_seg</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;end_cell_no&#39;</span><span class="p">])</span>
+      <span class="n">ncell</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">df_seg</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">'end_cell_no'</span><span class="p">])</span>
       <span class="n">cells</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncell</span><span class="p">,</span> <span class="n">ncell</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
       <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">df_seg</span><span class="p">[(</span><span class="n">df_seg</span><span class="o">.</span><span class="n">start_cell_no</span><span class="o">&lt;=</span><span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> 
-                          <span class="p">(</span><span class="n">df_seg</span><span class="o">.</span><span class="n">end_cell_no</span><span class="o">&gt;=</span><span class="n">i</span><span class="p">)</span> <span class="p">][[</span><span class="s1">&#39;segm_no&#39;</span><span class="p">,</span><span class="s1">&#39;chan_num&#39;</span><span class="p">,</span><span class="s1">&#39;chan_no&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">cells</span><span class="p">])</span>
+                          <span class="p">(</span><span class="n">df_seg</span><span class="o">.</span><span class="n">end_cell_no</span><span class="o">&gt;=</span><span class="n">i</span><span class="p">)</span> <span class="p">][[</span><span class="s1">'segm_no'</span><span class="p">,</span><span class="s1">'chan_num'</span><span class="p">,</span><span class="s1">'chan_no'</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">cells</span><span class="p">])</span>
       <span class="n">segm_no</span> <span class="o">=</span> <span class="n">v</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
       <span class="n">chan_num</span> <span class="o">=</span> <span class="n">v</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
       <span class="n">chan_no</span> <span class="o">=</span> <span class="n">v</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span>
@@ -294,19 +294,19 @@
          <span class="n">chan_i</span> <span class="o">=</span> <span class="n">chan_num</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
          <span class="n">segm_i</span> <span class="o">=</span> <span class="n">segm_no</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
          <span class="n">df_seg_i</span> <span class="o">=</span> <span class="n">df_seg</span><span class="p">[</span><span class="n">df_seg</span><span class="o">.</span><span class="n">segm_no</span><span class="o">==</span><span class="n">segm_i</span><span class="p">]</span>
-         <span class="n">dx_i</span> <span class="o">=</span> <span class="n">df_seg_i</span><span class="p">[</span><span class="s1">&#39;delta_x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>    
-         <span class="n">start_cell_no_i</span> <span class="o">=</span> <span class="n">df_seg_i</span><span class="p">[</span><span class="s1">&#39;start_cell_no&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-         <span class="n">up_distance_i</span> <span class="o">=</span> <span class="n">df_seg_i</span><span class="p">[</span><span class="s1">&#39;up_distance&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+         <span class="n">dx_i</span> <span class="o">=</span> <span class="n">df_seg_i</span><span class="p">[</span><span class="s1">'delta_x'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>    
+         <span class="n">start_cell_no_i</span> <span class="o">=</span> <span class="n">df_seg_i</span><span class="p">[</span><span class="s1">'start_cell_no'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+         <span class="n">up_distance_i</span> <span class="o">=</span> <span class="n">df_seg_i</span><span class="p">[</span><span class="s1">'up_distance'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
          <span class="n">start_distance_i</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">start_cell_no_i</span><span class="p">)</span><span class="o">*</span><span class="n">dx_i</span> <span class="o">+</span> <span class="n">up_distance_i</span>
          <span class="n">start_distance</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">start_distance_i</span><span class="p">)</span>
          <span class="n">end_distance</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">start_distance_i</span><span class="o">+</span><span class="n">dx_i</span><span class="p">)</span>
       <span class="n">df_cell</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-      <span class="n">df_cell</span><span class="p">[</span><span class="s1">&#39;cell&#39;</span><span class="p">]</span><span class="o">=</span> <span class="n">cells</span>
-      <span class="n">df_cell</span><span class="p">[</span><span class="s1">&#39;segm_no&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">segm_no</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-      <span class="n">df_cell</span><span class="p">[</span><span class="s1">&#39;chan_num&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chan_num</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-      <span class="n">df_cell</span><span class="p">[</span><span class="s1">&#39;chan_no&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chan_no</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-      <span class="n">df_cell</span><span class="p">[</span><span class="s1">&#39;start_distance&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="n">start_distance</span><span class="p">)</span>
-      <span class="n">df_cell</span><span class="p">[</span><span class="s1">&#39;end_distance&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="n">end_distance</span><span class="p">)</span>   
+      <span class="n">df_cell</span><span class="p">[</span><span class="s1">'cell'</span><span class="p">]</span><span class="o">=</span> <span class="n">cells</span>
+      <span class="n">df_cell</span><span class="p">[</span><span class="s1">'segm_no'</span><span class="p">]</span><span class="o">=</span><span class="n">segm_no</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+      <span class="n">df_cell</span><span class="p">[</span><span class="s1">'chan_num'</span><span class="p">]</span> <span class="o">=</span> <span class="n">chan_num</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+      <span class="n">df_cell</span><span class="p">[</span><span class="s1">'chan_no'</span><span class="p">]</span> <span class="o">=</span> <span class="n">chan_no</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+      <span class="n">df_cell</span><span class="p">[</span><span class="s1">'start_distance'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="n">start_distance</span><span class="p">)</span>
+      <span class="n">df_cell</span><span class="p">[</span><span class="s1">'end_distance'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="n">end_distance</span><span class="p">)</span>   
       <span class="bp">self</span><span class="o">.</span><span class="n">_cells</span> <span class="o">=</span> <span class="n">df_cell</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">_ncell</span> <span class="o">=</span> <span class="n">ncell</span></div>
 
@@ -314,16 +314,16 @@
 <div class="viewcode-block" id="gtm_grid.channel_to_cell">
 <a class="viewcode-back" href="../../../pydsm.output.gtm_grid.html#pydsm.output.gtm_grid.gtm_grid.channel_to_cell">[docs]</a>
    <span class="k">def</span><span class="w"> </span><span class="nf">channel_to_cell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chan_no</span><span class="p">,</span><span class="n">distance</span><span class="p">):</span>
-<span class="w">      </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">      </span><span class="sd">"""</span>
 <span class="sd">      convert from chan_no, distance pair to cell number</span>
 <span class="sd">      distance could be a numeric value indicating distance</span>
-<span class="sd">      or a string &#39;length&#39; indicate the maximum length. </span>
-<span class="sd">      &quot;&quot;&quot;</span>
+<span class="sd">      or a string 'length' indicate the maximum length. </span>
+<span class="sd">      """</span>
       <span class="n">df_cell</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cells</span>
       <span class="k">try</span><span class="p">:</span>
          <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="n">distance</span><span class="p">)</span>
          <span class="k">if</span> <span class="n">distance</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="c1"># note that &#39;chan_no&#39; in input files = &#39;chan_num&#39; in internal dsm2. </span>
+            <span class="c1"># note that 'chan_no' in input files = 'chan_num' in internal dsm2. </span>
             <span class="n">df_i</span> <span class="o">=</span> <span class="n">df_cell</span><span class="p">[</span> <span class="p">(</span><span class="n">df_cell</span><span class="o">.</span><span class="n">chan_num</span><span class="o">==</span><span class="n">chan_no</span><span class="p">)</span> <span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># use the first cell</span>
             <span class="n">cell_no</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">df_i</span><span class="o">.</span><span class="n">cell</span><span class="p">)</span>
          <span class="k">else</span><span class="p">:</span> 
@@ -332,11 +332,11 @@
                             <span class="p">(</span><span class="n">df_cell</span><span class="o">.</span><span class="n">end_distance</span><span class="o">&gt;=</span><span class="n">distance</span><span class="p">)]</span>
             <span class="n">cell_no</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">df_i</span><span class="o">.</span><span class="n">cell</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
       <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-         <span class="k">if</span> <span class="n">distance</span> <span class="o">==</span> <span class="s1">&#39;length&#39;</span><span class="p">:</span>
+         <span class="k">if</span> <span class="n">distance</span> <span class="o">==</span> <span class="s1">'length'</span><span class="p">:</span>
             <span class="n">df_i</span> <span class="o">=</span> <span class="n">df_cell</span><span class="p">[</span> <span class="p">(</span><span class="n">df_cell</span><span class="o">.</span><span class="n">chan_num</span><span class="o">==</span><span class="n">chan_no</span><span class="p">)</span> <span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># use the last cell</span>
             <span class="n">cell_no</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">df_i</span><span class="o">.</span><span class="n">cell</span><span class="p">)</span>
          <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> is not recognized in the obs_fn&#39;</span><span class="o">%</span><span class="n">distance</span><span class="p">)</span> 
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'</span><span class="si">%s</span><span class="s1"> is not recognized in the obs_fn'</span><span class="o">%</span><span class="n">distance</span><span class="p">)</span> 
       <span class="k">return</span> <span class="n">cell_no</span></div>
 
 
@@ -353,31 +353,31 @@
 <div class="viewcode-block" id="gtm_grid.obs_cells">
 <a class="viewcode-back" href="../../../pydsm.output.gtm_grid.html#pydsm.output.gtm_grid.gtm_grid.obs_cells">[docs]</a>
    <span class="k">def</span><span class="w"> </span><span class="nf">obs_cells</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">fn</span><span class="p">,</span><span class="n">unique</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">      </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">      </span><span class="sd">"""</span>
 <span class="sd">      Read observational channel input file and find the cells corresponding</span>
 <span class="sd">      to the channel number and distance pairs</span>
-<span class="sd">      &quot;&quot;&quot;</span>
-      <span class="n">df_obs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="n">skiprows</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">comment</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">,</span><span class="n">delim_whitespace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-      <span class="n">df_obs</span> <span class="o">=</span> <span class="n">df_obs</span><span class="p">[[</span><span class="s1">&#39;NAME&#39;</span><span class="p">,</span><span class="s1">&#39;CHAN_NO&#39;</span><span class="p">,</span><span class="s1">&#39;DISTANCE&#39;</span><span class="p">]]</span>
-      <span class="n">df_obs</span> <span class="o">=</span> <span class="n">df_obs</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1">#remove the line with &#39;END&#39;</span>
-      <span class="n">df_obs</span> <span class="o">=</span> <span class="n">df_obs</span><span class="o">.</span><span class="n">astype</span><span class="p">({</span><span class="s1">&#39;CHAN_NO&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">})</span>
+<span class="sd">      """</span>
+      <span class="n">df_obs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="n">skiprows</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">comment</span><span class="o">=</span><span class="s1">'#'</span><span class="p">,</span><span class="n">delim_whitespace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+      <span class="n">df_obs</span> <span class="o">=</span> <span class="n">df_obs</span><span class="p">[[</span><span class="s1">'NAME'</span><span class="p">,</span><span class="s1">'CHAN_NO'</span><span class="p">,</span><span class="s1">'DISTANCE'</span><span class="p">]]</span>
+      <span class="n">df_obs</span> <span class="o">=</span> <span class="n">df_obs</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1">#remove the line with 'END'</span>
+      <span class="n">df_obs</span> <span class="o">=</span> <span class="n">df_obs</span><span class="o">.</span><span class="n">astype</span><span class="p">({</span><span class="s1">'CHAN_NO'</span><span class="p">:</span><span class="nb">int</span><span class="p">})</span>
       <span class="n">obs_cell</span> <span class="o">=</span> <span class="p">[]</span>
-      <span class="n">chan_no</span> <span class="o">=</span> <span class="n">df_obs</span><span class="p">[</span><span class="s1">&#39;CHAN_NO&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-      <span class="n">distance</span> <span class="o">=</span> <span class="n">df_obs</span><span class="p">[</span><span class="s1">&#39;DISTANCE&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-      <span class="n">df_obs</span><span class="p">[</span><span class="s1">&#39;cell&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_to_cell_arr</span><span class="p">(</span><span class="n">chan_no</span><span class="p">,</span><span class="n">distance</span><span class="p">)</span>
+      <span class="n">chan_no</span> <span class="o">=</span> <span class="n">df_obs</span><span class="p">[</span><span class="s1">'CHAN_NO'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+      <span class="n">distance</span> <span class="o">=</span> <span class="n">df_obs</span><span class="p">[</span><span class="s1">'DISTANCE'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+      <span class="n">df_obs</span><span class="p">[</span><span class="s1">'cell'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_to_cell_arr</span><span class="p">(</span><span class="n">chan_no</span><span class="p">,</span><span class="n">distance</span><span class="p">)</span>
 
       <span class="k">if</span> <span class="n">unique</span><span class="p">:</span>  <span class="c1"># if output unique cells are requred</span>
          <span class="n">duplicated</span> <span class="o">=</span> <span class="n">df_obs</span><span class="o">.</span><span class="n">cell</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-         <span class="n">df_obs</span><span class="p">[</span><span class="s1">&#39;duplicated&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">duplicated</span>
+         <span class="n">df_obs</span><span class="p">[</span><span class="s1">'duplicated'</span><span class="p">]</span> <span class="o">=</span> <span class="n">duplicated</span>
          <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">duplicated</span><span class="p">):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Duplicated observational cell exists: will combine observed values </span><span class="se">\</span>
-<span class="s2">                  for these cells&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Duplicated observational cell exists: will combine observed values </span><span class="se">\</span>
+<span class="s2">                  for these cells"</span><span class="p">)</span>
             <span class="n">df</span> <span class="o">=</span> <span class="n">df_obs</span><span class="p">[</span><span class="n">df_obs</span><span class="o">.</span><span class="n">cell</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>
-            <span class="n">df_obs_unique</span> <span class="o">=</span> <span class="n">df_obs</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;cell&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
-            <span class="n">df_idx</span>  <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;cell&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> 
-               <span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">NAME</span><span class="p">))</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;idx&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;cell&#39;</span><span class="p">)</span>
+            <span class="n">df_obs_unique</span> <span class="o">=</span> <span class="n">df_obs</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">'cell'</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+            <span class="n">df_idx</span>  <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">'cell'</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> 
+               <span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">NAME</span><span class="p">))</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'idx'</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'cell'</span><span class="p">)</span>
             <span class="n">df_merged</span> <span class="o">=</span> <span class="n">df_obs_unique</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df_idx</span><span class="p">)</span>
-            <span class="n">df_merged</span><span class="p">[</span><span class="s1">&#39;cell&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_merged</span><span class="o">.</span><span class="n">index</span>
+            <span class="n">df_merged</span><span class="p">[</span><span class="s1">'cell'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_merged</span><span class="o">.</span><span class="n">index</span>
             <span class="k">return</span> <span class="n">df_merged</span>
          <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">df_obs</span>
@@ -388,10 +388,10 @@
 <div class="viewcode-block" id="gtm_grid.read_hydro_echo">
 <a class="viewcode-back" href="../../../pydsm.output.gtm_grid.html#pydsm.output.gtm_grid.gtm_grid.read_hydro_echo">[docs]</a>
    <span class="k">def</span><span class="w"> </span><span class="nf">read_hydro_echo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">      </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">      </span><span class="sd">"""</span>
 <span class="sd">      A function to read hydro_echo.inp file and generate a channal dataframe</span>
-<span class="sd">      &quot;&quot;&quot;</span>
-      <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hydro_echo_fn</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="sd">      """</span>
+      <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hydro_echo_fn</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
          <span class="n">tables</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">_hydro_info</span> <span class="o">=</span> <span class="n">tables</span></div>
 
@@ -399,9 +399,9 @@
 <div class="viewcode-block" id="gtm_grid.get_cell_node">
 <a class="viewcode-back" href="../../../pydsm.output.gtm_grid.html#pydsm.output.gtm_grid.gtm_grid.get_cell_node">[docs]</a>
    <span class="k">def</span><span class="w"> </span><span class="nf">get_cell_node</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">      </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">      </span><span class="sd">"""</span>
 <span class="sd">      Create a cell table with upnodes and downnodes</span>
-<span class="sd">      &quot;&quot;&quot;</span>
+<span class="sd">      """</span>
       <span class="n">df_cell</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cells</span>
       <span class="n">channel_tables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span>
       <span class="n">cells</span> <span class="o">=</span> <span class="n">df_cell</span><span class="o">.</span><span class="n">cell</span><span class="o">.</span><span class="n">values</span>
@@ -422,14 +422,14 @@
          <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">end_distance</span><span class="o">.</span><span class="n">values</span> <span class="o">==</span> <span class="n">max_dist</span><span class="p">:</span>
              <span class="n">downnode</span> <span class="o">=</span> <span class="n">chan_downnode</span>
          <span class="k">if</span> <span class="n">upnode</span><span class="o">==-</span><span class="mi">99</span><span class="p">:</span> <span class="c1">#upnode not assigned yet</span>
-             <span class="n">upnode</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%d</span><span class="s1">_</span><span class="si">%d</span><span class="s1">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">chan_num</span><span class="p">,</span><span class="n">cell_num</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+             <span class="n">upnode</span> <span class="o">=</span> <span class="s1">'</span><span class="si">%d</span><span class="s1">_</span><span class="si">%d</span><span class="s1">'</span><span class="o">%</span><span class="p">(</span><span class="n">chan_num</span><span class="p">,</span><span class="n">cell_num</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
          <span class="k">if</span> <span class="n">downnode</span> <span class="o">==-</span><span class="mi">99</span><span class="p">:</span> <span class="c1"># downnode not assigned yet</span>
-             <span class="n">downnode</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%d</span><span class="s1">_</span><span class="si">%d</span><span class="s1">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">chan_num</span><span class="p">,</span><span class="n">cell_num</span><span class="p">)</span>
+             <span class="n">downnode</span> <span class="o">=</span> <span class="s1">'</span><span class="si">%d</span><span class="s1">_</span><span class="si">%d</span><span class="s1">'</span><span class="o">%</span><span class="p">(</span><span class="n">chan_num</span><span class="p">,</span><span class="n">cell_num</span><span class="p">)</span>
          <span class="n">cell_upnode</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">upnode</span><span class="p">)</span>
          <span class="n">cell_downnode</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">downnode</span><span class="p">)</span>
-      <span class="n">df_cell</span><span class="p">[</span><span class="s1">&#39;length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_cell</span><span class="p">[</span><span class="s1">&#39;end_distance&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">df_cell</span><span class="p">[</span><span class="s1">&#39;start_distance&#39;</span><span class="p">]</span>        
-      <span class="n">df_cell</span><span class="p">[</span><span class="s1">&#39;upnode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cell_upnode</span>
-      <span class="n">df_cell</span><span class="p">[</span><span class="s1">&#39;downnode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cell_downnode</span>
+      <span class="n">df_cell</span><span class="p">[</span><span class="s1">'length'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_cell</span><span class="p">[</span><span class="s1">'end_distance'</span><span class="p">]</span><span class="o">-</span><span class="n">df_cell</span><span class="p">[</span><span class="s1">'start_distance'</span><span class="p">]</span>        
+      <span class="n">df_cell</span><span class="p">[</span><span class="s1">'upnode'</span><span class="p">]</span> <span class="o">=</span> <span class="n">cell_upnode</span>
+      <span class="n">df_cell</span><span class="p">[</span><span class="s1">'downnode'</span><span class="p">]</span> <span class="o">=</span> <span class="n">cell_downnode</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">_cell_node</span> <span class="o">=</span> <span class="n">df_cell</span></div>
 
 
@@ -437,9 +437,9 @@
 <div class="viewcode-block" id="gtm_grid.get_node_cell">
 <a class="viewcode-back" href="../../../pydsm.output.gtm_grid.html#pydsm.output.gtm_grid.gtm_grid.get_node_cell">[docs]</a>
    <span class="k">def</span><span class="w"> </span><span class="nf">get_node_cell</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">      </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">      </span><span class="sd">"""</span>
 <span class="sd">      Create a node table with upcell and downcell. </span>
-<span class="sd">      &quot;&quot;&quot;</span>
+<span class="sd">      """</span>
       <span class="n">df_cell</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cell_node</span>
       <span class="n">nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span> <span class="nb">set</span><span class="p">(</span><span class="n">df_cell</span><span class="o">.</span><span class="n">upnode</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span>
          <span class="nb">set</span><span class="p">(</span><span class="n">df_cell</span><span class="o">.</span><span class="n">downnode</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="p">)</span> <span class="p">)</span> <span class="c1"># find overlapping nodes</span>
@@ -488,20 +488,20 @@
             <span class="n">conn</span> <span class="o">+=</span> <span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">ud</span><span class="p">)</span> 
             
       <span class="n">df_node_cells</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({})</span>
-      <span class="n">df_node_cells</span><span class="p">[</span><span class="s1">&#39;node&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">conn</span>  <span class="c1"># with multiple nodes for multiple connections</span>
-      <span class="n">df_node_cells</span><span class="p">[</span><span class="s1">&#39;upcell&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">upcell</span>
-      <span class="n">df_node_cells</span><span class="p">[</span><span class="s1">&#39;downcell&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">downcell</span>
-      <span class="n">df_node_cells</span><span class="p">[</span><span class="s1">&#39;length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">length</span>
+      <span class="n">df_node_cells</span><span class="p">[</span><span class="s1">'node'</span><span class="p">]</span> <span class="o">=</span> <span class="n">conn</span>  <span class="c1"># with multiple nodes for multiple connections</span>
+      <span class="n">df_node_cells</span><span class="p">[</span><span class="s1">'upcell'</span><span class="p">]</span> <span class="o">=</span> <span class="n">upcell</span>
+      <span class="n">df_node_cells</span><span class="p">[</span><span class="s1">'downcell'</span><span class="p">]</span> <span class="o">=</span> <span class="n">downcell</span>
+      <span class="n">df_node_cells</span><span class="p">[</span><span class="s1">'length'</span><span class="p">]</span> <span class="o">=</span> <span class="n">length</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">_node_cell</span> <span class="o">=</span> <span class="n">df_node_cells</span></div>
 
 
 <div class="viewcode-block" id="gtm_grid.get_node_rc">
 <a class="viewcode-back" href="../../../pydsm.output.gtm_grid.html#pydsm.output.gtm_grid.gtm_grid.get_node_rc">[docs]</a>
    <span class="k">def</span><span class="w"> </span><span class="nf">get_node_rc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>   
-<span class="w">      </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">      </span><span class="sd">"""</span>
 <span class="sd">      Create a table to map nodes to reservior</span>
 <span class="sd">      set channel as upnodes and reservior as downnodes</span>
-<span class="sd">      &quot;&quot;&quot;</span>    
+<span class="sd">      """</span>    
       <span class="n">df_rc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rc</span>
       <span class="n">df_cell</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cell_node</span>
       <span class="n">node</span> <span class="o">=</span> <span class="p">[]</span>
@@ -522,18 +522,18 @@
          <span class="n">node</span> <span class="o">+=</span> <span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">chan_list</span><span class="p">)</span>
 
       <span class="n">df_node_rc</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({})</span>
-      <span class="n">df_node_rc</span><span class="p">[</span><span class="s1">&#39;node&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span>
-      <span class="n">df_node_rc</span><span class="p">[</span><span class="s1">&#39;chan_cell&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chan_cell</span>
-      <span class="n">df_node_rc</span><span class="p">[</span><span class="s1">&#39;rc_cell&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rc_cell</span>
+      <span class="n">df_node_rc</span><span class="p">[</span><span class="s1">'node'</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span>
+      <span class="n">df_node_rc</span><span class="p">[</span><span class="s1">'chan_cell'</span><span class="p">]</span> <span class="o">=</span> <span class="n">chan_cell</span>
+      <span class="n">df_node_rc</span><span class="p">[</span><span class="s1">'rc_cell'</span><span class="p">]</span> <span class="o">=</span> <span class="n">rc_cell</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">_node_rc</span> <span class="o">=</span>  <span class="n">df_node_rc</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="gtm_grid.get_obs_nodes">
 <a class="viewcode-back" href="../../../pydsm.output.gtm_grid.html#pydsm.output.gtm_grid.gtm_grid.get_obs_nodes">[docs]</a>
    <span class="k">def</span><span class="w"> </span><span class="nf">get_obs_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs_fn</span><span class="p">):</span>
-<span class="w">      </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">      </span><span class="sd">"""</span>
 <span class="sd">      Create an obs table with upnodes and downnodes</span>
-<span class="sd">      &quot;&quot;&quot;</span>
+<span class="sd">      """</span>
       <span class="n">df_cell</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cell_node</span>
       <span class="n">df_obs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obs_cells</span><span class="p">(</span><span class="n">obs_fn</span><span class="p">,</span><span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>      
       <span class="n">upnode</span> <span class="o">=</span> <span class="p">[]</span>
@@ -546,23 +546,23 @@
          <span class="n">cell_downnode</span> <span class="o">=</span> <span class="n">df_cell</span><span class="p">[</span><span class="n">df_cell</span><span class="o">.</span><span class="n">cell</span><span class="o">==</span><span class="nb">int</span><span class="p">(</span><span class="n">cell_no</span><span class="p">)]</span><span class="o">.</span><span class="n">downnode</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
          <span class="n">upnode</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cell_upnode</span><span class="p">)</span>
          <span class="n">downnode</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cell_downnode</span><span class="p">)</span>
-      <span class="n">df_obs</span><span class="p">[</span><span class="s1">&#39;upnode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">upnode</span>
-      <span class="n">df_obs</span><span class="p">[</span><span class="s1">&#39;downnode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">downnode</span>
+      <span class="n">df_obs</span><span class="p">[</span><span class="s1">'upnode'</span><span class="p">]</span> <span class="o">=</span> <span class="n">upnode</span>
+      <span class="n">df_obs</span><span class="p">[</span><span class="s1">'downnode'</span><span class="p">]</span> <span class="o">=</span> <span class="n">downnode</span>
       <span class="k">return</span> <span class="n">df_obs</span></div>
 </div>
 
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span> 
-   <span class="n">hdf_fn</span> <span class="o">=</span> <span class="s1">&#39;../output/historical_gtm.h5&#39;</span> 
-   <span class="n">hydro_echo_fn</span> <span class="o">=</span> <span class="s1">&#39;../output/hydro_echo_pdc0_hydro_test.inp&#39;</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span> 
+   <span class="n">hdf_fn</span> <span class="o">=</span> <span class="s1">'../output/historical_gtm.h5'</span> 
+   <span class="n">hydro_echo_fn</span> <span class="o">=</span> <span class="s1">'../output/hydro_echo_pdc0_hydro_test.inp'</span>
 
 
    <span class="n">gg</span> <span class="o">=</span> <span class="n">gtm_grid</span><span class="p">(</span><span class="n">hdf_fn</span><span class="p">,</span><span class="n">hydro_echo_fn</span><span class="p">)</span>
    <span class="n">df_seg</span> <span class="o">=</span> <span class="n">gg</span><span class="o">.</span><span class="n">segments</span>
    <span class="n">df_cell</span> <span class="o">=</span> <span class="n">gg</span><span class="o">.</span><span class="n">cells</span>
    <span class="n">df_obs_plus</span> <span class="o">=</span> <span class="n">gg</span><span class="o">.</span><span class="n">obs_cells</span><span class="p">(</span><span class="n">obs_fn</span><span class="p">)</span>
-   <span class="c1">#df_obs_plus.to_csv(&#39;obs.csv&#39;)</span>
+   <span class="c1">#df_obs_plus.to_csv('obs.csv')</span>
    <span class="n">df_channel</span> <span class="o">=</span> <span class="n">gg</span><span class="o">.</span><span class="n">channels</span>
 
    <span class="n">df_node_cell</span> <span class="o">=</span> <span class="n">gg</span><span class="o">.</span><span class="n">node_cell</span>

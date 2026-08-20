@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.analysis.network_correction module &mdash; pydsm 2026.6.23.dev11+gf1dd0484c documentation</title>
+  <title>pydsm.analysis.network_correction module &mdash; pydsm 2026.6.23.dev13+g91fc7afd0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=371adbf9"></script>
+      <script src="_static/documentation_options.js?v=ee9c00c2"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -207,14 +207,14 @@ observations are missing the model values are returned unchanged.</p>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="c1"># 1. Load model channel-end EC for the full run</span>
-<span class="n">qual</span> <span class="o">=</span> <span class="n">QualH5</span><span class="p">(</span><span class="s2">&quot;historical_v82_ec.h5&quot;</span><span class="p">)</span>
-<span class="n">model_df</span> <span class="o">=</span> <span class="n">extract_channel_end_values</span><span class="p">(</span><span class="n">qual</span><span class="p">,</span> <span class="s2">&quot;ec&quot;</span><span class="p">)</span>
+<span class="n">qual</span> <span class="o">=</span> <span class="n">QualH5</span><span class="p">(</span><span class="s2">"historical_v82_ec.h5"</span><span class="p">)</span>
+<span class="n">model_df</span> <span class="o">=</span> <span class="n">extract_channel_end_values</span><span class="p">(</span><span class="n">qual</span><span class="p">,</span> <span class="s2">"ec"</span><span class="p">)</span>
 
 <span class="c1"># 2. Snap observation stations to channel-ends</span>
-<span class="n">hydro</span> <span class="o">=</span> <span class="n">HydroH5</span><span class="p">(</span><span class="s2">&quot;historical_v82.h5&quot;</span><span class="p">)</span>
+<span class="n">hydro</span> <span class="o">=</span> <span class="n">HydroH5</span><span class="p">(</span><span class="s2">"historical_v82.h5"</span><span class="p">)</span>
 <span class="n">channels_df</span> <span class="o">=</span> <span class="n">hydro</span><span class="o">.</span><span class="n">get_channels</span><span class="p">()</span>
-<span class="n">stations</span> <span class="o">=</span> <span class="n">read_stations</span><span class="p">(</span><span class="s2">&quot;obs_stations.csv&quot;</span><span class="p">)</span>        <span class="c1"># from pydsm.viz.dsm2gis</span>
-<span class="n">centerlines</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s2">&quot;channel_centerlines.geojson&quot;</span><span class="p">)</span>
+<span class="n">stations</span> <span class="o">=</span> <span class="n">read_stations</span><span class="p">(</span><span class="s2">"obs_stations.csv"</span><span class="p">)</span>        <span class="c1"># from pydsm.viz.dsm2gis</span>
+<span class="n">centerlines</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s2">"channel_centerlines.geojson"</span><span class="p">)</span>
 <span class="n">snapped</span> <span class="o">=</span> <span class="n">snap_stations_to_channel_ends</span><span class="p">(</span><span class="n">stations</span><span class="p">,</span> <span class="n">centerlines</span><span class="p">,</span> <span class="n">channels_df</span><span class="p">)</span>
 
 <span class="c1"># 3. Build corrector (pre-computes distance matrix once)</span>
@@ -222,7 +222,7 @@ observations are missing the model values are returned unchanged.</p>
 
 <span class="c1"># 4. Apply correction at each time step</span>
 <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">model_row</span> <span class="ow">in</span> <span class="n">model_df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-    <span class="n">obs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s2">&quot;RSAC075&quot;</span><span class="p">:</span> <span class="n">measured_ec_at_t</span><span class="p">,</span> <span class="s2">&quot;RSAN007&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;nan&quot;</span><span class="p">)})</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s2">"RSAC075"</span><span class="p">:</span> <span class="n">measured_ec_at_t</span><span class="p">,</span> <span class="s2">"RSAN007"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">)})</span>
     <span class="n">corrected</span> <span class="o">=</span> <span class="n">corrector</span><span class="o">.</span><span class="n">correct</span><span class="p">(</span><span class="n">model_row</span><span class="p">,</span> <span class="n">obs</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -297,7 +297,7 @@ influence.  <code class="docutils literal notranslate"><span class="pre">None</s
 <section id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">corrector</span> <span class="o">=</span> <span class="n">NetworkIDWCorrector</span><span class="p">(</span><span class="n">channels_df</span><span class="p">,</span> <span class="n">snapped</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s2">&quot;RSAC075&quot;</span><span class="p">:</span> <span class="mf">820.0</span><span class="p">,</span> <span class="s2">&quot;RSAN007&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;nan&quot;</span><span class="p">)})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s2">"RSAC075"</span><span class="p">:</span> <span class="mf">820.0</span><span class="p">,</span> <span class="s2">"RSAN007"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">)})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">corrected_row</span> <span class="o">=</span> <span class="n">corrector</span><span class="o">.</span><span class="n">correct</span><span class="p">(</span><span class="n">model_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">obs</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -380,7 +380,7 @@ Ignored when <em>corr_fn</em> is provided explicitly.</p>
 <h2>Examples<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">corrector</span> <span class="o">=</span> <span class="n">NetworkOICorrector</span><span class="p">(</span><span class="n">channels_df</span><span class="p">,</span> <span class="n">snapped</span><span class="p">,</span>
 <span class="gp">... </span>                               <span class="n">sigma_obs</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s2">&quot;RSAC075&quot;</span><span class="p">:</span> <span class="mf">820.0</span><span class="p">,</span> <span class="s2">&quot;RSAN007&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;nan&quot;</span><span class="p">)})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s2">"RSAC075"</span><span class="p">:</span> <span class="mf">820.0</span><span class="p">,</span> <span class="s2">"RSAN007"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">)})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">corrected_row</span> <span class="o">=</span> <span class="n">corrector</span><span class="o">.</span><span class="n">correct</span><span class="p">(</span><span class="n">model_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">obs</span><span class="p">)</span>
 </pre></div>
 </div>

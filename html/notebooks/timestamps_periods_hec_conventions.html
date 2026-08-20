@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Time stamps, Periods HEC convention &mdash; pydsm 2026.6.23.dev11+gf1dd0484c documentation</title>
+  <title>Time stamps, Periods HEC convention &mdash; pydsm 2026.6.23.dev13+g91fc7afd0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=371adbf9"></script>
+      <script src="../_static/documentation_options.js?v=ee9c00c2"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -187,7 +187,7 @@
 <p>ISO 8601 is a standard for date and times. Read this for <a class="reference external" href="https://en.wikipedia.org/wiki/ISO_8601#Durations">duration</a> and <a class="reference external" href="https://en.wikipedia.org/wiki/ISO_8601#Time_intervals">time interval</a></p>
 <p>An important distinction is that there is 2400 for HHmm (hour/minutes) representation in the <a class="reference external" href="https://en.wikipedia.org/wiki/ISO_8601#Times">ISO 8601 standards</a> however HEC-DSS stores the midnight with a 2400 designation and that is reflected in their libraries ability to parse that timestamp to the midnight of the next day. In summary 2400 is interpreted as midnight (0000) of the next day.</p>
 <p>Infact that is now explicitly disallowed</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Earlier versions of the standard allowed &quot;24:00&quot; corresponding to the end of a day,
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Earlier versions of the standard allowed "24:00" corresponding to the end of a day,
 but this is explicitly disallowed by the 2019 revision.
 </pre></div>
 </div>
@@ -222,7 +222,7 @@ but this is explicitly disallowed by the 2019 revision.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s1">&#39;01JAN1999 0100&#39;</span><span class="p">,</span><span class="n">periods</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;15min&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s1">'01JAN1999 0100'</span><span class="p">,</span><span class="n">periods</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">freq</span><span class="o">=</span><span class="s1">'15min'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -241,7 +241,7 @@ DatetimeIndex([&#39;1999-01-01 01:00:00&#39;, &#39;1999-01-01 01:15:00&#39;,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">period_range</span><span class="p">(</span><span class="s1">&#39;01JAN1999 0100&#39;</span><span class="p">,</span><span class="n">periods</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;15min&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">period_range</span><span class="p">(</span><span class="s1">'01JAN1999 0100'</span><span class="p">,</span><span class="n">periods</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">freq</span><span class="o">=</span><span class="s1">'15min'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -261,7 +261,7 @@ PeriodIndex([&#39;1999-01-01 01:00&#39;, &#39;1999-01-01 01:15&#39;, &#39;1999-0
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">linear_timeseries</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    A simple increasing time series to use for averaging functions</span>
 <span class="sd">    ```</span>
 <span class="sd">    01JAN2000 0100 - 0</span>
@@ -271,9 +271,9 @@ PeriodIndex([&#39;1999-01-01 01:00&#39;, &#39;1999-01-01 01:15&#39;, &#39;1999-0
 <span class="sd">    01JAN2000 2300 - 22</span>
 <span class="sd">    02JAN2000 0000 - 23</span>
 <span class="sd">    ```</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="n">nvals</span><span class="o">=</span><span class="mi">100</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">nvals</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;values&#39;</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="s1">&#39;01JAN2000 0100&#39;</span><span class="p">,</span><span class="n">periods</span><span class="o">=</span><span class="n">nvals</span><span class="p">,</span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">nvals</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'values'</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="s1">'01JAN2000 0100'</span><span class="p">,</span><span class="n">periods</span><span class="o">=</span><span class="n">nvals</span><span class="p">,</span><span class="n">freq</span><span class="o">=</span><span class="s1">'h'</span><span class="p">))</span>
 <br/></pre></div>
 </div>
 </div>
@@ -418,10 +418,10 @@ PeriodIndex([&#39;1999-01-01 01:00&#39;, &#39;1999-01-01 01:15&#39;, &#39;1999-0
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dfall</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">tsmath</span><span class="o">.</span><span class="n">per_aver</span><span class="p">(</span><span class="n">ts</span><span class="o">.</span><span class="n">to_period</span><span class="p">(),</span> <span class="n">interval</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">),</span>
-           <span class="n">tsmath</span><span class="o">.</span><span class="n">per_max</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">),</span>
-           <span class="n">tsmath</span><span class="o">.</span><span class="n">per_min</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">dfall</span><span class="o">.</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;avg&#39;</span><span class="p">,</span><span class="s1">&#39;max&#39;</span><span class="p">,</span><span class="s1">&#39;min&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dfall</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">tsmath</span><span class="o">.</span><span class="n">per_aver</span><span class="p">(</span><span class="n">ts</span><span class="o">.</span><span class="n">to_period</span><span class="p">(),</span> <span class="n">interval</span><span class="o">=</span><span class="s1">'D'</span><span class="p">),</span>
+           <span class="n">tsmath</span><span class="o">.</span><span class="n">per_max</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="s1">'D'</span><span class="p">),</span>
+           <span class="n">tsmath</span><span class="o">.</span><span class="n">per_min</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="s1">'D'</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">dfall</span><span class="o">.</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'avg'</span><span class="p">,</span><span class="s1">'max'</span><span class="p">,</span><span class="s1">'min'</span><span class="p">]</span>
 <span class="n">dfall</span>
 </pre></div>
 </div>
@@ -501,7 +501,7 @@ PeriodIndex([&#39;1999-01-01 01:00&#39;, &#39;1999-01-01 01:15&#39;, &#39;1999-0
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">=</span><span class="n">ts</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;double&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">=</span><span class="n">ts</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'double'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -510,9 +510,9 @@ PeriodIndex([&#39;1999-01-01 01:00&#39;, &#39;1999-01-01 01:15&#39;, &#39;1999-0
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;hecavg.dss&#39;</span><span class="p">):</span> <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;hecavg.dss&#39;</span><span class="p">)</span>
-<span class="k">with</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">DSSFile</span><span class="p">(</span><span class="s1">&#39;hecavg.dss&#39;</span><span class="p">,</span><span class="n">create_new</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">d</span><span class="p">:</span>
-    <span class="n">d</span><span class="o">.</span><span class="n">write_rts</span><span class="p">(</span><span class="s1">&#39;/AVG/TS/C//1HOUR/F/&#39;</span><span class="p">,</span><span class="n">ts</span><span class="p">,</span><span class="s1">&#39;unk&#39;</span><span class="p">,</span><span class="s1">&#39;INST-VAL&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">'hecavg.dss'</span><span class="p">):</span> <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">'hecavg.dss'</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">DSSFile</span><span class="p">(</span><span class="s1">'hecavg.dss'</span><span class="p">,</span><span class="n">create_new</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">d</span><span class="p">:</span>
+    <span class="n">d</span><span class="o">.</span><span class="n">write_rts</span><span class="p">(</span><span class="s1">'/AVG/TS/C//1HOUR/F/'</span><span class="p">,</span><span class="n">ts</span><span class="p">,</span><span class="s1">'unk'</span><span class="p">,</span><span class="s1">'INST-VAL'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -520,9 +520,9 @@ PeriodIndex([&#39;1999-01-01 01:00&#39;, &#39;1999-01-01 01:15&#39;, &#39;1999-0
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_avg</span> <span class="o">=</span> <span class="n">tsmath</span><span class="o">.</span><span class="n">per_aver</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="s1">&#39;1D&#39;</span><span class="p">)</span>
-<span class="n">ts_max</span> <span class="o">=</span> <span class="n">tsmath</span><span class="o">.</span><span class="n">per_max</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="s1">&#39;1D&#39;</span><span class="p">)</span>
-<span class="n">ts_min</span> <span class="o">=</span> <span class="n">tsmath</span><span class="o">.</span><span class="n">per_min</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="s1">&#39;1D&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_avg</span> <span class="o">=</span> <span class="n">tsmath</span><span class="o">.</span><span class="n">per_aver</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="s1">'1D'</span><span class="p">)</span>
+<span class="n">ts_max</span> <span class="o">=</span> <span class="n">tsmath</span><span class="o">.</span><span class="n">per_max</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="s1">'1D'</span><span class="p">)</span>
+<span class="n">ts_min</span> <span class="o">=</span> <span class="n">tsmath</span><span class="o">.</span><span class="n">per_min</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="s1">'1D'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -530,10 +530,10 @@ PeriodIndex([&#39;1999-01-01 01:00&#39;, &#39;1999-01-01 01:15&#39;, &#39;1999-0
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">DSSFile</span><span class="p">(</span><span class="s1">&#39;hecavg.dss&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">d</span><span class="p">:</span>
-    <span class="n">d</span><span class="o">.</span><span class="n">write_rts</span><span class="p">(</span><span class="s1">&#39;/AVG/TS/C-PER-AVER//1DAY/F/&#39;</span><span class="p">,</span><span class="n">ts_avg</span><span class="p">,</span><span class="s1">&#39;unk&#39;</span><span class="p">,</span><span class="s1">&#39;PER-AVER&#39;</span><span class="p">)</span>
-    <span class="n">d</span><span class="o">.</span><span class="n">write_rts</span><span class="p">(</span><span class="s1">&#39;/AVG/TS/C-PER-MAX//1DAY/F/&#39;</span><span class="p">,</span><span class="n">ts_max</span><span class="p">,</span><span class="s1">&#39;unk&#39;</span><span class="p">,</span><span class="s1">&#39;PER-AVER&#39;</span><span class="p">)</span>
-    <span class="n">d</span><span class="o">.</span><span class="n">write_rts</span><span class="p">(</span><span class="s1">&#39;/AVG/TS/C-PER-MIN//1DAY/F/&#39;</span><span class="p">,</span><span class="n">ts_min</span><span class="p">,</span><span class="s1">&#39;unk&#39;</span><span class="p">,</span><span class="s1">&#39;PER-AVER&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">DSSFile</span><span class="p">(</span><span class="s1">'hecavg.dss'</span><span class="p">)</span> <span class="k">as</span> <span class="n">d</span><span class="p">:</span>
+    <span class="n">d</span><span class="o">.</span><span class="n">write_rts</span><span class="p">(</span><span class="s1">'/AVG/TS/C-PER-AVER//1DAY/F/'</span><span class="p">,</span><span class="n">ts_avg</span><span class="p">,</span><span class="s1">'unk'</span><span class="p">,</span><span class="s1">'PER-AVER'</span><span class="p">)</span>
+    <span class="n">d</span><span class="o">.</span><span class="n">write_rts</span><span class="p">(</span><span class="s1">'/AVG/TS/C-PER-MAX//1DAY/F/'</span><span class="p">,</span><span class="n">ts_max</span><span class="p">,</span><span class="s1">'unk'</span><span class="p">,</span><span class="s1">'PER-AVER'</span><span class="p">)</span>
+    <span class="n">d</span><span class="o">.</span><span class="n">write_rts</span><span class="p">(</span><span class="s1">'/AVG/TS/C-PER-MIN//1DAY/F/'</span><span class="p">,</span><span class="n">ts_min</span><span class="p">,</span><span class="s1">'unk'</span><span class="p">,</span><span class="s1">'PER-AVER'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -541,9 +541,9 @@ PeriodIndex([&#39;1999-01-01 01:00&#39;, &#39;1999-01-01 01:15&#39;, &#39;1999-0
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">matching</span> <span class="o">=</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">get_ts</span><span class="p">(</span><span class="s1">&#39;hecavg.dss&#39;</span><span class="p">,</span><span class="s1">&#39;/AVG/TS/C-PER-AVER//1DAY/F/&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">matching</span> <span class="o">=</span> <span class="n">pyhecdss</span><span class="o">.</span><span class="n">get_ts</span><span class="p">(</span><span class="s1">'hecavg.dss'</span><span class="p">,</span><span class="s1">'/AVG/TS/C-PER-AVER//1DAY/F/'</span><span class="p">)</span>
 <span class="n">ts_avg_read</span><span class="o">=</span><span class="nb">next</span><span class="p">(</span><span class="n">matching</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Units: &#39;</span><span class="p">,</span><span class="n">ts_avg_read</span><span class="o">.</span><span class="n">units</span><span class="p">,</span> <span class="s1">&#39; | Period Type: &#39;</span><span class="p">,</span><span class="n">ts_avg_read</span><span class="o">.</span><span class="n">period_type</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Units: '</span><span class="p">,</span><span class="n">ts_avg_read</span><span class="o">.</span><span class="n">units</span><span class="p">,</span> <span class="s1">' | Period Type: '</span><span class="p">,</span><span class="n">ts_avg_read</span><span class="o">.</span><span class="n">period_type</span><span class="p">)</span>
 <span class="n">ts_avg_read</span><span class="o">.</span><span class="n">data</span>
 </pre></div>
 </div>
@@ -708,8 +708,8 @@ Units:  unk  | Period Type:  PER-AVER
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;1D&#39;</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">to_period</span><span class="p">()</span>
-<span class="n">tsmath</span><span class="o">.</span><span class="n">resample_hec_style</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="s1">&#39;1D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">to_period</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">'1D'</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="s1">'right'</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">to_period</span><span class="p">()</span>
+<span class="n">tsmath</span><span class="o">.</span><span class="n">resample_hec_style</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="s1">'1D'</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">to_period</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -772,7 +772,7 @@ Units:  unk  | Period Type:  PER-AVER
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tsmath</span><span class="o">.</span><span class="n">resample_hec_style</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="s1">&#39;4h&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">to_period</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tsmath</span><span class="o">.</span><span class="n">resample_hec_style</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="s1">'4h'</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">to_period</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>

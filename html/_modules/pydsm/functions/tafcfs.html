@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.functions.tafcfs &mdash; pydsm 2026.6.23.dev11+gf1dd0484c documentation</title>
+  <title>pydsm.functions.tafcfs &mdash; pydsm 2026.6.23.dev13+g91fc7afd0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=371adbf9"></script>
+      <script src="../../../_static/documentation_options.js?v=ee9c00c2"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -172,16 +172,16 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pydsm.functions.tafcfs</h1><div class="highlight"><pre>
-<span></span><span class="sd">&#39;&#39;&#39;</span>
+<span></span><span class="sd">'''</span>
 <span class="sd">TAFM is an acronym for a unit of flow. It stands for thousand acre-feet per month. This is converted to CFS i.e. cubic feet per second</span>
 
-<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">'''</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <div class="viewcode-block" id="tafm2cfs">
 <a class="viewcode-back" href="../../../pydsm.functions.tafcfs.html#pydsm.functions.tafcfs.tafm2cfs">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">tafm2cfs</span><span class="p">(</span><span class="n">start</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;01OCT1920&#39;</span><span class="p">,</span> <span class="n">nyears</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">tafm2cfs</span><span class="p">(</span><span class="n">start</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">'01OCT1920'</span><span class="p">,</span> <span class="n">nyears</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Conversion for flow from TAFM (thousand acre-feet per month) to CFS (cubic feet per second)</span>
 <span class="sd">    This method generates a pandas Series of montlhy indexed value of conversion factors</span>
 <span class="sd">    </span>
@@ -194,28 +194,28 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    start : str, optional</span>
-<span class="sd">        start month and year to generate the series, by default &#39;01OCT1920&#39;</span>
+<span class="sd">        start month and year to generate the series, by default '01OCT1920'</span>
 <span class="sd">    nyears : int, optional</span>
 <span class="sd">        number of years from start, by default 100</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pandas Series </span>
-<span class="sd">        series index by monthly values starting at &quot;start&quot; with converstion factors for TAFM to CFS</span>
-<span class="sd">    &quot;&quot;&quot;</span>    
-    <span class="n">s1</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">period_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span><span class="n">periods</span><span class="o">=</span><span class="n">nyears</span><span class="o">*</span><span class="mi">12</span><span class="p">,</span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;M&#39;</span><span class="p">))</span>
+<span class="sd">        series index by monthly values starting at "start" with converstion factors for TAFM to CFS</span>
+<span class="sd">    """</span>    
+    <span class="n">s1</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">period_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span><span class="n">periods</span><span class="o">=</span><span class="n">nyears</span><span class="o">*</span><span class="mi">12</span><span class="p">,</span><span class="n">freq</span><span class="o">=</span><span class="s1">'M'</span><span class="p">))</span>
     <span class="n">s1</span><span class="o">=</span><span class="n">s1</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-    <span class="n">s1</span><span class="p">[</span><span class="s1">&#39;daysinmonth&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">s1</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">daysinmonth</span>
-    <span class="n">s1</span><span class="o">=</span><span class="n">s1</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s1">&#39;daysinmonth&#39;</span><span class="p">]</span>
+    <span class="n">s1</span><span class="p">[</span><span class="s1">'daysinmonth'</span><span class="p">]</span><span class="o">=</span><span class="n">s1</span><span class="p">[</span><span class="s1">'index'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">daysinmonth</span>
+    <span class="n">s1</span><span class="o">=</span><span class="n">s1</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'index'</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s1">'daysinmonth'</span><span class="p">]</span>
     <span class="n">taf2cfs</span><span class="o">=</span><span class="p">(</span><span class="mf">1000.0</span><span class="o">*</span><span class="mf">43560.</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">s1</span><span class="o">*</span><span class="mi">24</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span><span class="c1"># (1000 -&gt;T)*43560(AF(acre)-&gt;ft^3)/(ndaysinmonth*(24*60*60)) (seconds in a day)</span>
-    <span class="n">taf2cfs</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;TAFM2CFS&#39;</span>
+    <span class="n">taf2cfs</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="s1">'TAFM2CFS'</span>
     <span class="k">return</span> <span class="n">taf2cfs</span></div>
 
 
 <div class="viewcode-block" id="cfs2tafm">
 <a class="viewcode-back" href="../../../pydsm.functions.tafcfs.html#pydsm.functions.tafcfs.cfs2tafm">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">cfs2tafm</span><span class="p">(</span><span class="n">start</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;01OCT1920&#39;</span><span class="p">,</span> <span class="n">nyears</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cfs2tafm</span><span class="p">(</span><span class="n">start</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">'01OCT1920'</span><span class="p">,</span> <span class="n">nyears</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Conversion factors for flow from CFS to TAFM. See :py:func:`tafm2cfs`</span>
 
 <span class="sd">    This is the inverse of the conversion factors from :py:func:`tafm2cfs`</span>
@@ -223,17 +223,17 @@
 <span class="sd">    PParameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    start : str, optional</span>
-<span class="sd">        start month and year to generate the series, by default &#39;01OCT1920&#39;</span>
+<span class="sd">        start month and year to generate the series, by default '01OCT1920'</span>
 <span class="sd">    nyears : int, optional</span>
 <span class="sd">        number of years from start, by default 100</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pandas Series </span>
-<span class="sd">        series index by monthly values starting at &quot;start&quot; with converstion factors for CFS to TAFM</span>
-<span class="sd">    &quot;&quot;&quot;</span>    
+<span class="sd">        series index by monthly values starting at "start" with converstion factors for CFS to TAFM</span>
+<span class="sd">    """</span>    
     <span class="n">cfs2taf</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">tafm2cfs</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">nyears</span><span class="p">)</span>
-    <span class="n">cfs2taf</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;CFS2TAFM&#39;</span>
+    <span class="n">cfs2taf</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="s1">'CFS2TAFM'</span>
     <span class="k">return</span> <span class="n">cfs2taf</span></div>
 
 </pre></div>

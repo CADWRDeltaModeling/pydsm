@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.functions.tsmath &mdash; pydsm 2026.6.23.dev11+gf1dd0484c documentation</title>
+  <title>pydsm.functions.tsmath &mdash; pydsm 2026.6.23.dev13+g91fc7afd0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=371adbf9"></script>
+      <script src="../../../_static/documentation_options.js?v=ee9c00c2"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -172,10 +172,10 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pydsm.functions.tsmath</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Timeseries operation</span>
 <span class="sd">Conform to HEC-convention.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -184,50 +184,50 @@
 
 <div class="viewcode-block" id="resample_hec_style">
 <a class="viewcode-back" href="../../../pydsm.functions.tsmath.html#pydsm.functions.tsmath.resample_hec_style">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">resample_hec_style</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="s2">&quot;D&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">resample_hec_style</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="s2">"D"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Resampling of time series in DataFrame provided for the interval (see Pandas resample for codes)</span>
-<span class="sd">    In addition to conform to HEC-conventions the resampling is done with closed=&quot;right&quot;</span>
+<span class="sd">    In addition to conform to HEC-conventions the resampling is done with closed="right"</span>
 <span class="sd">    see pandas [resample documentation](https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#resampling) to understand these arguments</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">PeriodIndex</span><span class="p">):</span>
             <span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_timestamp</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">interval</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">interval</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="s2">"right"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="per_aver">
 <a class="viewcode-back" href="../../../pydsm.functions.tsmath.html#pydsm.functions.tsmath.per_aver">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">per_aver</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="s2">&quot;D&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">per_aver</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="s2">"D"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Period averages of the time series in DataFrame provided for the interval</span>
 <span class="sd">    See for details :py:func:`resample_hec_style`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">resample_hec_style</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">interval</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>  <span class="c1"># .to_period()</span></div>
 
 
 
 <div class="viewcode-block" id="per_max">
 <a class="viewcode-back" href="../../../pydsm.functions.tsmath.html#pydsm.functions.tsmath.per_max">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">per_max</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="s2">&quot;D&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">per_max</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="s2">"D"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Period maximums of the time series in DataFrame provided for the interval</span>
 <span class="sd">    See for details :py:func:`resample_hec_style`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">resample_hec_style</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">interval</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>  <span class="c1"># .to_period()</span></div>
 
 
 
 <div class="viewcode-block" id="per_min">
 <a class="viewcode-back" href="../../../pydsm.functions.tsmath.html#pydsm.functions.tsmath.per_min">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">per_min</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="s2">&quot;D&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">per_min</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="s2">"D"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Period minimums of the time series in DataFrame provided for the interval</span>
 <span class="sd">    See for details :py:func:`resample_hec_style`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">resample_hec_style</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">interval</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>  <span class="c1"># .to_period()</span></div>
 
 
@@ -235,7 +235,7 @@
 <div class="viewcode-block" id="mse">
 <a class="viewcode-back" href="../../../pydsm.functions.tsmath.html#pydsm.functions.tsmath.mse">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">mse</span><span class="p">(</span><span class="n">series1</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">series2</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mean Squared Error (MSE)</span>
+<span class="w">    </span><span class="sd">"""Mean Squared Error (MSE)</span>
 
 <span class="sd">    Args:</span>
 
@@ -245,7 +245,7 @@
 <span class="sd">    Returns:</span>
 
 <span class="sd">        Mean squared error</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">diff</span> <span class="o">=</span> <span class="n">series1</span> <span class="o">-</span> <span class="n">series2</span>
     <span class="n">diff2</span> <span class="o">=</span> <span class="n">diff</span> <span class="o">*</span> <span class="n">diff</span>
     <span class="k">return</span> <span class="n">diff2</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span></div>
@@ -255,9 +255,9 @@
 <div class="viewcode-block" id="nmse">
 <a class="viewcode-back" href="../../../pydsm.functions.tsmath.html#pydsm.functions.tsmath.nmse">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">nmse</span><span class="p">(</span><span class="n">series1</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">series2</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalized Mean Squared Error (NMSE)</span>
+<span class="w">    </span><span class="sd">"""Normalized Mean Squared Error (NMSE)</span>
 <span class="sd">    Normalizes (i.e. divides) by the mean value of series2 (considered the target or observed values)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">mse</span><span class="p">(</span><span class="n">series1</span><span class="p">,</span> <span class="n">series2</span><span class="p">),</span> <span class="n">series2</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span></div>
 
 
@@ -293,7 +293,7 @@
 <div class="viewcode-block" id="nash_sutcliffe">
 <a class="viewcode-back" href="../../../pydsm.functions.tsmath.html#pydsm.functions.tsmath.nash_sutcliffe">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">nash_sutcliffe</span><span class="p">(</span><span class="n">series1</span><span class="p">,</span> <span class="n">series2</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;https://en.wikipedia.org/wiki/Nash%E2%80%93Sutcliffe_model_efficiency_coefficient</span>
+<span class="w">    </span><span class="sd">"""https://en.wikipedia.org/wiki/Nash%E2%80%93Sutcliffe_model_efficiency_coefficient</span>
 
 
 <span class="sd">    Args:</span>
@@ -304,7 +304,7 @@
 <span class="sd">    Returns:</span>
 
 <span class="sd">        Nash Sutcliffe Efficiency</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">num</span> <span class="o">=</span> <span class="n">mse</span><span class="p">(</span><span class="n">series1</span><span class="p">,</span> <span class="n">series2</span><span class="p">)</span>
     <span class="n">den</span> <span class="o">=</span> <span class="n">mse</span><span class="p">(</span><span class="n">series2</span><span class="p">,</span> <span class="n">series2</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
@@ -315,7 +315,7 @@
 <div class="viewcode-block" id="kling_gupta_efficiency">
 <a class="viewcode-back" href="../../../pydsm.functions.tsmath.html#pydsm.functions.tsmath.kling_gupta_efficiency">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">kling_gupta_efficiency</span><span class="p">(</span><span class="n">series1</span><span class="p">,</span> <span class="n">series2</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;https://hess.copernicus.org/articles/23/4323/2019/</span>
+<span class="w">    </span><span class="sd">"""https://hess.copernicus.org/articles/23/4323/2019/</span>
 <span class="sd">       The Kling–Gupta efficiency (KGE; Eq. 2, Gupta et al., 2009) is based on a</span>
 <span class="sd">       decomposition of NSE into its constitutive components (correlation,</span>
 <span class="sd">       variability bias and mean bias), addresses several perceived shortcomings</span>
@@ -331,7 +331,7 @@
 <span class="sd">    Returns:</span>
 
 <span class="sd">        Kling-Gupta Efficiency</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">slope</span><span class="p">,</span> <span class="n">intercep</span><span class="p">,</span> <span class="n">rval</span><span class="p">,</span> <span class="n">pval</span><span class="p">,</span> <span class="n">std</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">linregress</span><span class="p">(</span><span class="n">series1</span><span class="p">,</span> <span class="n">series2</span><span class="p">)</span>
     <span class="n">stdev1</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">tstd</span><span class="p">(</span><span class="n">series1</span><span class="p">)</span>
     <span class="n">stdev2</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">tstd</span><span class="p">(</span><span class="n">series2</span><span class="p">)</span>
@@ -349,7 +349,7 @@
 <div class="viewcode-block" id="percent_bias">
 <a class="viewcode-back" href="../../../pydsm.functions.tsmath.html#pydsm.functions.tsmath.percent_bias">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">percent_bias</span><span class="p">(</span><span class="n">series1</span><span class="p">,</span> <span class="n">series2</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Percent bias (PBIAS) measures the average tendency</span>
+<span class="w">    </span><span class="sd">"""Percent bias (PBIAS) measures the average tendency</span>
 <span class="sd">    of the simulated values to be larger or smaller than their observed ones.</span>
 
 <span class="sd">    https://rdrr.io/cran/hydroGOF/man/pbias.html#:~:text=Percent%20bias%20(PBIAS)%20measures%20the,values%20indicating%20accurate%20model%20simulation</span>
@@ -362,7 +362,7 @@
 <span class="sd">    Returns:</span>
 
 <span class="sd">        float : percent bias</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">series1</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="n">series2</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">series2</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span></div>
 
 
@@ -377,7 +377,7 @@
 <div class="viewcode-block" id="rsr">
 <a class="viewcode-back" href="../../../pydsm.functions.tsmath.html#pydsm.functions.tsmath.rsr">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">rsr</span><span class="p">(</span><span class="n">series1</span><span class="p">,</span> <span class="n">series2</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Ratio of the RMSE to the standard deviation of the observed time series</span>
 
 <span class="sd">    Args:</span>
@@ -388,7 +388,7 @@
 <span class="sd">    Returns:</span>
 
 <span class="sd">        float : RSR</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">rmse</span><span class="p">(</span><span class="n">series1</span><span class="p">,</span> <span class="n">series2</span><span class="p">),</span> <span class="n">stats</span><span class="o">.</span><span class="n">tstd</span><span class="p">(</span><span class="n">series2</span><span class="p">))</span></div>
 
 </pre></div>

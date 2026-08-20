@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.functions.irregts &mdash; pydsm 2026.6.23.dev11+gf1dd0484c documentation</title>
+  <title>pydsm.functions.irregts &mdash; pydsm 2026.6.23.dev13+g91fc7afd0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=371adbf9"></script>
+      <script src="../../../_static/documentation_options.js?v=ee9c00c2"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -172,13 +172,13 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pydsm.functions.irregts</h1><div class="highlight"><pre>
-<span></span><span class="n">EPART_TO_BLOCK_MAP</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;30MIN&#39;</span><span class="p">:</span><span class="s1">&#39;1DAY&#39;</span><span class="p">,</span><span class="s1">&#39;12HOUR&#39;</span><span class="p">:</span><span class="s1">&#39;1MONTH&#39;</span><span class="p">,</span><span class="s1">&#39;1DAY&#39;</span><span class="p">:</span><span class="s1">&#39;1YEAR&#39;</span><span class="p">,</span><span class="s1">&#39;1MON&#39;</span><span class="p">:</span><span class="s1">&#39;1DECADE&#39;</span><span class="p">,</span><span class="s1">&#39;1YEAR&#39;</span><span class="p">:</span> <span class="s1">&#39;1CENTURY&#39;</span><span class="p">}</span>
+<span></span><span class="n">EPART_TO_BLOCK_MAP</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'30MIN'</span><span class="p">:</span><span class="s1">'1DAY'</span><span class="p">,</span><span class="s1">'12HOUR'</span><span class="p">:</span><span class="s1">'1MONTH'</span><span class="p">,</span><span class="s1">'1DAY'</span><span class="p">:</span><span class="s1">'1YEAR'</span><span class="p">,</span><span class="s1">'1MON'</span><span class="p">:</span><span class="s1">'1DECADE'</span><span class="p">,</span><span class="s1">'1YEAR'</span><span class="p">:</span> <span class="s1">'1CENTURY'</span><span class="p">}</span>
 
 <div class="viewcode-block" id="bridge_irreg_ts">
 <a class="viewcode-back" href="../../../pydsm.functions.irregts.html#pydsm.functions.irregts.bridge_irreg_ts">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bridge_irreg_ts</span><span class="p">(</span><span class="n">dfits</span><span class="p">,</span> <span class="n">epart</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;Bridge the last value from previous block to next blocks first time stamp&#39;&#39;&#39;</span>
-    <span class="n">epart</span> <span class="o">=</span> <span class="n">epart</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;IR-&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span></div>
+<span class="w">    </span><span class="sd">'''Bridge the last value from previous block to next blocks first time stamp'''</span>
+    <span class="n">epart</span> <span class="o">=</span> <span class="n">epart</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'IR-'</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span></div>
 
     
 </pre></div>

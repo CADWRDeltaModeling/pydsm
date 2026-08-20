@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.analysis.lockutil &mdash; pydsm 2026.6.23.dev11+gf1dd0484c documentation</title>
+  <title>pydsm.analysis.lockutil &mdash; pydsm 2026.6.23.dev13+g91fc7afd0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=371adbf9"></script>
+      <script src="../../../_static/documentation_options.js?v=ee9c00c2"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -197,7 +197,7 @@
 <a class="viewcode-back" href="../../../pydsm.analysis.lockutil.html#pydsm.analysis.lockutil.LockFile.lock">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">lock</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">lockfile</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">,</span> <span class="s1">'x'</span><span class="p">)</span> <span class="k">as</span> <span class="n">lockfile</span><span class="p">:</span>
                 <span class="c1"># write the PID of the current process so you can debug</span>
                 <span class="c1"># later if a lockfile can be deleted after a program crash</span>
                 <span class="n">lockfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()))</span>
@@ -215,26 +215,26 @@
 
 
 <span class="nd">@decorator</span>    
-<span class="k">def</span><span class="w"> </span><span class="nf">do_with_lock</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">lockfile</span><span class="o">=</span><span class="s1">&#39;lock.file&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">check_interval</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">do_with_lock</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">lockfile</span><span class="o">=</span><span class="s1">'lock.file'</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">check_interval</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    executes function with a system wide exclusive lock on lockfile and total timeout for waiting with check interval </span>
 
 <span class="sd">    To use this as a decorator ::</span>
 
-<span class="sd">        @do_with_lock(lockfile=&#39;my.test.lock&#39;,timeout=20,check_interval=5)</span>
+<span class="sd">        @do_with_lock(lockfile='my.test.lock',timeout=20,check_interval=5)</span>
 <span class="sd">        def my_func(...):</span>
 <span class="sd">            pass</span>
 
 <span class="sd">        or </span>
 
-<span class="sd">        do_with_lock(lockfile=&#39;my.test.lock&#39;,timeout=20,check_interval=1)(my_func(...))</span>
+<span class="sd">        do_with_lock(lockfile='my.test.lock',timeout=20,check_interval=1)(my_func(...))</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    func : callable function</span>
 <span class="sd">        a function or other callable being decorated</span>
 <span class="sd">    lockfile : str, optional</span>
-<span class="sd">       path to lock file, by default &#39;lock.file&#39;</span>
+<span class="sd">       path to lock file, by default 'lock.file'</span>
 <span class="sd">    timeout : in seconds int, optional</span>
 <span class="sd">        total timeout in seconds, by default 100 seconds</span>
 <span class="sd">    check_interval :check interval in seconds, optional</span>
@@ -248,7 +248,7 @@
 <span class="sd">    ------</span>
 <span class="sd">    TimeoutError</span>
 <span class="sd">        if the total timeout expires</span>
-<span class="sd">    &quot;&quot;&quot;</span>    
+<span class="sd">    """</span>    
     <span class="n">lf</span> <span class="o">=</span> <span class="n">LockFile</span><span class="p">(</span><span class="n">lockfile</span><span class="p">)</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
@@ -264,7 +264,7 @@
             <span class="k">if</span> <span class="n">timeout</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">TimeoutError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Lockfile not available even after timeout of </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s1"> seconds!&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">TimeoutError</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Lockfile not available even after timeout of </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s1"> seconds!'</span><span class="p">)</span>
 </pre></div>
 
            </div>

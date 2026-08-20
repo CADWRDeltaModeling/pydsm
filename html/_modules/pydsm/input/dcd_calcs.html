@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.input.dcd_calcs &mdash; pydsm 2026.6.23.dev11+gf1dd0484c documentation</title>
+  <title>pydsm.input.dcd_calcs &mdash; pydsm 2026.6.23.dev13+g91fc7afd0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=371adbf9"></script>
+      <script src="../../../_static/documentation_options.js?v=ee9c00c2"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -182,36 +182,36 @@
 <div class="viewcode-block" id="get_bpart_pattern">
 <a class="viewcode-back" href="../../../pydsm.input.dcd_calcs.html#pydsm.input.dcd_calcs.get_bpart_pattern">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_bpart_pattern</span><span class="p">():</span>
-    <span class="k">return</span> <span class="s1">&#39;[0-9]+|BBID&#39;</span></div>
+    <span class="k">return</span> <span class="s1">'[0-9]+|BBID'</span></div>
 
 
 
 <div class="viewcode-block" id="bparts_to_pattern">
 <a class="viewcode-back" href="../../../pydsm.input.dcd_calcs.html#pydsm.input.dcd_calcs.bparts_to_pattern">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bparts_to_pattern</span><span class="p">(</span><span class="n">bparts</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Convert a list of B-part strings to a regex alternation pattern for DSS path matching.</span>
-<span class="sd">    Each B-part is wrapped in ^ and $ anchors so that e.g. &#39;1&#39; does not match &#39;11&#39; or &#39;100&#39;.</span>
+<span class="sd">    Each B-part is wrapped in ^ and $ anchors so that e.g. '1' does not match '11' or '100'.</span>
 <span class="sd">    (pyhecdss uses pandas str.match which anchors the start but not the end.)</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    bparts : list of str</span>
-<span class="sd">        List of B-part identifiers, e.g. [&#39;BBID&#39;, &#39;12345&#39;, &#39;67890&#39;]</span>
+<span class="sd">        List of B-part identifiers, e.g. ['BBID', '12345', '67890']</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    str</span>
-<span class="sd">        Regex alternation string with full anchors, e.g. &#39;^1$|^100$|^200$&#39;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;^&#39;</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="s1">&#39;$&#39;</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bparts</span><span class="p">)</span></div>
+<span class="sd">        Regex alternation string with full anchors, e.g. '^1$|^100$|^200$'</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="s1">'|'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">'^'</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="s1">'$'</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bparts</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="get_dss_data">
 <a class="viewcode-back" href="../../../pydsm.input.dcd_calcs.html#pydsm.input.dcd_calcs.get_dss_data">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_dss_data</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">path_pattern</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    returns a data frame of all the time series that match the path_pattern</span>
 
 <span class="sd">    Parameters</span>
@@ -225,9 +225,9 @@
 <span class="sd">    -------</span>
 <span class="sd">    DataFrame</span>
 <span class="sd">        pandas DataFrame with columns of each data matched</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">dss</span><span class="o">.</span><span class="n">get_matching_ts</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">path_pattern</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">data</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">data</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="s1">'inner'</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">df</span></div>
 
 
@@ -235,16 +235,16 @@
 <div class="viewcode-block" id="sum">
 <a class="viewcode-back" href="../../../pydsm.input.dcd_calcs.html#pydsm.input.dcd_calcs.sum">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">dfflows</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39; sum over the columns &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">''' sum over the columns '''</span>
     <span class="k">return</span> <span class="n">dfflows</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="get_dcd_flows">
 <a class="viewcode-back" href="../../../pydsm.input.dcd_calcs.html#pydsm.input.dcd_calcs.get_dcd_flows">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_dcd_flows</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">bpart_pattern</span><span class="o">=</span><span class="s1">&#39;[0-9]+|BBID&#39;</span><span class="p">,</span> <span class="n">seepage</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">epart</span><span class="o">=</span><span class="s1">&#39;1DAY&#39;</span><span class="p">,</span>
-                  <span class="n">div_cpart</span><span class="o">=</span><span class="s1">&#39;DIV-FLOW&#39;</span><span class="p">,</span> <span class="n">drain_cpart</span><span class="o">=</span><span class="s1">&#39;DRAIN-FLOW&#39;</span><span class="p">,</span> <span class="n">seep_cpart</span><span class="o">=</span><span class="s1">&#39;SEEP-FLOW&#39;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_dcd_flows</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">bpart_pattern</span><span class="o">=</span><span class="s1">'[0-9]+|BBID'</span><span class="p">,</span> <span class="n">seepage</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">epart</span><span class="o">=</span><span class="s1">'1DAY'</span><span class="p">,</span>
+                  <span class="n">div_cpart</span><span class="o">=</span><span class="s1">'DIV-FLOW'</span><span class="p">,</span> <span class="n">drain_cpart</span><span class="o">=</span><span class="s1">'DRAIN-FLOW'</span><span class="p">,</span> <span class="n">seep_cpart</span><span class="o">=</span><span class="s1">'SEEP-FLOW'</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    gets the diversion, drainage and seepage flows as three data frames</span>
 
 <span class="sd">    Parameters</span>
@@ -252,27 +252,27 @@
 <span class="sd">    file : str</span>
 <span class="sd">        DSS filename for DCD or SMCD output</span>
 <span class="sd">    bpart_pattern : str, optional</span>
-<span class="sd">        pattern to match for BPART of file, by default &#39;[0-9]+|BBID&#39;</span>
+<span class="sd">        pattern to match for BPART of file, by default '[0-9]+|BBID'</span>
 <span class="sd">    seepage : bool, optional</span>
 <span class="sd">        read seepage if True, by default True</span>
 <span class="sd">    epart : str, optional</span>
-<span class="sd">        DSS time interval E-part, by default &#39;1DAY&#39;</span>
+<span class="sd">        DSS time interval E-part, by default '1DAY'</span>
 <span class="sd">    div_cpart : str, optional</span>
-<span class="sd">        C-part for diversion flows, by default &#39;DIV-FLOW&#39;</span>
+<span class="sd">        C-part for diversion flows, by default 'DIV-FLOW'</span>
 <span class="sd">    drain_cpart : str, optional</span>
-<span class="sd">        C-part for drainage flows, by default &#39;DRAIN-FLOW&#39;</span>
+<span class="sd">        C-part for drainage flows, by default 'DRAIN-FLOW'</span>
 <span class="sd">    seep_cpart : str, optional</span>
-<span class="sd">        C-part for seepage flows, by default &#39;SEEP-FLOW&#39;</span>
+<span class="sd">        C-part for seepage flows, by default 'SEEP-FLOW'</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    tuple</span>
 <span class="sd">        returns a tuple of diversion flows, drainage flows and seepage flows for all nodes</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">div_flows</span> <span class="o">=</span> <span class="n">get_dss_data</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;//(</span><span class="si">{</span><span class="n">bpart_pattern</span><span class="si">}</span><span class="s1">)/</span><span class="si">{</span><span class="n">div_cpart</span><span class="si">}</span><span class="s1">//</span><span class="si">{</span><span class="n">epart</span><span class="si">}</span><span class="s1">//&#39;</span><span class="p">)</span>
-    <span class="n">drain_flows</span> <span class="o">=</span> <span class="n">get_dss_data</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;//(</span><span class="si">{</span><span class="n">bpart_pattern</span><span class="si">}</span><span class="s1">)/</span><span class="si">{</span><span class="n">drain_cpart</span><span class="si">}</span><span class="s1">//</span><span class="si">{</span><span class="n">epart</span><span class="si">}</span><span class="s1">//&#39;</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">div_flows</span> <span class="o">=</span> <span class="n">get_dss_data</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'//(</span><span class="si">{</span><span class="n">bpart_pattern</span><span class="si">}</span><span class="s1">)/</span><span class="si">{</span><span class="n">div_cpart</span><span class="si">}</span><span class="s1">//</span><span class="si">{</span><span class="n">epart</span><span class="si">}</span><span class="s1">//'</span><span class="p">)</span>
+    <span class="n">drain_flows</span> <span class="o">=</span> <span class="n">get_dss_data</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'//(</span><span class="si">{</span><span class="n">bpart_pattern</span><span class="si">}</span><span class="s1">)/</span><span class="si">{</span><span class="n">drain_cpart</span><span class="si">}</span><span class="s1">//</span><span class="si">{</span><span class="n">epart</span><span class="si">}</span><span class="s1">//'</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">seepage</span><span class="p">:</span>
-        <span class="n">seep_flows</span> <span class="o">=</span> <span class="n">get_dss_data</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;//(</span><span class="si">{</span><span class="n">bpart_pattern</span><span class="si">}</span><span class="s1">)/</span><span class="si">{</span><span class="n">seep_cpart</span><span class="si">}</span><span class="s1">//</span><span class="si">{</span><span class="n">epart</span><span class="si">}</span><span class="s1">//&#39;</span><span class="p">)</span>
+        <span class="n">seep_flows</span> <span class="o">=</span> <span class="n">get_dss_data</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'//(</span><span class="si">{</span><span class="n">bpart_pattern</span><span class="si">}</span><span class="s1">)/</span><span class="si">{</span><span class="n">seep_cpart</span><span class="si">}</span><span class="s1">//</span><span class="si">{</span><span class="n">epart</span><span class="si">}</span><span class="s1">//'</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">seepage</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">div_flows</span><span class="p">,</span> <span class="n">drain_flows</span><span class="p">,</span> <span class="n">seep_flows</span>
     <span class="k">else</span><span class="p">:</span>
@@ -283,12 +283,12 @@
 <div class="viewcode-block" id="calculate_netcd">
 <a class="viewcode-back" href="../../../pydsm.input.dcd_calcs.html#pydsm.input.dcd_calcs.calculate_netcd">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">calculate_netcd</span><span class="p">(</span><span class="n">div_flows</span><span class="p">,</span> <span class="n">drain_flows</span><span class="p">,</span> <span class="n">seep_flows</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    calculate the total net channel depletions for all the div_flows, drain_flows and seep_flows</span>
 <span class="sd">    netcd = div_flows - drain_flows +seep_flows</span>
 
 <span class="sd">    if seep_flows is None then its calculated as div_flows - drain_flows</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="k">if</span> <span class="n">seep_flows</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">div_flows</span><span class="p">)</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">drain_flows</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -296,70 +296,70 @@
 
 
 
-<span class="nd">@click</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;calc-netcd&quot;</span><span class="p">)</span>
-<span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s2">&quot;dssfile&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"calc-netcd"</span><span class="p">)</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s2">"dssfile"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
-    <span class="s2">&quot;--bpart&quot;</span><span class="p">,</span>
+    <span class="s2">"--bpart"</span><span class="p">,</span>
     <span class="n">multiple</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">help</span><span class="o">=</span><span class="s2">&quot;B-part to include (repeatable, e.g. --bpart BBID --bpart 12345)&quot;</span><span class="p">,</span>
+    <span class="n">help</span><span class="o">=</span><span class="s2">"B-part to include (repeatable, e.g. --bpart BBID --bpart 12345)"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
-    <span class="s2">&quot;--bpart-file&quot;</span><span class="p">,</span>
+    <span class="s2">"--bpart-file"</span><span class="p">,</span>
     <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Text file with one B-part per line&quot;</span><span class="p">,</span>
+    <span class="n">help</span><span class="o">=</span><span class="s2">"Text file with one B-part per line"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
-    <span class="s2">&quot;--no-seepage&quot;</span><span class="p">,</span>
+    <span class="s2">"--no-seepage"</span><span class="p">,</span>
     <span class="n">is_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Exclude seepage flows (NetCD = DIV - DRAIN only)&quot;</span><span class="p">,</span>
+    <span class="n">help</span><span class="o">=</span><span class="s2">"Exclude seepage flows (NetCD = DIV - DRAIN only)"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
-    <span class="s2">&quot;--epart&quot;</span><span class="p">,</span>
-    <span class="n">default</span><span class="o">=</span><span class="s2">&quot;1DAY&quot;</span><span class="p">,</span>
+    <span class="s2">"--epart"</span><span class="p">,</span>
+    <span class="n">default</span><span class="o">=</span><span class="s2">"1DAY"</span><span class="p">,</span>
     <span class="n">show_default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Time interval E-part (e.g. 1DAY, 1MON)&quot;</span><span class="p">,</span>
+    <span class="n">help</span><span class="o">=</span><span class="s2">"Time interval E-part (e.g. 1DAY, 1MON)"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
-    <span class="s2">&quot;--div-cpart&quot;</span><span class="p">,</span>
-    <span class="n">default</span><span class="o">=</span><span class="s2">&quot;DIV-FLOW&quot;</span><span class="p">,</span>
+    <span class="s2">"--div-cpart"</span><span class="p">,</span>
+    <span class="n">default</span><span class="o">=</span><span class="s2">"DIV-FLOW"</span><span class="p">,</span>
     <span class="n">show_default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">help</span><span class="o">=</span><span class="s2">&quot;DSS C-part for diversion flows&quot;</span><span class="p">,</span>
+    <span class="n">help</span><span class="o">=</span><span class="s2">"DSS C-part for diversion flows"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
-    <span class="s2">&quot;--drain-cpart&quot;</span><span class="p">,</span>
-    <span class="n">default</span><span class="o">=</span><span class="s2">&quot;DRAIN-FLOW&quot;</span><span class="p">,</span>
+    <span class="s2">"--drain-cpart"</span><span class="p">,</span>
+    <span class="n">default</span><span class="o">=</span><span class="s2">"DRAIN-FLOW"</span><span class="p">,</span>
     <span class="n">show_default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">help</span><span class="o">=</span><span class="s2">&quot;DSS C-part for drainage flows&quot;</span><span class="p">,</span>
+    <span class="n">help</span><span class="o">=</span><span class="s2">"DSS C-part for drainage flows"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
-    <span class="s2">&quot;--seep-cpart&quot;</span><span class="p">,</span>
-    <span class="n">default</span><span class="o">=</span><span class="s2">&quot;SEEP-FLOW&quot;</span><span class="p">,</span>
+    <span class="s2">"--seep-cpart"</span><span class="p">,</span>
+    <span class="n">default</span><span class="o">=</span><span class="s2">"SEEP-FLOW"</span><span class="p">,</span>
     <span class="n">show_default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">help</span><span class="o">=</span><span class="s2">&quot;DSS C-part for seepage flows&quot;</span><span class="p">,</span>
+    <span class="n">help</span><span class="o">=</span><span class="s2">"DSS C-part for seepage flows"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
-    <span class="s2">&quot;--components&quot;</span><span class="p">,</span>
+    <span class="s2">"--components"</span><span class="p">,</span>
     <span class="n">is_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Also write summed component columns (SUM_DIV, SUM_DRAIN, SUM_SEEP) alongside NETCD&quot;</span><span class="p">,</span>
+    <span class="n">help</span><span class="o">=</span><span class="s2">"Also write summed component columns (SUM_DIV, SUM_DRAIN, SUM_SEEP) alongside NETCD"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
-    <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;--output&quot;</span><span class="p">,</span>
-    <span class="n">default</span><span class="o">=</span><span class="s2">&quot;netcd.csv&quot;</span><span class="p">,</span>
+    <span class="s2">"-o"</span><span class="p">,</span>
+    <span class="s2">"--output"</span><span class="p">,</span>
+    <span class="n">default</span><span class="o">=</span><span class="s2">"netcd.csv"</span><span class="p">,</span>
     <span class="n">show_default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output CSV file path&quot;</span><span class="p">,</span>
+    <span class="n">help</span><span class="o">=</span><span class="s2">"Output CSV file path"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">calc_netcd_cmd</span><span class="p">(</span><span class="n">dssfile</span><span class="p">,</span> <span class="n">bpart</span><span class="p">,</span> <span class="n">bpart_file</span><span class="p">,</span> <span class="n">no_seepage</span><span class="p">,</span> <span class="n">epart</span><span class="p">,</span> <span class="n">div_cpart</span><span class="p">,</span> <span class="n">drain_cpart</span><span class="p">,</span> <span class="n">seep_cpart</span><span class="p">,</span> <span class="n">components</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate aggregated Net Channel Depletion (NetCD) from a DSS file.</span>
+<span class="w">    </span><span class="sd">"""Calculate aggregated Net Channel Depletion (NetCD) from a DSS file.</span>
 
 <span class="sd">    NetCD = DIV-FLOW - DRAIN-FLOW + SEEP-FLOW, summed over all matching B-parts.</span>
 
 <span class="sd">    B-parts can be supplied via --bpart (repeatable) and/or --bpart-file (one per line).</span>
 <span class="sd">    If neither is given, the default pattern matches all numeric node IDs and BBID.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">bparts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">bpart</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">bpart_file</span><span class="p">:</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">bpart_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -371,46 +371,46 @@
         <span class="n">bpart_pattern</span> <span class="o">=</span> <span class="n">get_bpart_pattern</span><span class="p">()</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">div_flows</span> <span class="o">=</span> <span class="n">get_dss_data</span><span class="p">(</span><span class="n">dssfile</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;//(</span><span class="si">{</span><span class="n">bpart_pattern</span><span class="si">}</span><span class="s2">)/</span><span class="si">{</span><span class="n">div_cpart</span><span class="si">}</span><span class="s2">//</span><span class="si">{</span><span class="n">epart</span><span class="si">}</span><span class="s2">//&quot;</span><span class="p">)</span>
+        <span class="n">div_flows</span> <span class="o">=</span> <span class="n">get_dss_data</span><span class="p">(</span><span class="n">dssfile</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"//(</span><span class="si">{</span><span class="n">bpart_pattern</span><span class="si">}</span><span class="s2">)/</span><span class="si">{</span><span class="n">div_cpart</span><span class="si">}</span><span class="s2">//</span><span class="si">{</span><span class="n">epart</span><span class="si">}</span><span class="s2">//"</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">click</span><span class="o">.</span><span class="n">ClickException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No </span><span class="si">{</span><span class="n">div_cpart</span><span class="si">}</span><span class="s2"> data found for the specified B-parts: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">click</span><span class="o">.</span><span class="n">ClickException</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No </span><span class="si">{</span><span class="n">div_cpart</span><span class="si">}</span><span class="s2"> data found for the specified B-parts: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">drain_flows</span> <span class="o">=</span> <span class="n">get_dss_data</span><span class="p">(</span><span class="n">dssfile</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;//(</span><span class="si">{</span><span class="n">bpart_pattern</span><span class="si">}</span><span class="s2">)/</span><span class="si">{</span><span class="n">drain_cpart</span><span class="si">}</span><span class="s2">//</span><span class="si">{</span><span class="n">epart</span><span class="si">}</span><span class="s2">//&quot;</span><span class="p">)</span>
+        <span class="n">drain_flows</span> <span class="o">=</span> <span class="n">get_dss_data</span><span class="p">(</span><span class="n">dssfile</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"//(</span><span class="si">{</span><span class="n">bpart_pattern</span><span class="si">}</span><span class="s2">)/</span><span class="si">{</span><span class="n">drain_cpart</span><span class="si">}</span><span class="s2">//</span><span class="si">{</span><span class="n">epart</span><span class="si">}</span><span class="s2">//"</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">click</span><span class="o">.</span><span class="n">ClickException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No </span><span class="si">{</span><span class="n">drain_cpart</span><span class="si">}</span><span class="s2"> data found for the specified B-parts: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">click</span><span class="o">.</span><span class="n">ClickException</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No </span><span class="si">{</span><span class="n">drain_cpart</span><span class="si">}</span><span class="s2"> data found for the specified B-parts: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="n">seep_flows</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">no_seepage</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">seep_flows</span> <span class="o">=</span> <span class="n">get_dss_data</span><span class="p">(</span><span class="n">dssfile</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;//(</span><span class="si">{</span><span class="n">bpart_pattern</span><span class="si">}</span><span class="s2">)/</span><span class="si">{</span><span class="n">seep_cpart</span><span class="si">}</span><span class="s2">//</span><span class="si">{</span><span class="n">epart</span><span class="si">}</span><span class="s2">//&quot;</span><span class="p">)</span>
+            <span class="n">seep_flows</span> <span class="o">=</span> <span class="n">get_dss_data</span><span class="p">(</span><span class="n">dssfile</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"//(</span><span class="si">{</span><span class="n">bpart_pattern</span><span class="si">}</span><span class="s2">)/</span><span class="si">{</span><span class="n">seep_cpart</span><span class="si">}</span><span class="s2">//</span><span class="si">{</span><span class="n">epart</span><span class="si">}</span><span class="s2">//"</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="n">click</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Warning: No </span><span class="si">{</span><span class="n">seep_cpart</span><span class="si">}</span><span class="s2"> data found for the specified B-parts. &quot;</span>
-                <span class="s2">&quot;Proceeding without seepage (NetCD = DIV - DRAIN).&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">"Warning: No </span><span class="si">{</span><span class="n">seep_cpart</span><span class="si">}</span><span class="s2"> data found for the specified B-parts. "</span>
+                <span class="s2">"Proceeding without seepage (NetCD = DIV - DRAIN)."</span><span class="p">,</span>
                 <span class="n">err</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="p">)</span>
 
     <span class="n">netcd</span> <span class="o">=</span> <span class="n">calculate_netcd</span><span class="p">(</span><span class="n">div_flows</span><span class="p">,</span> <span class="n">drain_flows</span><span class="p">,</span> <span class="n">seep_flows</span><span class="p">)</span>
     <span class="n">meta</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;command&quot;</span><span class="p">:</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">),</span>
-        <span class="s2">&quot;dssfile&quot;</span><span class="p">:</span> <span class="n">dssfile</span><span class="p">,</span>
-        <span class="s2">&quot;bparts&quot;</span><span class="p">:</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bparts</span><span class="p">)</span> <span class="k">if</span> <span class="n">bparts</span> <span class="k">else</span> <span class="s2">&quot;default (all numeric + BBID)&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;epart&quot;</span><span class="p">:</span> <span class="n">epart</span><span class="p">,</span>
-        <span class="s2">&quot;div_cpart&quot;</span><span class="p">:</span> <span class="n">div_cpart</span><span class="p">,</span>
-        <span class="s2">&quot;drain_cpart&quot;</span><span class="p">:</span> <span class="n">drain_cpart</span><span class="p">,</span>
-        <span class="s2">&quot;seep_cpart&quot;</span><span class="p">:</span> <span class="n">seep_cpart</span><span class="p">,</span>
-        <span class="s2">&quot;seepage&quot;</span><span class="p">:</span> <span class="s2">&quot;excluded&quot;</span> <span class="k">if</span> <span class="n">no_seepage</span> <span class="k">else</span> <span class="p">(</span><span class="s2">&quot;included&quot;</span> <span class="k">if</span> <span class="n">seep_flows</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;not found (excluded)&quot;</span><span class="p">),</span>
+        <span class="s2">"command"</span><span class="p">:</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">),</span>
+        <span class="s2">"dssfile"</span><span class="p">:</span> <span class="n">dssfile</span><span class="p">,</span>
+        <span class="s2">"bparts"</span><span class="p">:</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bparts</span><span class="p">)</span> <span class="k">if</span> <span class="n">bparts</span> <span class="k">else</span> <span class="s2">"default (all numeric + BBID)"</span><span class="p">,</span>
+        <span class="s2">"epart"</span><span class="p">:</span> <span class="n">epart</span><span class="p">,</span>
+        <span class="s2">"div_cpart"</span><span class="p">:</span> <span class="n">div_cpart</span><span class="p">,</span>
+        <span class="s2">"drain_cpart"</span><span class="p">:</span> <span class="n">drain_cpart</span><span class="p">,</span>
+        <span class="s2">"seep_cpart"</span><span class="p">:</span> <span class="n">seep_cpart</span><span class="p">,</span>
+        <span class="s2">"seepage"</span><span class="p">:</span> <span class="s2">"excluded"</span> <span class="k">if</span> <span class="n">no_seepage</span> <span class="k">else</span> <span class="p">(</span><span class="s2">"included"</span> <span class="k">if</span> <span class="n">seep_flows</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">"not found (excluded)"</span><span class="p">),</span>
     <span class="p">}</span>
     <span class="k">if</span> <span class="n">components</span><span class="p">:</span>
-        <span class="n">output_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;SUM_DIV&quot;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">div_flows</span><span class="p">),</span> <span class="s2">&quot;SUM_DRAIN&quot;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">drain_flows</span><span class="p">)})</span>
+        <span class="n">output_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"SUM_DIV"</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">div_flows</span><span class="p">),</span> <span class="s2">"SUM_DRAIN"</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">drain_flows</span><span class="p">)})</span>
         <span class="k">if</span> <span class="n">seep_flows</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">output_df</span><span class="p">[</span><span class="s2">&quot;SUM_SEEP&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">seep_flows</span><span class="p">)</span>
-        <span class="n">output_df</span><span class="p">[</span><span class="s2">&quot;NETCD&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">netcd</span>
+            <span class="n">output_df</span><span class="p">[</span><span class="s2">"SUM_SEEP"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">seep_flows</span><span class="p">)</span>
+        <span class="n">output_df</span><span class="p">[</span><span class="s2">"NETCD"</span><span class="p">]</span> <span class="o">=</span> <span class="n">netcd</span>
         <span class="n">write_csv_with_meta</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">output_df</span><span class="p">,</span> <span class="n">meta</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">write_csv_with_meta</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">netcd</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;NETCD&quot;</span><span class="p">])</span>
-    <span class="n">click</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;NetCD written to </span><span class="si">{</span><span class="n">output</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">write_csv_with_meta</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">netcd</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="p">[</span><span class="s2">"NETCD"</span><span class="p">])</span>
+    <span class="n">click</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">"NetCD written to </span><span class="si">{</span><span class="n">output</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 
            </div>
