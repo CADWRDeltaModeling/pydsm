@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.viz.dsm2gis module &mdash; pydsm 2026.6.23.dev13+g91fc7afd0 documentation</title>
+  <title>pydsm.viz.dsm2gis module &mdash; pydsm 2026.6.23.dev14+g9fa798c9a documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=ee9c00c2"></script>
+      <script src="_static/documentation_options.js?v=11282e96"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -180,6 +180,45 @@
   <section id="module-pydsm.viz.dsm2gis">
 <span id="pydsm-viz-dsm2gis-module"></span><h1>pydsm.viz.dsm2gis module<a class="headerlink" href="#module-pydsm.viz.dsm2gis" title="Link to this heading"></a></h1>
 <dl class="py function">
+<dt class="sig sig-object py" id="pydsm.viz.dsm2gis.create_output_channel_inp">
+<span class="sig-prename descclassname"><span class="pre">pydsm.viz.dsm2gis.</span></span><span class="sig-name descname"><span class="pre">create_output_channel_inp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stations_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">centerlines_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_inp_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('flow',</span> <span class="pre">'stage')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'15MIN'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period_op</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'inst'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dss_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'${OUTPUTDSS}'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">append</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/viz/dsm2gis.html#create_output_channel_inp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.viz.dsm2gis.create_output_channel_inp" title="Link to this definition"></a></dt>
+<dd><p>Snap stations to DSM2 channel centerlines and write a ready-to-use OUTPUT_CHANNEL
+table section to a DSM2 .inp file.</p>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>stations_file<span class="classifier">str</span></dt><dd><p>Path to the stations file (station_id, lat/lon or UTM columns)</p>
+</dd>
+<dt>centerlines_file<span class="classifier">str</span></dt><dd><p>Path to the DSM2 channel centerlines GeoJSON</p>
+</dd>
+<dt>output_inp_file<span class="classifier">str</span></dt><dd><p>Path to the .inp file to write the OUTPUT_CHANNEL section to</p>
+</dd>
+<dt>variables<span class="classifier">str or sequence of str</span></dt><dd><p>DSM2 output variable(s), e.g. “flow”, “stage”, “ec”. One row is written per
+station per variable.</p>
+</dd>
+<dt>interval<span class="classifier">str</span></dt><dd><p>DSM2 output interval, e.g. “15MIN”, “1HOUR” (or an ENVVAR like “${FINE_OUT}”)</p>
+</dd>
+<dt>period_op<span class="classifier">str</span></dt><dd><p>DSM2 period operation, “inst” or “ave”</p>
+</dd>
+<dt>dss_file<span class="classifier">str</span></dt><dd><p>Output DSS path or ENVVAR, e.g. “${OUTPUTDSS}”</p>
+</dd>
+<dt>distance_tolerance<span class="classifier">int</span></dt><dd><p>Maximum distance from a line that a station can be to be considered on that line</p>
+</dd>
+<dt>append<span class="classifier">bool</span></dt><dd><p>If True, append the OUTPUT_CHANNEL section to an existing file; otherwise overwrite</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>pandas.DataFrame</dt><dd><p>The OUTPUT_CHANNEL table that was written (NAME, CHAN_NO, DISTANCE, VARIABLE,
+INTERVAL, PERIOD_OP, FILE)</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pydsm.viz.dsm2gis.create_stations_output_file">
 <span class="sig-prename descclassname"><span class="pre">pydsm.viz.dsm2gis.</span></span><span class="sig-name descname"><span class="pre">create_stations_output_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stations_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">centerlines_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/viz/dsm2gis.html#create_stations_output_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.viz.dsm2gis.create_stations_output_file" title="Link to this definition"></a></dt>
 <dd><p>Create DSM2 channels output compatible file for given stations info (station_id, lat lon)
@@ -229,6 +268,32 @@ often hand-verified/corrected in UTM without always re-deriving lat/lon.
 When both are present, UTM is used on a per-row basis; lat/lon is used as
 a fallback for rows where UTM is missing. Rows with neither a usable UTM
 nor lat/lon coordinate are dropped.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsm.viz.dsm2gis.snap_stations_to_centerlines">
+<span class="sig-prename descclassname"><span class="pre">pydsm.viz.dsm2gis.</span></span><span class="sig-name descname"><span class="pre">snap_stations_to_centerlines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stations_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">centerlines_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydsm/viz/dsm2gis.html#snap_stations_to_centerlines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydsm.viz.dsm2gis.snap_stations_to_centerlines" title="Link to this definition"></a></dt>
+<dd><p>Snap each station (station_id, lat/lon or UTM) to the nearest DSM2 channel centerline.</p>
+<section id="id1">
+<h2>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>stations_file<span class="classifier">str</span></dt><dd><p>Path to the stations file</p>
+</dd>
+<dt>centerlines_file<span class="classifier">str</span></dt><dd><p>Path to the centerlines file</p>
+</dd>
+<dt>distance_tolerance<span class="classifier">int</span></dt><dd><p>Maximum distance from a line that a station can be to be considered on that line
+default is 100 (feet, but depends if geojson file units are in feet or meters)</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h2>Returns<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>pandas.DataFrame</dt><dd><p>Columns NAME, CHAN_NO, DISTANCE for stations matched within distance_tolerance.
+Stations that fail to match are skipped (a warning is printed for each).</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 </section>

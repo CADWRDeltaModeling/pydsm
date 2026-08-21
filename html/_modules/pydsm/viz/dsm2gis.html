@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydsm.viz.dsm2gis &mdash; pydsm 2026.6.23.dev13+g91fc7afd0 documentation</title>
+  <title>pydsm.viz.dsm2gis &mdash; pydsm 2026.6.23.dev14+g9fa798c9a documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=ee9c00c2"></script>
+      <script src="../../../_static/documentation_options.js?v=11282e96"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -281,6 +281,46 @@
 
 
 
+<div class="viewcode-block" id="snap_stations_to_centerlines">
+<a class="viewcode-back" href="../../../pydsm.viz.dsm2gis.html#pydsm.viz.dsm2gis.snap_stations_to_centerlines">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">snap_stations_to_centerlines</span><span class="p">(</span><span class="n">stations_file</span><span class="p">,</span> <span class="n">centerlines_file</span><span class="p">,</span> <span class="n">distance_tolerance</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Snap each station (station_id, lat/lon or UTM) to the nearest DSM2 channel centerline.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    stations_file : str</span>
+<span class="sd">        Path to the stations file</span>
+<span class="sd">    centerlines_file : str</span>
+<span class="sd">        Path to the centerlines file</span>
+<span class="sd">    distance_tolerance : int</span>
+<span class="sd">        Maximum distance from a line that a station can be to be considered on that line</span>
+<span class="sd">        default is 100 (feet, but depends if geojson file units are in feet or meters)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pandas.DataFrame</span>
+<span class="sd">        Columns NAME, CHAN_NO, DISTANCE for stations matched within distance_tolerance.</span>
+<span class="sd">        Stations that fail to match are skipped (a warning is printed for each).</span>
+<span class="sd">    """</span>
+    <span class="n">centerlines</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">centerlines_file</span><span class="p">)</span>
+    <span class="n">stations</span> <span class="o">=</span> <span class="n">read_stations</span><span class="p">(</span><span class="n">stations_file</span><span class="p">)</span>
+    <span class="n">station_dist_tuple</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">stations</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="nb">id</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">dist_from_line</span> <span class="o">=</span> <span class="n">get_id_and_distance_from_start</span><span class="p">(</span>
+            <span class="n">station</span><span class="p">[</span><span class="s2">"geometry"</span><span class="p">],</span> <span class="n">centerlines</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">dist_from_line</span> <span class="o">&gt;</span> <span class="n">distance_tolerance</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"Station </span><span class="si">{</span><span class="n">station</span><span class="p">[</span><span class="s1">'station_id'</span><span class="p">]</span><span class="si">}</span><span class="s2"> is not close enough to a line. Distance: </span><span class="si">{</span><span class="n">dist_from_line</span><span class="si">}</span><span class="s2">, Closest line: </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Station </span><span class="si">{</span><span class="n">station</span><span class="p">[</span><span class="s1">'station_id'</span><span class="p">]</span><span class="si">}</span><span class="s2"> is on line </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2"> at distance </span><span class="si">{</span><span class="n">dist</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="n">station_dist_tuple</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">station</span><span class="p">[</span><span class="s2">"station_id"</span><span class="p">],</span> <span class="nb">id</span><span class="p">,</span> <span class="n">dist</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">station_dist_tuple</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"NAME"</span><span class="p">,</span> <span class="s2">"CHAN_NO"</span><span class="p">,</span> <span class="s2">"DISTANCE"</span><span class="p">])</span></div>
+
+
+
 <div class="viewcode-block" id="create_stations_output_file">
 <a class="viewcode-back" href="../../../pydsm.viz.dsm2gis.html#pydsm.viz.dsm2gis.create_stations_output_file">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">create_stations_output_file</span><span class="p">(</span>
@@ -305,25 +345,85 @@
 <span class="sd">        Maximum distance from a line that a station can be to be considered on that line</span>
 <span class="sd">        default is 100 (feet, but depends if geojson file units are in feet or meters)</span>
 <span class="sd">    """</span>
-    <span class="n">centerlines</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">centerlines_file</span><span class="p">)</span>
-    <span class="n">stations</span> <span class="o">=</span> <span class="n">read_stations</span><span class="p">(</span><span class="n">stations_file</span><span class="p">)</span>
-    <span class="n">station_dist_tuple</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">stations</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-        <span class="nb">id</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">dist_from_line</span> <span class="o">=</span> <span class="n">get_id_and_distance_from_start</span><span class="p">(</span>
-            <span class="n">station</span><span class="p">[</span><span class="s2">"geometry"</span><span class="p">],</span> <span class="n">centerlines</span>
-        <span class="p">)</span>
-        <span class="k">if</span> <span class="n">dist_from_line</span> <span class="o">&gt;</span> <span class="n">distance_tolerance</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"Station </span><span class="si">{</span><span class="n">station</span><span class="p">[</span><span class="s1">'station_id'</span><span class="p">]</span><span class="si">}</span><span class="s2"> is not close enough to a line. Distance: </span><span class="si">{</span><span class="n">dist_from_line</span><span class="si">}</span><span class="s2">, Closest line: </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2">"</span>
-            <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Station </span><span class="si">{</span><span class="n">station</span><span class="p">[</span><span class="s1">'station_id'</span><span class="p">]</span><span class="si">}</span><span class="s2"> is on line </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2"> at distance </span><span class="si">{</span><span class="n">dist</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-            <span class="n">station_dist_tuple</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">station</span><span class="p">[</span><span class="s2">"station_id"</span><span class="p">],</span> <span class="nb">id</span><span class="p">,</span> <span class="n">dist</span><span class="p">))</span>
-    <span class="n">dfstation_dist</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-        <span class="n">station_dist_tuple</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"NAME"</span><span class="p">,</span> <span class="s2">"CHAN_NO"</span><span class="p">,</span> <span class="s2">"DISTANCE"</span><span class="p">]</span>
+    <span class="n">dfstation_dist</span> <span class="o">=</span> <span class="n">snap_stations_to_centerlines</span><span class="p">(</span>
+        <span class="n">stations_file</span><span class="p">,</span> <span class="n">centerlines_file</span><span class="p">,</span> <span class="n">distance_tolerance</span>
     <span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Writing to hydro compatible format: "</span><span class="p">,</span> <span class="n">output_file</span><span class="p">)</span>
     <span class="n">dfstation_dist</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">" "</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="create_output_channel_inp">
+<a class="viewcode-back" href="../../../pydsm.viz.dsm2gis.html#pydsm.viz.dsm2gis.create_output_channel_inp">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_output_channel_inp</span><span class="p">(</span>
+    <span class="n">stations_file</span><span class="p">,</span>
+    <span class="n">centerlines_file</span><span class="p">,</span>
+    <span class="n">output_inp_file</span><span class="p">,</span>
+    <span class="n">variables</span><span class="o">=</span><span class="p">(</span><span class="s2">"flow"</span><span class="p">,</span> <span class="s2">"stage"</span><span class="p">),</span>
+    <span class="n">interval</span><span class="o">=</span><span class="s2">"15MIN"</span><span class="p">,</span>
+    <span class="n">period_op</span><span class="o">=</span><span class="s2">"inst"</span><span class="p">,</span>
+    <span class="n">dss_file</span><span class="o">=</span><span class="s2">"$</span><span class="si">{OUTPUTDSS}</span><span class="s2">"</span><span class="p">,</span>
+    <span class="n">distance_tolerance</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">append</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Snap stations to DSM2 channel centerlines and write a ready-to-use OUTPUT_CHANNEL</span>
+<span class="sd">    table section to a DSM2 .inp file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    stations_file : str</span>
+<span class="sd">        Path to the stations file (station_id, lat/lon or UTM columns)</span>
+<span class="sd">    centerlines_file : str</span>
+<span class="sd">        Path to the DSM2 channel centerlines GeoJSON</span>
+<span class="sd">    output_inp_file : str</span>
+<span class="sd">        Path to the .inp file to write the OUTPUT_CHANNEL section to</span>
+<span class="sd">    variables : str or sequence of str</span>
+<span class="sd">        DSM2 output variable(s), e.g. "flow", "stage", "ec". One row is written per</span>
+<span class="sd">        station per variable.</span>
+<span class="sd">    interval : str</span>
+<span class="sd">        DSM2 output interval, e.g. "15MIN", "1HOUR" (or an ENVVAR like "${FINE_OUT}")</span>
+<span class="sd">    period_op : str</span>
+<span class="sd">        DSM2 period operation, "inst" or "ave"</span>
+<span class="sd">    dss_file : str</span>
+<span class="sd">        Output DSS path or ENVVAR, e.g. "${OUTPUTDSS}"</span>
+<span class="sd">    distance_tolerance : int</span>
+<span class="sd">        Maximum distance from a line that a station can be to be considered on that line</span>
+<span class="sd">    append : bool</span>
+<span class="sd">        If True, append the OUTPUT_CHANNEL section to an existing file; otherwise overwrite</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pandas.DataFrame</span>
+<span class="sd">        The OUTPUT_CHANNEL table that was written (NAME, CHAN_NO, DISTANCE, VARIABLE,</span>
+<span class="sd">        INTERVAL, PERIOD_OP, FILE)</span>
+<span class="sd">    """</span>
+    <span class="n">snapped</span> <span class="o">=</span> <span class="n">snap_stations_to_centerlines</span><span class="p">(</span>
+        <span class="n">stations_file</span><span class="p">,</span> <span class="n">centerlines_file</span><span class="p">,</span> <span class="n">distance_tolerance</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">variables</span> <span class="o">=</span> <span class="p">[</span><span class="n">variables</span><span class="p">]</span>
+    <span class="n">snapped</span><span class="p">[</span><span class="s2">"NAME"</span><span class="p">]</span> <span class="o">=</span> <span class="n">snapped</span><span class="p">[</span><span class="s2">"NAME"</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">"NAME"</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">"NAME"</span><span class="p">],</span>
+            <span class="s2">"CHAN_NO"</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">"CHAN_NO"</span><span class="p">],</span>
+            <span class="s2">"DISTANCE"</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">"DISTANCE"</span><span class="p">],</span>
+            <span class="s2">"VARIABLE"</span><span class="p">:</span> <span class="n">variable</span><span class="p">,</span>
+            <span class="s2">"INTERVAL"</span><span class="p">:</span> <span class="n">interval</span><span class="p">,</span>
+            <span class="s2">"PERIOD_OP"</span><span class="p">:</span> <span class="n">period_op</span><span class="p">,</span>
+            <span class="s2">"FILE"</span><span class="p">:</span> <span class="n">dss_file</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">snapped</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">variables</span>
+    <span class="p">]</span>
+    <span class="n">output_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="n">rows</span><span class="p">,</span>
+        <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"NAME"</span><span class="p">,</span> <span class="s2">"CHAN_NO"</span><span class="p">,</span> <span class="s2">"DISTANCE"</span><span class="p">,</span> <span class="s2">"VARIABLE"</span><span class="p">,</span> <span class="s2">"INTERVAL"</span><span class="p">,</span> <span class="s2">"PERIOD_OP"</span><span class="p">,</span> <span class="s2">"FILE"</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Writing OUTPUT_CHANNEL section to: "</span><span class="p">,</span> <span class="n">output_inp_file</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">pretty_print</span><span class="p">(</span><span class="n">output_inp_file</span><span class="p">,</span> <span class="n">output_table</span><span class="p">,</span> <span class="s2">"OUTPUT_CHANNEL"</span><span class="p">,</span> <span class="n">append</span><span class="o">=</span><span class="n">append</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output_table</span></div>
 
 
 
