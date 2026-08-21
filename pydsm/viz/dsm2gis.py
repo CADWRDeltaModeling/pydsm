@@ -95,6 +95,43 @@ def get_id_and_distance_from_start(point, gdf):
     return closest_line.id, dist, dist_from_line
 
 
+def snap_stations_to_centerlines(stations_file, centerlines_file, distance_tolerance=100):
+    """
+    Snap each station (station_id, lat/lon or UTM) to the nearest DSM2 channel centerline.
+
+    Parameters
+    ----------
+    stations_file : str
+        Path to the stations file
+    centerlines_file : str
+        Path to the centerlines file
+    distance_tolerance : int
+        Maximum distance from a line that a station can be to be considered on that line
+        default is 100 (feet, but depends if geojson file units are in feet or meters)
+
+    Returns
+    -------
+    pandas.DataFrame
+        Columns NAME, CHAN_NO, DISTANCE for stations matched within distance_tolerance.
+        Stations that fail to match are skipped (a warning is printed for each).
+    """
+    centerlines = gpd.read_file(centerlines_file)
+    stations = read_stations(stations_file)
+    station_dist_tuple = []
+    for _, station in stations.iterrows():
+        id, dist, dist_from_line = get_id_and_distance_from_start(
+            station["geometry"], centerlines
+        )
+        if dist_from_line > distance_tolerance:
+            print(
+                f"Station {station['station_id']} is not close enough to a line. Distance: {dist_from_line}, Closest line: {id}"
+            )
+        else:
+            print(f"Station {station['station_id']} is on line {id} at distance {dist}")
+            station_dist_tuple.append((station["station_id"], id, dist))
+    return pd.DataFrame(station_dist_tuple, columns=["NAME", "CHAN_NO", "DISTANCE"])
+
+
 def create_stations_output_file(
     stations_file, centerlines_file, output_file, distance_tolerance=100
 ):
@@ -117,25 +154,82 @@ def create_stations_output_file(
         Maximum distance from a line that a station can be to be considered on that line
         default is 100 (feet, but depends if geojson file units are in feet or meters)
     """
-    centerlines = gpd.read_file(centerlines_file)
-    stations = read_stations(stations_file)
-    station_dist_tuple = []
-    for _, station in stations.iterrows():
-        id, dist, dist_from_line = get_id_and_distance_from_start(
-            station["geometry"], centerlines
-        )
-        if dist_from_line > distance_tolerance:
-            print(
-                f"Station {station['station_id']} is not close enough to a line. Distance: {dist_from_line}, Closest line: {id}"
-            )
-        else:
-            print(f"Station {station['station_id']} is on line {id} at distance {dist}")
-            station_dist_tuple.append((station["station_id"], id, dist))
-    dfstation_dist = pd.DataFrame(
-        station_dist_tuple, columns=["NAME", "CHAN_NO", "DISTANCE"]
+    dfstation_dist = snap_stations_to_centerlines(
+        stations_file, centerlines_file, distance_tolerance
     )
     print("Writing to hydro compatible format: ", output_file)
     dfstation_dist.to_csv(output_file, index=False, sep=" ")
+
+
+def create_output_channel_inp(
+    stations_file,
+    centerlines_file,
+    output_inp_file,
+    variables=("flow", "stage"),
+    interval="15MIN",
+    period_op="inst",
+    dss_file="${OUTPUTDSS}",
+    distance_tolerance=100,
+    append=False,
+):
+    """
+    Snap stations to DSM2 channel centerlines and write a ready-to-use OUTPUT_CHANNEL
+    table section to a DSM2 .inp file.
+
+    Parameters
+    ----------
+    stations_file : str
+        Path to the stations file (station_id, lat/lon or UTM columns)
+    centerlines_file : str
+        Path to the DSM2 channel centerlines GeoJSON
+    output_inp_file : str
+        Path to the .inp file to write the OUTPUT_CHANNEL section to
+    variables : str or sequence of str
+        DSM2 output variable(s), e.g. "flow", "stage", "ec". One row is written per
+        station per variable.
+    interval : str
+        DSM2 output interval, e.g. "15MIN", "1HOUR" (or an ENVVAR like "${FINE_OUT}")
+    period_op : str
+        DSM2 period operation, "inst" or "ave"
+    dss_file : str
+        Output DSS path or ENVVAR, e.g. "${OUTPUTDSS}"
+    distance_tolerance : int
+        Maximum distance from a line that a station can be to be considered on that line
+    append : bool
+        If True, append the OUTPUT_CHANNEL section to an existing file; otherwise overwrite
+
+    Returns
+    -------
+    pandas.DataFrame
+        The OUTPUT_CHANNEL table that was written (NAME, CHAN_NO, DISTANCE, VARIABLE,
+        INTERVAL, PERIOD_OP, FILE)
+    """
+    snapped = snap_stations_to_centerlines(
+        stations_file, centerlines_file, distance_tolerance
+    )
+    if isinstance(variables, str):
+        variables = [variables]
+    snapped["NAME"] = snapped["NAME"].str.upper()
+    rows = [
+        {
+            "NAME": row["NAME"],
+            "CHAN_NO": row["CHAN_NO"],
+            "DISTANCE": row["DISTANCE"],
+            "VARIABLE": variable,
+            "INTERVAL": interval,
+            "PERIOD_OP": period_op,
+            "FILE": dss_file,
+        }
+        for _, row in snapped.iterrows()
+        for variable in variables
+    ]
+    output_table = pd.DataFrame(
+        rows,
+        columns=["NAME", "CHAN_NO", "DISTANCE", "VARIABLE", "INTERVAL", "PERIOD_OP", "FILE"],
+    )
+    print("Writing OUTPUT_CHANNEL section to: ", output_inp_file)
+    parser.pretty_print(output_inp_file, output_table, "OUTPUT_CHANNEL", append=append)
+    return output_table
 
 
 @click.command()
