@@ -1,0 +1,26 @@
+start_time: &start_time 2020-01-01 00:00:00 #global begining period of updating dsm2 input dss file
+end_time: &end_time 2027-01-01 00:00:00 #global end period of updating dsm2 input dss file
+flow_bc_dss: &flow_bc_dss Z:\dsm2_studies\timeseries\potw.dss #hist.dss in DSM2 timeseries folder
+
+
+tracy:
+  start: *start_time #individual begining period of updating data
+  end: *end_time #individual end period of updating data
+  station_id: tracywwt
+  outfile: *flow_bc_dss
+  dss_path: //TRACY_01/FLOW//// #specify the DSS path that can uniquely identify the time series in the DSS file
+
+manteca:
+  start: *start_time #individual begining period of updating data
+  end: *end_time #individual end period of updating data
+  station_id: wqcf
+  outfile: *flow_bc_dss
+  dss_path: //MANTECA/FLOW//// #specify the DSS path that can uniquely identify the time series in the DSS file
+
+
+mtn_house:
+  start: *start_time #individual begining period of updating data
+  end: *end_time #individual end period of updating data
+  station_id: mhwwtp
+  outfile: *flow_bc_dss
+  dss_path: //MTN_HOUSE/FLOW//// #specify the DSS path that can uniquely identify the time series in the DSS file

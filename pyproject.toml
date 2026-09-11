@@ -41,6 +41,7 @@ update_mrz_stage = "pydsm.dsm2_datastore.update_mrz_stage:main"
 update_dcc = "pydsm.dsm2_datastore.update_dcc:main"
 update_smscg = "pydsm.dsm2_datastore.update_smscg:main"
 update_temporary_barrier = "pydsm.dsm2_datastore.update_temporary_barrier:main"
+update_potw = "pydsm.dsm2_datastore.update_dsm2_potw:main"
 
 
 [project.urls]
