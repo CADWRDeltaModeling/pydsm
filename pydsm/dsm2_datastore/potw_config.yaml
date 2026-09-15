@@ -3,6 +3,13 @@ end_time: &end_time 2027-01-01 00:00:00 #global end period of updating dsm2 inpu
 flow_bc_dss: &flow_bc_dss Z:\dsm2_studies\timeseries\potw.dss #hist.dss in DSM2 timeseries folder
 
 
+reginal_san:
+  start: *start_time #individual begining period of updating data
+  end: *end_time #individual end period of updating data
+  station_id: spe
+  outfile: *flow_bc_dss
+  dss_path: //SAC_REGIONAL/FLOW//// #specify the DSS path that can uniquely identify the time series in the DSS file
+
 tracy:
   start: *start_time #individual begining period of updating data
   end: *end_time #individual end period of updating data
