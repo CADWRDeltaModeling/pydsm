@@ -39,7 +39,7 @@ def sum_dict(data_dict):
     return sum
 
 
-def read_flows(table, base_dir):
+def read_flows(table, base_dir,skip_smcd, smcd_file):
     """
     Builds a dictionary of {name: timeseries data} from a table that has atleast the following columns: NAME, FILE, PATH.
 
@@ -53,6 +53,10 @@ def read_flows(table, base_dir):
         table containing name and file and path of data
     base_dir : str
         directory used as based to construct full file path name of file in table
+    skip_smcd : bool
+        whether to skip reading the SMCD file
+    smcd_file : str
+        name of the SMCD file to skip if skip_smcd is True
 
     Returns
     -------
@@ -62,6 +66,8 @@ def read_flows(table, base_dir):
     data_dict = {}
     grouped_by_file = table.groupby('FILE')
     for fname, group_info in grouped_by_file:
+        if skip_smcd == True and os.path.basename(fname) == os.path.basename(smcd_file):
+            continue
         logging.info(f'reading {base_dir}/{fname}')
         if fname == 'constant':
             for _, r in group_info.iterrows():
@@ -91,7 +97,7 @@ def get_dsm2_dir(echo_file, tables):
     return dsm2_dir
 
 
-def calculate_net_flow(echo_file):
+def calculate_net_flow(echo_file, skip_smcd=False, smcd_file='smcd.dss'):
     """
     Calculate net sum of flows at a daily resampling of all boundary flow and exports and diversions. 
     Each flow in DSM2 has a sign value and those are accounted for in this calculation
@@ -104,6 +110,10 @@ def calculate_net_flow(echo_file):
     ----------
     dsm2_dir : str
         directory containing the DSM2 main input file
+    skip_smcd : bool, optional
+        whether to skip SMCD file (default is False) in net flow calculation
+    smcd_file : str, optional
+        name of the SMCD file to skip if skip_smcd is True (default is 'smcd.dss')
 
     Returns
     -------
@@ -111,11 +121,11 @@ def calculate_net_flow(echo_file):
         net sum of all boundary flows
     """
     logging.getLogger().setLevel(level=logging.INFO)
-    sum_flows = net_flows_by_filename(echo_file)
+    sum_flows = net_flows_by_filename(echo_file, skip_smcd, smcd_file)
     return sum([sum_flows[k] for k in sum_flows])
 
 
-def net_flows_by_filename(echo_file):
+def net_flows_by_filename(echo_file, skip_smcd, smcd_file):
     """
     calculate net flows by filename (.dss) from the input specified in the echo file
 
@@ -134,6 +144,10 @@ def net_flows_by_filename(echo_file):
     ----------
     echo_file : str
         echo filename from DSM2 Hydro setup
+    skip_smcd : bool, optional
+        whether to skip SMCD file (default is False) in net flow calculation
+    smcd_file : str, optional
+        name of the SMCD file to skip if skip_smcd is True (default is 'smcd.dss')
 
     Returns
     -------
@@ -149,7 +163,7 @@ def net_flows_by_filename(echo_file):
     trflow = tables['INPUT_TRANSFER_FLOW']
     dflows = pd.concat([tables[name] for name in ['BOUNDARY_FLOW', 'SOURCE_FLOW',
                        'SOURCE_FLOW_RESERVOIR', 'INPUT_TRANSFER_FLOW']])
-    return {fname: sum_dict(read_flows(dfrows.assign(**{'FILE': fname}), dsm2_dir))
+    return {fname: sum_dict(read_flows(dfrows.assign(**{'FILE': fname}), dsm2_dir, skip_smcd, smcd_file))
                for fname, dfrows in dflows.groupby('FILE')}
 
 
