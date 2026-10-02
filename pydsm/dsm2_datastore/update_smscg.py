@@ -101,10 +101,11 @@ def update_smscg_flashboards_boadlock_dss(
             f"No data found in the processed CSV file for the specified date range: {sdate} to {edate}"
         )
         return
-    processed_data.loc[processed_data["flashboards"] == "IN", "flashboards_op"] = 1
-    processed_data.loc[processed_data["flashboards"] == "IN", "boatlock_op"] = 0
-    processed_data.loc[processed_data["flashboards"] == "OUT", "flashboards_op"] = 0
-    processed_data.loc[processed_data["flashboards"] == "OUT", "boatlock_op"] = 1
+    flashboards = processed_data["flashboards"].str.upper()
+    processed_data.loc[flashboards == "IN", "flashboards_op"] = 1
+    processed_data.loc[flashboards == "IN", "boatlock_op"] = 0
+    processed_data.loc[flashboards == "OUT", "flashboards_op"] = 0
+    processed_data.loc[flashboards == "OUT", "boatlock_op"] = 1
 
     update_dss(dss_outfile, dss_path_boatlock, processed_data[["boatlock_op"]])
     logging.info(f"Updated DSM2 SMSCG Gate DSS for boatlock at {dss_path_boatlock}")
